@@ -26,8 +26,9 @@ def ladder(client_id, client_secret):
     leaderboard = get_pvp_leaderboard(client, '3v3')
 
     for player, rating in leaderboard.player_ratings():
-        g
-        pass
+        spec = get_player_spec(client, player)
+        if spec.class_name.lower() != "hunter":
+            continue
 
 
 @cli.command()
@@ -48,12 +49,12 @@ def tree(output, client_id, client_secret):
     for class_name in CLASS_NAMES:
         class_talents = get_talents(client, talent_index, class_name)
         for spec_name, talents in class_talents.items():
-            filename = _get_filename(class_name, spec_name)
+            filename = _get_talents_filename(class_name, spec_name)
             with open(f'{output}/{filename}', 'w') as file:
                 json.dump(talents, file)
 
 
-def _get_filename(class_name, spec_name):
+def _get_talents_filename(class_name, spec_name):
     return f"{class_name}-{spec_name}.json".lower().replace(' ', '-')
 
 

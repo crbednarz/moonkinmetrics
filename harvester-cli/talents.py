@@ -88,40 +88,10 @@ def get_talents(client, talent_index, class_name):
     spec_names = SPEC_NAMES[class_name]
     talent_trees = _get_listed_talents(client, talent_index, class_name)
 
-    if len(spec_names) == len(talent_trees):
-        return talent_trees
-
-    for spec_name in spec_names:
-        if spec_name not in talent_trees:
-            talent_trees[spec_name] = []
-
-    found_talents = set(
-        talent_id for talent_id in _get_talents_ids(talent_trees.values())
-    )
-    class_link = talent_index.get_class_link(class_name)
-    class_talents = _get_class_talents(client, class_link)
-
-    print(f"Getting missing talents for {class_name}...")
-    for talent in class_talents:
-        if talent['id'] in found_talents:
-            continue
-
-        rank_0 = talent['ranks'][0]
-        if 'choice_of_tooltips' in rank_0:
-            talent_url = rank_0['choice_of_tooltips'][0]['talent']['key']['href']
-        else:
-            talent_url = rank_0['tooltip']['talent']['key']['href']
-        talent_info = client.get_url(talent_url.split('?')[0])
-
-        talent_trees[talent_info['playable_specialization']['name']] = talent
+    if len(spec_names) != len(talent_trees):
+        print(f"Skipping missing specs for {class_name}...")
 
     return talent_trees
-
-
-def _get_talents_ids(talent_trees):
-    for talent_tree in talent_trees:
-        for talent in talent_tree:
-            yield talent['id']
 
 
 def _get_listed_talents(client, talent_index, class_name):
@@ -141,8 +111,3 @@ def _get_listed_talents(client, talent_index, class_name):
 def _get_spec_talents(client, link):
     response = client.get_url(link.url)
     return response['class_talent_nodes']
-
-
-def _get_class_talents(client, link):
-    response = client.get_url(link.url)
-    return response['talent_nodes']
