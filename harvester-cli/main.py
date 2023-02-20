@@ -58,11 +58,14 @@ def ladder_command(talents_path, output_path, ladder,
         class_nodes = talents['class_nodes']
         spec_nodes = talents['spec_nodes']
 
-        encoded_talents = _encode_talents(loadout, class_nodes, spec_nodes)
-        output[loadout.class_name][loadout.spec_name].append({
-            'talents': encoded_talents,
-            'rating': rating,
-        })
+        try:
+            encoded_talents = _encode_talents(loadout, class_nodes, spec_nodes)
+            output[loadout.class_name][loadout.spec_name].append({
+                'talents': encoded_talents,
+                'rating': rating,
+            })
+        except Exception as e:
+            print(f"Failed to encode talents!\n{e}")
 
     for class_name, specs in output.items():
         for spec_name, entries in specs.items():
@@ -140,7 +143,7 @@ def _encode_nodes(selected_nodes, all_nodes):
         else:
             output[index // 2] |= (rank << 2)
 
-    return base64.b64encode(output)
+    return base64.b64encode(output).decode('utf-8')
 
 
 if __name__ == '__main__':
