@@ -59,6 +59,12 @@ class SpecTalentTreeLink:
         self.spec_name = spec_name
 
 
+class TalentTree:
+    def __init__(self, class_nodes, spec_nodes):
+        self.class_nodes = class_nodes
+        self.spec_nodes = spec_nodes
+
+
 def _get_talent_tree_links(client):
     tree_index = client.get_static_resource("/data/wow/talent-tree/index")
     class_links = []
@@ -110,4 +116,5 @@ def _get_listed_talents(client, talent_index, class_name):
 
 def _get_spec_talents(client, link):
     response = client.get_url(link.url)
-    return response['class_talent_nodes']
+    return TalentTree(response['class_talent_nodes'],
+                      response['spec_talent_nodes'])

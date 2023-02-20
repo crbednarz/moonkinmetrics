@@ -1,11 +1,12 @@
 from wowconstants import CURRENT_PVP_SEASON
 
 
-class PlayerSpecialization:
-    def __init__(self, class_name, spec_name, talents):
+class PlayerLoadout:
+    def __init__(self, class_name, spec_name, class_nodes, spec_nodes):
         self.class_name = class_name
         self.spec_name = spec_name
-        self.talents = talents
+        self.class_nodes = class_nodes
+        self.spec_nodes = spec_nodes
 
 
 class Player:
@@ -16,12 +17,12 @@ class Player:
     @property
     def specialization_resource(self):
         return (f"/profile/wow/character/"
-                f"{self.realm_slug}/{self.name}/specializations")
+                f"{self.realm_slug}/{self.name.lower()}/specializations")
 
     @property
     def profile_resource(self):
         return (f"/profile/wow/character/"
-                f"{self.realm_slug}/{self.name}")
+                f"{self.realm_slug}/{self.name.lower()}")
 
 
 class PvPLeaderboard:
@@ -44,14 +45,16 @@ def get_pvp_leaderboard(client, bracket):
     return PvPLeaderboard(leaderboard["entries"])
 
 
-def get_player_spec(client, player):
+def get_player_loadout(client, player):
     profile = client.get_profile_resource(player.profile_resource)
     class_name = profile['character_class']['name']
     spec_name = profile['active_spec']['name']
     loadout = _get_active_load_for_player(client, player, spec_name)
 
-    loadout_code = loadout['talent_loadout_code']
-    return PlayerSpecialization(class_name, spec_name, loadout_code)
+    return PlayerLoadout(
+        class_name, spec_name,
+        loadout['selected_class_talents'],
+        loadout['selected_spec_talents'])
 
 
 def _get_active_load_for_player(client, player, spec_name):
