@@ -16,7 +16,7 @@ CLASS_NAMES = [
     'Warlock',
 ]
 
-SPEC_NAMES = {
+SPEC_BY_CLASS = {
     'Hunter': [
         'Beast Mastery',
         'Survival',
@@ -82,3 +82,14 @@ SPEC_NAMES = {
         'Affliction',
     ]
 }
+
+
+def _get_class_specs():
+    class_specs = []
+    for class_name, specs in SPEC_BY_CLASS.items():
+        for spec_name in specs:
+            class_specs.append((class_name, spec_name))
+    return class_specs
+
+
+CLASS_SPECS = _get_class_specs()
