@@ -198,3 +198,4 @@ next-env.d.ts
 
 .yarn/
 !ui/lib
+ui/wow
