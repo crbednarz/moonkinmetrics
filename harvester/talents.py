@@ -1,18 +1,67 @@
 from __future__ import annotations
 import re
+
 from dataclasses import dataclass
+from itertools import chain
 from typing import Generator
 
 from .bnet import Client
 
 
-class TalentNode:
-    def __init__(self, raw_node: dict):
-        self.raw = raw_node
-        self.id = raw_node['id']
+@dataclass
+class Spell:
+    id: int
+    name: str
 
-    def to_json(self) -> dict:
-        return self.raw
+
+@dataclass
+class Talent:
+    id: int
+    name: str
+    spell: Spell
+
+
+@dataclass
+class TalentNode:
+    id: int
+    x: int
+    y: int
+    row: int
+    col: int
+    unlocks: list[int]
+    locked_by: list[int]
+    talents: list[Talent]
+    max_rank: int
+
+    def __init__(self, raw_node: dict):
+        self.id = raw_node['id']
+        self.x = raw_node['raw_position_x']
+        self.y = raw_node['raw_position_y']
+        self.row = raw_node['display_row']
+        self.col = raw_node['display_col']
+        self.unlocks = raw_node.get('unlocks', [])
+        self.locked_by = raw_node.get('locked_by', [])
+
+        base_rank = raw_node['ranks'][0]
+        if 'choice_of_tooltips' in base_rank:
+            self.max_rank = 1
+            tooltips = base_rank['choice_of_tooltips']
+        else:
+            self.max_rank = len(raw_node['ranks'])
+            tooltips = [base_rank['tooltip']]
+
+        self.talents = []
+        for tooltip in tooltips:
+            raw_spell = tooltip['spell_tooltip']['spell']
+            spell = Spell(
+                raw_spell['id'],
+                raw_spell['name'],
+            )
+            self.talents.append(Talent(
+                tooltip['talent']['id'],
+                tooltip['talent']['name'],
+                spell
+            ))
 
 
 @dataclass
@@ -21,6 +70,11 @@ class TalentTree:
     spec_name: str
     class_nodes: list[TalentNode]
     spec_nodes: list[TalentNode]
+
+    def all_spells(self) -> Generator[Spell, None, None]:
+        for node in chain(self.class_nodes, self.spec_nodes):
+            for talent in node.talents:
+                yield talent.spell
 
 
 @dataclass

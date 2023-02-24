@@ -1,8 +1,6 @@
-import base64
 from dataclasses import dataclass
 
 from .bnet import Client
-from .talents import TalentNode, TalentTree
 
 
 class PlayerLink:
@@ -27,40 +25,49 @@ class PlayerLink:
 
 @dataclass
 class LoadoutNode:
-    id: int
+    node_id: int
+    talent_id: int
     rank: int
 
 
+@dataclass
 class PlayerLoadout:
-    def __init__(self, class_name: str, spec_name: str,
-                 class_nodes: list[LoadoutNode],
-                 spec_nodes: list[LoadoutNode]):
-        self.class_name = class_name
-        self.spec_name = spec_name
-        self.class_nodes = class_nodes
-        self.spec_nodes = spec_nodes
+    class_name: str
+    spec_name: str
+    class_nodes: list[LoadoutNode]
+    spec_nodes: list[LoadoutNode]
 
-    def encode(self, talent_tree: TalentTree) -> str:
-        encoded_class_talents = _encode_nodes(self.class_nodes,
-                                              talent_tree.class_nodes)
-        encoded_spec_talents = _encode_nodes(self.spec_nodes,
-                                             talent_tree.spec_nodes)
-        return f"{encoded_class_talents}/{encoded_spec_talents}"
+
+class MissingPlayerError(Exception):
+    def __init__(self, player: PlayerLink):
+        self._player = player
+        super().__init__(f"Cannot find {player.full_name}")
 
 
 def get_player_loadout(client: Client, player: PlayerLink):
-    profile = client.get_profile_resource(player.profile_resource)
+    try:
+        profile = client.get_profile_resource(player.profile_resource)
+    except RuntimeError:
+        raise MissingPlayerError(player)
     class_name = profile['character_class']['name']
     spec_name = profile['active_spec']['name']
     response = _get_active_loadout(client, player, spec_name)
 
     class_nodes = []
     for raw_node in response['selected_class_talents']:
-        class_nodes.append(LoadoutNode(raw_node['id'], raw_node['rank']))
+        class_nodes.append(LoadoutNode(
+            raw_node['id'],
+            raw_node['tooltip']['talent']['id'],
+            raw_node['rank'],
+        ))
 
     spec_nodes = []
     for raw_node in response['selected_spec_talents']:
-        spec_nodes.append(LoadoutNode(raw_node['id'], raw_node['rank']))
+        spec_nodes.append(LoadoutNode(
+            raw_node['id'],
+            raw_node['tooltip']['talent']['id'],
+            raw_node['rank'],
+        ))
 
     return PlayerLoadout(
         class_name, spec_name,
@@ -71,6 +78,7 @@ def get_player_loadout(client: Client, player: PlayerLink):
 def _get_active_loadout(client: Client, player: PlayerLink,
                         spec_name: str) -> dict:
     response = client.get_profile_resource(player.specialization_resource)
+
     loadouts = None
     for spec in response['specializations']:
         if spec['specialization']['name'] == spec_name:
@@ -85,22 +93,3 @@ def _get_active_loadout(client: Client, player: PlayerLink,
             return loadout
 
     raise RuntimeError(f"No active loadout for {player.full_name}")
-
-
-def _encode_nodes(selected_nodes: list[LoadoutNode],
-                  all_nodes: list[TalentNode]) -> str:
-    index_map = {}
-    for i, node in enumerate(all_nodes):
-        index_map[node.id] = i
-
-    output = bytearray((len(index_map) + 1) // 2)
-
-    for node in selected_nodes:
-        index = index_map[node.id]
-        rank = node.rank
-        if index % 2 == 0:
-            output[index // 2] |= rank
-        else:
-            output[index // 2] |= (rank << 2)
-
-    return base64.b64encode(output).decode('utf-8')

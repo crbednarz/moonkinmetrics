@@ -1,4 +1,4 @@
-CURRENT_PVP_SEASON = 33
+CURRENT_PVP_SEASON = 34
 
 CLASS_NAMES = [
     'Hunter',
@@ -50,7 +50,7 @@ SPEC_BY_CLASS = {
     'Death Knight': [
         'Frost',
         'Unholy',
-        'Bloody',
+        'Blood',
     ],
     'Paladin': [
         'Holy',
