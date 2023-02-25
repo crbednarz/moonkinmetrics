@@ -2,8 +2,9 @@
     position: absolute; 
     width: 56px;
     height: 56px;
-    border: 2px solid black;
-    border-radius: 15px;
+    border: 1px solid black;
+    box-shadow: 4px 4px 10px -5px black;
+    border-radius: 10px;
     overflow: hidden;
 
     & > span {

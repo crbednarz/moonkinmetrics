@@ -72,7 +72,7 @@ export default function TalentTreeView({ tree, leaderboard }: TalentTreeViewProp
 
   return (
     <>
-    <h1>Entries: {loadouts.length}</h1>
+      <h1>Entries: {loadouts.length}</h1><br />
       <div style={{position: 'relative', display: 'inline-block', width:700, height:800}}>
         {tree.classNodes.map(node => {
           let usage: { [key: number]: number[] } = {};

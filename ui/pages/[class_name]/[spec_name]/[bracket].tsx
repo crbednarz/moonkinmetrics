@@ -1,8 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { CLASS_SPECS } from '../../../lib/wow'
-import { getTalentTree, TalentTree } from '../../../lib/talents'
-import { getLeaderboard, RatedLoadout } from '../../../lib/pvp'
-import  TalentTreeView from '../../../components/talent-tree';
+import { CLASS_SPECS } from '@/lib/wow'
+import { getTalentTree, TalentTree } from '@/lib/talents'
+import { getLeaderboard, RatedLoadout } from '@/lib/pvp'
+import  TalentTreeView from '@/components/talent-tree';
+import  Layout from '@/components/layout';
 
 export default function Bracket({
   tree,
@@ -12,12 +13,13 @@ export default function Bracket({
   leaderboard: RatedLoadout[]
 }) {
   return (
-    <>
+    <Layout>
       <h1>
         {tree.className} - {tree.specName}
       </h1>
+      <br/>
       <TalentTreeView tree={tree} leaderboard={leaderboard} />
-    </>
+    </Layout>
   )
 }
 
