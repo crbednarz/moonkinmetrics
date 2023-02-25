@@ -1,15 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-export interface LoadoutNode {
-  nodeId: number;
-  talentId: number;
-  rank: number;
-}
+type RankByTalent = { [key: number]: number };
 
 export interface RatedLoadout {
-  classNodes: LoadoutNode[];
-  specNodes: LoadoutNode[];
+  talents: RankByTalent;
   rating: number;
 }
 
@@ -26,19 +21,15 @@ export function getLeaderboard(className: string, specName: string, bracket: str
 
   for (let entry of leaderboard['entries']) {
     loadouts.push({
-      classNodes: entry['class_nodes'].map(deserializeNode),
-      specNodes: entry['spec_nodes'].map(deserializeNode),
+      talents: [...entry['class_nodes'], ...entry['spec_nodes']].reduce(
+        (obj: RankByTalent, cur: any) => {
+          obj[cur['talent_id']] = cur['rank'];
+          return obj;
+        },
+      {}),
       rating: entry['rating'],
     });
   }
 
   return loadouts;
-}
-
-function deserializeNode(jsonNode: any) {
-  return {
-      nodeId: jsonNode['node_id'],
-      talentId: jsonNode['talent_id'],
-      rank: jsonNode['rank'],
-  };
 }

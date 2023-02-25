@@ -25,8 +25,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   let paths = CLASS_SPECS.map(classSpec => {
     return {
       params: {
-        class_name: classSpec.className,
-        spec_name: classSpec.specName,
+        class_name: classSpec.className.replace(' ', '-'),
+        spec_name: classSpec.specName.replace(' ', '-'),
         bracket: '3v3',
       }
     }
@@ -40,8 +40,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const className = params!['class_name'] as string;
-  const specName = params!['spec_name'] as string;
+  const className = (params!['class_name'] as string).replace('-', ' ');
+  const specName = (params!['spec_name'] as string).replace('-', ' ');
   const tree = getTalentTree(className, specName);
 
   const bracket = params!['bracket'] as string;
