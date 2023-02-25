@@ -127,11 +127,11 @@ const RANK_FILTERS: RankFilter[] = [
     func: rank => rank == 0,
   },
   {
-    name: 'Always',
+    name: '',
     func: rank => true
   },
   {
-    name: '1+',
+    name: 'Any',
     func: rank => rank >= 1
   },
   {

@@ -1,6 +1,7 @@
 import { useMemo, useState, CSSProperties } from 'react';
-import { TalentNode } from '../lib/talents'
 import Image from 'next/image';
+import styles from './talent-node.module.scss';
+import { TalentNode } from '../lib/talents'
 
 type UsageByRank = number[];
 
@@ -21,41 +22,42 @@ export default function TalentNodeView({
   onTalentSelect,
 }: TalentNodeViewProps) {
   return (
-    <button
+    <div
+      className={styles.node}
       style={{
-        position: 'absolute',
-        left: node.x * 700,
-        top: node.y * 700,
+        transform: `translate(${node.x * 700}px, ${node.y * 700}px)`,
       }}
     >
       {node.talents.map(talent => {
         const usageByRank = usage[talent.id];
         const total = usageByRank.reduce((sum, cur) => sum + cur);
+        let className = styles.talent;
+        if (node.talents.length > 1) {
+          className += ` ${styles.split}`;
+        }
 
         return (
-          <Image
+          <div
+            className={className}
             style={{
               opacity: 1.0 - (usageByRank[0] / total),
+              backgroundImage: `url(${talent.icon})`,
             }}
-            src={talent.icon} 
-            alt={talent.name}
-            width={50/node.talents.length}
-            height={50}
             key={talent.id}
             onClick={() => onTalentSelect(talent.id)}
           />
         );
       })}
-    <span
-      style={{
-        position: 'absolute',
-        left: 0,
-        bottom: 0,
-      }}
-    >
-      {filterText}
-    </span>
-    </button>
+      <span
+        style={{
+          position: 'absolute',
+          left: 0,
+          bottom: 0,
+        }}
+      >
+        {filterText}
+      </span>
+    </div>
   );
 }
 
