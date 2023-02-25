@@ -6,6 +6,7 @@ from itertools import chain
 from typing import Generator
 
 from .bnet import Client
+from .constants import CLASS_SPECS, SPEC_NODE_IDS
 
 
 @dataclass
@@ -82,6 +83,13 @@ class _TalentTreesIndex:
     class_trees: list[_ClassTalentTreeLink]
     spec_trees: list[_SpecTalentTreeLink]
 
+    def get_class_link(self, class_name: str) -> _ClassTalentTreeLink:
+        for tree in self.class_trees:
+            if tree.class_name == class_name:
+                return tree
+
+        raise RuntimeError(f"Unable to find class {class_name}")
+
 
 class _ClassTalentTreeLink:
     def __init__(self, url: str, class_name: str):
@@ -107,10 +115,19 @@ class _SpecTalentTreeLink:
 def get_talent_trees(client: Client) -> Generator[TalentTree, None, None]:
     trees_index = _get_talent_tree_index(client)
 
+    specs_remaining = CLASS_SPECS.copy()
     for tree_link in trees_index.spec_trees:
         class_id = tree_link.class_id
         class_name = _lookup_class_name_from_id(trees_index, class_id)
+        if (class_name, tree_link.spec_name) not in specs_remaining:
+            continue
+        specs_remaining.remove((class_name, tree_link.spec_name))
         yield _get_tree_for_spec(client, class_name, tree_link)
+
+    for class_name, spec_name in specs_remaining:
+        tree_link = trees_index.get_class_link(class_name)
+        yield _get_tree_for_missing_spec(client, class_name, spec_name,
+                                         trees_index)
 
 
 def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: str) -> str:
@@ -154,6 +171,41 @@ def _get_tree_for_spec(client: Client, class_name: str,
     return TalentTree(
         class_name,
         tree_link.spec_name,
+        class_nodes,
+        spec_nodes,
+    )
+
+
+def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
+                               tree_index: _TalentTreesIndex) -> TalentTree:
+    node_ids = SPEC_NODE_IDS[class_name][spec_name]
+    tree_link = tree_index.get_class_link(class_name)
+
+    class_nodes = []
+    spec_nodes = []
+
+    response = client.get_url(tree_link.url)
+    for response_node in response['talent_nodes']:
+        node = TalentNode(response_node)
+        base_rank = response_node['ranks'][0]
+        if 'choice_of_tooltips' in base_rank:
+            tooltip = base_rank['choice_of_tooltips'][0]
+        else:
+            tooltip = base_rank['tooltip']
+
+        if node.id not in node_ids:
+            continue
+
+        url = tooltip['talent']['key']['href']
+        talent_response = client.get_url(url)
+        if 'playable_specialization' in talent_response:
+            spec_nodes.append(node)
+        else:
+            class_nodes.append(node)
+
+    return TalentTree(
+        class_name,
+        spec_name,
         class_nodes,
         spec_nodes,
     )
