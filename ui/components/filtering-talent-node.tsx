@@ -1,13 +1,11 @@
-import { useMemo, useState, CSSProperties } from 'react';
-import Image from 'next/image';
-import styles from './talent-node.module.scss';
+import styles from './filtering-talent-node.module.scss';
 import { TalentNode } from '../lib/talents'
 
 type UsageByRank = number[];
 
 type NodeUsage = { [key: number]: UsageByRank };
 
-interface TalentNodeViewProps {
+interface FilteringTalentNodeProps {
   node: TalentNode;
   usage: NodeUsage;
   disabled?: boolean;
@@ -16,14 +14,14 @@ interface TalentNodeViewProps {
   onTalentSelect: (talentId: number) => void;
 }
 
-export default function TalentNodeView({
+export default function FilteringTalentNode({
   node,
   usage,
   disabled,
   selectedTalent,
   minimumRank,
   onTalentSelect,
-}: TalentNodeViewProps) {
+}: FilteringTalentNodeProps) {
   let nodeClasses = styles.node;
 
   if (disabled) {

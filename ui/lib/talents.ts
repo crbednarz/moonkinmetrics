@@ -5,7 +5,14 @@ export interface Talent {
   id: number;
   name: string;
   spellId: number;
-  spellName: number;
+  spellName: string;
+  icon: string;
+}
+
+export interface PvpTalent {
+  id: number;
+  spellId: number;
+  spellName: string;
   icon: string;
 }
 
@@ -26,6 +33,7 @@ export interface TalentTree {
   specName: string;
   classNodes: TalentNode[];
   specNodes: TalentNode[];
+  pvpTalents: PvpTalent[];
 }
 
 const wowDirectory = path.join(process.cwd(), 'wow')
@@ -47,6 +55,15 @@ function deserializeNode(jsonNode: any) {
       spellName: jsonTalent['spell']['name'],
       icon: jsonTalent['icon'],
     })),
+  }
+}
+
+function deserializePvpTalent(jsonTalent: any) {
+  return {
+    id: jsonTalent['id'],
+    spellId: jsonTalent['spell']['id'],
+    spellName: jsonTalent['spell']['name'],
+    icon: jsonTalent['icon'],
   }
 }
 
@@ -102,6 +119,7 @@ export function getTalentTree(className: string, specName: string) {
     specName: jsonTree['spec_name'],
     classNodes: jsonTree['class_nodes'].map(deserializeNode),
     specNodes: jsonTree['spec_nodes'].map(deserializeNode),
+    pvpTalents: jsonTree['pvp_talents'].map(deserializePvpTalent),
   }
 
   convertNodePositions(tree.classNodes, 620, 700);

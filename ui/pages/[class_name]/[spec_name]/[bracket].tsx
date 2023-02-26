@@ -2,7 +2,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import { CLASS_SPECS } from '@/lib/wow'
 import { getTalentTree, TalentTree } from '@/lib/talents'
 import { getLeaderboard, RatedLoadout } from '@/lib/pvp'
-import  TalentTreeView from '@/components/talent-tree';
+import  TalentTreeExplorer from '@/components/talent-tree-explorer';
 import  Layout from '@/components/layout';
 
 export default function Bracket({
@@ -18,7 +18,7 @@ export default function Bracket({
         {tree.className} - {tree.specName}
       </h1>
       <br/>
-      <TalentTreeView tree={tree} leaderboard={leaderboard} />
+      <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
     </Layout>
   )
 }

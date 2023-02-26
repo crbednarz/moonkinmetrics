@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { TalentNode } from '@/lib/talents';
 import { RatedLoadout } from '@/lib/pvp';
 import { minRankFilter, rankZeroFilter, LoadoutFilter } from '@/lib/loadout-filter';
-import TalentNodeView from './talent-node';
-import styles from './sub-talent-tree.module.scss';
+import FilteringTalentNode from './filtering-talent-node';
+import styles from './filtering-sub-tree.module.scss';
 
 enum NodeFilterMode {
   Zero,
@@ -19,17 +19,17 @@ interface NodeFilter {
 
 type NodeFilterMap = {[key: number]: NodeFilter}
 
-interface SubTalentTreeViewProps {
+interface FilteringSubTreeViewProps {
   nodes: TalentNode[];
   loadouts: RatedLoadout[];
   onFiltersChange: (filters: LoadoutFilter[]) => void;
 };
 
-export default function SubTalentTreeView({
+export default function FilteringSubTreeView({
   nodes,
   loadouts,
   onFiltersChange,
-}: SubTalentTreeViewProps) {
+}: FilteringSubTreeViewProps) {
 
   let [nodeFilters, setNodeFilters] = useState<NodeFilterMap>({});
 
@@ -58,7 +58,7 @@ export default function SubTalentTreeView({
               break;
           }
           return (
-            <TalentNodeView
+            <FilteringTalentNode
               key={node.id}
               node={node}
               usage={usage}
