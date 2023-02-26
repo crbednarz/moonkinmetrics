@@ -1,28 +1,79 @@
 .node {
-    position: absolute; 
-    width: 56px;
-    height: 56px;
-    border: 1px solid black;
-    box-shadow: 4px 4px 10px -5px black;
-    border-radius: 10px;
-    overflow: hidden;
+  position: absolute;
+  width: 56px;
+  height: 56px;
 
-    & > span {
-        width: 100%;
-        font-size: 1em;
-        
+
+  &.locked .talentGroup {
+    border: 2px solid rgb(120, 120, 255);
+  }
+
+
+  &.disabled .talentGroup {
+    border: 2px solid red;
+    &:after {
+      display: inline-block;
+      position: absolute;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: '';
+      background: rgba(155, 0, 0, 0.5);
     }
+  }
+
+}
+
+.talentGroup {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid black;
+  border-radius: 10px;
+
+  &:hover {
+    border: 2px solid rgb(200, 200, 200);
+  }
+}
+
+.usage {
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 99;
+  
+  span {
+    font-weight: bold;
+    font-size: 0.7em;
+    border-radius: 5px;
+    padding: 2px 5px;
+    margin: 0;
+    margin-top: -20px;
+    background: rgb(70,70,70);
+    border: 1px solid black;
+  }
 }
 
 .talent {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
 
-    &.split {
-        width: 50%;
-        &:nth-child(1) {
-            right: 0px;
-        }
+  &.split {
+    width: 50%;
+    &:nth-child(1) {
+      right: 0px;
     }
+  }
+
+  &.disabled {
+    opacity: 100% !important;
+    filter: grayscale(1);
+  }
 }

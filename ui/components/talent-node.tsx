@@ -10,53 +10,88 @@ type NodeUsage = { [key: number]: UsageByRank };
 interface TalentNodeViewProps {
   node: TalentNode;
   usage: NodeUsage;
-  filterTalent: number;
-  filterText: string;
+  disabled?: boolean;
+  selectedTalent?: number;
+  minimumRank?: number;
   onTalentSelect: (talentId: number) => void;
 }
 
 export default function TalentNodeView({
   node,
   usage,
-  filterText,
+  disabled,
+  selectedTalent,
+  minimumRank,
   onTalentSelect,
 }: TalentNodeViewProps) {
+  let nodeClasses = styles.node;
+
+  if (disabled) {
+    nodeClasses += ` ${styles.disabled}`;
+  }
+
+  if (minimumRank) {
+    nodeClasses += ` ${styles.locked}`;
+  }
+
+  let usageByRank: UsageByRank = [0, 0, 0, 0];
+  if (selectedTalent) {
+    usageByRank = usage[selectedTalent];
+  } else {
+    for (let talent of node.talents) {
+      for (let i in usageByRank) {
+        usageByRank[i] += usage[talent.id][i];
+      }
+    }
+  }
+
+  const total = usageByRank.reduce((sum, cur) => sum + cur);
+  const usageValue = 1.0 - usageByRank[0] / total;
+  const usageText = `${Math.round(usageValue * 100)}%`;
+  const usageColor = `rgb(${(1.0 - usageValue)*255}, ${usageValue*255}, 0)`;
+
   return (
     <div
-      className={styles.node}
+      className={nodeClasses}
       style={{
-        transform: `translate(${node.x * 700}px, ${node.y * 700}px)`,
+        left: node.x,
+        top: node.y,
       }}
     >
-      {node.talents.map(talent => {
-        const usageByRank = usage[talent.id];
-        const total = usageByRank.reduce((sum, cur) => sum + cur);
-        let className = styles.talent;
-        if (node.talents.length > 1) {
-          className += ` ${styles.split}`;
-        }
-
-        return (
-          <div
-            className={className}
-            style={{
-              opacity: 1.0 - (usageByRank[0] / total),
-              backgroundImage: `url(${talent.icon})`,
-            }}
-            key={talent.id}
-            onClick={() => onTalentSelect(talent.id)}
-          />
-        );
-      })}
-      <span
+      <div
+        className={styles.usage}
         style={{
-          position: 'absolute',
-          left: 0,
-          bottom: 0,
+          color: usageColor
         }}
       >
-        {filterText}
-      </span>
+        <span>{usageText}</span>
+      </div>
+      <div className={styles.talentGroup}>
+        {node.talents.map(talent => {
+          const usageByRank = usage[talent.id];
+          const total = usageByRank.reduce((sum, cur) => sum + cur);
+          let talentClasses = styles.talent;
+          if (node.talents.length > 1) {
+            talentClasses += ` ${styles.split}`;
+          }
+
+          if (disabled && selectedTalent && selectedTalent == talent.id) {
+            talentClasses += ` ${styles.disabled}`;
+          }
+          return (
+            <div
+              className={talentClasses}
+              style={{
+                filter: `grayscale(${usageByRank[0] / total})`,
+                opacity: 0.5 + (1.0 - (usageByRank[0] / total)) * 0.5,
+                backgroundImage: `url(${talent.icon})`,
+              }}
+              key={talent.id}
+              onClick={() => onTalentSelect(talent.id)}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }

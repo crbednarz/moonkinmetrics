@@ -50,7 +50,7 @@ function deserializeNode(jsonNode: any) {
   }
 }
 
-function normalizeNodePositions(nodes: TalentNode[]) {
+function convertNodePositions(nodes: TalentNode[], width: number, height: number) {
   let minX = nodes[0].x;
   let minY = nodes[0].y;
   let maxX = minX;
@@ -62,11 +62,31 @@ function normalizeNodePositions(nodes: TalentNode[]) {
     maxX = Math.max(node.x, maxX);
     maxY = Math.max(node.y, maxY);
   }
+  const iconSize = 56;
+  const iconPadding = 6;
+  const paddedIconSize = iconSize + iconPadding * 2;
+  const blizzardIconSpacing = 600;
 
-  const range = Math.max(maxX - minX, maxY - minY);
+  const xRange = maxX - minX;
+  const yRange = maxY - minY;
   for (let node of nodes) {
-    node.x = (node.x - minX) / range;
-    node.y = (node.y - minY) / range;
+    let x = node.x;
+    let y = node.y;
+
+    // Normalize positions
+    x = (x - minX - xRange * 0.5) / blizzardIconSpacing;
+    y = (y - minY - yRange * 0.5) / blizzardIconSpacing;
+
+    // Center icons
+    x = (x - 0.5) * paddedIconSize + iconPadding;
+    y = (y - 0.5) * paddedIconSize + iconPadding;
+
+    // Center with stage size
+    x += width * 0.5;
+    y += height * 0.5;
+
+    node.x = x;
+    node.y = y;
   }
 }
 
@@ -84,8 +104,8 @@ export function getTalentTree(className: string, specName: string) {
     specNodes: jsonTree['spec_nodes'].map(deserializeNode),
   }
 
-  normalizeNodePositions(tree.classNodes);
-  normalizeNodePositions(tree.specNodes);
+  convertNodePositions(tree.classNodes, 620, 700);
+  convertNodePositions(tree.specNodes, 620, 700);
 
   return tree;
 }
