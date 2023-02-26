@@ -1,0 +1,20 @@
+.tree {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 640px;
+  margin: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  background: rgb(50, 50, 50);
+  overflow: auto;
+  text-align: center;
+}
+
+.innerTree {
+  position: relative;
+  width: 620px;
+  height: 700px;
+  margin: auto 0;
+  display: inline-block;
+}
