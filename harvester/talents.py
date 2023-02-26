@@ -6,7 +6,7 @@ from itertools import chain
 from typing import Generator
 
 from .bnet import Client
-from .constants import CLASS_SPECS, SPEC_NODE_IDS
+from .constants import CLASS_SPECS, SPEC_NODE_IDS, CLASS_SPEC_BY_SPEC_ID
 
 
 @dataclass
@@ -19,6 +19,12 @@ class Spell:
 class Talent:
     id: int
     name: str
+    spell: Spell
+
+
+@dataclass
+class PvpTalent:
+    id: int
     spell: Spell
 
 
@@ -71,11 +77,15 @@ class TalentTree:
     spec_name: str
     class_nodes: list[TalentNode]
     spec_nodes: list[TalentNode]
+    pvp_talents: list[PvpTalent]
 
     def all_spells(self) -> Generator[Spell, None, None]:
         for node in chain(self.class_nodes, self.spec_nodes):
             for talent in node.talents:
                 yield talent.spell
+
+        for pvp_talent in self.pvp_talents:
+            yield pvp_talent.spell
 
 
 @dataclass
@@ -173,7 +183,35 @@ def _get_tree_for_spec(client: Client, class_name: str,
         tree_link.spec_name,
         class_nodes,
         spec_nodes,
+        _get_pvp_talents(client, class_name, tree_link.spec_name)
     )
+
+
+def _get_pvp_talents(client: Client, class_name: str,
+                     spec_name: str) -> list[PvpTalent]:
+    index = client.get_static_resource('/data/wow/pvp-talent/index')
+    talents = []
+    for entry in index['pvp_talents']:
+        response = client.get_url(entry['key']['href'])
+
+        if response['playable_specialization']['name'] != spec_name:
+            continue
+
+        spec_id = response['playable_specialization']['id']
+        (found_class_name, _) = CLASS_SPEC_BY_SPEC_ID[spec_id]
+
+        if found_class_name != class_name:
+            continue
+
+        talents.append(PvpTalent(
+            response['id'],
+            Spell(
+                response['spell']['id'],
+                response['spell']['name'],
+            ),
+        ))
+
+    return talents
 
 
 def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
@@ -208,4 +246,5 @@ def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
         spec_name,
         class_nodes,
         spec_nodes,
+        _get_pvp_talents(client, class_name, spec_name)
     )

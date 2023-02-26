@@ -10,7 +10,7 @@ from .bnet import Client
 from .media import get_spell_icon
 from .player import MissingPlayerError, get_player_loadout
 from .pvp import get_pvp_leaderboard
-from .talents import TalentNode, TalentTree, get_talent_trees
+from .talents import PvpTalent, TalentNode, TalentTree, get_talent_trees
 
 
 TALENTS_DIRECTORY = 'talents'
@@ -102,6 +102,9 @@ def _collect_leadboard_loadouts(client: Client,
             'spec_nodes': [
                 dataclasses.asdict(node) for node in loadout.spec_nodes
             ],
+            'pvp_talents': [
+                dataclasses.asdict(talent) for talent in loadout.pvp_talents
+            ],
             'rating': rating,
         })
 
@@ -132,6 +135,7 @@ def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
             'spec_name': tree.spec_name,
             'class_nodes': _nodes_to_json(tree.class_nodes, spell_media),
             'spec_nodes': _nodes_to_json(tree.spec_nodes, spell_media),
+            'pvp_talents': _pvp_talents_to_json(tree.pvp_talents, spell_media),
         }, file, indent=2)
 
 
@@ -143,6 +147,17 @@ def _nodes_to_json(nodes: list[TalentNode],
         for talent in node_dict['talents']:
             talent['icon'] = spell_media[talent['spell']['id']]
         output.append(node_dict)
+    return output
+
+
+def _pvp_talents_to_json(talents: list[PvpTalent],
+                         spell_media: dict[int, str]) -> list[dict]:
+    output = []
+    for talent in talents:
+        talent_dict = dataclasses.asdict(talent)
+        talent_dict['icon'] = spell_media[talent.spell.id]
+        output.append(talent_dict)
+
     return output
 
 
