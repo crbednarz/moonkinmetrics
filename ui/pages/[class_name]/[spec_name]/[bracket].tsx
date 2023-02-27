@@ -24,16 +24,16 @@ export default function Bracket({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  let paths = CLASS_SPECS.map(classSpec => {
-    return {
+    let paths = ['3v3', '2v2', 'Shuffle'].map(bracket => (
+      CLASS_SPECS.map(classSpec => ({
       params: {
         class_name: classSpec.className.replace(' ', '-'),
         spec_name: classSpec.specName.replace(' ', '-'),
-        bracket: '3v3',
+        bracket: bracket,
       }
-    }
-  });
-  
+    }))
+  )).flat(1);
+
   return {
     paths,
     fallback: false,
@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const specName = (params!['spec_name'] as string).replace('-', ' ');
   const tree = getTalentTree(className, specName);
 
-  const bracket = params!['bracket'] as string;
+  const bracket = (params!['bracket'] as string).toLowerCase();
   const leaderboard = getLeaderboard(className, specName, bracket);
 
   return {

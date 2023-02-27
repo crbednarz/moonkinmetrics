@@ -50,13 +50,16 @@ class MissingPlayerError(Exception):
         super().__init__(f"Cannot find {player.full_name}")
 
 
-def get_player_loadout(client: Client, player: PlayerLink):
+def get_player_loadout(client: Client, player: PlayerLink,
+                       override_spec: str | None = None) -> PlayerLoadout:
     try:
         profile = client.get_profile_resource(player.profile_resource)
     except RuntimeError:
         raise MissingPlayerError(player)
     class_name = profile['character_class']['name']
     spec_name = profile['active_spec']['name']
+    if override_spec is not None:
+        spec_name = override_spec
     response = _get_active_loadout(client, player, spec_name)
 
     class_nodes = []
