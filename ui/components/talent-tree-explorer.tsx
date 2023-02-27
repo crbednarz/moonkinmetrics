@@ -13,7 +13,12 @@ interface TalentTreeExplorerProps {
 export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExplorerProps) {
   let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
   let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
-  const loadouts = filterRatedLoadouts(leaderboard, [...classFilters, ...specFilters]);
+  let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
+  const loadouts = filterRatedLoadouts(leaderboard, [
+    ...classFilters,
+    ...specFilters,
+    ...pvpFilters,
+  ]);
 
   return (
     <>
@@ -30,6 +35,8 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
       />
       <FilteringPvpTalentList
         talents={tree.pvpTalents}
+        onFiltersChange={filters => setPvpFilters(filters) }
+        loadouts={loadouts}
       />
     </>
   );

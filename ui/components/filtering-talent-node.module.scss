@@ -1,5 +1,6 @@
 .node {
   position: absolute;
+  display: inline-block;
   width: 56px;
   height: 56px;
 
@@ -24,6 +25,10 @@
     }
   }
 
+  &.pvp-talent {
+    position: relative;
+    margin: 5px;
+  }
 }
 
 .talentGroup {
@@ -46,6 +51,7 @@
   right: 0;
   pointer-events: none;
   z-index: 99;
+  text-align: center;
   
   span {
     font-weight: bold;
@@ -74,6 +80,5 @@
 
   &.disabled {
     opacity: 100% !important;
-    filter: grayscale(1);
   }
 }

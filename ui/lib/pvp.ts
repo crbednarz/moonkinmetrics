@@ -5,6 +5,7 @@ type RankByTalent = { [key: number]: number };
 
 export interface RatedLoadout {
   talents: RankByTalent;
+  pvpTalents: number[];
   rating: number;
 }
 
@@ -27,6 +28,7 @@ export function getLeaderboard(className: string, specName: string, bracket: str
           return obj;
         },
       {}),
+      pvpTalents: entry['pvp_talents'].map((talent: any) => talent['id']),
       rating: entry['rating'],
     });
   }
