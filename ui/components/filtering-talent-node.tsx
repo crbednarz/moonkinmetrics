@@ -77,8 +77,9 @@ export default function FilteringTalentNode({
             talentClasses += ` ${styles.disabled}`;
           }
           return (
-            <div
+            <a
               className={talentClasses}
+              data-wowhead={`"spell=${talent.spellId}"`}
               style={{
                 filter: `grayscale(${usageByRank[0] / total})`,
                 opacity: 0.5 + (1.0 - (usageByRank[0] / total)) * 0.5,

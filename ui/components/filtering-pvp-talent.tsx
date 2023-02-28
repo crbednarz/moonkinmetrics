@@ -37,16 +37,18 @@ export default function FilteringPvpTalent({
         <span>{usageText}</span>
       </div>
       <div className={styles.talentGroup}>
-        <div
-          className={styles.talent}
-          style={{
-            filter: `grayscale(${1.0 - usage})`,
-            opacity: 0.5 + usage * 0.5,
-            backgroundImage: `url(${talent.icon})`,
-          }}
-          key={talent.id}
-          onClick={() => onSelect(talent)}
-        />
+        <a data-wowhead={`"spell=${talent.spellId}"`}>
+          <div
+            className={styles.talent}
+            style={{
+              filter: `grayscale(${1.0 - usage})`,
+              opacity: 0.5 + usage * 0.5,
+              backgroundImage: `url(${talent.icon})`,
+            }}
+            key={talent.id}
+            onClick={() => onSelect(talent)}
+          />
+        </a>
       </div>
     </div>
   );
