@@ -1,7 +1,13 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import { createGetInitialProps } from '@mantine/next';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
-export default function Document() {
-  return (
+const getInitialProps = createGetInitialProps();
+
+export default class _Document extends Document {
+  static getInitialProps = getInitialProps;
+
+  render() {
     const whTooltips = {
       colorLinks: true,
       iconizeLinks: true,
@@ -23,5 +29,7 @@ export default function Document() {
         <NextScript />
       </body>
     </Html>
-  )
+
+    );
+  }
 }
