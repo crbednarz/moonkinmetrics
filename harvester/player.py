@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from .bnet import Client
+from .constants import CLASS_SPEC_BY_SPEC_ID
 
 
 class PlayerLink:
@@ -53,17 +54,17 @@ class MissingPlayerError(Exception):
 def get_player_loadout(client: Client, player: PlayerLink,
                        override_spec: str | None = None) -> PlayerLoadout:
     try:
-        profile = client.get_profile_resource(player.profile_resource)
+        response = client.get_profile_resource(player.specialization_resource)
     except RuntimeError:
         raise MissingPlayerError(player)
-    class_name = profile['character_class']['name']
-    spec_name = profile['active_spec']['name']
+    spec_id = response['active_specialization']['id']
+    (class_name, spec_name) = CLASS_SPEC_BY_SPEC_ID[spec_id]
     if override_spec is not None:
         spec_name = override_spec
-    response = _get_active_loadout(client, player, spec_name)
+    json_loadout = _get_active_loadout(player, spec_name, response)
 
     class_nodes = []
-    for raw_node in response['selected_class_talents']:
+    for raw_node in json_loadout['selected_class_talents']:
         class_nodes.append(LoadoutNode(
             raw_node['id'],
             raw_node['tooltip']['talent']['id'],
@@ -71,7 +72,7 @@ def get_player_loadout(client: Client, player: PlayerLink,
         ))
 
     spec_nodes = []
-    for raw_node in response['selected_spec_talents']:
+    for raw_node in json_loadout['selected_spec_talents']:
         spec_nodes.append(LoadoutNode(
             raw_node['id'],
             raw_node['tooltip']['talent']['id'],
@@ -79,7 +80,7 @@ def get_player_loadout(client: Client, player: PlayerLink,
         ))
 
     pvp_talents = []
-    for raw_talent in response['pvp_talent_slots']:
+    for raw_talent in json_loadout['pvp_talent_slots']:
         pvp_talents.append(LoadoutPvpTalent(
             raw_talent['selected']['talent']['id']
         ))
@@ -91,9 +92,9 @@ def get_player_loadout(client: Client, player: PlayerLink,
     )
 
 
-def _get_active_loadout(client: Client, player: PlayerLink,
-                        spec_name: str) -> dict:
-    response = client.get_profile_resource(player.specialization_resource)
+def _get_active_loadout(player: PlayerLink, spec_name: str,
+                        specialization_resource_response: dict) -> dict:
+    response = specialization_resource_response
 
     loadouts = None
     pvp_talents = None
