@@ -17,6 +17,10 @@ from .talents import PvpTalent, TalentNode, TalentTree, get_talent_trees
 TALENTS_DIRECTORY = 'talents'
 PVP_DIRECTORY = 'pvp'
 
+NODE_FILTER = set([
+    91046
+])
+
 
 @click.group()
 @click.option("--output", "-o", "output_path",
@@ -100,7 +104,7 @@ def _collect_shuffle_leaderboard(client: Client, class_name: str,
         print(f"Getting talents for {player.full_name}... ",
               end='')
         try:
-            loadout = get_player_loadout(client, player, spec_name)
+            loadout = get_player_loadout(client, player)
             print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
         except MissingPlayerError:
             print("Missing")
@@ -186,14 +190,23 @@ def _collect_talent_trees(client: Client) -> list[TalentTree]:
     return talent_trees
 
 
+def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
+    return list(filter(
+        lambda node: (node.id not in NODE_FILTER),
+        nodes,
+    ))
+
+
 def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
                       path: str) -> None:
     with open(path, 'w') as file:
         json.dump({
             'class_name': tree.class_name,
             'spec_name': tree.spec_name,
-            'class_nodes': _nodes_to_json(tree.class_nodes, spell_media),
-            'spec_nodes': _nodes_to_json(tree.spec_nodes, spell_media),
+            'class_nodes': _nodes_to_json(_filter_nodes(tree.class_nodes),
+                                          spell_media),
+            'spec_nodes': _nodes_to_json(_filter_nodes(tree.spec_nodes),
+                                         spell_media),
             'pvp_talents': _pvp_talents_to_json(tree.pvp_talents, spell_media),
         }, file, indent=2)
 
