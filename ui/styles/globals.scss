@@ -74,6 +74,16 @@ a {
   text-decoration: none;
 }
 
+span.class-name {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+span.spec-name {
+  font-size: 3em;
+  font-weight: bold;
+}
+
 @each $class, $color in $classColors {
   .#{$class} {
     .class-text {

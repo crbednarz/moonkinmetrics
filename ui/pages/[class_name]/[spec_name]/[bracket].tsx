@@ -17,11 +17,12 @@ export default function Bracket({
     <Layout className={tree.className.replace(' ', '-').toLowerCase()}>
       <Head>
       </Head>
-      <h1 className="class-text">
+      <span className="class-text class-name">
         {tree.className}
-      </h1>
-      <h2>{tree.specName}
-      </h2>
+      </span>
+      <span className="spec-name">
+        &nbsp;{tree.specName}
+      </span>
       <br/>
       <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
     </Layout>
