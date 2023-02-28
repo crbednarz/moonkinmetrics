@@ -4,6 +4,7 @@ import { getTalentTree, TalentTree } from '@/lib/talents'
 import { getLeaderboard, RatedLoadout } from '@/lib/pvp'
 import  TalentTreeExplorer from '@/components/talent-tree-explorer';
 import  Layout from '@/components/layout';
+import Head from 'next/head';
 
 export default function Bracket({
   tree,
@@ -13,10 +14,14 @@ export default function Bracket({
   leaderboard: RatedLoadout[]
 }) {
   return (
-    <Layout>
-      <h1>
-        {tree.className} - {tree.specName}
+    <Layout className={tree.className.replace(' ', '-').toLowerCase()}>
+      <Head>
+      </Head>
+      <h1 className="class-text">
+        {tree.className}
       </h1>
+      <h2>{tree.specName}
+      </h2>
       <br/>
       <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
     </Layout>

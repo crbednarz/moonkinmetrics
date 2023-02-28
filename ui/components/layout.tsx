@@ -1,9 +1,15 @@
 import styles from './layout.module.scss';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  className,
+}: {
+  children: React.ReactNode,
+  className?: string
+}) {
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${className ?? '' }`}
     >
       {children}
     </div>

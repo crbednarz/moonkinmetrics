@@ -1,3 +1,20 @@
+$classColors: (
+  "death-knight": rgb(196, 30, 58),
+  "demon-hunter": rgb(163, 48, 201),
+  "druid": rgb(255, 124, 10),
+  "evoker": rgb(51, 147, 127),
+  "hunter": rgb(170, 211, 114),
+  "mage": rgb(63, 199, 235),
+  "monk": rgb(0, 255, 152),
+  "paladin": rgb(244, 140, 186),
+  "priest": rgb(255, 255, 255),
+  "rogue": rgb(255, 244, 104),
+  "shaman": rgb(0, 112, 221),
+  "warlock": rgb(135, 136, 238),
+  "warrior": rgb(198, 155, 109),
+);
+
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -57,3 +74,10 @@ a {
   text-decoration: none;
 }
 
+@each $class, $color in $classColors {
+  .#{$class} {
+    .class-text {
+      color: $color;
+    }
+  }
+}
