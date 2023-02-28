@@ -12,6 +12,7 @@ interface FilteringTalentNodeProps {
   selectedTalent?: number;
   minimumRank?: number;
   onTalentSelect: (talentId: number) => void;
+  onTalentDeselect: (talentId: number) => void;
 }
 
 export default function FilteringTalentNode({
@@ -21,6 +22,7 @@ export default function FilteringTalentNode({
   selectedTalent,
   minimumRank,
   onTalentSelect,
+  onTalentDeselect,
 }: FilteringTalentNodeProps) {
   let nodeClasses = styles.node;
 
@@ -43,8 +45,9 @@ export default function FilteringTalentNode({
     }
   }
 
-  const total = usageByRank.reduce((sum, cur) => sum + cur);
-  const usageValue = 1.0 - usageByRank[0] / total;
+  const total = usage[node.talents[0].id].reduce((sum, cur) => sum + cur);
+  const totalSelected = usageByRank[1] + usageByRank[2] + usageByRank[3];
+  const usageValue = totalSelected / total;
   const usageText = `${Math.round(usageValue * 100)}%`;
   const usageColor = `rgb(${(1.0 - usageValue)*255}, ${usageValue*255}, 0)`;
 
@@ -87,6 +90,10 @@ export default function FilteringTalentNode({
               }}
               key={talent.id}
               onClick={() => onTalentSelect(talent.id)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                onTalentDeselect(talent.id);
+              }}
             />
           );
         })}

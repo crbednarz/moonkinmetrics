@@ -39,6 +39,13 @@ export default function FilteringSubTreeView({
     setNodeFilters(nextNodeFilters);
   }
 
+  function talentFilterDeselected(node: TalentNode) {
+    const nextNodeFilters = {...nodeFilters};
+    delete nextNodeFilters[node.id];
+    onFiltersChange(Object.values<NodeFilter>(nextNodeFilters).map(f => f.filter));
+    setNodeFilters(nextNodeFilters);
+  }
+
   return (
     <div className={styles.tree}>
       <div className={styles.innerTree}>
@@ -48,15 +55,7 @@ export default function FilteringSubTreeView({
             usage[talent.id] = getTalentUsage(talent.id, loadouts);
             return usage;
           }, usage);
-          let minimumRank = 0;
-          switch (nodeFilters[node.id]?.mode) {
-            case NodeFilterMode.OneAndUp:
-              minimumRank = 1;
-              break;
-            case NodeFilterMode.TwoAndUp:
-              minimumRank = 2;
-              break;
-          }
+          let minimumRank = getMinRank(nodeFilters[node.id]?.mode);
           return (
             <FilteringTalentNode
               key={node.id}
@@ -66,12 +65,26 @@ export default function FilteringSubTreeView({
               selectedTalent={nodeFilters[node.id]?.selectedTalent}
               minimumRank={minimumRank}
               onTalentSelect={talentId => talentFilterSelected(node, talentId)}
+              onTalentDeselect={() => talentFilterDeselected(node)}
             />
           )
         })}
       </div>
     </div>
   );
+}
+
+function getMinRank(mode?: NodeFilterMode) {
+  let minimumRank = 0;
+  switch (mode) {
+    case NodeFilterMode.OneAndUp:
+      minimumRank = 1;
+      break;
+    case NodeFilterMode.TwoAndUp:
+      minimumRank = 2;
+      break;
+  }
+  return minimumRank;
 }
 
 function getTalentUsage(talentId: number, loadouts: RatedLoadout[]) {

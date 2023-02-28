@@ -31,9 +31,16 @@ export default function FilteringPvpTalentList({
   let [talentFilters, setTalentFilters] = useState<TalentFilterMap>({});
 
   function talentFilterSelected(talent: PvpTalent) {
-    const nextNodeFilters = cycleFilter(talentFilters, talent);
-    onFiltersChange(Object.values<TalentFilter>(nextNodeFilters).map(f => f.filter));
-    setTalentFilters(nextNodeFilters);
+    const nextTalentFilters = cycleFilter(talentFilters, talent);
+    onFiltersChange(Object.values<TalentFilter>(nextTalentFilters).map(f => f.filter));
+    setTalentFilters(nextTalentFilters);
+  }
+
+  function talentFilterDeselected(talent: PvpTalent) {
+    const nextTalentFilters = {...talentFilters};
+    delete nextTalentFilters[talent.id];
+    onFiltersChange(Object.values<TalentFilter>(nextTalentFilters).map(f => f.filter));
+    setTalentFilters(nextTalentFilters);
   }
 
   return (
@@ -49,6 +56,7 @@ export default function FilteringPvpTalentList({
             disabled={talentFilters[talent.id]?.mode == FilterMode.MissingTalent}
             highlight={talentFilters[talent.id]?.mode == FilterMode.HasTalent}
             onSelect={(talent)=>{talentFilterSelected(talent)}}
+            onDeselect={(talent)=>{talentFilterDeselected(talent)}}
             usage={usage}
           />
         );

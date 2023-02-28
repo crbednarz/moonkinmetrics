@@ -7,6 +7,7 @@ interface FilteringPvpTalentProps {
   disabled?: boolean;
   highlight?: boolean;
   onSelect: (talent: PvpTalent) => void;
+  onDeselect: (talent: PvpTalent) => void;
 }
 
 export default function FilteringPvpTalent({
@@ -15,6 +16,7 @@ export default function FilteringPvpTalent({
   disabled,
   highlight,
   onSelect,
+  onDeselect,
 }: FilteringPvpTalentProps) {
   const usageText = `${Math.round(usage * 100)}%`;
   const usageColor = `rgb(${(1.0 - usage)*255}, ${usage*255}, 0)`;
@@ -37,18 +39,21 @@ export default function FilteringPvpTalent({
         <span>{usageText}</span>
       </div>
       <div className={styles.talentGroup}>
-        <a data-wowhead={`"spell=${talent.spellId}"`}>
-          <div
-            className={styles.talent}
-            style={{
-              filter: `grayscale(${1.0 - usage})`,
-              opacity: 0.5 + usage * 0.5,
-              backgroundImage: `url(${talent.icon})`,
-            }}
-            key={talent.id}
-            onClick={() => onSelect(talent)}
-          />
-        </a>
+        <a
+          data-wowhead={`"spell=${talent.spellId}"`}
+          className={styles.talent}
+          style={{
+            filter: `grayscale(${1.0 - usage})`,
+            opacity: 0.5 + usage * 0.5,
+            backgroundImage: `url(${talent.icon})`,
+          }}
+          key={talent.id}
+          onClick={() => onSelect(talent)}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            onDeselect(talent);
+          }}
+        />
       </div>
     </div>
   );
