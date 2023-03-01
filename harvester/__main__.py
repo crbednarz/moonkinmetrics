@@ -18,7 +18,8 @@ TALENTS_DIRECTORY = 'talents'
 PVP_DIRECTORY = 'pvp'
 
 NODE_FILTER = set([
-    91046
+    91046,
+    91047,
 ])
 
 
