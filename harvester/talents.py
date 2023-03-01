@@ -39,6 +39,7 @@ class TalentNode:
     locked_by: list[int]
     talents: list[Talent]
     max_rank: int
+    node_type: str
 
     def __init__(self, raw_node: dict):
         self.id = raw_node['id']
@@ -48,6 +49,7 @@ class TalentNode:
         self.col = raw_node['display_col']
         self.unlocks = raw_node.get('unlocks', [])
         self.locked_by = raw_node.get('locked_by', [])
+        self.node_type = raw_node['node_type']['type']
 
         base_rank = raw_node['ranks'][0]
         if 'choice_of_tooltips' in base_rank:

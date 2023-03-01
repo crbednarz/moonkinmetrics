@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 
+interface Dimensions {
+  width: number;
+  height: number;
+}
+
 export interface Talent {
   id: number;
   name: string;
@@ -26,17 +31,18 @@ export interface TalentNode {
   lockedBy: number[];
   maxRank: number;
   talents: Talent[];
+  nodeType: string;
 }
 
 export interface TalentTree {
   className: string;
   specName: string;
+  classSize: Dimensions;
+  specSize: Dimensions;
   classNodes: TalentNode[];
   specNodes: TalentNode[];
   pvpTalents: PvpTalent[];
 }
-
-const wowDirectory = path.join(process.cwd(), 'wow')
 
 function deserializeNode(jsonNode: any) {
   return {
@@ -55,6 +61,7 @@ function deserializeNode(jsonNode: any) {
       spellName: jsonTalent['spell']['name'],
       icon: jsonTalent['icon'],
     })),
+    nodeType: jsonNode['node_type'],
   }
 }
 
@@ -67,7 +74,7 @@ function deserializePvpTalent(jsonTalent: any) {
   }
 }
 
-function convertNodePositions(nodes: TalentNode[], width: number, height: number) {
+function convertNodePositions(nodes: TalentNode[]) {
   let minX = nodes[0].x;
   let minY = nodes[0].y;
   let maxX = minX;
@@ -80,9 +87,15 @@ function convertNodePositions(nodes: TalentNode[], width: number, height: number
     maxY = Math.max(node.y, maxY);
   }
   const iconSize = 56;
-  const iconPadding = 6;
+  const iconPadding = 14;
   const paddedIconSize = iconSize + iconPadding * 2;
   const blizzardIconSpacing = 600;
+  const iconRows = 10;
+  const iconCols = 9;
+
+  const width = paddedIconSize * iconCols;
+  const height = paddedIconSize * iconRows;
+
 
   const xRange = maxX - minX;
   const yRange = maxY - minY;
@@ -105,7 +118,14 @@ function convertNodePositions(nodes: TalentNode[], width: number, height: number
     node.x = x;
     node.y = y;
   }
+
+  return {
+    width,
+    height
+  };
 }
+
+const wowDirectory = path.join(process.cwd(), 'wow')
 
 export function getTalentTree(className: string, specName: string) {
   const fileName = `${className.toLowerCase()}-${specName.toLowerCase()}.json`.replace(' ', '-');
@@ -114,16 +134,20 @@ export function getTalentTree(className: string, specName: string) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const jsonTree = JSON.parse(fileContents);
 
+
+  const classNodes = jsonTree['class_nodes'].map(deserializeNode);
+  const specNodes = jsonTree['spec_nodes'].map(deserializeNode);
+  const classSize = convertNodePositions(classNodes);
+  const specSize = convertNodePositions(specNodes);
   const tree: TalentTree = {
     className: jsonTree['class_name'],
     specName: jsonTree['spec_name'],
-    classNodes: jsonTree['class_nodes'].map(deserializeNode),
-    specNodes: jsonTree['spec_nodes'].map(deserializeNode),
+    classNodes,
+    specNodes,
     pvpTalents: jsonTree['pvp_talents'].map(deserializePvpTalent),
+    classSize,
+    specSize,
   }
-
-  convertNodePositions(tree.classNodes, 620, 700);
-  convertNodePositions(tree.specNodes, 620, 700);
 
   return tree;
 }

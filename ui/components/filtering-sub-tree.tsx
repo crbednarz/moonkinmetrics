@@ -3,7 +3,9 @@ import { TalentNode } from '@/lib/talents';
 import { RatedLoadout } from '@/lib/pvp';
 import { minRankFilter, rankZeroFilter, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringTalentNode from './filtering-talent-node';
+import SubTreeConnectionSvg from './sub-tree-connection-svg'; 
 import styles from './filtering-sub-tree.module.scss';
+import {getNodeUsage} from '@/lib/usage';
 
 enum NodeFilterMode {
   Zero,
@@ -23,12 +25,16 @@ interface FilteringSubTreeViewProps {
   nodes: TalentNode[];
   loadouts: RatedLoadout[];
   onFiltersChange: (filters: LoadoutFilter[]) => void;
+  width: number,
+  height: number,
 };
 
 export default function FilteringSubTreeView({
   nodes,
   loadouts,
   onFiltersChange,
+  width,
+  height,
 }: FilteringSubTreeViewProps) {
 
   let [nodeFilters, setNodeFilters] = useState<NodeFilterMap>({});
@@ -46,21 +52,35 @@ export default function FilteringSubTreeView({
     setNodeFilters(nextNodeFilters);
   }
 
+  let usageMap = getNodeUsage(nodes, loadouts);
+
   return (
-    <div className={styles.tree}>
-      <div className={styles.innerTree}>
+    <div
+      className={styles.tree}
+      style={{
+        maxWidth: width + 20
+      }}
+    >
+      <SubTreeConnectionSvg
+        width={width}
+        height={height}
+        nodes={nodes}
+        usageMap={usageMap}
+      />
+      <div
+        className={styles.innerTree}
+        style={{
+          width,
+          height
+        }}
+      >
         {nodes.map(node => {
-          let usage: { [key: number]: number[] } = {};
-          usage = node.talents.reduce((usage, talent) => {
-            usage[talent.id] = getTalentUsage(talent.id, loadouts);
-            return usage;
-          }, usage);
           let minimumRank = getMinRank(nodeFilters[node.id]?.mode);
           return (
             <FilteringTalentNode
               key={node.id}
               node={node}
-              usage={usage}
+              usage={usageMap[node.id]}
               disabled={nodeFilters[node.id]?.mode == NodeFilterMode.Zero}
               selectedTalent={nodeFilters[node.id]?.selectedTalent}
               minimumRank={minimumRank}
@@ -85,16 +105,6 @@ function getMinRank(mode?: NodeFilterMode) {
       break;
   }
   return minimumRank;
-}
-
-function getTalentUsage(talentId: number, loadouts: RatedLoadout[]) {
-  const usageByRank = [0, 0, 0, 0];
-  for (let entry of loadouts) {
-    const rank = entry.talents[talentId] ?? 0;
-    usageByRank[rank]++;
-  }
-
-  return usageByRank;
 }
 
 function cycleFilter(nodeFilters: NodeFilterMap, node: TalentNode, talentId: number) {

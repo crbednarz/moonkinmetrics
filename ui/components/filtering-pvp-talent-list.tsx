@@ -4,6 +4,7 @@ import { RatedLoadout } from '@/lib/pvp';
 import { hasPvpTalent, missingPvpTalent, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringPvpTalent from './filtering-pvp-talent'
 import styles from './filtering-pvp-talent-list.module.scss';
+import {getPvpTalentUsage} from '@/lib/usage';
 
 enum FilterMode {
   MissingTalent,
@@ -43,11 +44,12 @@ export default function FilteringPvpTalentList({
     setTalentFilters(nextTalentFilters);
   }
 
+  const usageMap = getPvpTalentUsage(talents, loadouts);
+
   return (
     <div> 
       {talents.map(talent => {
-        let usage = getTalentUsage(talent.id, loadouts)
-
+        let usage = usageMap[talent.id];
 
         return (
           <FilteringPvpTalent

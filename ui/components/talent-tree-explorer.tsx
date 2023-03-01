@@ -27,11 +27,15 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
         nodes={tree.classNodes}
         onFiltersChange={filters => setClassFilters(filters) }
         loadouts={loadouts}
+        width={tree.classSize.width}
+        height={tree.classSize.height}
       />
       <FilteringSubTreeView
         nodes={tree.specNodes}
         onFiltersChange={filters => setSpecFilters(filters) }
         loadouts={loadouts}
+        width={tree.specSize.width}
+        height={tree.specSize.height}
       />
       <FilteringPvpTalentList
         talents={tree.pvpTalents}

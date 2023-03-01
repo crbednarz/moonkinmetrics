@@ -2,12 +2,12 @@ import click
 import dataclasses
 import json
 import os
+from itertools import chain
 from pathlib import Path
 
 from harvester.constants import SPEC_BY_CLASS
 
 from .bnet import Client
-from .constants import CLASS_SPECS
 from .media import get_spell_icon
 from .player import MissingPlayerError, PlayerLoadout, get_player_loadout
 from .pvp import get_pvp_leaderboard
@@ -53,15 +53,26 @@ def cli(ctx, output_path, client_id, client_secret):
 def ladder(ctx, ladder, min_shuffle_rating):
     client = ctx.obj['client']
     output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, ladder)
+    talent_trees = _collect_talent_trees(client)
     _create_dir(output_path)
 
     if ladder == 'shuffle':
-        for (class_name, spec_name) in CLASS_SPECS:
-            _collect_shuffle_leaderboard(client, class_name,
-                                         spec_name, output_path,
-                                         min_shuffle_rating)
+        for tree in talent_trees:
+            _collect_shuffle_leaderboard(
+                client,
+                tree.class_name,
+                tree.spec_name,
+                output_path,
+                tree,
+                min_shuffle_rating,
+            )
     else:
-        _collect_arena_leaderboard(client, ladder, output_path)
+        _collect_arena_leaderboard(
+            client,
+            ladder,
+            output_path,
+            talent_trees,
+        )
 
 
 @cli.command()
@@ -84,9 +95,14 @@ def talents(ctx):
         _save_talent_tree(tree, media, path)
 
 
-def _collect_shuffle_leaderboard(client: Client, class_name: str,
-                                 spec_name: str, output_path: str,
-                                 min_rating: int = 1800) -> None:
+def _collect_shuffle_leaderboard(
+    client: Client,
+    class_name: str,
+    spec_name: str,
+    output_path: str,
+    talent_tree: TalentTree,
+    min_rating: int = 1800,
+) -> None:
     print(("Collecting player talents for "
            f"Solo Shuffle {class_name} - {spec_name}..."))
 
@@ -113,7 +129,13 @@ def _collect_shuffle_leaderboard(client: Client, class_name: str,
         except RuntimeError:
             print("Error")
             continue
+        except KeyError:
+            print("Error")
+            continue
 
+        if not _validate_talents(loadout, talent_tree):
+            print(f"{player.full_name} failed talent validation.")
+            continue
         output.append(_rated_loadout_to_dict(loadout, rating))
 
     filename = _get_filename(class_name, spec_name)
@@ -124,9 +146,16 @@ def _collect_shuffle_leaderboard(client: Client, class_name: str,
         }, file, indent=2)
 
 
-def _collect_arena_leaderboard(client: Client,
-                               ladder: str,
-                               output_path: str) -> None:
+def _collect_arena_leaderboard(
+    client: Client,
+    ladder: str,
+    output_path: str,
+    talent_trees: list[TalentTree]
+) -> None:
+    tree_map = {}
+    for tree in talent_trees:
+        tree_map[(tree.class_name, tree.spec_name)] = tree
+
     print(f"Collecting player talents for {ladder}...")
     output = {}
     for class_name, specs in SPEC_BY_CLASS.items():
@@ -148,6 +177,11 @@ def _collect_arena_leaderboard(client: Client,
             continue
         except RuntimeError:
             print("Error")
+            continue
+
+        talent_tree = tree_map[(loadout.class_name, loadout.spec_name)]
+        if not _validate_talents(loadout, talent_tree):
+            print(f"{player.full_name} failed talent validation.")
             continue
 
         output[loadout.class_name][loadout.spec_name].append(
@@ -180,6 +214,23 @@ def _rated_loadout_to_dict(loadout: PlayerLoadout, rating: int) -> dict:
         ],
         'rating': rating,
     }
+
+
+def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
+    max_ranks = {}
+    for node in talent_tree.class_nodes:
+        max_ranks[node.id] = node.max_rank
+    for node in talent_tree.spec_nodes:
+        max_ranks[node.id] = node.max_rank
+
+    for node in chain(loadout.class_nodes, loadout.spec_nodes):
+        max_rank = max_ranks.get(node.node_id)
+        if max_rank is None:
+            return False
+        if node.rank > max_ranks[node.node_id]:
+            return False
+
+    return True
 
 
 def _collect_talent_trees(client: Client) -> list[TalentTree]:

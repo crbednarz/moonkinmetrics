@@ -6,7 +6,7 @@
 
 
   &.locked .talentGroup {
-    border: 2px solid rgb(120, 120, 255);
+    border: 2px solid rgb(255, 180, 50);
   }
 
 
@@ -37,11 +37,23 @@
   height: 100%;
   overflow: hidden;
   border: 1px solid black;
-  border-radius: 10px;
+  background: rgb(60, 60, 60);
 
   &:hover {
     border: 2px solid rgb(200, 200, 200);
   }
+}
+
+.active .talentGroup {
+  border-radius: 10px;
+}
+
+.passive .talentGroup {
+  border-radius: 28px;
+}
+
+.choice .talentGroup {
+  border-radius: 19px;
 }
 
 .usage {
@@ -71,6 +83,7 @@
   width: 100%;
   height: 100%;
   background-position: center;
+  background-size: cover;
 
   &.split {
     width: 50%;

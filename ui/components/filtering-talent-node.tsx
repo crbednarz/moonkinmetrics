@@ -1,9 +1,6 @@
 import styles from './filtering-talent-node.module.scss';
 import { TalentNode } from '../lib/talents'
-
-type UsageByRank = number[];
-
-type NodeUsage = { [key: number]: UsageByRank };
+import { NodeUsage } from '@/lib/usage';
 
 interface FilteringTalentNodeProps {
   node: TalentNode;
@@ -24,7 +21,7 @@ export default function FilteringTalentNode({
   onTalentSelect,
   onTalentDeselect,
 }: FilteringTalentNodeProps) {
-  let nodeClasses = styles.node;
+  let nodeClasses = `${styles.node} ${styles[node.nodeType.toLowerCase()]}`;
 
   if (disabled) {
     nodeClasses += ` ${styles.disabled}`;
@@ -34,22 +31,8 @@ export default function FilteringTalentNode({
     nodeClasses += ` ${styles.locked}`;
   }
 
-  let usageByRank: UsageByRank = [0, 0, 0, 0];
-  if (selectedTalent) {
-    usageByRank = usage[selectedTalent];
-  } else {
-    for (let talent of node.talents) {
-      for (let i in usageByRank) {
-        usageByRank[i] += usage[talent.id][i];
-      }
-    }
-  }
-
-  const total = usage[node.talents[0].id].reduce((sum, cur) => sum + cur);
-  const totalSelected = usageByRank[1] + usageByRank[2] + usageByRank[3];
-  const usageValue = totalSelected / total;
-  const usageText = `${Math.round(usageValue * 100)}%`;
-  const usageColor = `rgb(${(1.0 - usageValue)*255}, ${usageValue*255}, 0)`;
+  const usageText = `${Math.round(usage.percent * 100)}%`;
+  const usageColor = `rgb(${(1.0 - usage.percent)*255}, ${usage.percent*255}, 0)`;
 
   return (
     <div
@@ -69,8 +52,7 @@ export default function FilteringTalentNode({
       </div>
       <div className={styles.talentGroup}>
         {node.talents.map(talent => {
-          const usageByRank = usage[talent.id];
-          const total = usageByRank.reduce((sum, cur) => sum + cur);
+          const talentUsage = usage.talents[talent.id];
           let talentClasses = styles.talent;
           if (node.talents.length > 1) {
             talentClasses += ` ${styles.split}`;
@@ -82,10 +64,10 @@ export default function FilteringTalentNode({
           return (
             <a
               className={talentClasses}
-              data-wowhead={`"spell=${talent.spellId}"`}
+              data-wowhead={`spell=${talent.spellId}`}
               style={{
-                filter: `grayscale(${usageByRank[0] / total})`,
-                opacity: 0.5 + (1.0 - (usageByRank[0] / total)) * 0.5,
+                filter: `grayscale(${1.0 - talentUsage.percent})`,
+                opacity: 0.5 + talentUsage.percent * 0.5,
                 backgroundImage: `url(${talent.icon})`,
               }}
               key={talent.id}

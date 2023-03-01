@@ -1,9 +1,10 @@
 import styles from './filtering-talent-node.module.scss';
 import { PvpTalent } from '@/lib/talents'
+import { PvpTalentUsage } from '@/lib/usage';
 
 interface FilteringPvpTalentProps {
   talent: PvpTalent;
-  usage: number;
+  usage: PvpTalentUsage;
   disabled?: boolean;
   highlight?: boolean;
   onSelect: (talent: PvpTalent) => void;
@@ -18,8 +19,8 @@ export default function FilteringPvpTalent({
   onSelect,
   onDeselect,
 }: FilteringPvpTalentProps) {
-  const usageText = `${Math.round(usage * 100)}%`;
-  const usageColor = `rgb(${(1.0 - usage)*255}, ${usage*255}, 0)`;
+  const usageText = `${Math.round(usage.percent * 100)}%`;
+  const usageColor = `rgb(${(1.0 - usage.percent)*255}, ${usage.percent*255}, 0)`;
 
   let classes = `${styles.node} ${styles['pvp-talent']}`;
   if (disabled)
@@ -40,11 +41,11 @@ export default function FilteringPvpTalent({
       </div>
       <div className={styles.talentGroup}>
         <a
-          data-wowhead={`"spell=${talent.spellId}"`}
+          data-wowhead={`spell=${talent.spellId}`}
           className={styles.talent}
           style={{
-            filter: `grayscale(${1.0 - usage})`,
-            opacity: 0.5 + usage * 0.5,
+            filter: `grayscale(${1.0 - usage.percent})`,
+            opacity: 0.5 + usage.percent * 0.5,
             backgroundImage: `url(${talent.icon})`,
           }}
           key={talent.id}
