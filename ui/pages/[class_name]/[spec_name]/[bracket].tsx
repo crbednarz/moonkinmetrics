@@ -8,10 +8,12 @@ import Head from 'next/head';
 
 export default function Bracket({
   tree,
-  leaderboard
+  leaderboard,
+  bracket,
 }: {
   tree: TalentTree,
-  leaderboard: RatedLoadout[]
+  leaderboard: RatedLoadout[],
+  bracket: string,
 }) {
   return (
     <Layout className={tree.className.replace(' ', '-').toLowerCase()}>
@@ -22,6 +24,9 @@ export default function Bracket({
       </span>
       <span className="spec-name">
         &nbsp;{tree.specName}
+      </span>
+      <span className="bracket">
+        {bracket}
       </span>
       <br/>
       <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
@@ -52,13 +57,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const specName = (params!['spec_name'] as string).replace('-', ' ');
   const tree = getTalentTree(className, specName);
 
-  const bracket = (params!['bracket'] as string).toLowerCase();
-  const leaderboard = getLeaderboard(className, specName, bracket);
+  const bracket = params!['bracket'] as string;
+  const leaderboard = getLeaderboard(className, specName, bracket.toLowerCase());
 
   return {
     props: {
       tree,
       leaderboard,
+      bracket,
     }
   }
 }

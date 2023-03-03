@@ -69,6 +69,15 @@ export default function RatingGraph({
               strokeWidth={2}
               stroke="grey"
             />
+            {ratings.map((rating, i) => (
+              <circle
+                key={i}
+                cx={`${100 * (rating - min) / (max - min)}%`}
+                cy="50%"
+                r="5px"
+                fill="rgba(255, 255, 255, 0.2)"
+              />
+            ))}
           </svg>);
       })}
     </>

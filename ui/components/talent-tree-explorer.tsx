@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
+import { Button } from '@mantine/core';
+import styles from './talent-tree-explorer.module.scss';
 import FilteringSubTreeView from './filtering-sub-tree';
 import FilteringPvpTalentList from './filtering-pvp-talent-list';
 import RatingGraph from './rating-graph';
@@ -31,7 +33,7 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
   }
 
   return (
-    <>
+    <div className={styles.tree}>
       <h5>Viewing {loadouts.length} of {leaderboard.length} loadouts.</h5><br />
       <RatingGraph
         allRatings={leaderboard.map(entry => entry.rating)}
@@ -59,11 +61,11 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
         loadouts={loadouts}
         key={`pvp-${resetCount}`}
       />
-      <button
+      <Button
         onClick={reset}
       >
         Reset
-      </button>
-    </>
+      </Button>
+    </div>
   );
 }

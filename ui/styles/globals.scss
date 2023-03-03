@@ -84,6 +84,12 @@ span.spec-name {
   font-weight: bold;
 }
 
+span.bracket {
+  font-size: 3em;
+  font-weight: bold;
+  float: right;
+}
+
 @each $class, $color in $classColors {
   .#{$class} {
     .class-text {
