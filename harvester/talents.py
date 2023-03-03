@@ -6,7 +6,7 @@ from itertools import chain
 from typing import Generator
 
 from .bnet import Client
-from .constants import CLASS_SPECS, SPEC_NODE_IDS, CLASS_SPEC_BY_SPEC_ID
+from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
 
 
 @dataclass
@@ -218,7 +218,10 @@ def _get_pvp_talents(client: Client, class_name: str,
 
 def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
                                tree_index: _TalentTreesIndex) -> TalentTree:
-    node_ids = SPEC_NODE_IDS[class_name][spec_name]
+    game_nodes = {}
+    for game_node in INGAME_SPEC_NODES[class_name][spec_name]:
+        game_nodes[game_node['id']] = game_node
+
     tree_link = tree_index.get_class_link(class_name)
 
     class_nodes = []
@@ -233,8 +236,10 @@ def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
         else:
             tooltip = base_rank['tooltip']
 
-        if node.id not in node_ids:
+        if node.id not in game_nodes:
             continue
+
+        node.locked_by = game_nodes[node.id]['locked_by']
 
         url = tooltip['talent']['key']['href']
         talent_response = client.get_url(url)

@@ -37,7 +37,6 @@ function OutputBox_Show(text)
         sf:SetPoint("LEFT", 16, 0)
         sf:SetPoint("RIGHT", -32, 0)
         sf:SetPoint("TOP", 0, -32)
-        sf:SetPoint("BOTTOM", OutputBoxButton, "TOP", 0, 0)
         
         -- EditBox
         local eb = CreateFrame("EditBox", "OutputBoxEditBox", sf)
@@ -55,6 +54,7 @@ function OutputBox_Show(text)
         local rb = CreateFrame("Button", "OutputBoxResizeButton", f)
         rb:SetPoint("BOTTOMRIGHT", -6, 7)
         rb:SetSize(16, 16)
+        sf:SetPoint("BOTTOM", rb, "TOP", 0, 0)
         
         rb:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
         rb:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
@@ -84,16 +84,27 @@ local function NodeIDsCommand(msg, editbox)
     local configID = C_ClassTalents.GetActiveConfigID()
     local configInfo = C_Traits.GetConfigInfo(configID)
     local treeNodes = C_Traits.GetTreeNodes(configInfo.treeIDs[1])
-    local ids = {}
+    local nodes = {}
+
     for _, treeNodeID in ipairs(treeNodes) do
         local treeNode = C_Traits.GetNodeInfo(configID, treeNodeID);
         if treeNode.ID ~= 0 then
-            ids[#ids+1] = treeNode.ID
+            nodes[#nodes+1] = treeNode
         end
     end
+    local output = ""
+    for _, node in ipairs(nodes) do
+        nodeText = "{'id': " .. node.ID .. ", 'locked_by': ["
+        for _, edge in ipairs(node.visibleEdges) do
+            if edge.type == 2 or edge.type == 3 then
+                nodeText = nodeText .. edge.targetNode .. ", "
+            end
+        end
+        nodeText = nodeText .. "]},\n"
+        output = output .. nodeText
+    end
 
-
-    OutputBox_Show("[" .. table.concat(ids, ", ") .. "]")
+    OutputBox_Show(output)
 end
 
 SLASH_TALENT1 = '/nodes'
