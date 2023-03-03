@@ -4,6 +4,7 @@ import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringSubTreeView from './filtering-sub-tree';
 import FilteringPvpTalentList from './filtering-pvp-talent-list';
+import RatingGraph from './rating-graph';
 
 interface TalentTreeExplorerProps {
   tree: TalentTree;
@@ -23,6 +24,10 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
   return (
     <>
       <h5>Viewing {loadouts.length} of {leaderboard.length} loadouts.</h5><br />
+      <RatingGraph
+        allRatings={leaderboard.map(entry => entry.rating)}
+        filteredRatings={loadouts.map(entry => entry.rating)}
+      />
       <FilteringSubTreeView
         nodes={tree.classNodes}
         onFiltersChange={filters => setClassFilters(filters) }
