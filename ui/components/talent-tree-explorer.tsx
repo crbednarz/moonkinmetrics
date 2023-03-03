@@ -15,11 +15,20 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
   let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
   let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
   let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
+  let [resetCount, setResetCount] = useState<number>(0);
+
   const loadouts = filterRatedLoadouts(leaderboard, [
     ...classFilters,
     ...specFilters,
     ...pvpFilters,
   ]);
+
+  function reset() {
+    setResetCount(resetCount + 1);
+    setClassFilters([]);
+    setSpecFilters([]);
+    setPvpFilters([]);
+  }
 
   return (
     <>
@@ -34,6 +43,7 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
         loadouts={loadouts}
         width={tree.classSize.width}
         height={tree.classSize.height}
+        key={`class-${resetCount}`}
       />
       <FilteringSubTreeView
         nodes={tree.specNodes}
@@ -41,12 +51,19 @@ export default function TalentTreeExplorer({ tree, leaderboard }: TalentTreeExpl
         loadouts={loadouts}
         width={tree.specSize.width}
         height={tree.specSize.height}
+        key={`spec-${resetCount}`}
       />
       <FilteringPvpTalentList
         talents={tree.pvpTalents}
         onFiltersChange={filters => setPvpFilters(filters) }
         loadouts={loadouts}
+        key={`pvp-${resetCount}`}
       />
+      <button
+        onClick={reset}
+      >
+        Reset
+      </button>
     </>
   );
 }
