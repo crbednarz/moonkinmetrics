@@ -31,14 +31,6 @@ export default function FilteringPvpTalent({
 
   return (
     <div className={classes}>
-      <div
-        className={styles.usage}
-        style={{
-          color: usageColor
-        }}
-      >
-        <span>{usageText}</span>
-      </div>
       <div className={styles.talentGroup}>
         <a
           data-wowhead={`spell=${talent.spellId}`}
@@ -55,6 +47,14 @@ export default function FilteringPvpTalent({
             onDeselect(talent);
           }}
         />
+      </div>
+      <div
+        className={styles.usage}
+        style={{
+          color: usageColor
+        }}
+      >
+        <span>{usageText}</span>
       </div>
     </div>
   );

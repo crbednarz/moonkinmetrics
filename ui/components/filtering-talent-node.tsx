@@ -7,7 +7,7 @@ interface FilteringTalentNodeProps {
   usage: NodeUsage;
   disabled?: boolean;
   selectedTalent?: number;
-  minimumRank?: number;
+  minimumRank: number;
   onTalentSelect: (talentId: number) => void;
   onTalentDeselect: (talentId: number) => void;
 }
@@ -27,7 +27,7 @@ export default function FilteringTalentNode({
     nodeClasses += ` ${styles.disabled}`;
   }
 
-  if (minimumRank) {
+  if (minimumRank >= 1) {
     nodeClasses += ` ${styles.locked}`;
   }
 
@@ -42,14 +42,6 @@ export default function FilteringTalentNode({
         top: node.y,
       }}
     >
-      <div
-        className={styles.usage}
-        style={{
-          color: usageColor
-        }}
-      >
-        <span>{usageText}</span>
-      </div>
       <div className={styles.talentGroup}>
         {node.talents.map(talent => {
           const talentUsage = usage.talents[talent.id];
@@ -79,6 +71,19 @@ export default function FilteringTalentNode({
             />
           );
         })}
+      </div>
+      <div
+        className={styles.usage}
+        style={{
+          color: usageColor
+        }}
+      >
+        <span>{usageText}</span>
+      </div>
+      <div className={styles.rank}>
+        <span>
+          {minimumRank}/{node.maxRank}
+        </span>
       </div>
     </div>
   );

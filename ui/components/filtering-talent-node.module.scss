@@ -29,6 +29,11 @@
     position: relative;
     margin: 5px;
   }
+
+  &:hover .rank,&.locked .rank {
+    display: block;
+  }
+
 }
 
 .talentGroup {
@@ -56,26 +61,36 @@
   border-radius: 19px;
 }
 
-.usage {
+.usage, .rank {
   position: absolute;
   top: -10px;
   left: 0;
   right: 0;
   pointer-events: none;
-  z-index: 99;
   text-align: center;
   
   span {
     font-weight: bold;
     font-size: 0.7em;
-    border-radius: 5px;
     padding: 2px 5px;
     margin: 0;
     margin-top: -20px;
+    border-radius: 5px;
     background: rgb(70,70,70);
     border: 1px solid black;
   }
 }
+
+.rank {
+  display: none;
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  top: auto;
+  pointer-events: none;
+}
+
 
 .talent {
   display: block;
