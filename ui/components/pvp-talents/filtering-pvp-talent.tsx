@@ -1,4 +1,4 @@
-import styles from './filtering-talent-node.module.scss';
+import styles from '@/components/tree/filtering-talent-node.module.scss';
 import { PvpTalent } from '@/lib/talents'
 import { PvpTalentUsage } from '@/lib/usage';
 

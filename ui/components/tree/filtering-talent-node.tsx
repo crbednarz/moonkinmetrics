@@ -1,5 +1,5 @@
 import styles from './filtering-talent-node.module.scss';
-import { TalentNode } from '../lib/talents'
+import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
 
 interface FilteringTalentNodeProps {

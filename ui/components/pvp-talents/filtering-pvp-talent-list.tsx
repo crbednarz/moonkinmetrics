@@ -3,7 +3,6 @@ import { PvpTalent } from '@/lib/talents'
 import { RatedLoadout } from '@/lib/pvp';
 import { hasPvpTalent, missingPvpTalent, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringPvpTalent from './filtering-pvp-talent'
-import styles from './filtering-pvp-talent-list.module.scss';
 import {getPvpTalentUsage} from '@/lib/usage';
 
 enum FilterMode {

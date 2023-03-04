@@ -1,5 +1,5 @@
 import { TalentNode } from '@/lib/talents';
-import {NodeUsageMap} from '@/lib/usage';
+import { NodeUsageMap } from '@/lib/usage';
 
 interface Line {
   x1: number,

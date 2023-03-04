@@ -1,56 +1,3 @@
-$classColors: (
-  "death-knight": rgb(196, 30, 58),
-  "demon-hunter": rgb(163, 48, 201),
-  "druid": rgb(255, 124, 10),
-  "evoker": rgb(51, 147, 127),
-  "hunter": rgb(170, 211, 114),
-  "mage": rgb(63, 199, 235),
-  "monk": rgb(0, 255, 152),
-  "paladin": rgb(244, 140, 186),
-  "priest": rgb(255, 255, 255),
-  "rogue": rgb(255, 244, 104),
-  "shaman": rgb(0, 112, 221),
-  "warlock": rgb(135, 136, 238),
-  "warrior": rgb(198, 155, 109),
-);
-
-
-:root {
-  --max-width: 1100px;
-  --border-radius: 12px;
-  --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
-    'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
-    'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
-
-  --foreground-rgb: 255, 255, 255;
-  --background-rgb: 15, 15, 20;
-
-  --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-  --secondary-glow: linear-gradient(
-    to bottom right,
-    rgba(1, 65, 255, 0),
-    rgba(1, 65, 255, 0),
-    rgba(1, 65, 255, 0.3)
-  );
-
-  --tile-start-rgb: 2, 13, 46;
-  --tile-end-rgb: 2, 5, 19;
-  --tile-border: conic-gradient(
-    #ffffff80,
-    #ffffff40,
-    #ffffff30,
-    #ffffff20,
-    #ffffff10,
-    #ffffff10,
-    #ffffff80
-  );
-
-  --callout-rgb: 20, 20, 20;
-  --callout-border-rgb: 108, 108, 108;
-  --card-rgb: 100, 100, 100;
-  --card-border-rgb: 200, 200, 200;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -59,41 +6,9 @@ $classColors: (
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: 'Open Sans', sans-serif;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-span.class-name {
-  font-size: 3em;
-  font-weight: bold;
-}
-
-span.spec-name {
-  font-size: 3em;
-  font-weight: bold;
-}
-
-span.bracket {
-  font-size: 3em;
-  font-weight: bold;
-  float: right;
-}
-
-@each $class, $color in $classColors {
-  .#{$class} {
-    .class-text {
-      color: $color;
-    }
-  }
 }
