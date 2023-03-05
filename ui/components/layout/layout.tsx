@@ -59,7 +59,7 @@ export default function Layout({
         </Header>
       }
     >
-      <Container style={{padding: '0'}} size={rem(1100)}>
+      <Container style={{padding: '0'}} size={rem(1300)}>
         {children}
       </Container>
     </AppShell>

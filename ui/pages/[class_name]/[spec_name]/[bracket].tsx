@@ -1,13 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride } from '@mantine/core';
+import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
 import { getLeaderboard, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
-import InfoPanel from '@/components/info-panel/info-panel';
-import RatingGraph from '@/components/info-panel/rating-graph';
+import {useRouter} from 'next/router';
 
 const useStyles = createStyles(theme => ({
   title: {
@@ -15,10 +14,9 @@ const useStyles = createStyles(theme => ({
     flexWrap: 'wrap',
     '& > h1': {
       marginRight: rem(10),
-      '&:last-child': {
-        marginLeft: 'auto',
-        marginRight: 0,
-      },
+    },
+    '& > div:last-child': {
+      marginLeft: 'auto',
     },
     [`@media (max-width: ${theme.breakpoints.sm})`]: {
       justifyContent: 'left',
@@ -44,6 +42,7 @@ export default function Bracket({
     ...CLASS_COLORS,
   };
   const { classes } = useStyles();
+  const router = useRouter();
   return (
     <MantineProvider
       inherit
@@ -55,7 +54,23 @@ export default function Bracket({
         <Flex className={classes.title} justify="space-between">
           <Title>{tree.specName}</Title>
           <Title color="wow-class">{tree.className}</Title>
-          <Title>{bracket}</Title>
+        <Tabs
+          value={bracket as string}
+          onTabChange={value => {
+            router.push(`/${tree.className}/${tree.specName}/${value}`)
+          }}
+          variant="pills"
+        >
+          <Tabs.List sx={theme => ({
+            '& span': {
+              fontSize: rem(22),
+            }
+          })}>
+            <Tabs.Tab value="Shuffle">Solo Shuffle</Tabs.Tab>
+            <Tabs.Tab value="3v3">3v3</Tabs.Tab>
+            <Tabs.Tab value="2v2">2v2</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
         </Flex>
         <div>
           <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />

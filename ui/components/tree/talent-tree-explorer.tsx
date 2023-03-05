@@ -2,13 +2,11 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, Flex, Title, Text } from '@mantine/core';
-import styles from './talent-tree-explorer.module.scss';
-import FilteringSubTreeView from './filtering-sub-tree';
+import { Button, Flex, Stack, Tabs } from '@mantine/core';
+import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
-import RatingGraph from '../info-panel/rating-graph';
-import TalentsInfoPanel from '../info-panel/talents-info-panel';
+import RatingsPlot from '../info-panel/ratings-plot';
 
 interface TalentTreeExplorerProps {
   tree: TalentTree;
@@ -46,8 +44,8 @@ export default function TalentTreeExplorer({
         },
       })}
     >
-      <div className={styles.tree}>
-        <FilteringSubTreeView
+      <Stack>
+        <FilteringSubTree
           nodes={tree.classNodes}
           onFiltersChange={filters => setClassFilters(filters) }
           loadouts={loadouts}
@@ -55,7 +53,7 @@ export default function TalentTreeExplorer({
           height={tree.classSize.height}
           key={`class-${resetCount}`}
         />
-        <FilteringSubTreeView
+        <FilteringSubTree
           nodes={tree.specNodes}
           onFiltersChange={filters => setSpecFilters(filters) }
           loadouts={loadouts}
@@ -69,13 +67,14 @@ export default function TalentTreeExplorer({
           loadouts={loadouts}
           key={`pvp-${resetCount}`}
         />
-      </div>
-      <TalentsInfoPanel
-        allRatings={leaderboard.map(loadout => loadout.rating)}
-        filteredRatings={loadouts.map(loadout => loadout.rating)}
-      >
+      </Stack>
+      <InfoPanel>
+        <RatingsPlot
+          allRatings={leaderboard.map(loadout => loadout.rating)}
+          filteredRatings={loadouts.map(loadout => loadout.rating)}
+        />
         <Button onClick={reset}>Reset</Button>
-      </TalentsInfoPanel>
+      </InfoPanel>
     </Flex>
   );
 }

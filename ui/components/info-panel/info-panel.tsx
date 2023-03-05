@@ -1,4 +1,4 @@
-import { createStyles, getStylesRef, rem } from '@mantine/core';
+import { createStyles, getStylesRef, rem, Stack } from '@mantine/core';
 
 interface InfoPanelProps {
   children: React.ReactNode,
@@ -14,8 +14,6 @@ const useStyles = createStyles(theme => ({
     position: 'sticky',
     top: rem(7),
     height: rem(300),
-    padding: rem(10),
-    borderBottom: '1px solid rgba(200, 200, 200, 0.1)',
   }
 }));
 
@@ -26,7 +24,9 @@ export default function InfoPanel({
   return (
     <div className={classes.wrapper}>
       <div className={classes.innerWrapper}>
-        {children}
+        <Stack>
+          {children}
+        </Stack>
       </div>
     </div>
   );
