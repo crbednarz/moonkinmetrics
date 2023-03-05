@@ -1,10 +1,8 @@
 import { createStyles, getStylesRef, rem, Stack } from '@mantine/core';
 
-interface InfoPanelProps {
-  children: React.ReactNode,
-}
+type InfoPanelProps = React.PropsWithChildren<{}>;
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles(() => ({
   wrapper: {
     minWidth: rem(500),
     marginLeft: rem(20),

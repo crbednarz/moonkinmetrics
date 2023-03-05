@@ -49,7 +49,6 @@ export default function RatingGraph({
         strokeWidth={2}
         stroke="grey"
       />
-
       <rect
         x={`${100 * q[1]}%`}
         y="0%"

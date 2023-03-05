@@ -1,8 +1,6 @@
 
 export default function RatingRangeSlider() {
   return (
-    <div>
-
-    </div>
+    <RangeSlider defaultValue={[20, 80]} marks={marks} />
   );
 }
