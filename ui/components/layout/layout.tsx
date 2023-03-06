@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import {
   AppShell,
-  Container,
   rem,
   Header,
   MediaQuery,
@@ -9,7 +8,6 @@ import {
   Title,
   useMantineTheme,
   Flex,
-  Box,
 } from '@mantine/core';
 import SiteNavbar from './site-navbar';
 
@@ -35,7 +33,7 @@ export default function Layout({
       }
       sx={() => ({
         textAlign: 'center',
-        '& main > *': {
+        '& main > *,& nav > *': {
           textAlign: 'left',
         }
       })}

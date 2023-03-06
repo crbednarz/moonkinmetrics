@@ -1,5 +1,6 @@
 import {SPEC_BY_CLASS} from "@/lib/wow";
-import { Navbar } from "@mantine/core";
+import { MantineTheme, Navbar, NavLink } from "@mantine/core";
+import {useRouter} from "next/router";
 
 interface SiteNavbarProps {
   opened: boolean,
@@ -8,6 +9,8 @@ interface SiteNavbarProps {
 export default function SiteNavbar({
   opened,
 }: SiteNavbarProps) {
+  const router = useRouter();
+  const { class_name: classParam, spec_name: specParam, bracket } = router.query;
   
   return (
     <Navbar
@@ -17,16 +20,34 @@ export default function SiteNavbar({
       withBorder={false}
       hidden={!opened}
     >
-      {Object.keys(SPEC_BY_CLASS).map(wowClass => (
-        <Navbar.Section
-          key={wowClass}
-          sx={theme => ({
-            color: theme.colors[wowClass.toLowerCase().replace(' ', '-')]
-          })}
-        >
-          {wowClass}
-        </Navbar.Section>
-      ))}
+      <Navbar.Section>
+        {Object.keys(SPEC_BY_CLASS).map(wowClass => (
+          <NavLink
+            defaultOpened={classParam == wowClass}
+            key={wowClass}
+            label={wowClass}
+            sx={theme => ({
+              color: colorFromClass(wowClass, theme)
+            })}
+          >
+            {SPEC_BY_CLASS[wowClass].map(spec => (
+              <NavLink key={spec} label={spec}
+                active={classParam == wowClass && specParam == spec}
+                sx={theme => ({
+                  color: colorFromClass(wowClass, theme)
+                })}
+                onClick={() => {
+                  router.push(`/${wowClass}/${spec}/${bracket ?? 'Shuffle'}`.replace(' ', '-'));
+                }}
+              />
+            ))}
+            </NavLink>
+        ))}
+      </Navbar.Section>
     </Navbar>
   );
+}
+
+function colorFromClass(wowClass: string, theme: MantineTheme) {
+  return theme.colors[wowClass.toLowerCase().replace(' ', '-')];
 }

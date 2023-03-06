@@ -1,3 +1,4 @@
+import {lerp} from "./util";
 
 export const CLASS_COLORS: {[key: string]: string[]} = {
   "death-knight": createColors(196, 30, 58),
@@ -17,7 +18,9 @@ export const CLASS_COLORS: {[key: string]: string[]} = {
 
 function createColors(r: number, g: number, b: number) {
   let colors: string[] = [];
-  for (let i = 1; i <= 10; ++i)
-    colors.push(`rgb(${r}, ${g}, ${b})`);
+  for (let i = 1; i <= 10; i++) {
+    const delta = i / 10.0;
+    colors.push(`rgb(${lerp(255, r, delta)}, ${lerp(255, g, delta)}, ${lerp(255, b, delta)})`);
+  }
   return colors;
 }

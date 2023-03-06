@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Box, Button, createStyles, Flex, Grid, RangeSlider, rem, Stack, Tabs, Title } from '@mantine/core';
+import { Button, createStyles, Flex, RangeSlider, rem, Title } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';

@@ -47,7 +47,8 @@ export default function Bracket({
     <MantineProvider
       inherit
       theme={{
-        colors: extraColors
+        colors: extraColors,
+        primaryShade: 9,
       }}
     >
       <Layout>
