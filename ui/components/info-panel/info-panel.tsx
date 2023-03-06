@@ -11,7 +11,6 @@ const useStyles = createStyles(() => ({
   innerWrapper: {
     position: 'sticky',
     top: rem(7),
-    height: rem(300),
   }
 }));
 
