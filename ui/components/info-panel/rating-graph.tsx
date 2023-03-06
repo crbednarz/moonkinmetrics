@@ -71,7 +71,7 @@ export default function RatingGraph({
           key={i}
           cx={`${100 * (rating - min) / (max - min)}%`}
           cy="50%"
-          r="5px"
+          r="4px"
           fill="rgba(255, 255, 255, 0.05)"
         />
       ))}

@@ -12,10 +12,8 @@ export default function RatingsInfo({
 }: RatingsInfoProps) {
   return (
     <>
-      <Title order={3}>Filtering</Title>
-      <Text>Unfiltered Ratings</Text>
+      <Title order={4}>Unfiltered vs Filtered Ratings</Title>
       <RatingGraph ratings={allRatings}/>
-      <Text>Filtered Ratings</Text>
       <RatingGraph 
         ratings={filteredRatings}
         max={allRatings[0]}
