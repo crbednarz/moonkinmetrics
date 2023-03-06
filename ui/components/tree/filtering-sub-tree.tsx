@@ -55,12 +55,7 @@ export default function FilteringSubTreeView({
   let usageMap = getNodeUsage(nodes, loadouts);
 
   return (
-    <div
-      className={styles.tree}
-      style={{
-        maxWidth: width + 20
-      }}
-    >
+    <div className={styles.tree}>
       <SubTreeConnectionSvg
         width={width}
         height={height}

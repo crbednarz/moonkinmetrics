@@ -1,7 +1,7 @@
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { MantineProvider, MantineThemeColorsOverride } from '@mantine/core';
+import { em, MantineProvider, MantineThemeColorsOverride, rem } from '@mantine/core';
 import { CLASS_COLORS } from '@/lib/style-constants';
 
 export default function App(props: AppProps) {
@@ -23,6 +23,13 @@ export default function App(props: AppProps) {
           colorScheme: 'dark',
           colors: extraColors,
           fontFamily: "'Open Sans', sans-serif",
+          breakpoints: {
+            xs: em(320),
+            sm: em(775),
+            md: em(1225),
+            lg: em(1500),
+            xl: em(2250),
+          },
         }}
       >
         <Component {...pageProps} />

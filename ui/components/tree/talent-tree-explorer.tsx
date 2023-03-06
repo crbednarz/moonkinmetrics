@@ -2,11 +2,46 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, Flex, RangeSlider, Stack, Tabs, Title } from '@mantine/core';
+import { Box, Button, createStyles, Flex, Grid, RangeSlider, rem, Stack, Tabs, Title } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
 import RatingsPlot from '../info-panel/ratings-plot';
+
+const useStyles = createStyles(theme => ({
+  wrapper: {
+    display: 'inline-grid',
+    maxWidth: '100%',
+    gridTemplateColumns: '[content] min-content [side-bar] min-content',
+    gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
+    '& > *:first-child': {
+      minWidth: rem(400),
+      gridRow: 'top-bar / last-line',
+      gridColumn: 'side-bar',
+    },
+    minWidth: theme.breakpoints.md,
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      display: 'block',
+      minWidth: 'auto',
+      '& > *': {
+        gridColumn: 'content / end',
+
+      },
+      '& > *:first-child': {
+        gridRow: 'top-bar',
+        gridColumn: 'content / end',
+      },
+    },
+    gap: '10px',
+  },
+  trees: {
+    maxWidth: '100%',
+    gap: '10px',
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
+      flexWrap: 'wrap',
+    },
+  },
+}));
 
 interface TalentTreeExplorerProps {
   tree: TalentTree;
@@ -32,6 +67,7 @@ export default function TalentTreeExplorer({
     filters.push(ratingFilter);
   }
   const loadouts = filterRatedLoadouts(leaderboard, filters);
+  const { classes } = useStyles();
 
   function reset() {
     setResetCount(resetCount + 1);
@@ -53,15 +89,29 @@ export default function TalentTreeExplorer({
   });
 
   return (
-    <Flex
-      justify="center"
-      sx={theme => ({
-        [`@media (max-width: ${theme.breakpoints.sm})`]: {
-          display: 'block'
-        },
-      })}
-    >
-      <Stack>
+    <div className={classes.wrapper}>
+      <InfoPanel key={`info-${resetCount}`}>
+        <RatingsPlot
+          allRatings={leaderboard.map(loadout => loadout.rating)}
+          filteredRatings={loadouts.map(loadout => loadout.rating)}
+        />
+        <Title order={3}>Ratings Range:</Title>
+        <RangeSlider 
+          min={minRating}
+          max={maxRating}
+          defaultValue={[minRating, maxRating]}
+          onChange={value => {
+            setRatingFilter(() => (loadout: RatedLoadout) => {
+              return loadout.rating >= value[0] && loadout.rating <= value[1];
+            });
+          }}
+          labelAlwaysOn
+          marks={marks}
+          my={'1.5rem'}
+        />
+        <Button onClick={reset}>Reset</Button>
+      </InfoPanel>
+      <Flex className={classes.trees}>
         <FilteringSubTree
           nodes={tree.classNodes}
           onFiltersChange={filters => setClassFilters(filters) }
@@ -78,34 +128,13 @@ export default function TalentTreeExplorer({
           height={tree.specSize.height}
           key={`spec-${resetCount}`}
         />
-        <FilteringPvpTalentList
-          talents={tree.pvpTalents}
-          onFiltersChange={filters => setPvpFilters(filters) }
-          loadouts={loadouts}
-          key={`pvp-${resetCount}`}
-        />
-      </Stack>
-      <InfoPanel key={`info-${resetCount}`}>
-        <RatingsPlot
-          allRatings={leaderboard.map(loadout => loadout.rating)}
-          filteredRatings={loadouts.map(loadout => loadout.rating)}
-        />
-        <Title order={3}>Ratings Range:</Title>
-        <RangeSlider 
-          min={minRating}
-          max={maxRating}
-          defaultValue={[minRating, maxRating]}
-          onChangeEnd={value => {
-            setRatingFilter(() => (loadout: RatedLoadout) => {
-              return loadout.rating >= value[0] && loadout.rating <= value[1];
-            });
-          }}
-          labelAlwaysOn
-          marks={marks}
-          mb={'1rem'}
-        />
-        <Button onClick={reset}>Reset</Button>
-      </InfoPanel>
-    </Flex>
+      </Flex>
+      <FilteringPvpTalentList
+        talents={tree.pvpTalents}
+        onFiltersChange={filters => setPvpFilters(filters) }
+        loadouts={loadouts}
+        key={`pvp-${resetCount}`}
+      />
+    </div>
   );
 }

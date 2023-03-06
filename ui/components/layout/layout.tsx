@@ -9,6 +9,7 @@ import {
   Title,
   useMantineTheme,
   Flex,
+  Box,
 } from '@mantine/core';
 import SiteNavbar from './site-navbar';
 
@@ -23,7 +24,7 @@ export default function Layout({
   const [opened, setOpened] = useState(false);
   return (
     <AppShell
-      navbarOffsetBreakpoint="sm"
+      navbarOffsetBreakpoint="lg"
       className={className}
       fixed={false}
       padding={0}
@@ -32,13 +33,19 @@ export default function Layout({
           opened={opened}
         />
       }
+      sx={() => ({
+        textAlign: 'center',
+        '& main > *': {
+          textAlign: 'left',
+        }
+      })}
       header={
         <Header height={{ }} withBorder={false}>
           <Flex sx={() => ({
             alignItems: 'center',
             justifyContent: 'center',
             height: '100%',
-            [`@media (max-width: ${theme.breakpoints.sm})`]: {
+            [`@media (max-width: ${theme.breakpoints.lg})`]: {
               justifyContent: 'space-between',
               '& > *': {
                 'margin': rem(10),
@@ -46,7 +53,7 @@ export default function Layout({
             },
           })}>
             <Title>@ [APP NAME]</Title>
-            <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+            <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}
                 onClick={() => setOpened(o => !o)}
@@ -59,9 +66,7 @@ export default function Layout({
         </Header>
       }
     >
-      <Container style={{padding: '0'}} size={rem(1300)}>
-        {children}
-      </Container>
+      {children}
     </AppShell>
   );
 }

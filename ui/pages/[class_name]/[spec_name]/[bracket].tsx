@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs } from '@mantine/core';
+import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
@@ -18,7 +18,7 @@ const useStyles = createStyles(theme => ({
     '& > div:last-child': {
       marginLeft: 'auto',
     },
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
       justifyContent: 'left',
       '& > h1': {
         marginLeft: `${rem(10)} !important`,
@@ -51,30 +51,33 @@ export default function Bracket({
       }}
     >
       <Layout>
-        <Flex className={classes.title} justify="space-between">
-          <Title>{tree.specName}</Title>
-          <Title color="wow-class">{tree.className}</Title>
-        <Tabs
-          value={bracket as string}
-          onTabChange={value => {
-            router.push(`/${tree.className}/${tree.specName}/${value}`)
-          }}
-          variant="pills"
-        >
-          <Tabs.List sx={theme => ({
-            '& span': {
-              fontSize: rem(22),
-            }
-          })}>
-            <Tabs.Tab value="Shuffle">Solo Shuffle</Tabs.Tab>
-            <Tabs.Tab value="3v3">3v3</Tabs.Tab>
-            <Tabs.Tab value="2v2">2v2</Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
-        </Flex>
-        <div>
+        <Stack style={{display: 'inline-flex', maxWidth: '100%'}}>
+          <Flex className={classes.title} justify="space-between">
+            <Title>{tree.specName}</Title>
+            <Title color="wow-class">{tree.className}</Title>
+            <Tabs
+              value={bracket as string}
+              onTabChange={value => {
+                const classParam = router.query['class_name'];
+                const specParam = router.query['spec_name'];
+
+                router.push(`/${classParam}/${specParam}/${value}`)
+              }}
+              variant="pills"
+            >
+              <Tabs.List sx={() => ({
+                '& span': {
+                  fontSize: rem(22),
+                }
+              })}>
+                <Tabs.Tab value="Shuffle">Solo Shuffle</Tabs.Tab>
+                <Tabs.Tab value="3v3">3v3</Tabs.Tab>
+                <Tabs.Tab value="2v2">2v2</Tabs.Tab>
+              </Tabs.List>
+            </Tabs>
+          </Flex>
           <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
-        </div>
+        </Stack>
       </Layout>
     </MantineProvider>
   )

@@ -4,8 +4,8 @@ type InfoPanelProps = React.PropsWithChildren<{}>;
 
 const useStyles = createStyles(() => ({
   wrapper: {
-    minWidth: rem(500),
     marginLeft: rem(20),
+    marginRight: rem(20),
     height: 'auto',
   },
   innerWrapper: {

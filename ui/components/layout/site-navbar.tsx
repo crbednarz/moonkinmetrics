@@ -12,8 +12,8 @@ export default function SiteNavbar({
   return (
     <Navbar
       p="md"
-      hiddenBreakpoint="sm"
-      width={{ sm: 200, lg: 300 }}
+      hiddenBreakpoint="lg"
+      width={{ sm: 200, lg: 200 }}
       withBorder={false}
       hidden={!opened}
     >
