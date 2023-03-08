@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, RangeSlider, rem, Space, Title } from '@mantine/core';
+import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Text } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
@@ -91,13 +91,16 @@ export default function TalentTreeExplorer({
   return (
     <div className={classes.wrapper}>
       <InfoPanel key={`info-${resetCount}`}>
-        <Title order={2}>Visualize</Title>
+        <Title order={4}>Counts</Title>
+        <Text>Total Entries: {leaderboard.length}</Text>
+        <Text>Filtered Entries: {loadouts.length}</Text>
+
+        <Space h="xl"/>
         <RatingsPlot
           allRatings={leaderboard.map(loadout => loadout.rating)}
           filteredRatings={loadouts.map(loadout => loadout.rating)}
         />
-        <Space/>
-        <Title order={2}>Filter</Title>
+        <Space h="xl"/>
         <Title order={4}>Filter By Rating</Title>
         <RangeSlider 
           min={minRating}
