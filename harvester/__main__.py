@@ -121,7 +121,7 @@ def _collect_shuffle_leaderboard(
         print(f"Getting talents for {player.full_name}... ",
               end='')
         try:
-            loadout = get_player_loadout(client, player)
+            loadout = get_player_loadout(client, player, spec_name)
             print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
         except MissingPlayerError:
             print("Missing")
