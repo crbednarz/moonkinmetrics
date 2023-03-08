@@ -1,26 +1,19 @@
 import click
-import dataclasses
 import json
 import os
 from itertools import chain
 from pathlib import Path
 
-from harvester.constants import SPEC_BY_CLASS
-
 from .bnet import Client
 from .media import get_spell_icon
 from .player import MissingPlayerError, PlayerLoadout, get_player_loadout
 from .pvp import get_pvp_leaderboard
-from .talents import PvpTalent, TalentNode, TalentTree, get_talent_trees
+from .serializer import talent_tree_to_dict, rated_loadout_to_dict
+from .talents import TalentTree, get_talent_trees
 
 
 TALENTS_DIRECTORY = 'talents'
 PVP_DIRECTORY = 'pvp'
-
-NODE_FILTER = set([
-    91046,
-    91047,
-])
 
 
 @click.group()
@@ -45,19 +38,21 @@ def cli(ctx, output_path, client_id, client_secret):
 
 
 @cli.command()
-@click.argument('ladder',
+@click.argument('bracket',
                 type=click.Choice(['2v2', '3v3', 'shuffle']),
                 required=True)
 @click.option('-m', '--min-shuffle-rating', type=click.INT, default=1800)
 @click.pass_context
-def ladder(ctx, ladder, min_shuffle_rating):
+def ladder(ctx, bracket, min_shuffle_rating):
     client = ctx.obj['client']
-    output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, ladder)
-    talent_trees = _collect_talent_trees(client)
+    output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, bracket)
+    talent_trees = _fetch_talent_trees(client)
     _create_dir(output_path)
 
-    if ladder == 'shuffle':
+    if bracket == 'shuffle':
         for tree in talent_trees:
+            print(("Collecting player talents for "
+                   f"Solo Shuffle {tree.class_name} - {tree.spec_name}..."))
             _collect_shuffle_leaderboard(
                 client,
                 tree.class_name,
@@ -67,9 +62,10 @@ def ladder(ctx, ladder, min_shuffle_rating):
                 min_shuffle_rating,
             )
     else:
+        print(f"Collecting player talents for {bracket}...")
         _collect_arena_leaderboard(
             client,
-            ladder,
+            bracket,
             output_path,
             talent_trees,
         )
@@ -80,7 +76,7 @@ def ladder(ctx, ladder, min_shuffle_rating):
 def talents(ctx):
     client = ctx.obj['client']
     output_path = os.path.join(ctx.obj['output_path'], TALENTS_DIRECTORY)
-    talent_trees = _collect_talent_trees(client)
+    talent_trees = _fetch_talent_trees(client)
     _create_dir(output_path)
 
     for tree in talent_trees:
@@ -103,15 +99,11 @@ def _collect_shuffle_leaderboard(
     talent_tree: TalentTree,
     min_rating: int = 1800,
 ) -> None:
-    print(("Collecting player talents for "
-           f"Solo Shuffle {class_name} - {spec_name}..."))
+
+    bracket = _shuffle_bracket(class_name, spec_name)
 
     output = []
-    class_slug = class_name.lower().replace(' ', '')
-    spec_slug = spec_name.lower().replace(' ', '')
-    ladder = f'shuffle-{class_slug}-{spec_slug}'
-
-    for entry in get_pvp_leaderboard(client, ladder):
+    for entry in get_pvp_leaderboard(client, bracket):
         player = entry.player
         rating = entry.rating
 
@@ -136,7 +128,7 @@ def _collect_shuffle_leaderboard(
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
-        output.append(_rated_loadout_to_dict(loadout, rating))
+        output.append(rated_loadout_to_dict(loadout, rating))
 
     filename = _get_filename(class_name, spec_name)
     path = os.path.join(output_path, filename)
@@ -148,22 +140,17 @@ def _collect_shuffle_leaderboard(
 
 def _collect_arena_leaderboard(
     client: Client,
-    ladder: str,
+    bracket: str,
     output_path: str,
     talent_trees: list[TalentTree]
 ) -> None:
     tree_map = {}
+    output = {}
     for tree in talent_trees:
         tree_map[(tree.class_name, tree.spec_name)] = tree
+        output[(tree.class_name, tree.spec_name)] = []
 
-    print(f"Collecting player talents for {ladder}...")
-    output = {}
-    for class_name, specs in SPEC_BY_CLASS.items():
-        output[class_name] = {}
-        for spec_name in specs:
-            output[class_name][spec_name] = []
-
-    for entry in get_pvp_leaderboard(client, ladder):
+    for entry in get_pvp_leaderboard(client, bracket):
         player = entry.player
         rating = entry.rating
 
@@ -184,36 +171,26 @@ def _collect_arena_leaderboard(
             print(f"{player.full_name} failed talent validation.")
             continue
 
-        output[loadout.class_name][loadout.spec_name].append(
-            _rated_loadout_to_dict(loadout, rating)
+        output[(loadout.class_name, loadout.spec_name)].append(
+            rated_loadout_to_dict(loadout, rating)
         )
 
-    for class_name, specs in output.items():
-        for spec_name, entries in specs.items():
-            if len(entries) == 0:
-                continue
+    for (class_name, spec_name), entries in output.items():
+        if len(entries) == 0:
+            continue
 
-            filename = _get_filename(class_name, spec_name)
-            path = os.path.join(output_path, filename)
-            with open(path, 'w') as file:
-                json.dump({
-                    'entries': entries
-                }, file, indent=2)
+        filename = _get_filename(class_name, spec_name)
+        path = os.path.join(output_path, filename)
+        with open(path, 'w') as file:
+            json.dump({
+                'entries': entries
+            }, file, indent=2)
 
 
-def _rated_loadout_to_dict(loadout: PlayerLoadout, rating: int) -> dict:
-    return {
-        'class_nodes': [
-            dataclasses.asdict(node) for node in loadout.class_nodes
-        ],
-        'spec_nodes': [
-            dataclasses.asdict(node) for node in loadout.spec_nodes
-        ],
-        'pvp_talents': [
-            dataclasses.asdict(talent) for talent in loadout.pvp_talents
-        ],
-        'rating': rating,
-    }
+def _shuffle_bracket(class_name: str, spec_name: str) -> str:
+    class_slug = class_name.lower().replace(' ', '')
+    spec_slug = spec_name.lower().replace(' ', '')
+    return f'shuffle-{class_slug}-{spec_slug}'
 
 
 def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
@@ -233,7 +210,7 @@ def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     return True
 
 
-def _collect_talent_trees(client: Client) -> list[TalentTree]:
+def _fetch_talent_trees(client: Client) -> list[TalentTree]:
     print("Collecting talent trees...")
     talent_trees = []
     for tree in get_talent_trees(client):
@@ -242,47 +219,10 @@ def _collect_talent_trees(client: Client) -> list[TalentTree]:
     return talent_trees
 
 
-def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
-    return list(filter(
-        lambda node: (node.id not in NODE_FILTER),
-        nodes,
-    ))
-
-
 def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
                       path: str) -> None:
     with open(path, 'w') as file:
-        json.dump({
-            'class_name': tree.class_name,
-            'spec_name': tree.spec_name,
-            'class_nodes': _nodes_to_json(_filter_nodes(tree.class_nodes),
-                                          spell_media),
-            'spec_nodes': _nodes_to_json(_filter_nodes(tree.spec_nodes),
-                                         spell_media),
-            'pvp_talents': _pvp_talents_to_json(tree.pvp_talents, spell_media),
-        }, file, indent=2)
-
-
-def _nodes_to_json(nodes: list[TalentNode],
-                   spell_media: dict[int, str]) -> list[dict]:
-    output = []
-    for node in nodes:
-        node_dict = dataclasses.asdict(node)
-        for talent in node_dict['talents']:
-            talent['icon'] = spell_media[talent['spell']['id']]
-        output.append(node_dict)
-    return output
-
-
-def _pvp_talents_to_json(talents: list[PvpTalent],
-                         spell_media: dict[int, str]) -> list[dict]:
-    output = []
-    for talent in talents:
-        talent_dict = dataclasses.asdict(talent)
-        talent_dict['icon'] = spell_media[talent.spell.id]
-        output.append(talent_dict)
-
-    return output
+        json.dump(talent_tree_to_dict(tree, spell_media), file, indent=2)
 
 
 def _get_filename(class_name: str, spec_name: str) -> str:
