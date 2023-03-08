@@ -1,5 +1,5 @@
 import { Title, Text } from "@mantine/core";
-import RatingGraph from "./rating-graph";
+import dynamic from 'next/dynamic'
 
 interface RatingsInfoProps {
   allRatings: number[];
@@ -10,6 +10,9 @@ export default function RatingsInfo({
   allRatings,
   filteredRatings,
 }: RatingsInfoProps) {
+  const RatingGraph = dynamic(() => import('./rating-graph'), {
+    ssr: false,
+  });
   return (
     <>
       <Title order={4}>Unfiltered vs Filtered Ratings</Title>
