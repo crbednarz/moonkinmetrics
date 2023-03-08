@@ -91,7 +91,7 @@ export const CLASS_SPECS: ClassSpec[] = [
   new ClassSpec('Monk', 'Brewmaster'),
   new ClassSpec('Monk', 'Mistweaver'),
   new ClassSpec('Evoker', 'Preservation'),
-  new ClassSpec('Evoker', 'Devestation'),
+  new ClassSpec('Evoker', 'Devastation'),
   new ClassSpec('Death Knight', 'Frost'),
   new ClassSpec('Death Knight', 'Unholy'),
   new ClassSpec('Death Knight', 'Blood'),
