@@ -45,9 +45,11 @@ def cli(ctx, output_path, client_id, client_secret, cache_path):
 @click.argument('bracket',
                 type=click.Choice(['2v2', '3v3', 'shuffle']),
                 required=True)
-@click.option('-m', '--min-shuffle-rating', type=click.INT, default=1800)
+@click.option('-m', '--shuffle-min-rating', type=click.INT, default=1800)
+@click.option('--shuffle-class', type=click.STRING)
+@click.option('--shuffle-spec', type=click.STRING)
 @click.pass_context
-def ladder(ctx, bracket, min_shuffle_rating):
+def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
     client = ctx.obj['client']
     output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, bracket)
     talent_trees = _fetch_talent_trees(client)
@@ -57,6 +59,12 @@ def ladder(ctx, bracket, min_shuffle_rating):
     asyncio.set_event_loop(loop)
     if bracket == 'shuffle':
         for tree in talent_trees:
+            if shuffle_class and tree.class_name.lower() != shuffle_class.lower():
+                continue
+
+            if shuffle_spec and tree.spec_name.lower() != shuffle_spec.lower():
+                continue
+
             print(("Collecting player talents for "
                    f"Solo Shuffle {tree.class_name} - {tree.spec_name}..."))
             loop.run_until_complete(_collect_shuffle_leaderboard(
@@ -65,7 +73,7 @@ def ladder(ctx, bracket, min_shuffle_rating):
                 tree.spec_name,
                 output_path,
                 tree,
-                min_shuffle_rating,
+                shuffle_min_rating,
             ))
     else:
         print(f"Collecting player talents for {bracket}...")
