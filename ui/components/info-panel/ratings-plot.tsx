@@ -6,13 +6,14 @@ interface RatingsInfoProps {
   filteredRatings: number[];
 }
 
+const RatingGraph = dynamic(() => import('./rating-graph'), {
+  ssr: false,
+});
+
 export default function RatingsInfo({
   allRatings,
   filteredRatings,
 }: RatingsInfoProps) {
-  const RatingGraph = dynamic(() => import('./rating-graph'), {
-    ssr: false,
-  });
   return (
     <>
       <Title order={4}>Unfiltered vs Filtered Ratings</Title>
