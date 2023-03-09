@@ -10,7 +10,9 @@ export default function SiteNavbar({
   opened,
 }: SiteNavbarProps) {
   const router = useRouter();
-  const { class_name: classParam, spec_name: specParam, bracket } = router.query;
+  const classParam: string = router.query.class_name as string;
+  const specParam: string = router.query.spec_name as string;
+  const bracket: string = router.query.bracket as string;
   
   return (
     <Navbar
@@ -23,7 +25,7 @@ export default function SiteNavbar({
       <Navbar.Section>
         {Object.keys(SPEC_BY_CLASS).map(wowClass => (
           <NavLink
-            defaultOpened={classParam == wowClass}
+            defaultOpened={isParamMatch(wowClass, classParam)}
             key={wowClass}
             label={wowClass}
             sx={theme => ({
@@ -32,7 +34,7 @@ export default function SiteNavbar({
           >
             {SPEC_BY_CLASS[wowClass].map(spec => (
               <NavLink key={spec} label={spec}
-                active={classParam == wowClass && specParam == spec}
+                active={isParamMatch(wowClass, classParam) && isParamMatch(spec, specParam)}
                 sx={theme => ({
                   color: colorFromClass(wowClass, theme)
                 })}
@@ -50,4 +52,8 @@ export default function SiteNavbar({
 
 function colorFromClass(wowClass: string, theme: MantineTheme) {
   return theme.colors[wowClass.toLowerCase().replace(' ', '-')];
+}
+
+function isParamMatch(name: string, param: string) {
+  return name.toLowerCase().replace(' ', '-') == param.toLowerCase();
 }
