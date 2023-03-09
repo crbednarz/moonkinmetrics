@@ -152,5 +152,5 @@ class Client:
                     yield response_json, status, context
 
                 time_elapsed = time.monotonic() - start_time
-                if time_elapsed < 1.2:
-                    time.sleep(1.2 - time_elapsed)
+                if time_elapsed < 2.0:
+                    time.sleep(2.0 - time_elapsed)
