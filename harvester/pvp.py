@@ -1,13 +1,20 @@
 from dataclasses import dataclass
+from typing import Generator
 
 from .bnet import Client
 from .constants import CURRENT_PVP_SEASON
-from .player import PlayerLink
+from .player import PlayerLink, PlayerLoadout, get_player_loadout
 
 
 @dataclass
 class LeaderboardEntry:
     player: PlayerLink
+    rating: int
+
+
+@dataclass
+class RatedLoadout:
+    loadout: PlayerLoadout
     rating: int
 
 

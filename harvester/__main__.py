@@ -1,3 +1,4 @@
+import asyncio
 import click
 import json
 import os
@@ -6,7 +7,8 @@ from pathlib import Path
 
 from .bnet import Client
 from .media import get_spell_icon
-from .player import MissingPlayerError, PlayerLoadout, get_player_loadout
+from .player import (LoadoutRequestStatus, MissingPlayerError, PlayerLoadout,
+                     get_player_loadout, get_player_loadouts)
 from .pvp import get_pvp_leaderboard
 from .serializer import talent_tree_to_dict, rated_loadout_to_dict
 from .talents import TalentTree, get_talent_trees
@@ -24,11 +26,13 @@ PVP_DIRECTORY = 'pvp'
               default=lambda: os.environ.get("WOW_CLIENT_ID", ""))
 @click.option("--client-secret", "client_secret",
               default=lambda: os.environ.get("WOW_CLIENT_SECRET", ""))
+@click.option("--cache-path", "cache_path", default=".cache")
 @click.pass_context
-def cli(ctx, output_path, client_id, client_secret):
+def cli(ctx, output_path, client_id, client_secret, cache_path):
     client = Client(
         client_id,
         client_secret,
+        cache_path=cache_path,
     )
 
     ctx.obj = {
@@ -49,18 +53,20 @@ def ladder(ctx, bracket, min_shuffle_rating):
     talent_trees = _fetch_talent_trees(client)
     _create_dir(output_path)
 
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     if bracket == 'shuffle':
         for tree in talent_trees:
             print(("Collecting player talents for "
                    f"Solo Shuffle {tree.class_name} - {tree.spec_name}..."))
-            _collect_shuffle_leaderboard(
+            loop.run_until_complete(_collect_shuffle_leaderboard(
                 client,
                 tree.class_name,
                 tree.spec_name,
                 output_path,
                 tree,
                 min_shuffle_rating,
-            )
+            ))
     else:
         print(f"Collecting player talents for {bracket}...")
         _collect_arena_leaderboard(
@@ -91,7 +97,7 @@ def talents(ctx):
         _save_talent_tree(tree, media, path)
 
 
-def _collect_shuffle_leaderboard(
+async def _collect_shuffle_leaderboard(
     client: Client,
     class_name: str,
     spec_name: str,
@@ -99,42 +105,37 @@ def _collect_shuffle_leaderboard(
     talent_tree: TalentTree,
     min_rating: int = 1800,
 ) -> None:
-
     bracket = _shuffle_bracket(class_name, spec_name)
-
-    output = []
+    scan_targets = []
     for entry in get_pvp_leaderboard(client, bracket):
-        player = entry.player
-        rating = entry.rating
-
-        if rating < min_rating:
+        if entry.rating < min_rating:
             break
+        scan_targets.append((entry.player, entry.rating))
 
-        print(f"Getting talents for {player.full_name}... ",
-              end='')
-        try:
-            loadout = get_player_loadout(client, player, spec_name)
-            print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
-        except MissingPlayerError:
-            print("Missing")
+    rated_loadouts = []
+    async for result in get_player_loadouts(client, scan_targets, spec_name):
+        loadout, player, rating, status = result
+        print(f"Requested talents for {player.full_name}... ", end='')
+        if status != LoadoutRequestStatus.SUCCESS or loadout is None:
+            print("Failed")
             continue
-        except RuntimeError:
-            print("Error")
-            continue
-        except KeyError:
-            print("Error")
-            continue
+
+        print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
 
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
-        output.append(rated_loadout_to_dict(loadout, rating))
+        rated_loadouts.append((loadout, rating))
+
+    rated_loadouts.sort(key=lambda entry: entry[1], reverse=True)
 
     filename = _get_filename(class_name, spec_name)
     path = os.path.join(output_path, filename)
     with open(path, 'w') as file:
         json.dump({
-            'entries': output
+            'entries': [
+                rated_loadout_to_dict(loadout, rating)
+            ] for loadout, rating in rated_loadouts
         }, file, indent=2)
 
 

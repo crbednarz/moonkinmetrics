@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from enum import Enum
+from typing import AsyncGenerator, TypeVar
 
 from .bnet import Client
 from .constants import CLASS_SPEC_BY_SPEC_ID
@@ -17,6 +19,10 @@ class PlayerLink:
     def specialization_resource(self) -> str:
         return (f"/profile/wow/character/"
                 f"{self.realm_slug}/{self.name.lower()}/specializations")
+
+    @property
+    def specialization_url(self) -> str:
+        return f"https://us.api.blizzard.com{self.specialization_resource}"
 
     @property
     def profile_resource(self) -> str:
@@ -51,6 +57,52 @@ class MissingPlayerError(Exception):
         super().__init__(f"Cannot find {player.full_name}")
 
 
+class LoadoutRequestStatus(Enum):
+    SUCCESS = 1
+    MISSING_PLAYER = 2
+    ERROR = 3
+
+
+T = TypeVar('T')
+
+
+async def get_player_loadouts(
+    client: Client,
+    players_with_context: list[tuple[PlayerLink, T]],
+    override_spec: str | None = None
+) -> AsyncGenerator[
+    tuple[PlayerLoadout | None, PlayerLink, T, LoadoutRequestStatus],
+    None,
+]:
+    urls_with_context = [
+        (
+            player.specialization_url,
+            (player, context)
+        ) for player, context in players_with_context
+    ]
+
+    async for result in client.get_urls(urls_with_context, "profile-us"):
+        response, status, (player, context) = result
+        if status != 200:
+            yield None, player, context, LoadoutRequestStatus.MISSING_PLAYER
+            continue
+
+        spec_id = response['active_specialization']['id']
+        (class_name, spec_name) = CLASS_SPEC_BY_SPEC_ID[spec_id]
+        if override_spec is not None:
+            spec_name = override_spec
+
+        try:
+            json_loadout = _get_active_loadout(player, spec_name, response)
+        except (RuntimeError, KeyError):
+            yield None, player, context, LoadoutRequestStatus.ERROR
+            continue
+
+        loadout = _deserialize_json_loadout(json_loadout, class_name,
+                                            spec_name)
+        yield loadout, player, context, LoadoutRequestStatus.SUCCESS
+
+
 def get_player_loadout(client: Client, player: PlayerLink,
                        override_spec: str | None = None) -> PlayerLoadout:
     try:
@@ -62,7 +114,11 @@ def get_player_loadout(client: Client, player: PlayerLink,
     if override_spec is not None:
         spec_name = override_spec
     json_loadout = _get_active_loadout(player, spec_name, response)
+    return _deserialize_json_loadout(json_loadout, class_name, spec_name)
 
+
+def _deserialize_json_loadout(json_loadout: dict, class_name: str,
+                              spec_name: str) -> PlayerLoadout:
     class_nodes = []
     for raw_node in json_loadout['selected_class_talents']:
         class_nodes.append(LoadoutNode(

@@ -1,11 +1,19 @@
+import asyncio
 import json
 import os
-import grequests
 import requests
+import sys
+import time
 
+from aiohttp import ClientSession, TCPConnector
 from pathlib import Path
 from urllib.parse import urlparse
-from typing import Any
+from typing import Any, AsyncGenerator, TypeVar
+
+from .util import batched
+
+
+T = TypeVar('T')
 
 
 class _ApiCache:
@@ -49,9 +57,7 @@ class Client:
         response = requests.post(
             "https://oauth.battle.net/token",
             auth=(client_id, client_secret),
-            data={
-                "grant_type": "client_credentials",
-            },
+            data={"grant_type": "client_credentials"},
         )
         if response.status_code != 200:
             raise RuntimeError("Failed to authorize.")
@@ -104,3 +110,47 @@ class Client:
         self._cache.put(url, response_json)
 
         return response_json
+
+    async def get_urls(
+        self,
+        urls_with_context: list[tuple[str, T]],
+        namespace: str = "static-us",
+    ) -> AsyncGenerator[tuple[dict, int, T], None]:
+        async def fetch(url: str, session: ClientSession, context: T):
+            async with session.get(
+                url,
+                headers=self.headers,
+                params={
+                    'namespace': namespace,
+                    'locale': 'en_US',
+                }
+            ) as response:
+                json = None
+                if response.status == 429:
+                    print("Rate limited. Exiting early.")
+                    sys.exit(1)
+
+                if response.status == 200:
+                    json = await response.json()
+                return json, response.status, url, context
+
+        connector = TCPConnector(limit_per_host=100)
+
+        await asyncio.sleep(1)
+        async with ClientSession(connector=connector) as session:
+            for urls in batched(urls_with_context, 100):
+                start_time = 0
+                tasks = []
+                for url, context in urls:
+                    task = asyncio.create_task(fetch(url, session, context))
+                    tasks.append(task)
+
+                for task in asyncio.as_completed(tasks):
+                    response_json, status, url, context = await task
+                    if start_time == 0:
+                        start_time = time.monotonic()
+                    yield response_json, status, context
+
+                time_elapsed = time.monotonic() - start_time
+                if time_elapsed < 1.2:
+                    time.sleep(1.2 - time_elapsed)
