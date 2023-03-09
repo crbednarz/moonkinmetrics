@@ -22,7 +22,7 @@ export default class _Document extends Document {
         <script id="configure-tooltips">
           {`const whTooltips = {colorLinks: false, iconizeLinks: false, renameLinks: false};`}
         </script>
-        <script src="https://wow.zamimg.com/js/tooltips.js" />
+        <script src="https://wow.zamimg.com/js/tooltips.js" async />
       </Head>
       <body>
         <Main />
