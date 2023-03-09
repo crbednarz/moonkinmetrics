@@ -1,12 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
-import { CLASS_COLORS } from '@/lib/style-constants';
+import { CLASS_COLORS, createThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { getLeaderboard, RatedLoadout } from '@/lib/pvp'
+import { decodeLoadouts, encodeLoadouts, getLeaderboard, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
+import {useMemo} from 'react';
 
 const useStyles = createStyles(theme => ({
   title: {
@@ -29,18 +30,27 @@ const useStyles = createStyles(theme => ({
 
 export default function Bracket({
   tree,
-  leaderboard,
+  encodedLeaderboard,
   bracket,
 }: {
   tree: TalentTree,
-  leaderboard: RatedLoadout[],
+  encodedLeaderboard: string[],
   bracket: string,
 }) {
+  const leaderboard = useMemo<RatedLoadout[]>(() => {
+    return decodeLoadouts(encodedLeaderboard, tree);
+  }, [encodedLeaderboard, tree]);
+
   const classSlug = tree.className.toLowerCase().replace(' ', '-');
+  const classColors: {[key: string]: string[]} = {};
+  for (let key in CLASS_COLORS) {
+    classColors[key] = createThemeColors(CLASS_COLORS[key]);
+  }
   const extraColors: MantineThemeColorsOverride = {
-    'wow-class': CLASS_COLORS[classSlug],
-    ...CLASS_COLORS,
+    ...classColors,
+    'wow-class': createThemeColors(CLASS_COLORS[classSlug]),
   };
+
   const { classes } = useStyles();
   const router = useRouter();
   return (
@@ -110,10 +120,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const bracket = params!['bracket'] as string;
   const leaderboard = getLeaderboard(className, specName, bracket.toLowerCase());
 
+  const encodedLeaderboard = encodeLoadouts(leaderboard, tree)
+
   return {
     props: {
       tree,
-      leaderboard,
+      encodedLeaderboard,
       bracket,
     }
   }
