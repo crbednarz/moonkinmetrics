@@ -115,6 +115,7 @@ class Client:
         self,
         urls_with_context: list[tuple[str, T]],
         namespace: str = "static-us",
+        force: bool = False,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
         async def fetch(url: str, session: ClientSession, context: T):
             async with session.get(
@@ -132,13 +133,26 @@ class Client:
 
                 if response.status == 200:
                     json = await response.json()
+                    self._cache.put(url, json)
                 return json, response.status, url, context
 
-        connector = TCPConnector(limit_per_host=100)
+        uncached_urls_with_context = []
+        for url, context in urls_with_context:
+            response_json = None
+            if not force:
+                response_json = self._cache.get(url)
 
+            if response_json is None:
+                uncached_urls_with_context.append((url, context))
+            else:
+                yield response_json, 200, context
+
+        connector = TCPConnector(limit_per_host=100)
+        if len(uncached_urls_with_context) == 0:
+            return
         await asyncio.sleep(1)
         async with ClientSession(connector=connector) as session:
-            for urls in batched(urls_with_context, 100):
+            for urls in batched(uncached_urls_with_context, 100):
                 start_time = 0
                 tasks = []
                 for url, context in urls:
@@ -149,6 +163,7 @@ class Client:
                     response_json, status, url, context = await task
                     if start_time == 0:
                         start_time = time.monotonic()
+
                     yield response_json, status, context
 
                 time_elapsed = time.monotonic() - start_time

@@ -3,7 +3,7 @@ import re
 
 from dataclasses import dataclass
 from itertools import chain
-from typing import Generator
+from typing import AsyncGenerator, Generator
 
 from .bnet import Client
 from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
@@ -124,7 +124,7 @@ class _SpecTalentTreeLink:
         self.spec_name = spec_name
 
 
-def get_talent_trees(client: Client) -> Generator[TalentTree, None, None]:
+async def get_talent_trees(client: Client) -> AsyncGenerator[TalentTree, None]:
     trees_index = _get_talent_tree_index(client)
 
     specs_remaining = CLASS_SPECS.copy()
@@ -134,12 +134,12 @@ def get_talent_trees(client: Client) -> Generator[TalentTree, None, None]:
         if (class_name, tree_link.spec_name) not in specs_remaining:
             continue
         specs_remaining.remove((class_name, tree_link.spec_name))
-        yield _get_tree_for_spec(client, class_name, tree_link)
+        yield await _get_tree_for_spec(client, class_name, tree_link)
 
     for class_name, spec_name in specs_remaining:
         tree_link = trees_index.get_class_link(class_name)
-        yield _get_tree_for_missing_spec(client, class_name, spec_name,
-                                         trees_index)
+        yield await _get_tree_for_missing_spec(client, class_name, spec_name,
+                                               trees_index)
 
 
 def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: str) -> str:
@@ -168,8 +168,8 @@ def _get_talent_tree_index(client: Client) -> _TalentTreesIndex:
     return _TalentTreesIndex(class_links, spec_links)
 
 
-def _get_tree_for_spec(client: Client, class_name: str,
-                       tree_link: _SpecTalentTreeLink) -> TalentTree:
+async def _get_tree_for_spec(client: Client, class_name: str,
+                             tree_link: _SpecTalentTreeLink) -> TalentTree:
     response = client.get_url(tree_link.url)
 
     class_nodes = []
@@ -185,17 +185,23 @@ def _get_tree_for_spec(client: Client, class_name: str,
         tree_link.spec_name,
         class_nodes,
         spec_nodes,
-        _get_pvp_talents(client, class_name, tree_link.spec_name)
+        await _get_pvp_talents(client, class_name, tree_link.spec_name)
     )
 
 
-def _get_pvp_talents(client: Client, class_name: str,
-                     spec_name: str) -> list[PvpTalent]:
+async def _get_pvp_talents(client: Client, class_name: str,
+                           spec_name: str) -> list[PvpTalent]:
     index = client.get_static_resource('/data/wow/pvp-talent/index')
     talents = []
-    for entry in index['pvp_talents']:
-        response = client.get_url(entry['key']['href'])
 
+    urls_with_context = [
+        (entry['key']['href'], entry) for entry in index['pvp_talents']
+    ]
+
+    async for response, status, entry in client.get_urls(urls_with_context):
+        if status != 200:
+            raise RuntimeError(f"Unable to get pvp talent {entry['id']}: "
+                               f"{status}")
         if response['playable_specialization']['name'] != spec_name:
             continue
 
@@ -216,8 +222,11 @@ def _get_pvp_talents(client: Client, class_name: str,
     return talents
 
 
-def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
-                               tree_index: _TalentTreesIndex) -> TalentTree:
+async def _get_tree_for_missing_spec(
+    client: Client,
+    class_name: str, spec_name: str,
+    tree_index: _TalentTreesIndex
+) -> TalentTree:
     game_nodes = {}
     for game_node in INGAME_SPEC_NODES[class_name][spec_name]:
         game_nodes[game_node['id']] = game_node
@@ -253,5 +262,5 @@ def _get_tree_for_missing_spec(client: Client, class_name: str, spec_name: str,
         spec_name,
         class_nodes,
         spec_nodes,
-        _get_pvp_talents(client, class_name, spec_name)
+        await _get_pvp_talents(client, class_name, spec_name)
     )

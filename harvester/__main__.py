@@ -51,18 +51,21 @@ def cli(ctx, output_path, client_id, client_secret, cache_path):
 @click.pass_context
 def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
     client = ctx.obj['client']
-    output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, bracket)
-    talent_trees = _fetch_talent_trees(client)
-    _create_dir(output_path)
-
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
+
+    output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, bracket)
+    talent_trees = loop.run_until_complete(_fetch_talent_trees(client))
+    _create_dir(output_path)
+
     if bracket == 'shuffle':
         for tree in talent_trees:
-            if shuffle_class and tree.class_name.lower() != shuffle_class.lower():
+            if (shuffle_class and
+                    tree.class_name.lower() != shuffle_class.lower()):
                 continue
 
-            if shuffle_spec and tree.spec_name.lower() != shuffle_spec.lower():
+            if (shuffle_spec and
+                    tree.spec_name.lower() != shuffle_spec.lower()):
                 continue
 
             print(("Collecting player talents for "
@@ -77,20 +80,23 @@ def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
             ))
     else:
         print(f"Collecting player talents for {bracket}...")
-        _collect_arena_leaderboard(
+        loop.run_until_complete(_collect_arena_leaderboard(
             client,
             bracket,
             output_path,
             talent_trees,
-        )
+        ))
 
 
 @cli.command()
 @click.pass_context
 def talents(ctx):
     client = ctx.obj['client']
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
     output_path = os.path.join(ctx.obj['output_path'], TALENTS_DIRECTORY)
-    talent_trees = _fetch_talent_trees(client)
+    talent_trees = loop.run_until_complete(_fetch_talent_trees(client))
     _create_dir(output_path)
 
     for tree in talent_trees:
@@ -139,15 +145,17 @@ async def _collect_shuffle_leaderboard(
 
     filename = _get_filename(class_name, spec_name)
     path = os.path.join(output_path, filename)
+    click.echo(f"Writing to path: {path}")
     with open(path, 'w') as file:
         json.dump({
             'entries': [
                 rated_loadout_to_dict(loadout, rating)
-            ] for loadout, rating in rated_loadouts
+                for loadout, rating in rated_loadouts
+            ]
         }, file, indent=2)
 
 
-def _collect_arena_leaderboard(
+async def _collect_arena_leaderboard(
     client: Client,
     bracket: str,
     output_path: str,
@@ -159,21 +167,18 @@ def _collect_arena_leaderboard(
         tree_map[(tree.class_name, tree.spec_name)] = tree
         output[(tree.class_name, tree.spec_name)] = []
 
+    scan_targets = []
     for entry in get_pvp_leaderboard(client, bracket):
-        player = entry.player
-        rating = entry.rating
+        scan_targets.append((entry.player, entry.rating))
 
-        print(f"Getting talents for {player.full_name}... ",
-              end='')
-        try:
-            loadout = get_player_loadout(client, player)
-            print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
-        except MissingPlayerError:
-            print("Missing")
+    async for result in get_player_loadouts(client, scan_targets):
+        loadout, player, rating, status = result
+        print(f"Requested talents for {player.full_name}... ", end='')
+        if status != LoadoutRequestStatus.SUCCESS or loadout is None:
+            print("Failed")
             continue
-        except RuntimeError:
-            print("Error")
-            continue
+
+        print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
 
         talent_tree = tree_map[(loadout.class_name, loadout.spec_name)]
         if not _validate_talents(loadout, talent_tree):
@@ -181,18 +186,22 @@ def _collect_arena_leaderboard(
             continue
 
         output[(loadout.class_name, loadout.spec_name)].append(
-            rated_loadout_to_dict(loadout, rating)
-        )
+            (loadout, rating))
 
     for (class_name, spec_name), entries in output.items():
         if len(entries) == 0:
             continue
+        entries.sort(key=lambda entry: entry[1], reverse=True)
 
         filename = _get_filename(class_name, spec_name)
         path = os.path.join(output_path, filename)
+        click.echo(f"Writing to path: {path}")
         with open(path, 'w') as file:
             json.dump({
-                'entries': entries
+                'entries': [
+                    rated_loadout_to_dict(loadout, rating)
+                    for loadout, rating in entries
+                ]
             }, file, indent=2)
 
 
@@ -219,10 +228,10 @@ def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     return True
 
 
-def _fetch_talent_trees(client: Client) -> list[TalentTree]:
+async def _fetch_talent_trees(client: Client) -> list[TalentTree]:
     print("Collecting talent trees...")
     talent_trees = []
-    for tree in get_talent_trees(client):
+    async for tree in get_talent_trees(client):
         print(f"Found {tree.class_name} - {tree.spec_name}")
         talent_trees.append(tree)
     return talent_trees
