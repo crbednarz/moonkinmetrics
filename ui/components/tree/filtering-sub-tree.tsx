@@ -4,8 +4,25 @@ import { RatedLoadout } from '@/lib/pvp';
 import { minRankFilter, rankZeroFilter, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringTalentNode from './filtering-talent-node';
 import SubTreeConnectionSvg from './sub-tree-connection-svg'; 
-import styles from './filtering-sub-tree.module.scss';
-import {getNodeUsage} from '@/lib/usage';
+import { getNodeUsage } from '@/lib/usage';
+import { createStyles } from '@mantine/core';
+
+const useStyles = createStyles(theme => ({
+  tree: {
+    position: 'relative',
+    display: 'inline-block',
+    borderRadius: '10px',
+    padding: '10px',
+    background: theme.colors.dark[6],
+    overflow: 'auto',
+    textAlign: 'center',
+  },
+  innerTree: {
+    position: 'relative',
+    margin: 'auto 0',
+    display: 'inline-block',
+  },
+}));
 
 enum NodeFilterMode {
   Zero,
@@ -53,9 +70,10 @@ export default function FilteringSubTreeView({
   }
 
   let usageMap = getNodeUsage(nodes, loadouts);
+  const { classes } = useStyles();
 
   return (
-    <div className={styles.tree}>
+    <div className={classes.tree}>
       <SubTreeConnectionSvg
         width={width}
         height={height}
@@ -63,7 +81,7 @@ export default function FilteringSubTreeView({
         usageMap={usageMap}
       />
       <div
-        className={styles.innerTree}
+        className={classes.innerTree}
         style={{
           width,
           height

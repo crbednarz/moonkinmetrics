@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   AppShell,
   rem,
+  Image,
   Header,
   MediaQuery,
   Burger,
@@ -43,6 +44,7 @@ export default function Layout({
             alignItems: 'center',
             justifyContent: 'center',
             height: '100%',
+            padding: rem(10),
             [`@media (max-width: ${theme.breakpoints.lg})`]: {
               justifyContent: 'space-between',
               '& > *': {
@@ -50,7 +52,8 @@ export default function Layout({
               },
             },
           })}>
-            <Title>@ [APP NAME]</Title>
+            <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} />
+            <Title>Moonkin Metrics</Title>
             <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}

@@ -1,4 +1,5 @@
-import {lerp} from "./util";
+import {MantineThemeColorsOverride} from "@mantine/core";
+import { lerp } from "./util";
 
 interface Color {
   r: number,
@@ -22,11 +23,91 @@ export const CLASS_COLORS: {[key: string]: Color} = {
   "warrior": {r: 198, g: 155, b: 109},
 };
 
-export function createThemeColors({r, g, b}: Color) {
-  let colors: string[] = [];
-  for (let i = 1; i <= 10; i++) {
-    const delta = i / 10.0;
-    colors.push(`rgb(${lerp(255, r, delta)}, ${lerp(255, g, delta)}, ${lerp(255, b, delta)})`);
+export function createShades(
+  color: Color,
+  colorIndex: number = 9,
+  baseColor?: Color,
+  baseIndex: number = 0,
+): Color[] {
+  const colors: Color[] = [];
+
+  if (!baseColor) {
+    baseColor = {
+      r: (255 - color.r) * 0.95 + color.r,
+      g: (255 - color.g) * 0.95 + color.g,
+      b: (255 - color.b) * 0.95 + color.b,
+    }
+  }
+
+  if (colorIndex <= baseIndex) {
+    throw new Error('colorIndex must be greater than baseIndex');
+  }
+
+  const colorStep = {
+    r: (color.r - baseColor.r) / (colorIndex - baseIndex),
+    g: (color.g - baseColor.g) / (colorIndex - baseIndex),
+    b: (color.b - baseColor.b) / (colorIndex - baseIndex),
+  };
+
+  const indexColor = {
+    r: baseColor.r - colorStep.r * baseIndex,
+    g: baseColor.g - colorStep.g * baseIndex,
+    b: baseColor.b - colorStep.b * baseIndex,
+  };
+  for (let i = 0; i < 10; i++) {
+    colors.push({...indexColor});
+    indexColor.r += colorStep.r;
+    indexColor.g += colorStep.g;
+    indexColor.b += colorStep.b;
   }
   return colors;
+} 
+
+export function createThemeColors(
+  color: Color,
+  colorIndex: number = 9,
+  baseColor?: Color,
+  baseIndex: number = 0,
+): string[] {
+  const colors = createShades(color, colorIndex, baseColor, baseIndex);
+  return colors.map(color => `rgb(${color.r}, ${color.g}, ${color.b})`);
+}
+
+export function globalColors(): {[key: string]: Color[]} {
+  const colors: {[key: string]: Color[]} = {};
+  for (let key in CLASS_COLORS) {
+    colors[key] = createShades(CLASS_COLORS[key]);
+  }
+
+  colors['dark'] = createShades(
+    {r: 23, g: 28, b: 34}, 7,
+    {r: 175, g: 191, b: 190}, 0,
+  );
+
+  colors['primary'] = createShades(
+    {r: 118, g: 153, b: 147}
+  );
+
+  return colors;
+}
+
+export function globalThemeColors(): MantineThemeColorsOverride {
+  const colors = globalColors();
+  const themeColors: {[key: string]: string[]} = {};
+  for (let key in colors) {
+    themeColors[key] = colors[key].map(color => `rgb(${color.r}, ${color.g}, ${color.b})`);
+  }
+  return themeColors;
+}
+
+export function lerpColors(
+  color1: Color,
+  color2: Color,
+  delta: number,
+): Color {
+  return {
+    r: lerp(color1.r, color2.r, delta),
+    g: lerp(color1.g, color2.g, delta),
+    b: lerp(color1.b, color2.b, delta),
+  };
 }

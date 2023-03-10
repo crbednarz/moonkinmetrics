@@ -7,6 +7,7 @@ import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
 import RatingsPlot from '../info-panel/ratings-plot';
+import RatingHistogram from '../info-panel/rating-histogram';
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -52,10 +53,14 @@ export default function TalentTreeExplorer({
   tree,
   leaderboard
 }: TalentTreeExplorerProps) {
+  const minRating = leaderboard[leaderboard.length - 1].rating;
+  const maxRating = leaderboard[0].rating;
+
   let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
   let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
   let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
+  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
   let [resetCount, setResetCount] = useState<number>(0);
 
   const filters = [
@@ -77,8 +82,6 @@ export default function TalentTreeExplorer({
     setRatingFilter(undefined);
   }
 
-  const minRating = leaderboard[leaderboard.length - 1].rating;
-  const maxRating = leaderboard[0].rating;
 
   const marks = [0, 0.25, 0.5, 0.75, 1.0].map(p => {
     const rating = p * (maxRating - minRating) + minRating;
@@ -96,9 +99,11 @@ export default function TalentTreeExplorer({
         <Text>Filtered Entries: {loadouts.length}</Text>
 
         <Space h="xl"/>
-        <RatingsPlot
+        <RatingHistogram
           allRatings={leaderboard.map(loadout => loadout.rating)}
           filteredRatings={loadouts.map(loadout => loadout.rating)}
+          minRating={ratingFilterRange[0]}
+          maxRating={ratingFilterRange[1]}
         />
         <Space h="xl"/>
         <Title order={4}>Filter By Rating</Title>
@@ -110,6 +115,7 @@ export default function TalentTreeExplorer({
             setRatingFilter(() => (loadout: RatedLoadout) => {
               return loadout.rating >= value[0] && loadout.rating <= value[1];
             });
+            setRatingFilterRange(value);
           }}
           labelAlwaysOn
           marks={marks}

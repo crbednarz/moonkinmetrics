@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack } from '@mantine/core';
+import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack, useMantineTheme } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
-import { CLASS_COLORS, createThemeColors } from '@/lib/style-constants';
+import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
 import { decodeLoadouts, encodeLoadouts, getLeaderboard, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
@@ -42,12 +42,7 @@ export default function Bracket({
   }, [encodedLeaderboard, tree]);
 
   const classSlug = tree.className.toLowerCase().replace(' ', '-');
-  const classColors: {[key: string]: string[]} = {};
-  for (let key in CLASS_COLORS) {
-    classColors[key] = createThemeColors(CLASS_COLORS[key]);
-  }
   const extraColors: MantineThemeColorsOverride = {
-    ...classColors,
     'wow-class': createThemeColors(CLASS_COLORS[classSlug]),
   };
 
@@ -57,8 +52,11 @@ export default function Bracket({
     <MantineProvider
       inherit
       theme={{
-        colors: extraColors,
-        primaryShade: 9,
+        colors: {
+          ...globalThemeColors(),
+          ...extraColors,
+        },
+        primaryColor: 'primary',
       }}
     >
       <Layout>

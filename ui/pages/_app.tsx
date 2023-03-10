@@ -1,13 +1,11 @@
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { em, MantineProvider, MantineThemeColorsOverride, rem } from '@mantine/core';
-import { CLASS_COLORS } from '@/lib/style-constants';
+import { em, MantineProvider } from '@mantine/core';
+import { globalThemeColors } from '@/lib/style-constants';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
-
-  const extraColors: MantineThemeColorsOverride = CLASS_COLORS;
 
   return (
     <>
@@ -21,7 +19,7 @@ export default function App(props: AppProps) {
         withNormalizeCSS
         theme={{
           colorScheme: 'dark',
-          colors: extraColors,
+          colors: globalThemeColors(),
           fontFamily: "'Open Sans', sans-serif",
           breakpoints: {
             xs: em(320),
