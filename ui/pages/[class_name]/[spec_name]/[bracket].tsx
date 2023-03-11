@@ -3,7 +3,7 @@ import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOver
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLoadouts, encodeLoadouts, getLeaderboard, RatedLoadout } from '@/lib/pvp'
+import { decodeLoadouts, getEncodedLeaderboard, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import { useRouter } from 'next/router';
@@ -85,7 +85,11 @@ export default function Bracket({
               </Tabs.List>
             </Tabs>
           </Flex>
-          <TalentTreeExplorer tree={tree} leaderboard={leaderboard} />
+          <TalentTreeExplorer
+            tree={tree}
+            leaderboard={leaderboard}
+            key={`${tree.className}-${tree.specName}`}
+          />
         </Stack>
       </Layout>
     </MantineProvider>
@@ -116,9 +120,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const tree = getTalentTree(className, specName);
 
   const bracket = params!['bracket'] as string;
-  const leaderboard = getLeaderboard(className, specName, bracket.toLowerCase());
-
-  const encodedLeaderboard = encodeLoadouts(leaderboard, tree)
+  const encodedLeaderboard = getEncodedLeaderboard(className, specName, bracket.toLowerCase());
 
   return {
     props: {

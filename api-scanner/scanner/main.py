@@ -7,8 +7,8 @@ from pathlib import Path
 from .bnet import Client
 from .media import get_spell_icons
 from .player import (LoadoutRequestStatus, PlayerLoadout, get_player_loadouts)
-from .pvp import get_pvp_leaderboard
-from .serializer import talent_tree_to_dict, rated_loadout_to_dict
+from .pvp import RatedLoadout, get_pvp_leaderboard
+from .serializer import encode_loadouts, talent_tree_to_dict, rated_loadout_to_dict
 from .talents import TalentTree, get_talent_trees
 
 
@@ -107,19 +107,16 @@ async def _collect_shuffle_leaderboard(
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
-        rated_loadouts.append((loadout, rating))
+        rated_loadouts.append(RatedLoadout(loadout, rating))
 
-    rated_loadouts.sort(key=lambda entry: entry[1], reverse=True)
+    rated_loadouts.sort(key=lambda entry: entry.rating, reverse=True)
 
     filename = _get_filename(class_name, spec_name)
     path = os.path.join(output_path, filename)
     print(f"Writing to path: {path}")
     with open(path, 'w') as file:
         json.dump({
-            'entries': [
-                rated_loadout_to_dict(loadout, rating)
-                for loadout, rating in rated_loadouts
-            ]
+            'entries': encode_loadouts(rated_loadouts, talent_tree),
         }, file, indent=2)
 
 
@@ -154,22 +151,20 @@ async def _collect_arena_leaderboard(
             continue
 
         output[(loadout.class_name, loadout.spec_name)].append(
-            (loadout, rating))
+            RatedLoadout(loadout, rating))
 
     for (class_name, spec_name), entries in output.items():
         if len(entries) == 0:
             continue
-        entries.sort(key=lambda entry: entry[1], reverse=True)
+        entries.sort(key=lambda entry: entry.rating, reverse=True)
 
         filename = _get_filename(class_name, spec_name)
         path = os.path.join(output_path, filename)
+        talent_tree = tree_map[(class_name, spec_name)]
         print(f"Writing to path: {path}")
         with open(path, 'w') as file:
             json.dump({
-                'entries': [
-                    rated_loadout_to_dict(loadout, rating)
-                    for loadout, rating in entries
-                ]
+                'entries': encode_loadouts(entries, talent_tree),
             }, file, indent=2)
 
 
@@ -181,16 +176,15 @@ def _shuffle_bracket(class_name: str, spec_name: str) -> str:
 
 def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     max_ranks = {}
-    for node in talent_tree.class_nodes:
-        max_ranks[node.id] = node.max_rank
-    for node in talent_tree.spec_nodes:
-        max_ranks[node.id] = node.max_rank
+    for node in chain(talent_tree.class_nodes, talent_tree.spec_nodes):
+        for talent in node.talents:
+            max_ranks[talent.id] = node.max_rank
 
     for node in chain(loadout.class_nodes, loadout.spec_nodes):
-        max_rank = max_ranks.get(node.node_id)
+        max_rank = max_ranks.get(node.talent_id)
         if max_rank is None:
             return False
-        if node.rank > max_ranks[node.node_id]:
+        if node.rank > max_rank:
             return False
 
     return True

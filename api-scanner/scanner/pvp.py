@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from typing import Generator
 
 from .bnet import Client
 from .constants import CURRENT_PVP_SEASON
-from .player import PlayerLink, PlayerLoadout, get_player_loadout
+from .player import PlayerLink, PlayerLoadout
 
 
 @dataclass

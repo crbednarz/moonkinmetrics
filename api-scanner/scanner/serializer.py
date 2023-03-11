@@ -1,5 +1,8 @@
+import base64
 import dataclasses
-from .player import PlayerLoadout
+
+from .player import LoadoutNode, LoadoutPvpTalent, PlayerLoadout
+from .pvp import RatedLoadout
 from .talents import PvpTalent, TalentNode, TalentTree
 
 
@@ -7,6 +10,55 @@ NODE_FILTER = set([
     91046,
     91047,
 ])
+
+
+def create_pvp_index_map(talents: list[PvpTalent]) -> dict[int, int]:
+    return {talent.id: index for index, talent in enumerate(talents)}
+
+
+def create_talent_encode_map(nodes: list[TalentNode]) -> dict[int, int]:
+    index = 0
+    map = {}
+    for node in nodes:
+        for talent in node.talents:
+            map[talent.id] = index
+            index += 1
+    return map
+
+
+def encode_loadouts(loadouts: list[RatedLoadout],
+                    tree: TalentTree) -> list[str]:
+    talent_map = create_talent_encode_map(tree.class_nodes + tree.spec_nodes)
+    pvp_talent_map = create_pvp_index_map(tree.pvp_talents)
+
+    return [
+        '|'.join([
+            encode_talents(
+                entry.loadout.class_nodes + entry.loadout.spec_nodes,
+                talent_map
+            ),
+            encode_pvp_talents(entry.loadout.pvp_talents, pvp_talent_map),
+            str(entry.rating),
+        ])
+        for entry in loadouts
+    ]
+
+
+def encode_talents(nodes: list[LoadoutNode],
+                   talent_map: dict[int, int]) -> str:
+    talent_bytes = bytearray()
+    for node in nodes:
+        talent_bytes.append(talent_map[node.talent_id])
+        talent_bytes.append(node.rank)
+    return base64.b64encode(talent_bytes).decode('ascii')
+
+
+def encode_pvp_talents(talents: list[LoadoutPvpTalent],
+                       pvp_talent_map: dict[int, int]) -> str:
+    talent_bytes = bytearray()
+    for talent in talents:
+        talent_bytes.append(pvp_talent_map[talent.id])
+    return base64.b64encode(talent_bytes).decode('ascii')
 
 
 def rated_loadout_to_dict(loadout: PlayerLoadout, rating: int) -> dict:
