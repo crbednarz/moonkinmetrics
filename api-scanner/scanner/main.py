@@ -1,5 +1,4 @@
 import asyncio
-import click
 import json
 import os
 from itertools import chain
@@ -7,8 +6,7 @@ from pathlib import Path
 
 from .bnet import Client
 from .media import get_spell_icon
-from .player import (LoadoutRequestStatus, MissingPlayerError, PlayerLoadout,
-                     get_player_loadout, get_player_loadouts)
+from .player import (LoadoutRequestStatus, PlayerLoadout, get_player_loadouts)
 from .pvp import get_pvp_leaderboard
 from .serializer import talent_tree_to_dict, rated_loadout_to_dict
 from .talents import TalentTree, get_talent_trees
@@ -18,43 +16,18 @@ TALENTS_DIRECTORY = 'talents'
 PVP_DIRECTORY = 'pvp'
 
 
-@click.group()
-@click.option("--output", "-o", "output_path",
-              type=click.Path(file_okay=False),
-              default='ui/wow/')
-@click.option("--client-id", "client_id",
-              default=lambda: os.environ.get("WOW_CLIENT_ID", ""))
-@click.option("--client-secret", "client_secret",
-              default=lambda: os.environ.get("WOW_CLIENT_SECRET", ""))
-@click.option("--cache-path", "cache_path", default=".cache")
-@click.pass_context
-def cli(ctx, output_path, client_id, client_secret, cache_path):
-    client = Client(
-        client_id,
-        client_secret,
-        cache_path=cache_path,
-    )
-
-    ctx.obj = {
-        'client': client,
-        'output_path': output_path,
-    }
-
-
-@cli.command()
-@click.argument('bracket',
-                type=click.Choice(['2v2', '3v3', 'shuffle']),
-                required=True)
-@click.option('-m', '--shuffle-min-rating', type=click.INT, default=1800)
-@click.option('--shuffle-class', type=click.STRING)
-@click.option('--shuffle-spec', type=click.STRING)
-@click.pass_context
-def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
-    client = ctx.obj['client']
+def scan_pvp_ladder(
+    client: Client,
+    output_path: str,
+    bracket: str,
+    shuffle_min_rating: int,
+    shuffle_class: str,
+    shuffle_spec: str,
+) -> None:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    output_path = os.path.join(ctx.obj['output_path'], PVP_DIRECTORY, bracket)
+    output_path = os.path.join(output_path, PVP_DIRECTORY, bracket)
     talent_trees = loop.run_until_complete(_fetch_talent_trees(client))
     _create_dir(output_path)
 
@@ -88,14 +61,11 @@ def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
         ))
 
 
-@cli.command()
-@click.pass_context
-def talents(ctx):
-    client = ctx.obj['client']
+def scan_talents(client: Client, output_path: str) -> None:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    output_path = os.path.join(ctx.obj['output_path'], TALENTS_DIRECTORY)
+    output_path = os.path.join(output_path, TALENTS_DIRECTORY)
     talent_trees = loop.run_until_complete(_fetch_talent_trees(client))
     _create_dir(output_path)
 
@@ -145,7 +115,7 @@ async def _collect_shuffle_leaderboard(
 
     filename = _get_filename(class_name, spec_name)
     path = os.path.join(output_path, filename)
-    click.echo(f"Writing to path: {path}")
+    print(f"Writing to path: {path}")
     with open(path, 'w') as file:
         json.dump({
             'entries': [
@@ -195,7 +165,7 @@ async def _collect_arena_leaderboard(
 
         filename = _get_filename(class_name, spec_name)
         path = os.path.join(output_path, filename)
-        click.echo(f"Writing to path: {path}")
+        print(f"Writing to path: {path}")
         with open(path, 'w') as file:
             json.dump({
                 'entries': [
@@ -249,7 +219,3 @@ def _get_filename(class_name: str, spec_name: str) -> str:
 
 def _create_dir(path: str) -> None:
     Path(path).mkdir(parents=True, exist_ok=True)
-
-
-if __name__ == '__main__':
-    cli()
