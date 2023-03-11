@@ -111,3 +111,10 @@ export function lerpColors(
     b: lerp(color1.b, color2.b, delta),
   };
 }
+
+export function colorToStyle(color: Color, alpha: number = 1.0): string {
+  if (alpha < 1) {
+    return `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+  }
+  return `rgb(${color.r}, ${color.g}, ${color.b})`;
+}

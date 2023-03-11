@@ -2,7 +2,6 @@ import asyncio
 import json
 import os
 import requests
-import sys
 import time
 
 from aiohttp import ClientSession, TCPConnector

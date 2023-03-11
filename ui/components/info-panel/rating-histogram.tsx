@@ -9,7 +9,7 @@ import {
   Legend,
   ChartOptions,
 } from 'chart.js';
-import {globalColors} from "@/lib/style-constants";
+import {colorToStyle, globalColors} from "@/lib/style-constants";
 import {Checkbox} from "@mantine/core";
 import {useState} from "react";
 
@@ -29,6 +29,7 @@ interface RatingHistogramProps {
   maxRating: number,
 }
 
+const chartColor = colorToStyle(globalColors().primary[7]);
 const options: ChartOptions<"bar"> = {
   responsive: true,
   scales: {
@@ -38,6 +39,10 @@ const options: ChartOptions<"bar"> = {
       grid: {
         offset: false
       },
+      ticks: {
+        minRotation: 90,
+        maxRotation: 90,
+      },
     },
   },
   plugins: {
@@ -46,7 +51,11 @@ const options: ChartOptions<"bar"> = {
     },
     title: {
       display: true,
-      text: 'Ratings',
+      text: 'Players Per Rating',
+      color: chartColor,
+      font: {
+        size: 16,
+      },
     },
   },
 };
@@ -89,7 +98,7 @@ export default function RatingHistogram({
       {
         label: 'Visible',
         data: filteredBuckets,
-        backgroundColor: `rgb(${filteredColor.r}, ${filteredColor.g}, ${filteredColor.b})`,
+        backgroundColor: colorToStyle(filteredColor),
       },
     ],
   };
@@ -98,18 +107,18 @@ export default function RatingHistogram({
     data.datasets.push({
       label: 'All',
       data: unfilteredBuckets,
-      backgroundColor: `rgba(${unfilteredColor.r}, ${unfilteredColor.g}, ${unfilteredColor.b}, 0.5)`,
+      backgroundColor: colorToStyle(unfilteredColor, 0.5),
     });
   }
 
   return (
     <>
       <Bar height={250} options={options} data={data} />
-          <Checkbox
-            label="Show All Ratings"
-            checked={showAllRatings}
-            onChange={() => setShowAllRatings(!showAllRatings)}
-          />
+      <Checkbox
+        label="Show All Ratings"
+        checked={showAllRatings}
+        onChange={() => setShowAllRatings(!showAllRatings)}
+      />
     </>
   );
 }

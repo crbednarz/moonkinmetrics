@@ -8,7 +8,7 @@ from .bnet import Client
 from .media import get_spell_icons
 from .player import (LoadoutRequestStatus, PlayerLoadout, get_player_loadouts)
 from .pvp import RatedLoadout, get_pvp_leaderboard
-from .serializer import encode_loadouts, talent_tree_to_dict, rated_loadout_to_dict
+from .serializer import encode_loadouts, talent_tree_to_dict
 from .talents import TalentTree, get_talent_trees
 
 
