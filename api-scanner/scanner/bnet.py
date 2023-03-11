@@ -128,24 +128,6 @@ class Client:
         namespace: str = "static-us",
         force: bool = False,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
-        async def fetch(url: str, session: ClientSession, context: T):
-            async with session.get(
-                url,
-                headers=self.headers,
-                params={
-                    'namespace': namespace,
-                    'locale': 'en_US',
-                }
-            ) as response:
-                json = None
-                if response.status == 429:
-                    print("Rate limited. Exiting early.")
-                    sys.exit(1)
-
-                if response.status == 200:
-                    json = await response.json()
-                    self._cache.put(url, json)
-                return json, response.status, url, context
 
         uncached_urls_with_context = []
         for url, context in urls_with_context:
@@ -167,7 +149,8 @@ class Client:
                 start_time = 0
                 tasks = []
                 for url, context in urls:
-                    task = asyncio.create_task(fetch(url, session, context))
+                    task = asyncio.create_task(
+                        self._fetch(url, context, namespace, session))
                     tasks.append(task)
 
                 for task in asyncio.as_completed(tasks):
@@ -180,3 +163,30 @@ class Client:
                 time_elapsed = time.monotonic() - start_time
                 if time_elapsed < 1.2:
                     await asyncio.sleep(1.2 - time_elapsed)
+
+    async def _fetch(
+        self,
+        url: str,
+        context: T,
+        namespace: str,
+        session: ClientSession,
+    ) -> tuple[dict | None, int, str, T]:
+        while True:
+            async with session.get(
+                url,
+                headers=self.headers,
+                params={
+                    'namespace': namespace,
+                    'locale': 'en_US',
+                }
+            ) as response:
+                json = None
+                if response.status == 429:
+                    print("Rate limited. Retrying in 2 seconds.")
+                    await asyncio.sleep(2)
+                    continue
+
+                if response.status == 200:
+                    json = await response.json()
+                    self._cache.put(url, json)
+                return json, response.status, url, context

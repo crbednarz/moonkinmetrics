@@ -56,5 +56,16 @@ def talents(ctx):
     )
 
 
+@cli.command()
+@click.pass_context
+def all(ctx):
+    client = ctx.obj['client']
+    output_path = ctx.obj['output_path']
+    scan_talents(client, output_path)
+    scan_pvp_ladder(client, output_path, '2v2')
+    scan_pvp_ladder(client, output_path, '3v3')
+    scan_pvp_ladder(client, output_path, 'shuffle')
+
+
 if __name__ == '__main__':
     cli()

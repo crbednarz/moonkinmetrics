@@ -20,9 +20,9 @@ def scan_pvp_ladder(
     client: Client,
     output_path: str,
     bracket: str,
-    shuffle_min_rating: int,
-    shuffle_class: str,
-    shuffle_spec: str,
+    shuffle_min_rating: int = 1800,
+    shuffle_class: str = '',
+    shuffle_spec: str = '',
 ) -> None:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
