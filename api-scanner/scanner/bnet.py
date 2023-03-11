@@ -63,6 +63,17 @@ class Client:
             raise RuntimeError("Failed to authorize.")
         return response.json()['access_token']
 
+    def get_static_resources(
+        self,
+        resources_with_context: list[tuple[str, T]],
+        force: bool = False,
+    ) -> AsyncGenerator[tuple[dict, int, T], None]:
+        urls = [
+            (f"https://us.api.blizzard.com{resource}", context)
+            for resource, context in resources_with_context
+        ]
+        return self.get_urls(urls, "static-us", force)
+
     def get_static_resource(self, resource: str,
                             params: dict[str, Any] | None = None,
                             force: bool = False) -> dict:

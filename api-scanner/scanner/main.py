@@ -5,7 +5,7 @@ from itertools import chain
 from pathlib import Path
 
 from .bnet import Client
-from .media import get_spell_icon
+from .media import get_spell_icons
 from .player import (LoadoutRequestStatus, PlayerLoadout, get_player_loadouts)
 from .pvp import get_pvp_leaderboard
 from .serializer import talent_tree_to_dict, rated_loadout_to_dict
@@ -71,11 +71,9 @@ def scan_talents(client: Client, output_path: str) -> None:
 
     for tree in talent_trees:
         print(f"Getting media for {tree.class_name} - {tree.spec_name}...")
-        media = {}
-        for spell in tree.all_spells():
-            if spell.id not in media:
-                print(f"Fetching icon for {spell.name}...")
-                media[spell.id] = get_spell_icon(client, spell.id)
+        media = loop.run_until_complete(
+            get_spell_icons(client, [spell.id for spell in tree.all_spells()])
+        )
         filename = _get_filename(tree.class_name, tree.spec_name)
         path = os.path.join(output_path, filename)
         _save_talent_tree(tree, media, path)
