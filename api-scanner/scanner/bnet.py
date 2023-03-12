@@ -7,7 +7,7 @@ import time
 from aiohttp import ClientSession, TCPConnector
 from pathlib import Path
 from urllib.parse import urlparse
-from typing import Any, AsyncGenerator, TypeVar
+from typing import Any, AsyncGenerator, Optional, TypeVar
 
 from .util import batched
 
@@ -20,7 +20,7 @@ class _ApiCache:
         self.path = path
         Path(path).mkdir(parents=True, exist_ok=True)
 
-    def get(self, url: str) -> Any | None:
+    def get(self, url: str) -> Optional[Any]:
         filename = self._url_to_cache_name(url)
         path = os.path.join(self.path, filename)
         if not os.path.exists(path):
@@ -74,25 +74,25 @@ class Client:
         return self.get_urls(urls, "static-us", force)
 
     def get_static_resource(self, resource: str,
-                            params: dict[str, Any] | None = None,
+                            params: Optional[dict[str, Any]] = None,
                             force: bool = False) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
         return self.get_url(url, params, "static-us", force)
 
     def get_dynamic_resource(self, resource: str,
-                             params: dict[str, Any] | None = None,
+                             params: Optional[dict[str, Any]] = None,
                              force: bool = False) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
         return self.get_url(url, params, "dynamic-us", force)
 
     def get_profile_resource(self, resource: str,
-                             params: dict[str, Any] | None = None,
+                             params: Optional[dict[str, Any]] = None,
                              force: bool = False) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
         return self.get_url(url, params, "profile-us", force)
 
     def get_url(self, url: str,
-                params: dict[str, Any] | None = None,
+                params: Optional[dict[str, Any]] = None,
                 namespace: str = "static-us",
                 force: bool = False) -> dict:
         if params is None:
@@ -169,7 +169,7 @@ class Client:
         context: T,
         namespace: str,
         session: ClientSession,
-    ) -> tuple[dict | None, int, str, T]:
+    ) -> tuple[Optional[dict], int, str, T]:
         while True:
             async with session.get(
                 url,

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import AsyncGenerator, TypeVar
+from typing import AsyncGenerator, Optional, TypeVar
 
 from .bnet import Client
 from .constants import CLASS_SPEC_BY_SPEC_ID
@@ -69,9 +69,9 @@ T = TypeVar('T')
 async def get_player_loadouts(
     client: Client,
     players_with_context: list[tuple[PlayerLink, T]],
-    override_spec: str | None = None
+    override_spec: Optional[str] = None
 ) -> AsyncGenerator[
-    tuple[PlayerLoadout | None, PlayerLink, T, LoadoutRequestStatus],
+    tuple[Optional[PlayerLoadout], PlayerLink, T, LoadoutRequestStatus],
     None,
 ]:
     urls_with_context = [
@@ -104,7 +104,7 @@ async def get_player_loadouts(
 
 
 def get_player_loadout(client: Client, player: PlayerLink,
-                       override_spec: str | None = None) -> PlayerLoadout:
+                       override_spec: Optional[str] = None) -> PlayerLoadout:
     try:
         response = client.get_profile_resource(player.specialization_resource)
     except RuntimeError:
