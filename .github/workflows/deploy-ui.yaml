@@ -1,0 +1,43 @@
+name: Build & Deploy UI
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_WOW_DATA_OBJECT: ${{ secrets.AWS_WOW_DATA_OBJECT }}
+  AWS_SITE_OBJECT: ${{ secrets.AWS_SITE_OBJECT }}
+
+jobs:
+  build-and-deploy-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ui
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'yarn'
+          cache-dependency-path: 'ui/yarn.lock'
+      - name: Install dependencies
+        run: yarn install
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: 'us-east-1'
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - name: Download WoW data
+        run: aws s3 sync ${{ env.AWS_WOW_DATA_OBJECT}} ./wow/
+      - name: Build UI
+        run: yarn build
+      - name: General static site
+        run: yarn next export
+      - name: Upload to S3
+        run: aws s3 sync --delete ./out/ ${{ env.AWS_SITE_OBJECT }}
