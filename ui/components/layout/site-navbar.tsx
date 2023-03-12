@@ -39,7 +39,7 @@ export default function SiteNavbar({
                   color: colorFromClass(wowClass, theme)
                 })}
                 onClick={() => {
-                  router.push(`/${wowClass}/${spec}/${bracket ?? 'Shuffle'}`.replace(' ', '-'));
+                  router.push(`/${wowClass}/${spec}/${bracket ?? 'Shuffle'}/`.replace(' ', '-'));
                 }}
               />
             ))}
