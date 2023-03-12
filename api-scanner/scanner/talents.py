@@ -237,6 +237,7 @@ async def _get_tree_for_missing_spec(
     spec_nodes = []
 
     response = client.get_url(tree_link.url)
+    urls_with_context = []
     for response_node in response['talent_nodes']:
         node = TalentNode(response_node)
         base_rank = response_node['ranks'][0]
@@ -251,8 +252,10 @@ async def _get_tree_for_missing_spec(
         node.locked_by = game_nodes[node.id]['locked_by']
 
         url = tooltip['talent']['key']['href']
-        talent_response = client.get_url(url)
-        if 'playable_specialization' in talent_response:
+        urls_with_context.append((url, node))
+
+    async for response, _, node in client.get_urls(urls_with_context):
+        if 'playable_specialization' in response:
             spec_nodes.append(node)
         else:
             class_nodes.append(node)
