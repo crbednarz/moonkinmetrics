@@ -65,41 +65,41 @@ class Client:
     def get_static_resources(
         self,
         resources_with_context: list[tuple[str, T]],
-        force: bool = False,
+        use_cache: bool = True,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
         urls = [
             (f"https://us.api.blizzard.com{resource}", context)
             for resource, context in resources_with_context
         ]
-        return self.get_urls(urls, "static-us", force)
+        return self.get_urls(urls, "static-us", use_cache)
 
     def get_static_resource(self, resource: str,
                             params: Optional[dict[str, Any]] = None,
-                            force: bool = False) -> dict:
+                            use_cache: bool = True) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "static-us", force)
+        return self.get_url(url, params, "static-us", use_cache)
 
     def get_dynamic_resource(self, resource: str,
                              params: Optional[dict[str, Any]] = None,
-                             force: bool = False) -> dict:
+                             use_cache: bool = True) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "dynamic-us", force)
+        return self.get_url(url, params, "dynamic-us", use_cache)
 
     def get_profile_resource(self, resource: str,
                              params: Optional[dict[str, Any]] = None,
-                             force: bool = False) -> dict:
+                             use_cache: bool = True) -> dict:
         url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "profile-us", force)
+        return self.get_url(url, params, "profile-us", use_cache)
 
     def get_url(self, url: str,
                 params: Optional[dict[str, Any]] = None,
                 namespace: str = "static-us",
-                force: bool = False) -> dict:
+                use_cache: bool = True) -> dict:
         if params is None:
             params = {}
 
         response_json = None
-        if not force:
+        if use_cache:
             response_json = self._cache.get(url)
 
         if response_json is None:
@@ -117,7 +117,8 @@ class Client:
 
             response_json = response.json()
 
-        self._cache.put(url, response_json)
+        if use_cache:
+            self._cache.put(url, response_json)
 
         return response_json
 
@@ -125,13 +126,13 @@ class Client:
         self,
         urls_with_context: list[tuple[str, T]],
         namespace: str = "static-us",
-        force: bool = False,
+        use_cache: bool = True,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
 
         uncached_urls_with_context = []
         for url, context in urls_with_context:
             response_json = None
-            if not force:
+            if use_cache:
                 response_json = self._cache.get(url)
 
             if response_json is None:
@@ -156,6 +157,9 @@ class Client:
                     response_json, status, url, context = await task
                     if start_time == 0:
                         start_time = time.monotonic()
+
+                    if use_cache and status == 200:
+                        self._cache.put(url, response_json)
 
                     yield response_json, status, context
 
@@ -187,5 +191,5 @@ class Client:
 
                 if response.status == 200:
                     json = await response.json()
-                    self._cache.put(url, json)
+
                 return json, response.status, url, context

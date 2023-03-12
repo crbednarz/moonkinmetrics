@@ -81,7 +81,8 @@ async def get_player_loadouts(
         ) for player, context in players_with_context
     ]
 
-    async for result in client.get_urls(urls_with_context, "profile-us"):
+    async for result in client.get_urls(urls_with_context, "profile-us",
+                                        use_cache=False):
         response, status, (player, context) = result
         if status != 200:
             yield None, player, context, LoadoutRequestStatus.MISSING_PLAYER
