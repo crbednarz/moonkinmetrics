@@ -1,9 +1,9 @@
-name: Scan Battle.net API
+name: Scan for solo shuffle data
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 2 * * *'
 
 permissions:
   id-token: write
@@ -28,11 +28,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r api-scanner/requirements.txt
       - name: Run scanner
-        run: python api-scanner/cli.py -o ./wow all
+        run: |
+          python api-scanner/cli.py -o ./wow ladder shuffle
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: 'us-east-1'
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       - name: Upload WoW data
-        run: aws s3 sync --delete ./wow/ ${{ env.AWS_WOW_DATA_OBJECT}}
+        run: |
+          aws s3 sync ./wow/ ${{ env.AWS_WOW_DATA_OBJECT}}

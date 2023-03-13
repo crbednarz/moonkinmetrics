@@ -1,0 +1,42 @@
+name: Scan for non solo shuffle data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_WOW_DATA_OBJECT: ${{ secrets.AWS_WOW_DATA_OBJECT }}
+  WOW_CLIENT_ID: ${{ secrets.WOW_CLIENT_ID }}
+  WOW_CLIENT_SECRET: ${{ secrets.WOW_CLIENT_SECRET }}
+
+jobs:
+  build-and-deploy-ui:
+    runs-on: [self-hosted, linux, x64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r api-scanner/requirements.txt
+      - name: Run scanner
+        run: |
+          python api-scanner/cli.py -o ./wow talents
+          python api-scanner/cli.py -o ./wow ladder 2v2
+          python api-scanner/cli.py -o ./wow ladder 3v3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: 'us-east-1'
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      - name: Upload WoW data
+        run: |
+          aws s3 sync ./wow/ ${{ env.AWS_WOW_DATA_OBJECT}}
