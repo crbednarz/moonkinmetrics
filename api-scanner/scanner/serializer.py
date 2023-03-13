@@ -13,17 +13,22 @@ NODE_FILTER = set([
 
 
 def create_pvp_index_map(talents: list[PvpTalent]) -> dict[int, int]:
-    return {talent.id: index for index, talent in enumerate(talents)}
+    sorted_ids = sorted([talent.id for talent in talents])
+    return {talent_id: index for index, talent_id in enumerate(sorted_ids)}
 
 
 def create_talent_encode_map(nodes: list[TalentNode]) -> dict[int, int]:
-    index = 0
-    map = {}
+    talent_ids = []
     for node in nodes:
         for talent in node.talents:
-            map[talent.id] = index
-            index += 1
-    return map
+            talent_ids.append(talent.id)
+
+    talent_ids.sort()
+    talent_map = {}
+    for index, talent_id in enumerate(talent_ids):
+        talent_map[talent_id] = index
+
+    return talent_map
 
 
 def encode_loadouts(loadouts: list[RatedLoadout],

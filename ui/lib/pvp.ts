@@ -23,16 +23,26 @@ export function getEncodedLeaderboard(className: string, specName: string, brack
 }
 
 function createTalentDecodeMap(nodes: TalentNode[]) {
-  return nodes.reduce<number[]>((map, node) => {
+  let talentIds = [];
+  for (let node of nodes) {
     for (let talent of node.talents) {
-      map.push(talent.id);
+      talentIds.push(talent.id);
     }
-    return map;
-  }, []);
+  }
+  return talentIds.sort((a, b) => a - b);
+}
+
+function createPvpTalentDecodeMap(talents: PvpTalent[]) {
+  let talentIds = [];
+  for (let talent of talents) {
+    talentIds.push(talent.id);
+  }
+  return talentIds.sort((a, b) => a - b);
 }
 
 export function decodeLoadouts(encodedLoadouts: string[], tree: TalentTree): RatedLoadout[] {
   const talentMap = createTalentDecodeMap([...tree.classNodes, ...tree.specNodes]);
+  const pvpTalentMap = createPvpTalentDecodeMap(tree.pvpTalents);
 
   return encodedLoadouts.map(encodedLoadout => {
     const [encodedTalents, encodedPvpTalents, rating] = encodedLoadout.split('|');
@@ -48,7 +58,7 @@ export function decodeLoadouts(encodedLoadouts: string[], tree: TalentTree): Rat
 
     const pvpTalents: number[] = [];
     for (let i = 0; i < pvpTalentBytes.length; i++) {
-      pvpTalents[i] = tree.pvpTalents[pvpTalentBytes[i]].id;
+      pvpTalents[i] = pvpTalentMap[pvpTalentBytes[i]];
     }
 
     return {
