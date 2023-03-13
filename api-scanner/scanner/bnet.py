@@ -103,17 +103,24 @@ class Client:
             response_json = self._cache.get(url)
 
         if response_json is None:
-            response = requests.get(
-                url,
-                headers=self.headers,
-                params=params | {
-                    'namespace': namespace,
-                    'locale': 'en_US',
-                }
-            )
+            while True:
+                response = requests.get(
+                    url,
+                    headers=self.headers,
+                    params=params | {
+                        'namespace': namespace,
+                        'locale': 'en_US',
+                    }
+                )
+
+                if response.status_code == 429:
+                    time.sleep(2)
+                    continue
+                break
 
             if response.status_code != 200:
-                raise RuntimeError(f"Failed to get \"{url}\": {response.text}")
+                text = response.text
+                raise RuntimeError(f"Failed to get \"{url}\": {text}")
 
             response_json = response.json()
 
@@ -185,7 +192,6 @@ class Client:
             ) as response:
                 json = None
                 if response.status == 429:
-                    print("Rate limited. Retrying in 2 seconds.")
                     await asyncio.sleep(2)
                     continue
 
