@@ -3,7 +3,7 @@ name: Scan for solo shuffle data
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 10 * * *'
 
 permissions:
   id-token: write
