@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Text } from '@mantine/core';
+import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Text, RingProgress } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
@@ -47,11 +47,13 @@ const useStyles = createStyles(theme => ({
 interface TalentTreeExplorerProps {
   tree: TalentTree;
   leaderboard: RatedLoadout[];
+  timestamp: number;
 };
 
 export default function TalentTreeExplorer({
   tree,
-  leaderboard
+  leaderboard,
+  timestamp,
 }: TalentTreeExplorerProps) {
   const minRating = leaderboard[leaderboard.length - 1].rating;
   const maxRating = leaderboard[0].rating;
@@ -91,14 +93,24 @@ export default function TalentTreeExplorer({
     };
   });
 
+  const viewingPercent = Math.round(loadouts.length / leaderboard.length * 100);
+  const localTime = new Date(timestamp).toLocaleString();
   return (
     <div className={classes.wrapper}>
       <InfoPanel key={`info-${resetCount}`}>
-        <Title order={4}>Counts</Title>
-        <Text>Total Entries: {leaderboard.length}</Text>
-        <Text>Filtered Entries: {loadouts.length}</Text>
-
-        <Space h="xl"/>
+        <Flex align="center" gap={10}>
+          <RingProgress
+            size={80}
+            thickness={8}
+            sections={[{ value: viewingPercent, color: 'primary' }]}
+            label={
+              <Text color="primary" weight={700} align="center" size="m">
+                {viewingPercent}%
+              </Text>
+            }
+          />
+          <Text size="l">Viewing <strong>{loadouts.length}</strong> of <strong>{leaderboard.length}</strong> loadouts.</Text>
+        </Flex>
         <RatingHistogram
           allRatings={leaderboard.map(loadout => loadout.rating)}
           filteredRatings={loadouts.map(loadout => loadout.rating)}
@@ -122,6 +134,7 @@ export default function TalentTreeExplorer({
           my={'1.5rem'}
         />
         <Button onClick={reset}>Reset</Button>
+        <Text italic={true} color="primary.9" opacity={0.5} size="sm">Last scanned: {localTime}</Text>
       </InfoPanel>
       <Flex className={classes.trees}>
         <FilteringSubTree

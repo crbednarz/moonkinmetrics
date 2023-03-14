@@ -29,7 +29,7 @@ interface RatingHistogramProps {
   maxRating: number,
 }
 
-const chartColor = colorToStyle(globalColors().primary[7]);
+const chartColor = colorToStyle(globalColors().primary[5]);
 const options: ChartOptions<"bar"> = {
   responsive: true,
   scales: {

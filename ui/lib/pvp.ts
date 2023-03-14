@@ -17,9 +17,7 @@ export function getEncodedLeaderboard(className: string, specName: string, brack
   const filePath = path.join(wowDirectory, 'pvp', bracket, fileName);
 
   const fileContents = fs.readFileSync(filePath, 'utf8');
-  const leaderboard = JSON.parse(fileContents);
-
-  return leaderboard.entries as string[];
+  return JSON.parse(fileContents);
 }
 
 function createTalentDecodeMap(nodes: TalentNode[]) {

@@ -3,7 +3,7 @@ import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOver
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLoadouts, getEncodedLeaderboard, RatedLoadout } from '@/lib/pvp'
+import { decodeLoadouts, getEncodedLeaderboard as getLeaderboardJson, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import { useRouter } from 'next/router';
@@ -13,6 +13,7 @@ const useStyles = createStyles(theme => ({
   title: {
     marginBottom: rem(10),
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
     '& > h1': {
       marginRight: rem(10),
     },
@@ -32,10 +33,12 @@ export default function Bracket({
   tree,
   encodedLeaderboard,
   bracket,
+  timestamp,
 }: {
   tree: TalentTree,
   encodedLeaderboard: string[],
   bracket: string,
+  timestamp: number,
 }) {
   const leaderboard = useMemo<RatedLoadout[]>(() => {
     return decodeLoadouts(encodedLeaderboard, tree);
@@ -87,6 +90,7 @@ export default function Bracket({
           </Flex>
           <TalentTreeExplorer
             tree={tree}
+            timestamp={timestamp}
             leaderboard={leaderboard}
             key={`${tree.className}-${tree.specName}`}
           />
@@ -120,13 +124,18 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const tree = getTalentTree(className, specName);
 
   const bracket = params!['bracket'] as string;
-  const encodedLeaderboard = getEncodedLeaderboard(className, specName, bracket.toLowerCase());
+
+  const leaderboardJson = getLeaderboardJson(className, specName, bracket.toLowerCase());
+
+  const encodedLeaderboard = leaderboardJson['entries'] as string[];
+  const timestamp = leaderboardJson['timestamp'] as number;
 
   return {
     props: {
       tree,
       encodedLeaderboard,
       bracket,
+      timestamp,
     }
   }
 }
