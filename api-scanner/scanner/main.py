@@ -1,6 +1,8 @@
 import asyncio
 import json
+import math
 import os
+from datetime import datetime
 from itertools import chain
 from pathlib import Path
 
@@ -115,9 +117,9 @@ async def _collect_shuffle_leaderboard(
     path = os.path.join(output_path, filename)
     print(f"Writing to path: {path}")
     with open(path, 'w') as file:
-        json.dump({
+        json.dump(_with_timestamp({
             'entries': encode_loadouts(rated_loadouts, talent_tree),
-        }, file, indent=2)
+        }), file, indent=2)
 
 
 async def _collect_arena_leaderboard(
@@ -163,9 +165,9 @@ async def _collect_arena_leaderboard(
         talent_tree = tree_map[(class_name, spec_name)]
         print(f"Writing to path: {path}")
         with open(path, 'w') as file:
-            json.dump({
+            json.dump(_with_timestamp({
                 'entries': encode_loadouts(entries, talent_tree),
-            }, file, indent=2)
+            }), file, indent=2)
 
 
 def _shuffle_bracket(class_name: str, spec_name: str) -> str:
@@ -202,7 +204,8 @@ async def _fetch_talent_trees(client: Client) -> list[TalentTree]:
 def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
                       path: str) -> None:
     with open(path, 'w') as file:
-        json.dump(talent_tree_to_dict(tree, spell_media), file, indent=2)
+        json_output = talent_tree_to_dict(tree, spell_media)
+        json.dump(_with_timestamp(json_output), file, indent=2)
 
 
 def _get_filename(class_name: str, spec_name: str) -> str:
@@ -211,3 +214,8 @@ def _get_filename(class_name: str, spec_name: str) -> str:
 
 def _create_dir(path: str) -> None:
     Path(path).mkdir(parents=True, exist_ok=True)
+
+
+def _with_timestamp(obj: dict) -> dict:
+    obj['timestamp'] = math.floor(datetime.now().timestamp() * 1000)
+    return obj
