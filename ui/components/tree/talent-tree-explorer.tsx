@@ -65,15 +65,16 @@ export default function TalentTreeExplorer({
   let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
   let [resetCount, setResetCount] = useState<number>(0);
 
-  const filters = [
+  const talentFilters = [
     ...classFilters,
     ...specFilters,
     ...pvpFilters,
   ];
+  let allTalentsLoadouts = leaderboard;
   if (ratingFilter) {
-    filters.push(ratingFilter);
+    allTalentsLoadouts = filterRatedLoadouts(allTalentsLoadouts, [ratingFilter]);
   }
-  const loadouts = filterRatedLoadouts(leaderboard, filters);
+  const loadouts = filterRatedLoadouts(allTalentsLoadouts, talentFilters);
   const { classes } = useStyles();
 
   function reset() {
@@ -85,16 +86,19 @@ export default function TalentTreeExplorer({
   }
 
 
+
+  const viewingPercent = Math.round(loadouts.length / allTalentsLoadouts.length * 100);
+  const localTime = new Date(timestamp).toISOString();
+  const filterStep = 25;
+  const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
+  const maxFilterRating = Math.ceil(maxRating/filterStep)*filterStep;
   const marks = [0, 0.25, 0.5, 0.75, 1.0].map(p => {
-    const rating = p * (maxRating - minRating) + minRating;
+    const rating = p * (maxFilterRating - minFilterRating) + minFilterRating;
     return {
       value: rating,
       label: Math.round(rating),
     };
   });
-
-  const viewingPercent = Math.round(loadouts.length / leaderboard.length * 100);
-  const localTime = new Date(timestamp).toLocaleString();
   return (
     <div className={classes.wrapper}>
       <InfoPanel key={`info-${resetCount}`}>
@@ -109,20 +113,25 @@ export default function TalentTreeExplorer({
               </Text>
             }
           />
-          <Text size="l">Viewing <strong>{loadouts.length}</strong> of <strong>{leaderboard.length}</strong> loadouts.</Text>
+          <Text size="l">
+            {(talentFilters.length > 0) ? (
+              <><strong>{loadouts.length}</strong> of <strong>{allTalentsLoadouts.length}</strong> loadouts use selected talents.</>
+            ) : (
+              <>Viewing <strong>{loadouts.length}</strong> loadouts.</>
+            )}
+          </Text>
         </Flex>
         <RatingHistogram
-          allRatings={leaderboard.map(loadout => loadout.rating)}
+          allRatings={allTalentsLoadouts.map(loadout => loadout.rating)}
           filteredRatings={loadouts.map(loadout => loadout.rating)}
           minRating={ratingFilterRange[0]}
           maxRating={ratingFilterRange[1]}
         />
-        <Space h="xl"/>
-        <Title order={4}>Filter By Rating</Title>
         <RangeSlider 
-          min={minRating}
-          max={maxRating}
-          defaultValue={[minRating, maxRating]}
+          min={minFilterRating}
+          max={maxFilterRating}
+          step={filterStep}
+          defaultValue={[minFilterRating, maxFilterRating]}
           onChange={value => {
             setRatingFilter(() => (loadout: RatedLoadout) => {
               return loadout.rating >= value[0] && loadout.rating <= value[1];
@@ -133,8 +142,8 @@ export default function TalentTreeExplorer({
           marks={marks}
           my={'1.5rem'}
         />
-        <Button onClick={reset}>Reset</Button>
         <Text italic={true} color="primary.9" opacity={0.5} size="sm">Last scanned: {localTime}</Text>
+        <Button onClick={reset}>Reset</Button>
       </InfoPanel>
       <Flex className={classes.trees}>
         <FilteringSubTree

@@ -67,8 +67,6 @@ export default function RatingHistogram({
   minRating,
   maxRating,
 }: RatingHistogramProps) {
-  let [showAllRatings, setShowAllRatings] = useState(true);
-
   const labels: number[] = [];
   const ratingStep = getStepSize(minRating, maxRating);
   minRating = Math.floor(minRating / ratingStep) * ratingStep;
@@ -100,33 +98,19 @@ export default function RatingHistogram({
         data: filteredBuckets,
         backgroundColor: colorToStyle(filteredColor),
       },
+      {
+        label: 'All',
+        data: unfilteredBuckets,
+        backgroundColor: colorToStyle(unfilteredColor, 0.5),
+      },
     ],
   };
 
-  if (showAllRatings) {
-    data.datasets.push({
-      label: 'All',
-      data: unfilteredBuckets,
-      backgroundColor: colorToStyle(unfilteredColor, 0.5),
-    });
-  }
-
   return (
-    <>
-      <Bar height={250} options={options} data={data} />
-      <Checkbox
-        label="Show All Ratings"
-        checked={showAllRatings}
-        onChange={() => setShowAllRatings(!showAllRatings)}
-      />
-    </>
+    <Bar height={250} options={options} data={data} />
   );
 }
 
 function getStepSize(min: number, max: number) {
-  const range = max - min;
-  if (range <= 500) {
-    return 20;
-  }
-  return 50;
+  return 25;
 }
