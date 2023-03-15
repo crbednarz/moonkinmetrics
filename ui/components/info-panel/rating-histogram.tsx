@@ -29,38 +29,6 @@ interface RatingHistogramProps {
   maxRating: number,
 }
 
-const chartColor = colorToStyle(globalColors().primary[5]);
-const options: ChartOptions<"bar"> = {
-  responsive: true,
-  scales: {
-    x: {
-      type: 'linear',
-      stacked: true,
-      grid: {
-        offset: false
-      },
-      ticks: {
-        minRotation: 90,
-        maxRotation: 90,
-      },
-    },
-  },
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Players Per Rating',
-      color: chartColor,
-      font: {
-        size: 16,
-      },
-    },
-  },
-};
-
-
 export default function RatingHistogram({
   allRatings,
   filteredRatings,
@@ -68,17 +36,17 @@ export default function RatingHistogram({
   maxRating,
 }: RatingHistogramProps) {
   const labels: number[] = [];
-  const ratingStep = getStepSize(minRating, maxRating);
-  minRating = Math.floor(minRating / ratingStep) * ratingStep;
-  maxRating = Math.ceil(maxRating / ratingStep) * ratingStep;
+  const ratingStep = 25;
+  const bucketMin = Math.floor(allRatings[allRatings.length-1] / ratingStep) * ratingStep;
+  const bucketMax = Math.ceil(allRatings[0] / ratingStep) * ratingStep;
 
-  for (let rating = minRating; rating <= maxRating; rating += ratingStep) {
+  for (let rating = bucketMin; rating <= bucketMax; rating += ratingStep) {
     labels.push(rating);
   }
   const [unfilteredBuckets, filteredBuckets] = [allRatings, filteredRatings].map(ratings => (
     ratings.reduce((buckets, rating) => {
-      const bucket = Math.floor((rating - minRating) / ratingStep);
-      if (bucket < 0 || bucket >= buckets.length) {
+      const bucket = Math.floor((rating - bucketMin) / ratingStep);
+      if (rating < minRating || rating > maxRating) {
         return buckets;
       }
       buckets[bucket] += 1;
@@ -89,6 +57,41 @@ export default function RatingHistogram({
   const colors = globalColors();
   const filteredColor = colors.primary[9];
   const unfilteredColor = colors.dark[5];
+
+  const chartColor = colorToStyle(globalColors().primary[5]);
+  const options: ChartOptions<"bar"> = {
+    responsive: true,
+    scales: {
+      x: {
+        type: 'linear',
+        stacked: true,
+        min: minRating,
+        max: maxRating,
+        grid: {
+          offset: false
+        },
+        ticks: {
+          minRotation: 90,
+          maxRotation: 90,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Players Per Rating',
+        color: chartColor,
+        font: {
+          size: 16,
+        },
+      },
+    },
+  };
+
+
 
   const data = {
     labels,
@@ -109,8 +112,4 @@ export default function RatingHistogram({
   return (
     <Bar height={250} options={options} data={data} />
   );
-}
-
-function getStepSize(min: number, max: number) {
-  return 25;
 }

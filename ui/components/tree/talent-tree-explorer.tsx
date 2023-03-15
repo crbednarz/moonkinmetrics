@@ -122,7 +122,7 @@ export default function TalentTreeExplorer({
           </Text>
         </Flex>
         <RatingHistogram
-          allRatings={allTalentsLoadouts.map(loadout => loadout.rating)}
+          allRatings={leaderboard.map(loadout => loadout.rating)}
           filteredRatings={loadouts.map(loadout => loadout.rating)}
           minRating={ratingFilterRange[0]}
           maxRating={ratingFilterRange[1]}
