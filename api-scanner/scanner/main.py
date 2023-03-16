@@ -113,7 +113,7 @@ async def _collect_shuffle_leaderboard(
 
     rated_loadouts.sort(key=lambda entry: entry.rating, reverse=True)
 
-    filename = _get_filename(class_name, spec_name)
+    filename = _get_regional_filename(class_name, spec_name, client.region)
     path = os.path.join(output_path, filename)
     print(f"Writing to path: {path}")
     with open(path, 'w') as file:
@@ -160,7 +160,7 @@ async def _collect_arena_leaderboard(
             continue
         entries.sort(key=lambda entry: entry.rating, reverse=True)
 
-        filename = _get_filename(class_name, spec_name)
+        filename = _get_regional_filename(class_name, spec_name, client.region)
         path = os.path.join(output_path, filename)
         talent_tree = tree_map[(class_name, spec_name)]
         print(f"Writing to path: {path}")
@@ -210,6 +210,10 @@ def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
 
 def _get_filename(class_name: str, spec_name: str) -> str:
     return f"{class_name}-{spec_name}.json".lower().replace(' ', '-')
+
+
+def _get_regional_filename(class_name: str, spec_name: str, region: str) -> str:
+    return f"{class_name}-{spec_name}.{region}.json".lower().replace(' ', '-')
 
 
 def _create_dir(path: str) -> None:

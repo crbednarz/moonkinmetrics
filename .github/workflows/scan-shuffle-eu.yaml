@@ -1,9 +1,9 @@
-name: Scan for solo shuffle data
+name: Scan for EU solo shuffle data
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 14 * * *'
 
 permissions:
   id-token: write
@@ -29,7 +29,7 @@ jobs:
           pip install -r api-scanner/requirements.txt
       - name: Run scanner
         run: |
-          python api-scanner/cli.py -o ./wow ladder shuffle
+          python api-scanner/cli.py -r eu -o ./wow ladder shuffle
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

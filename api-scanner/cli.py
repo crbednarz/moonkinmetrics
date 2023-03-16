@@ -14,12 +14,14 @@ from scanner.main import scan_pvp_ladder, scan_talents
 @click.option("--client-secret", "client_secret",
               default=lambda: os.environ.get("WOW_CLIENT_SECRET", ""))
 @click.option("--cache-path", "cache_path", default=".cache")
+@click.option("--region", "-r", "region", default="us")
 @click.pass_context
-def cli(ctx, output_path, client_id, client_secret, cache_path):
+def cli(ctx, output_path, client_id, client_secret, cache_path, region):
     client = Client(
         client_id,
         client_secret,
         cache_path=cache_path,
+        region=region,
     )
 
     ctx.obj = {

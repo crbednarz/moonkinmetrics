@@ -10,14 +10,29 @@ export interface RatedLoadout {
   rating: number;
 }
 
+export interface LeaderboardTimestamp {
+  us: number;
+  eu: number;
+}
+
 const wowDirectory = path.join(process.cwd(), 'wow')
 
 export function getEncodedLeaderboard(className: string, specName: string, bracket: string) {
-  const fileName = `${className.toLowerCase()}-${specName.toLowerCase()}.json`.replace(' ', '-');
-  const filePath = path.join(wowDirectory, 'pvp', bracket, fileName);
+  const [usResults, euResults] = ['us', 'eu'].map(region => {
+    const fileName = `${className.toLowerCase()}-${specName.toLowerCase()}.${region}.json`.replace(' ', '-');
+    const filePath = path.join(wowDirectory, 'pvp', bracket, fileName);
 
-  const fileContents = fs.readFileSync(filePath, 'utf8');
-  return JSON.parse(fileContents);
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(fileContents);
+  });
+
+  return {
+    'entries': [...usResults.entries, ...euResults.entries].sort((a, b) => b.rating - a.rating),
+    'timestamp': {
+      'us': usResults.timestamp,
+      'eu': euResults.timestamp,
+    },
+  };
 }
 
 function createTalentDecodeMap(nodes: TalentNode[]) {

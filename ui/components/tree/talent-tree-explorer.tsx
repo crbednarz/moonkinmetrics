@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RatedLoadout } from '@/lib/pvp';
+import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
 import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Text, RingProgress } from '@mantine/core';
@@ -47,7 +47,7 @@ const useStyles = createStyles(theme => ({
 interface TalentTreeExplorerProps {
   tree: TalentTree;
   leaderboard: RatedLoadout[];
-  timestamp: number;
+  timestamp: LeaderboardTimestamp;
 };
 
 export default function TalentTreeExplorer({
@@ -78,17 +78,19 @@ export default function TalentTreeExplorer({
   const { classes } = useStyles();
 
   function reset() {
-    setResetCount(resetCount + 1);
     setClassFilters([]);
     setSpecFilters([]);
     setPvpFilters([]);
     setRatingFilter(undefined);
+    setRatingFilterRange([minRating, maxRating]);
+    setResetCount(resetCount + 1);
   }
 
 
 
   const viewingPercent = Math.round(loadouts.length / allTalentsLoadouts.length * 100);
-  const localTime = new Date(timestamp).toISOString();
+  const usScanTime = new Date(timestamp.us).toISOString();
+  const euScanTime = new Date(timestamp.eu).toISOString();
   const filterStep = 25;
   const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
   const maxFilterRating = Math.ceil(maxRating/filterStep)*filterStep;
@@ -142,7 +144,7 @@ export default function TalentTreeExplorer({
           marks={marks}
           my={'1.5rem'}
         />
-        <Text italic={true} color="primary.9" opacity={0.5} size="sm">Last scanned: {localTime}</Text>
+        <Text italic={true} color="primary.9" opacity={0.5} size="sm">US scan time: {usScanTime}<br/>EU scan time: {euScanTime}</Text>
         <Button onClick={reset}>Reset</Button>
       </InfoPanel>
       <Flex className={classes.trees}>

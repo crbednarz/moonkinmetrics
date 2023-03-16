@@ -16,8 +16,9 @@ T = TypeVar('T')
 
 
 class _ApiCache:
-    def __init__(self, path: str):
+    def __init__(self, path: str, region: str):
         self.path = path
+        self.region = region
         Path(path).mkdir(parents=True, exist_ok=True)
 
     def get(self, url: str) -> Optional[Any]:
@@ -36,21 +37,22 @@ class _ApiCache:
             return json.dump(obj, file)
 
     def _url_to_cache_name(self, url: str) -> str:
-        return f"{urlparse(url).path.replace('/', '-')}.json"
+        region = self.region
+        return f"{urlparse(url).path.replace('/', '-')}.{region}.json"
 
 
 class Client:
     def __init__(self, client_id: str, client_secret: str,
-                 cache_path: str = '.cache'):
+                 cache_path: str = '.cache',
+                 region: str = 'us'):
         token = self._create_token(client_id, client_secret)
         self.headers = {
             'accept': 'application/json',
             "Authorization": f"Bearer {token}"
         }
-        self.data = {
-            "namespace": "static-us",
-        }
-        self._cache = _ApiCache(cache_path)
+        self._locale = 'en_US' if str == 'us' else 'en_GB'
+        self._cache = _ApiCache(cache_path, region)
+        self.region = region
 
     def _create_token(self, client_id: str, client_secret: str) -> str:
         response = requests.post(
@@ -67,34 +69,52 @@ class Client:
         resources_with_context: list[tuple[str, T]],
         use_cache: bool = True,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
+        region = self.region
         urls = [
-            (f"https://us.api.blizzard.com{resource}", context)
+            (f"https://{region}.api.blizzard.com{resource}", context)
             for resource, context in resources_with_context
         ]
-        return self.get_urls(urls, "static-us", use_cache)
+        return self.get_urls(urls, "static", use_cache)
 
     def get_static_resource(self, resource: str,
                             params: Optional[dict[str, Any]] = None,
                             use_cache: bool = True) -> dict:
-        url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "static-us", use_cache)
+        region = self.region
+        url = f"https://{region}.api.blizzard.com{resource}"
+        return self.get_url(url, params, "static", use_cache)
 
     def get_dynamic_resource(self, resource: str,
                              params: Optional[dict[str, Any]] = None,
                              use_cache: bool = True) -> dict:
-        url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "dynamic-us", use_cache)
+        region = self.region
+        url = f"https://{region}.api.blizzard.com{resource}"
+        return self.get_url(url, params, "dynamic", use_cache)
+
+    def get_profile_resources(
+        self,
+        resources_with_context: list[tuple[str, T]],
+        use_cache: bool = True,
+    ) -> AsyncGenerator[tuple[dict, int, T], None]:
+        region = self.region
+        urls = [
+            (f"https://{region}.api.blizzard.com{resource}", context)
+            for resource, context in resources_with_context
+        ]
+        return self.get_urls(urls, "profile", use_cache)
 
     def get_profile_resource(self, resource: str,
                              params: Optional[dict[str, Any]] = None,
                              use_cache: bool = True) -> dict:
-        url = f"https://us.api.blizzard.com{resource}"
-        return self.get_url(url, params, "profile-us", use_cache)
+        region = self.region
+        url = f"https://{region}.api.blizzard.com{resource}"
+        return self.get_url(url, params, "profile", use_cache)
 
     def get_url(self, url: str,
                 params: Optional[dict[str, Any]] = None,
-                namespace: str = "static-us",
+                namespace: str = "static",
                 use_cache: bool = True) -> dict:
+        namespace = f"{namespace}-{self.region}"
+
         if params is None:
             params = {}
 
@@ -109,7 +129,7 @@ class Client:
                     headers=self.headers,
                     params=params | {
                         'namespace': namespace,
-                        'locale': 'en_US',
+                        'locale': self._locale,
                     }
                 )
 
@@ -132,9 +152,10 @@ class Client:
     async def get_urls(
         self,
         urls_with_context: list[tuple[str, T]],
-        namespace: str = "static-us",
+        namespace: str = "static",
         use_cache: bool = True,
     ) -> AsyncGenerator[tuple[dict, int, T], None]:
+        namespace = f"{namespace}-{self.region}"
 
         uncached_urls_with_context = []
         for url, context in urls_with_context:
@@ -187,7 +208,7 @@ class Client:
                 headers=self.headers,
                 params={
                     'namespace': namespace,
-                    'locale': 'en_US',
+                    'locale': self._locale,
                 }
             ) as response:
                 json = None

@@ -21,10 +21,6 @@ class PlayerLink:
                 f"{self.realm_slug}/{self.name.lower()}/specializations")
 
     @property
-    def specialization_url(self) -> str:
-        return f"https://us.api.blizzard.com{self.specialization_resource}"
-
-    @property
     def profile_resource(self) -> str:
         return (f"/profile/wow/character/"
                 f"{self.realm_slug}/{self.name.lower()}")
@@ -76,13 +72,15 @@ async def get_player_loadouts(
 ]:
     urls_with_context = [
         (
-            player.specialization_url,
+            player.specialization_resource,
             (player, context)
         ) for player, context in players_with_context
     ]
 
-    async for result in client.get_urls(urls_with_context, "profile-us",
-                                        use_cache=False):
+    async for result in client.get_profile_resources(
+        urls_with_context,
+        use_cache=False,
+    ):
         response, status, (player, context) = result
         if status != 200:
             yield None, player, context, LoadoutRequestStatus.MISSING_PLAYER

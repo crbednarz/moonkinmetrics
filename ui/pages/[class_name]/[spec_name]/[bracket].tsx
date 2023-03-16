@@ -3,7 +3,7 @@ import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOver
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLoadouts, getEncodedLeaderboard as getLeaderboardJson, RatedLoadout } from '@/lib/pvp'
+import { decodeLoadouts, getEncodedLeaderboard as getLeaderboardJson, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import { useRouter } from 'next/router';
@@ -38,7 +38,7 @@ export default function Bracket({
   tree: TalentTree,
   encodedLeaderboard: string[],
   bracket: string,
-  timestamp: number,
+  timestamp: LeaderboardTimestamp,
 }) {
   const leaderboard = useMemo<RatedLoadout[]>(() => {
     return decodeLoadouts(encodedLeaderboard, tree);
@@ -92,7 +92,7 @@ export default function Bracket({
             tree={tree}
             timestamp={timestamp}
             leaderboard={leaderboard}
-            key={`${tree.className}-${tree.specName}`}
+            key={`${tree.className}-${tree.specName}-${bracket}`}
           />
         </Stack>
       </Layout>
@@ -128,7 +128,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const leaderboardJson = getLeaderboardJson(className, specName, bracket.toLowerCase());
 
   const encodedLeaderboard = leaderboardJson['entries'] as string[];
-  const timestamp = leaderboardJson['timestamp'] as number;
+  const timestamp = leaderboardJson['timestamp'] as LeaderboardTimestamp;
 
   return {
     props: {

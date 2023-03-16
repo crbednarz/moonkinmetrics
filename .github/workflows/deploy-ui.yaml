@@ -7,8 +7,10 @@ on:
       - master
   workflow_run:
     workflows:
-      - "Scan for solo shuffle data"
-      - "Scan for non solo shuffle data"
+      - "Scan for US solo shuffle data"
+      - "Scan for US non solo shuffle data"
+      - "Scan for EU solo shuffle data"
+      - "Scan for EU non solo shuffle data"
     types:
       - completed
 
