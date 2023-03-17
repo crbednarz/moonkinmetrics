@@ -93,12 +93,12 @@ async def get_player_loadouts(
 
         try:
             json_loadout = _get_active_loadout(player, spec_name, response)
+            loadout = _deserialize_json_loadout(json_loadout, class_name,
+                                                spec_name)
         except (RuntimeError, KeyError):
             yield None, player, context, LoadoutRequestStatus.ERROR
             continue
 
-        loadout = _deserialize_json_loadout(json_loadout, class_name,
-                                            spec_name)
         yield loadout, player, context, LoadoutRequestStatus.SUCCESS
 
 
