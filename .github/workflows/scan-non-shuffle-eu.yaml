@@ -15,7 +15,7 @@ env:
   WOW_CLIENT_SECRET: ${{ secrets.WOW_CLIENT_SECRET }}
 
 jobs:
-  build-and-deploy-ui:
+  scan-bnet-api:
     runs-on: [self-hosted, linux, x64]
     steps:
       - uses: actions/checkout@v2
@@ -29,7 +29,6 @@ jobs:
           pip install -r api-scanner/requirements.txt
       - name: Run scanner
         run: |
-          python api-scanner/cli.py -r eu -o ./wow talents
           python api-scanner/cli.py -r eu -o ./wow ladder 2v2
           python api-scanner/cli.py -r eu -o ./wow ladder 3v3
       - name: Configure AWS credentials

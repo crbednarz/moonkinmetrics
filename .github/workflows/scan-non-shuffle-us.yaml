@@ -15,7 +15,7 @@ env:
   WOW_CLIENT_SECRET: ${{ secrets.WOW_CLIENT_SECRET }}
 
 jobs:
-  build-and-deploy-ui:
+  scan-bnet-api:
     runs-on: [self-hosted, linux, x64]
     steps:
       - uses: actions/checkout@v2
