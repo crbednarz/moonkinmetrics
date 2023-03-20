@@ -54,11 +54,10 @@ export default function RatingHistogram({
     }, Array(labels.length).fill(0))
   ));
 
-  const colors = globalColors();
-  const filteredColor = colors.primary[9];
-  const unfilteredColor = colors.dark[5];
+  const filteredColor = globalColors.primary[9];
+  const unfilteredColor = globalColors.dark[5];
 
-  const chartColor = colorToStyle(globalColors().primary[5]);
+  const chartColor = colorToStyle(globalColors.primary[5]);
   const options: ChartOptions<"bar"> = {
     responsive: true,
     scales: {

@@ -4,6 +4,10 @@ import Head from 'next/head';
 import { em, MantineProvider } from '@mantine/core';
 import { globalThemeColors } from '@/lib/style-constants';
 
+export function reportWebVitals(metric: any): void {
+  console.log(metric)
+}
+
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
 

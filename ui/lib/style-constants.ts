@@ -73,7 +73,7 @@ export function createThemeColors(
   return colors.map(color => `rgb(${color.r}, ${color.g}, ${color.b})`);
 }
 
-export function globalColors(): {[key: string]: Color[]} {
+export const globalColors = (() => {
   const colors: {[key: string]: Color[]} = {};
   for (let key in CLASS_COLORS) {
     colors[key] = createShades(CLASS_COLORS[key]);
@@ -88,11 +88,15 @@ export function globalColors(): {[key: string]: Color[]} {
     {r: 118, g: 153, b: 147}
   );
 
+  colors['hightlight'] = createShades(
+      {r: 100, g: 175, b: 125}
+  );
+
   return colors;
-}
+})();
 
 export function globalThemeColors(): MantineThemeColorsOverride {
-  const colors = globalColors();
+  const colors = globalColors;
   const themeColors: {[key: string]: string[]} = {};
   for (let key in colors) {
     themeColors[key] = colors[key].map(color => `rgb(${color.r}, ${color.g}, ${color.b})`);
@@ -118,3 +122,10 @@ export function colorToStyle(color: Color, alpha: number = 1.0): string {
   }
   return `rgb(${color.r}, ${color.g}, ${color.b})`;
 }
+
+export function getProgressColor(progress: number) {
+  const lowColor = globalColors['dark'][5];
+  const highColor = globalColors['hightlight'][9]; 
+  return lerpColors(lowColor, highColor, progress);
+}
+
