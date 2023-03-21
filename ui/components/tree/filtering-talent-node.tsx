@@ -4,68 +4,75 @@ import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
 import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Image, Text, RingProgress, Box, BackgroundImage, Progress, useMantineTheme, getStylesRef, Popover } from '@mantine/core';
 import {useState} from 'react';
+import FilteringTalentTooltip from './filtering-talent-tooltip';
 
 const useStyles = createStyles(theme => ({
   node: {
     position: 'absolute',
-    [`&:hover .${getStylesRef('iconLabel')}`]: {
+    transform: 'translate(-50%, 0)',
+    zIndex: 1,
+    '&:hover': {
+      zIndex: 2,
+    }
+  },
+  talentGroup: {
+    position: 'relative',
+    zIndex: 1,
+    padding: 5,
+    backgroundColor: theme.colors.dark[5],
+    border: `1px solid ${theme.colors.dark[4]}`,
+    borderRadius: theme.radius.sm,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 5,
+  },
+  iconGroup: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    maxWidth: 56,
+    rowGap: 4,
+    columnGap: 1,
+    [`&:hover .${getStylesRef('usage')}`]: {
+      display: 'flex',
     },
   },
   icon: {
-    width: 56,
-    height: 56,
-    color: 'white',
-    borderRadius: 13,
-  },
-  iconContainer: {
-    position: 'relative',
-    display: 'flex',
-    backgroundColor: theme.colors.dark[6],
-    overflow: 'hidden',
-    borderRadius: 15,
-    background: theme.colors.dark[5],
-    padding: 3,
-  },
-  iconProgress: {
-    content: "''",
-    width: 62,
-    height: 62,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    background: theme.colors.primary[2],
-  },
-  iconLabel: {
-    ref: getStylesRef('iconLabel'),
-    position: 'absolute',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    fontSize: 12,
-    fontWeight: 900,
-    width: 28,
-    height: 28,
-    left: -10,
-    top: -10,
-    zIndex: 1,
-    background: theme.colors.dark[6],
-    border: `1px solid ${theme.colors.dark[5]}`,
-    borderRadius: 14,
-  },
-  multiple: {
-    width: 28,
-    height: 56,
     display: 'inline-block',
     border: `1px solid ${theme.colors.dark[7]}`,
+    borderRadius: theme.radius.sm,
+    overflow: 'hidden',
+    width: 56,
+    height: 56,
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
     backgroundPosition: 'center',
-    '&:nth-child(2)': {
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0,
+    [`&.${getStylesRef('multiple')}`]: {
+      width: 27,
     },
-    '&:nth-child(3)': {
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0,
-    }
+  },
+  usage: {
+    position: 'absolute',
+    borderRadius: theme.radius.sm,
+    zIndex: 2,
+    pointerEvents: 'none',
+    ref: getStylesRef('usage'),
+    width: 56,
+    height: 56,
+    background: 'rgba(20, 20, 20, 0.85)',
+    fontSize: 21,
+    fontWeight: 700,
+    display: 'none',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  multiple: {
+    ref: getStylesRef('multiple'),
+  },
+  progress: {
+    width: 56,
+    
   }
 }));
 
@@ -90,19 +97,6 @@ export default function FilteringTalentNode({
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
 
-  const clipPolygon = [
-    {x: 0, y: 0},
-  ];
-  for (let i = 0; i < 5; i++) {
-    const angle = (i / 4) * Math.PI * 2 * usage.percent - Math.PI * 3 / 4;
-    clipPolygon.push({
-      x: Math.cos(angle) * 100,
-      y: Math.sin(angle) * 100,
-    });
-  }
-
-  const clipPath = `polygon(${clipPolygon.map(p => `${p.x+31}px ${p.y+31}px`).join(', ')})`;
-
   const lowColor = {
     r: 175,
     g: 55,
@@ -111,63 +105,123 @@ export default function FilteringTalentNode({
 
   const highColor = lerpColors(lowColor, globalColors.hightlight[9], usage.percent);
 
-  const borderColor = lerpColors(lowColor, highColor, usage.percent);
-  const [popoverOpened, setPopoverOpened] = useState(false);
+  let usageColor = lerpColors(lowColor, highColor, usage.percent);
+  let borderStrength = 0.3;
+  let bgStrength = 0.2;
+  if (selectedTalent) {
+    usageColor = {
+      r: 255,
+      g: 180,
+      b: 50,
+    };
+    borderStrength = 0.8;
+    bgStrength = 0.3;
+  }
+  const borderColor = lerpColors(usageColor, globalColors.dark[4], 1.0 - borderStrength);
+  const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
+
+  const [expanded, setExpanded] = useState(false);
+
+  let talentGroups = [{
+    talents: node.talents,
+    usage: usage.percent,
+  }];
+
+  if (node.talents.length > 1) {
+    if (expanded) {
+      talentGroups = node.talents.map(talent => ({
+        talents: [talent],
+        usage: usage.talents[talent.id].percent,
+      }));
+    } else {
+      talentGroups = [{
+        talents: node.talents,
+        usage: usage.percent,
+      }];
+    }
+  }
+
   return (
     <div
       className={classes.node}
       style={{
-        left: node.x - 3,
-        top: node.y - 3,
+        left: node.x + 28,
+        top: node.y - 5,
       }}
-      onMouseOver={() => setPopoverOpened(true)}
-      onMouseLeave={() => setPopoverOpened(false)}
+      onMouseOver={() => setExpanded(true)}
+      onMouseOut={() => setExpanded(false)}
     >
       <div
-        className={classes.iconLabel}
+        className={classes.talentGroup}
         style={{
-          borderColor: colorToStyle(getProgressColor(usage.percent)),
-          color: colorToStyle(getProgressColor(usage.percent)),
+          borderColor: colorToStyle(borderColor),
+          backgroundColor: colorToStyle(bgColor),
         }}
       >
-        {`${Math.round(usage.percent * 100)}`}
-      </div>
-      <Popover opened={popoverOpened} withArrow position="right" width={200} transitionProps={{ transition: 'pop' }}>
-        <Popover.Target>
-          <div className={classes.iconContainer}>
-            <div className={classes.iconProgress}
-              style={{
-                clipPath,
-                backgroundColor: colorToStyle(borderColor),
-              }}
-            />
-            {node.talents.map((talent, index) => {
-              const talentUsage = usage.talents[talent.id];
+        {talentGroups.map(talentGroup => {
+          let talentColorStyle = colorToStyle(lerpColors(lowColor, highColor, talentGroup.usage));
+          if (talentGroup.talents.find(talent => talent.id === selectedTalent)) {
+            talentColorStyle = colorToStyle(usageColor);
+          }
 
-              return (
+          return (
+            <Popover
+              position="right"
+              withArrow
+              shadow="md"
+              zIndex={5}
+              opened={expanded}
+              key={`${talentGroup.talents[0].id} ${talentGroup.talents.length}`}
+            >
+              <Popover.Target>
                 <div
-                  className={`${classes.icon} ${node.talents.length > 1 ? classes.multiple : ''}`}
-                  key={index}
-                  style={{
-                    filter: `grayscale(${1.0 - talentUsage.percent}) contrast(${talentUsage.percent * 0.5 + 0.5}) brightness(${talentUsage.percent * 0.5 + 0.5})`,
-                    backgroundColor: colorToStyle(getProgressColor(usage.percent)),
-                    backgroundImage: `url(${talent.icon})`,
-                  }}
+                  className={classes.iconGroup}
+                >
+                  <div className={classes.usage} style={{color: talentColorStyle}}>
+                    {Math.round(talentGroup.usage * 100)}%
+                  </div>
+                  {talentGroup.talents.map(talent => {
+                    let talentUsage = talentGroup.usage;
+                    if (talentGroup.talents.length > 1) {
+                      talentUsage = usage.talents[talent.id].percent;
+                    }
+                    return (
+                      <div
+                        key={talent.id}
+                        onClick={() => onTalentSelect(talent.id)}
+                        onContextMenu={e => {
+                          e.preventDefault();
+                          onTalentDeselect(talent.id);
+                        }}
+                        style={{
+                          backgroundImage: `url(${talent.icon})`,
+                          filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
+                          backgroundColor: colorToStyle(getProgressColor(talentUsage)),
+                        }}
+                        className={`${classes.icon} ${talentGroup.talents.length > 1 ? classes.multiple : ''}`}
+                      >
+                      </div>
+                    );
+                  })}
+
+                  <div className={classes.progress}>
+                    <Progress
+                      size='sm'
+                      value={talentGroup.usage * 100}
+                      color={talentColorStyle}
+                    />
+                  </div>
+                </div>
+              </Popover.Target>
+              <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
+                <FilteringTalentTooltip
+                  node={node}
                 />
-              );
-            })}
-          </div>
-        </Popover.Target>
-        <Popover.Dropdown>
-          <Text color="dark" size="sm" weight={500}>
-            <Title>
-            </Title>
-            {node.talents[0].name}
-          </Text>
-          <Box style={{padding: 10}} />
-        </Popover.Dropdown>
-      </Popover>
+              </Popover.Dropdown>
+            </Popover>
+          );
+        })}
+      </div>
     </div>
   );
 }
-
