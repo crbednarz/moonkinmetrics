@@ -66,9 +66,6 @@ export function decodeLoadouts(encodedLoadouts: string[], tree: TalentTree): Rat
     for (let i = 0; i < talentBytes.length; i += 2) {
       const index = talentBytes[i];
       const rank = talentBytes[i + 1];
-      if (talentMap[index] == 107603) {
-        console.log(index, rank, encodedTalents);
-      }
       talents[talentMap[index]] = rank;
     }
 

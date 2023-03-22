@@ -121,6 +121,7 @@ export default function FilteringTalentNode({
   const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
 
   const [expanded, setExpanded] = useState(false);
+  const [showTooltip, setShowTooltip] = useState([false, false]);
 
   let talentGroups = [{
     talents: node.talents,
@@ -149,7 +150,10 @@ export default function FilteringTalentNode({
         top: node.y - 5,
       }}
       onMouseOver={() => setExpanded(true)}
-      onMouseOut={() => setExpanded(false)}
+      onMouseOut={() => {
+        setShowTooltip([false, false]);
+        setExpanded(false);
+      }}
     >
       <div
         className={classes.talentGroup}
@@ -158,7 +162,7 @@ export default function FilteringTalentNode({
           backgroundColor: colorToStyle(bgColor),
         }}
       >
-        {talentGroups.map(talentGroup => {
+        {talentGroups.map((talentGroup, talentGroupIndex) => {
           let talentColorStyle = colorToStyle(lerpColors(lowColor, highColor, talentGroup.usage));
           if (talentGroup.talents.find(talent => talent.id === selectedTalent)) {
             talentColorStyle = colorToStyle(usageColor);
@@ -166,16 +170,21 @@ export default function FilteringTalentNode({
 
           return (
             <Popover
-              position="right"
+              position={(talentGroupIndex == 0 && talentGroups.length > 1)?"left":"right"}
               withArrow
               shadow="md"
               zIndex={5}
-              opened={expanded}
-              key={`${talentGroup.talents[0].id} ${talentGroup.talents.length}`}
+              opened={showTooltip[talentGroupIndex]}
+              key={`${talentGroup.talents[0].id}`}
             >
               <Popover.Target>
                 <div
                   className={classes.iconGroup}
+                  onMouseOver={() => {
+                    if (talentGroup.talents.length == 1)
+                      setShowTooltip(talentGroupIndex == 0 ? [true, false] : [false, true]);
+                  }}
+                  onMouseOut={() => setShowTooltip([false, false])}
                 >
                   <div className={classes.usage} style={{color: talentColorStyle}}>
                     {Math.round(talentGroup.usage * 100)}%
