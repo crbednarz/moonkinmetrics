@@ -27,7 +27,7 @@ export function getEncodedLeaderboard(className: string, specName: string, brack
   });
 
   return {
-    'entries': [...usResults.entries, ...euResults.entries].sort((a, b) => b.rating - a.rating),
+    'entries': [...usResults.entries].sort((a, b) => b.rating - a.rating),
     'timestamp': {
       'us': usResults.timestamp,
       'eu': euResults.timestamp,
