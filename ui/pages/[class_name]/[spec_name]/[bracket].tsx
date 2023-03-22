@@ -8,6 +8,7 @@ import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import { useRouter } from 'next/router';
 import {useMemo} from 'react';
+import Head from 'next/head';
 
 const useStyles = createStyles(theme => ({
   title: {
@@ -62,6 +63,9 @@ export default function Bracket({
         primaryColor: 'primary',
       }}
     >
+      <Head>
+        <title>{bracket} - {tree.specName} {tree.className} | Moonkin Metrics</title>
+      </Head>
       <Layout>
         <Stack style={{display: 'inline-flex', maxWidth: '100%'}}>
           <Flex className={classes.title} justify="space-between">
