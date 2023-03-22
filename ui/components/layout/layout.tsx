@@ -9,8 +9,23 @@ import {
   Title,
   useMantineTheme,
   Flex,
+  createStyles,
+  Space,
 } from '@mantine/core';
 import SiteNavbar from './site-navbar';
+
+const useStyles = createStyles(theme => ({
+  logo: {
+    alignContent: 'center',
+    alignItems: 'center',
+    textAlign: 'left',
+    '& > h1': {
+      paddingTop: rem(15),
+      fontSize: rem(40),
+      lineHeight: rem(30),
+    }
+  }
+}));
 
 export default function Layout({
   children,
@@ -19,6 +34,7 @@ export default function Layout({
   children: React.ReactNode,
   className?: string
 }) {
+  const { classes } = useStyles();
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   return (
@@ -52,8 +68,14 @@ export default function Layout({
               },
             },
           })}>
-            <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} />
-            <Title>Moonkin Metrics</Title>
+            <Flex className={classes.logo}>
+              <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} />
+              <Title>
+                Moonkin
+                <Space h="xs" />
+                Metrics
+              </Title>
+            </Flex>
             <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}
