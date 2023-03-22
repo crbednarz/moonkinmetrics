@@ -129,3 +129,12 @@ export function getProgressColor(progress: number) {
   return lerpColors(lowColor, highColor, progress);
 }
 
+export function getUsageColor(usage: number) {
+    const lowColor = {
+      r: 175,
+      g: 55,
+      b: 0,
+    };
+    const highColor = lerpColors(lowColor, globalColors.hightlight[9], usage);
+    return lerpColors(lowColor, highColor, usage);
+}

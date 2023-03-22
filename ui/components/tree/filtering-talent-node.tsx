@@ -1,8 +1,7 @@
-import styles from './filtering-talent-node.module.scss';
-import {colorToStyle, getProgressColor, globalColors, lerpColors} from '@/lib/style-constants';
+import {colorToStyle, getProgressColor, getUsageColor, globalColors, lerpColors} from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
-import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Image, Text, RingProgress, Box, BackgroundImage, Progress, useMantineTheme, getStylesRef, Popover } from '@mantine/core';
+import { createStyles, Progress, getStylesRef, Popover } from '@mantine/core';
 import {useState} from 'react';
 import FilteringTalentTooltip from './filtering-talent-tooltip';
 
@@ -96,19 +95,19 @@ export default function FilteringTalentNode({
   onTalentDeselect,
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
-
-  const lowColor = {
-    r: 175,
-    g: 55,
-    b: 0,
-  };
-
-  const highColor = lerpColors(lowColor, globalColors.hightlight[9], usage.percent);
-
-  let usageColor = lerpColors(lowColor, highColor, usage.percent);
   let borderStrength = 0.3;
   let bgStrength = 0.2;
-  if (selectedTalent) {
+  let usageColor = getUsageColor(usage.percent);
+  if (disabled) {
+    usageColor = {
+      r: 200,
+      g: 50,
+      b: 50,
+    };
+    borderStrength = 0.5;
+    bgStrength = 0.3;
+
+  } else if (selectedTalent) {
     usageColor = {
       r: 255,
       g: 180,
@@ -163,7 +162,7 @@ export default function FilteringTalentNode({
         }}
       >
         {talentGroups.map((talentGroup, talentGroupIndex) => {
-          let talentColorStyle = colorToStyle(lerpColors(lowColor, highColor, talentGroup.usage));
+          let talentColorStyle = colorToStyle(getUsageColor(talentGroup.usage));
           if (talentGroup.talents.find(talent => talent.id === selectedTalent)) {
             talentColorStyle = colorToStyle(usageColor);
           }
@@ -225,6 +224,8 @@ export default function FilteringTalentNode({
               <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
                 <FilteringTalentTooltip
                   node={node}
+                  talentId={talentGroup.talents[0].id}
+                  usage={usage}
                 />
               </Popover.Dropdown>
             </Popover>
