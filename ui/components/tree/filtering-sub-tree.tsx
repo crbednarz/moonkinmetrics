@@ -14,6 +14,7 @@ const useStyles = createStyles(theme => ({
     borderRadius: '10px',
     padding: '10px',
     background: theme.colors.dark[6],
+    border: `1px solid ${theme.colors.dark[5]}`,
     overflow: 'auto',
     textAlign: 'center',
   },

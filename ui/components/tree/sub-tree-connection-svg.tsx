@@ -1,4 +1,4 @@
-import {globalColors, lerpColors} from '@/lib/style-constants';
+import {getProgressColor, globalColors, lerpColors} from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsageMap } from '@/lib/usage';
 
@@ -7,6 +7,7 @@ interface Line {
   y1: number,
   x2: number,
   y2: number,
+  width: number,
   color: string,
 }
 
@@ -30,10 +31,6 @@ export default function SubTreeConnectionSvg({
   let lines: Line[] = [];
   const LINE_OFFSET = 28;
 
-  const activeColor = globalColors()['primary'][9];
-  const inactiveColor = globalColors()['dark'][8];
-
-
   for (let node of nodes) {
     for (let lockedById of node.lockedBy) {
       if (!(lockedById in nodeMap))
@@ -43,14 +40,15 @@ export default function SubTreeConnectionSvg({
       const usage = usageMap[node.id];
       const parentUsage = usageMap[lockedById];
       const colorDelta = Math.min(parentUsage.percent, usage.percent);
-      const color = lerpColors(inactiveColor, activeColor, colorDelta)
-      const alpha = colorDelta * 0.5 + 0.1;
+      const color = getProgressColor(colorDelta);
+      
       lines.push({
         x1: node.x + LINE_OFFSET,
         y1: node.y + LINE_OFFSET,
         x2: otherNode.x + LINE_OFFSET,
         y2: otherNode.y + LINE_OFFSET,
-        color: `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`,
+        width: 3,
+        color: `rgb(${color.r}, ${color.g}, ${color.b})`,
       });
     }
   }
@@ -71,7 +69,8 @@ export default function SubTreeConnectionSvg({
           y1={line.y1}
           x2={line.x2}
           y2={line.y2}
-          strokeWidth={3}
+          strokeWidth={line.width}
+          opacity={0.5}
           stroke={line.color}
         />
       ))}

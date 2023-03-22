@@ -87,7 +87,7 @@ function convertNodePositions(nodes: TalentNode[]) {
     maxY = Math.max(node.y, maxY);
   }
   const iconSize = 56;
-  const iconPadding = 14;
+  const iconPadding = 24;
   const paddedIconSize = iconSize + iconPadding * 2;
   const blizzardIconSpacing = 600;
   const iconRows = 10;
