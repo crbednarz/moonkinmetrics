@@ -97,7 +97,8 @@ function convertNodePositions(nodes: TalentNode[]) {
   const iconRows = 10;
   const iconCols = 9;
 
-  const width = paddedIconSize * iconCols;
+  // Tree width has an additional 0.5 columns to accommodate choice talents expanding.
+  const width = paddedIconSize * (iconCols + 0.5);
   const height = paddedIconSize * iconRows;
 
 
