@@ -1,14 +1,14 @@
-import styles from '@/components/tree/filtering-talent-node.module.scss';
-import { PvpTalent } from '@/lib/talents'
-import { PvpTalentUsage } from '@/lib/usage';
+import { Talent } from '@/lib/talents'
+import { TalentUsage } from '@/lib/usage';
+import FilteringTalent from '../tree/filtering-talent';
 
 interface FilteringPvpTalentProps {
-  talent: PvpTalent;
-  usage: PvpTalentUsage;
+  talent: Talent;
+  usage: TalentUsage;
   disabled?: boolean;
   highlight?: boolean;
-  onSelect: (talent: PvpTalent) => void;
-  onDeselect: (talent: PvpTalent) => void;
+  onSelect: (talent: Talent) => void;
+  onDeselect: (talent: Talent) => void;
 }
 
 export default function FilteringPvpTalent({
@@ -19,43 +19,16 @@ export default function FilteringPvpTalent({
   onSelect,
   onDeselect,
 }: FilteringPvpTalentProps) {
-  const usageText = `${Math.round(usage.percent * 100)}%`;
-  const usageColor = `rgb(${(1.0 - usage.percent)*255}, ${usage.percent*255}, 0)`;
-
-  let classes = `${styles.node} ${styles['pvp-talent']}`;
-  if (disabled)
-    classes += ` ${styles.disabled}`;
-
-  if (highlight)
-    classes += ` ${styles.locked}`;
-
   return (
-    <div className={classes}>
-      <div className={styles.talentGroup}>
-        <a
-          data-wowhead={`spell=${talent.spellId}`}
-          className={styles.talent}
-          style={{
-            filter: `grayscale(${1.0 - usage.percent})`,
-            opacity: 0.5 + usage.percent * 0.5,
-            backgroundImage: `url(${talent.icon})`,
-          }}
-          key={talent.id}
-          onClick={() => onSelect(talent)}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            onDeselect(talent);
-          }}
-        />
-      </div>
-      <div
-        className={styles.usage}
-        style={{
-          color: usageColor
-        }}
-      >
-        <span>{usageText}</span>
-      </div>
+    <div style={{ display: 'inline-block', margin: 5 }}>
+      <FilteringTalent
+        talents={[talent]}
+        talentsUsage={[usage]}
+        usage={usage.percent}
+        onTalentSelect={onSelect}
+        onTalentDeselect={onDeselect}
+        tooltipDirection="right"
+      />
     </div>
   );
 }

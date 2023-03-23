@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {PvpTalent, TalentNode, TalentTree} from './talents';
+import {Talent, TalentNode, TalentTree} from './talents';
 
 type RankByTalent = { [key: number]: number };
 
@@ -45,7 +45,7 @@ function createTalentDecodeMap(nodes: TalentNode[]) {
   return talentIds.sort((a, b) => a - b);
 }
 
-function createPvpTalentDecodeMap(talents: PvpTalent[]) {
+function createPvpTalentDecodeMap(talents: Talent[]) {
   let talentIds = [];
   for (let talent of talents) {
     talentIds.push(talent.id);

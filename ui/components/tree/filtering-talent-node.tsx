@@ -1,9 +1,9 @@
 import {colorToStyle, getProgressColor, getUsageColor, globalColors, lerpColors} from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
-import { createStyles, Progress, getStylesRef, Popover } from '@mantine/core';
+import { createStyles } from '@mantine/core';
 import {useState} from 'react';
-import FilteringTalentTooltip from './filtering-talent-tooltip';
+import FilteringTalent from './filtering-talent';
 
 const useStyles = createStyles(theme => ({
   node: {
@@ -25,54 +25,6 @@ const useStyles = createStyles(theme => ({
     flexDirection: 'row',
     gap: 5,
   },
-  iconGroup: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    maxWidth: 56,
-    rowGap: 4,
-    columnGap: 1,
-    [`&:hover .${getStylesRef('usage')}`]: {
-      display: 'flex',
-    },
-  },
-  icon: {
-    display: 'inline-block',
-    border: `1px solid ${theme.colors.dark[7]}`,
-    borderRadius: theme.radius.sm,
-    overflow: 'hidden',
-    width: 56,
-    height: 56,
-    backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    backgroundPosition: 'center',
-    [`&.${getStylesRef('multiple')}`]: {
-      width: 27,
-    },
-  },
-  usage: {
-    position: 'absolute',
-    borderRadius: theme.radius.sm,
-    zIndex: 2,
-    pointerEvents: 'none',
-    ref: getStylesRef('usage'),
-    width: 56,
-    height: 56,
-    background: 'rgba(20, 20, 20, 0.85)',
-    fontSize: 21,
-    fontWeight: 700,
-    display: 'none',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  multiple: {
-    ref: getStylesRef('multiple'),
-  },
-  progress: {
-    width: 56,
-    
-  }
 }));
 
 interface FilteringTalentNodeProps {
@@ -120,25 +72,17 @@ export default function FilteringTalentNode({
   const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
 
   const [expanded, setExpanded] = useState(false);
-  const [showTooltip, setShowTooltip] = useState([false, false]);
 
   let talentGroups = [{
     talents: node.talents,
     usage: usage.percent,
   }];
 
-  if (node.talents.length > 1) {
-    if (expanded) {
-      talentGroups = node.talents.map(talent => ({
-        talents: [talent],
-        usage: usage.talents[talent.id].percent,
-      }));
-    } else {
-      talentGroups = [{
-        talents: node.talents,
-        usage: usage.percent,
-      }];
-    }
+  if (node.talents.length > 1 && expanded) {
+    talentGroups = node.talents.map(talent => ({
+      talents: [talent],
+      usage: usage.talents[talent.id].percent,
+    }));
   }
 
   return (
@@ -149,10 +93,7 @@ export default function FilteringTalentNode({
         top: node.y - 5,
       }}
       onMouseOver={() => setExpanded(true)}
-      onMouseOut={() => {
-        setShowTooltip([false, false]);
-        setExpanded(false);
-      }}
+      onMouseOut={() => setExpanded(false)}
     >
       <div
         className={classes.talentGroup}
@@ -162,76 +103,20 @@ export default function FilteringTalentNode({
         }}
       >
         {talentGroups.map((talentGroup, talentGroupIndex) => {
-          let talentColorStyle = colorToStyle(getUsageColor(talentGroup.usage));
-          if (talentGroup.talents.find(talent => talent.id === selectedTalent)) {
-            talentColorStyle = colorToStyle(usageColor);
-          }
-
           return (
-            <Popover
-              position={(talentGroupIndex == 0 && talentGroups.length > 1)?"left":"right"}
-              withArrow
-              shadow="md"
-              zIndex={5}
-              opened={showTooltip[talentGroupIndex]}
+            <FilteringTalent
               key={`${talentGroup.talents[0].id}`}
-            >
-              <Popover.Target>
-                <div
-                  className={classes.iconGroup}
-                  onMouseOver={() => {
-                    if (talentGroup.talents.length == 1)
-                      setShowTooltip(talentGroupIndex == 0 ? [true, false] : [false, true]);
-                  }}
-                  onMouseOut={() => setShowTooltip([false, false])}
-                >
-                  <div className={classes.usage} style={{color: talentColorStyle}}>
-                    {Math.round(talentGroup.usage * 100)}%
-                  </div>
-                  {talentGroup.talents.map(talent => {
-                    let talentUsage = talentGroup.usage;
-                    if (talentGroup.talents.length > 1) {
-                      talentUsage = usage.talents[talent.id].percent;
-                    }
-                    return (
-                      <div
-                        key={talent.id}
-                        onClick={() => onTalentSelect(talent.id)}
-                        onContextMenu={e => {
-                          e.preventDefault();
-                          onTalentDeselect(talent.id);
-                        }}
-                        style={{
-                          backgroundImage: `url(${talent.icon})`,
-                          filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
-                          backgroundColor: colorToStyle(getProgressColor(talentUsage)),
-                        }}
-                        className={`${classes.icon} ${talentGroup.talents.length > 1 ? classes.multiple : ''}`}
-                      >
-                      </div>
-                    );
-                  })}
-
-                  <div className={classes.progress}>
-                    <Progress
-                      size='sm'
-                      value={talentGroup.usage * 100}
-                      color={talentColorStyle}
-                    />
-                  </div>
-                </div>
-              </Popover.Target>
-              <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
-                <FilteringTalentTooltip
-                  node={node}
-                  talentId={talentGroup.talents[0].id}
-                  usage={usage}
-                />
-              </Popover.Dropdown>
-            </Popover>
+              talents={talentGroup.talents}
+              talentsUsage={talentGroup.talents.map(talent => usage.talents[talent.id])}
+              usage={talentGroup.usage}
+              onTalentSelect={talent => onTalentSelect(talent.id)}
+              onTalentDeselect={talent => onTalentDeselect(talent.id)}
+              tooltipDirection={(talentGroupIndex == 0 && talentGroups.length > 1)?"left":"right"}
+            />
           );
         })}
       </div>
     </div>
   );
 }
+

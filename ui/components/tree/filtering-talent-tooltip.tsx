@@ -1,46 +1,52 @@
-import {colorToStyle, getProgressColor, getUsageColor, globalColors, globalThemeColors} from "@/lib/style-constants";
-import { TalentNode } from "@/lib/talents";
-import { NodeUsage } from "@/lib/usage";
-import { Title, Text, Group, RingProgress, createStyles } from '@mantine/core';
+import { colorToStyle, getUsageColor } from "@/lib/style-constants";
+import { Talent, TalentNode } from "@/lib/talents";
+import { NodeUsage, TalentUsage } from "@/lib/usage";
+import { Title, RingProgress, createStyles, List, ThemeIcon, Stack, Divider } from '@mantine/core';
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles(() => ({
   tooltip: {
     display: 'flex',
     flexDirection: 'column',
+    textAlign: 'left',
+    maxWidth: 300,
+    fontSize: 12,
   },
 }));
 
 export interface FilteringTalentTooltipProps {
-  node: TalentNode;
-  usage: NodeUsage;
-  talentId: number;
+  talent: Talent;
+  usage: TalentUsage;
 }
 
 export default function FilteringTalentTooltip({
-  node,
+  talent,
   usage,
-  talentId,
 }: FilteringTalentTooltipProps) {
   const { classes } = useStyles();
-  const talentUsage = usage.talents[talentId];
-  const talent = node.talents.find(t => t.id === talentId);
-  if (!talent) {
-    return null;
-  }
+  const maxRank = talent.ranks.length;
+  /* Info to display:
+   * - Talent name
+   * - Talent total usage (%, #)
+   *   - Loadouts at rank n: x% (y of z) 
+   * - Talent usage by rank (%, #)
+   * - Filter type
+   * - Total ranks
+   * - Tooltip for current rank?
+   */
 
   return (
     <div className={classes.tooltip}>
-      <RingProgress
-        size={100}
-        thickness={16}
-        sections={
-          talentUsage.usageByRank.slice(1).map((count, i) => ({
-            value: Math.round((count / usage.total) * 100),
-            color: colorToStyle(getUsageColor(1 - (i / node.maxRank) * 0.5)),
-          }))
-        }
-      />
       <Title order={5}>{talent.name}</Title>
+      <Divider my="sm" />
+      <div>
+        {usage.usageByRank.slice(1).map((count, i) => (
+          <span key={i}>{i+1}/{maxRank}: {Math.round((count / usage.total) * 100)}% ({count} players)<br/></span>
+        ))}
+        <Divider my="sm" />
+        <p>
+          {talent.ranks[0].description}
+        </p>
+      </div>
     </div>
   );
 }

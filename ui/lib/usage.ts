@@ -1,7 +1,7 @@
 import { RatedLoadout } from '@/lib/pvp';
-import { PvpTalent, TalentNode } from './talents';
+import { Talent, TalentNode } from './talents';
 
-interface TalentUsage {
+export interface TalentUsage {
   selected: number;
   total: number;
   percent: number;
@@ -15,22 +15,12 @@ export interface NodeUsage {
   talents: TalentUsageMap;
 }
 
-export interface PvpTalentUsage {
-  selected: number;
-  total: number;
-  percent: number;
-}
-
 type TalentUsageMap = {
   [key: number]: TalentUsage
 }
 
 export type NodeUsageMap = {
   [key: number]: NodeUsage
-}
-
-export type PvpTalentUsageMap = {
-  [key: number]: PvpTalentUsage
 }
 
 export function getNodeUsage(nodes: TalentNode[], loadouts: RatedLoadout[]) {
@@ -68,8 +58,8 @@ export function getNodeUsage(nodes: TalentNode[], loadouts: RatedLoadout[]) {
   }, {});
 }
 
-export function getPvpTalentUsage(talents: PvpTalent[], loadouts: RatedLoadout[]) {
-  return talents.reduce<PvpTalentUsageMap>((map, talent) => {
+export function getPvpTalentUsage(talents: Talent[], loadouts: RatedLoadout[]) {
+  return talents.reduce<TalentUsageMap>((map, talent) => {
     const selected = loadouts.reduce((sum, loadout) => {
       sum += loadout.pvpTalents.includes(talent.id) ? 1 : 0;
       return sum;
@@ -78,6 +68,7 @@ export function getPvpTalentUsage(talents: PvpTalent[], loadouts: RatedLoadout[]
       selected,
       total: loadouts.length,
       percent: computePercent(selected, loadouts.length),
+      usageByRank: [selected - loadouts.length, selected],
     }
     return map;
   }, {});

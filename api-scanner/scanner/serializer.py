@@ -3,7 +3,7 @@ import dataclasses
 
 from .player import LoadoutNode, LoadoutPvpTalent, PlayerLoadout
 from .pvp import RatedLoadout
-from .talents import PvpTalent, TalentNode, TalentTree
+from .talents import Talent, TalentNode, TalentTree
 
 
 NODE_FILTER = set([
@@ -12,7 +12,7 @@ NODE_FILTER = set([
 ])
 
 
-def create_pvp_index_map(talents: list[PvpTalent]) -> dict[int, int]:
+def create_pvp_index_map(talents: list[Talent]) -> dict[int, int]:
     sorted_ids = sorted([talent.id for talent in talents])
     return {talent_id: index for index, talent_id in enumerate(sorted_ids)}
 
@@ -104,7 +104,7 @@ def _nodes_to_json(nodes: list[TalentNode],
     return output
 
 
-def _pvp_talents_to_json(talents: list[PvpTalent],
+def _pvp_talents_to_json(talents: list[Talent],
                          spell_media: dict[int, str]) -> list[dict]:
     output = []
     for talent in talents:

@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { PvpTalent } from '@/lib/talents'
+import { Talent } from '@/lib/talents'
 import { RatedLoadout } from '@/lib/pvp';
 import { hasPvpTalent, missingPvpTalent, LoadoutFilter } from '@/lib/loadout-filter';
 import FilteringPvpTalent from './filtering-pvp-talent'
 import {getPvpTalentUsage} from '@/lib/usage';
-
 enum FilterMode {
   MissingTalent,
   HasTalent,
@@ -18,7 +17,7 @@ interface TalentFilter {
 type TalentFilterMap = {[key: number]: TalentFilter}
 
 interface FilteringPvpTalentListProps {
-  talents: PvpTalent[]
+  talents: Talent[]
   loadouts: RatedLoadout[];
   onFiltersChange: (filters: LoadoutFilter[]) => void;
 }
@@ -30,13 +29,13 @@ export default function FilteringPvpTalentList({
 }: FilteringPvpTalentListProps) {
   let [talentFilters, setTalentFilters] = useState<TalentFilterMap>({});
 
-  function talentFilterSelected(talent: PvpTalent) {
+  function talentFilterSelected(talent: Talent) {
     const nextTalentFilters = cycleFilter(talentFilters, talent);
     onFiltersChange(Object.values<TalentFilter>(nextTalentFilters).map(f => f.filter));
     setTalentFilters(nextTalentFilters);
   }
 
-  function talentFilterDeselected(talent: PvpTalent) {
+  function talentFilterDeselected(talent: Talent) {
     const nextTalentFilters = {...talentFilters};
     delete nextTalentFilters[talent.id];
     onFiltersChange(Object.values<TalentFilter>(nextTalentFilters).map(f => f.filter));
@@ -80,7 +79,7 @@ function getTalentUsage(talentId: number, loadouts: RatedLoadout[]) {
   return count / loadouts.length;
 }
 
-function cycleFilter(talentFilters: TalentFilterMap, talent: PvpTalent) {
+function cycleFilter(talentFilters: TalentFilterMap, talent: Talent) {
   const previousFilter = talentFilters[talent.id] ?? null;
   let nextTalentFilters = {...talentFilters};
 

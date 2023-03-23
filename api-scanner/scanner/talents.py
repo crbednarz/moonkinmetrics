@@ -3,7 +3,7 @@ import re
 
 from dataclasses import dataclass
 from itertools import chain
-from typing import AsyncGenerator, Generator
+from typing import AsyncGenerator, Generator, Optional
 
 from .bnet import Client
 from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
@@ -13,18 +13,22 @@ from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
 class Spell:
     id: int
     name: str
+    ranks: list[Rank]
+
+
+@dataclass
+class Rank:
+    description: str
+    cast_time: Optional[str]
+    power_cost: Optional[str]
+    range: Optional[str]
+    cooldown: Optional[str]
 
 
 @dataclass
 class Talent:
     id: int
     name: str
-    spell: Spell
-
-
-@dataclass
-class PvpTalent:
-    id: int
     spell: Spell
 
 
@@ -54,22 +58,42 @@ class TalentNode:
         base_rank = raw_node['ranks'][0]
         if 'choice_of_tooltips' in base_rank:
             self.max_rank = 1
-            tooltips = base_rank['choice_of_tooltips']
+            tooltips = [
+                [base_rank['choice_of_tooltips'][0]],
+                [base_rank['choice_of_tooltips'][1]],
+            ]
         else:
             self.max_rank = len(raw_node['ranks'])
-            tooltips = [base_rank['tooltip']]
+            tooltips = [
+                [rank['tooltip'] for rank in raw_node['ranks']]
+            ]
 
         self.talents = []
-        for tooltip in tooltips:
-            raw_spell = tooltip['spell_tooltip']['spell']
+        for tooltip_ranks in tooltips:
+            base_tooltip = tooltip_ranks[0]
+            base_spell_tooltip = base_tooltip['spell_tooltip']
+            base_spell = base_spell_tooltip['spell']
+
+            ranks = []
+            for tooltip in tooltip_ranks:
+                spell_tooltip = tooltip['spell_tooltip']
+                ranks.append(Rank(
+                    spell_tooltip['description'],
+                    spell_tooltip.get('cast_time'),
+                    spell_tooltip.get('power_cost'),
+                    spell_tooltip.get('range'),
+                    spell_tooltip.get('cooldown'),
+                ))
+
             spell = Spell(
-                raw_spell['id'],
-                raw_spell['name'],
+                base_spell['id'],
+                base_spell['name'],
+                ranks,
             )
             self.talents.append(Talent(
-                tooltip['talent']['id'],
-                tooltip['talent']['name'],
-                spell
+                base_tooltip['talent']['id'],
+                base_tooltip['talent']['name'],
+                spell,
             ))
 
 
@@ -79,7 +103,7 @@ class TalentTree:
     spec_name: str
     class_nodes: list[TalentNode]
     spec_nodes: list[TalentNode]
-    pvp_talents: list[PvpTalent]
+    pvp_talents: list[Talent]
 
     def all_spells(self) -> Generator[Spell, None, None]:
         for node in chain(self.class_nodes, self.spec_nodes):
@@ -190,7 +214,7 @@ async def _get_tree_for_spec(client: Client, class_name: str,
 
 
 async def _get_pvp_talents(client: Client, class_name: str,
-                           spec_name: str) -> list[PvpTalent]:
+                           spec_name: str) -> list[Talent]:
     index = client.get_static_resource('/data/wow/pvp-talent/index')
     talents = []
 
@@ -211,11 +235,19 @@ async def _get_pvp_talents(client: Client, class_name: str,
         if found_class_name != class_name:
             continue
 
-        talents.append(PvpTalent(
+        talents.append(Talent(
             response['id'],
+            response['spell']['name'],
             Spell(
                 response['spell']['id'],
                 response['spell']['name'],
+                [Rank(
+                    response['description'],
+                    cast_time=None,
+                    power_cost=None,
+                    range=None,
+                    cooldown=None,
+                )]
             ),
         ))
 

@@ -12,13 +12,15 @@ export interface Talent {
   spellId: number;
   spellName: string;
   icon: string;
+  ranks: Rank[];
 }
 
-export interface PvpTalent {
-  id: number;
-  spellId: number;
-  spellName: string;
-  icon: string;
+export interface Rank {
+  description: string;
+  castTime?: string;
+  powerCost?: string;
+  range?: string;
+  cooldown?: string;
 }
 
 export interface TalentNode {
@@ -41,7 +43,7 @@ export interface TalentTree {
   specSize: Dimensions;
   classNodes: TalentNode[];
   specNodes: TalentNode[];
-  pvpTalents: PvpTalent[];
+  pvpTalents: Talent[];
 }
 
 function deserializeNode(jsonNode: any) {
@@ -54,23 +56,25 @@ function deserializeNode(jsonNode: any) {
     unlocks: jsonNode['unlocks'],
     lockedBy: jsonNode['locked_by'],
     maxRank: jsonNode['max_rank'],
-    talents: jsonNode['talents'].map((jsonTalent: any) => ({
-      id: jsonTalent['id'],
-      name: jsonTalent['name'],
-      spellId: jsonTalent['spell']['id'],
-      spellName: jsonTalent['spell']['name'],
-      icon: jsonTalent['icon'],
-    })),
+    talents: jsonNode['talents'].map(deserializeTalent),
     nodeType: jsonNode['node_type'],
   }
 }
 
-function deserializePvpTalent(jsonTalent: any) {
+function deserializeTalent(jsonTalent: any) {
   return {
     id: jsonTalent['id'],
+    name: jsonTalent['name'],
     spellId: jsonTalent['spell']['id'],
     spellName: jsonTalent['spell']['name'],
     icon: jsonTalent['icon'],
+    ranks: jsonTalent['spell']['ranks'].map((jsonRank: any) => ({
+      description: jsonRank['description'],
+      castTime: jsonRank['cast_time'] ?? null,
+      powerCost: jsonRank['power_cost'] ?? null,
+      range: jsonRank['range'] ?? null,
+      cooldown: jsonRank['cooldown'] ?? null,
+    })),
   }
 }
 
@@ -144,7 +148,7 @@ export function getTalentTree(className: string, specName: string) {
     specName: jsonTree['spec_name'],
     classNodes,
     specNodes,
-    pvpTalents: jsonTree['pvp_talents'].map(deserializePvpTalent),
+    pvpTalents: jsonTree['pvp_talents'].map(deserializeTalent),
     classSize,
     specSize,
   }
