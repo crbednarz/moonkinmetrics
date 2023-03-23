@@ -1,3 +1,4 @@
+import {TalentFilterMode} from '@/lib/loadout-filter';
 import {colorToStyle, getProgressColor, getUsageColor, globalColors, lerpColors} from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
@@ -30,9 +31,8 @@ const useStyles = createStyles(theme => ({
 interface FilteringTalentNodeProps {
   node: TalentNode;
   usage: NodeUsage;
-  disabled?: boolean;
   selectedTalent?: number;
-  minimumRank: number;
+  filterMode: TalentFilterMode;
   onTalentSelect: (talentId: number) => void;
   onTalentDeselect: (talentId: number) => void;
 }
@@ -40,9 +40,8 @@ interface FilteringTalentNodeProps {
 export default function FilteringTalentNode({
   node,
   usage,
-  disabled,
   selectedTalent,
-  minimumRank,
+  filterMode,
   onTalentSelect,
   onTalentDeselect,
 }: FilteringTalentNodeProps) {
@@ -50,7 +49,7 @@ export default function FilteringTalentNode({
   let borderStrength = 0.3;
   let bgStrength = 0.2;
   let usageColor = getUsageColor(usage.percent);
-  if (disabled) {
+  if (filterMode == TalentFilterMode.RankZero) {
     usageColor = {
       r: 200,
       g: 50,

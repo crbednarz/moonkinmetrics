@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TalentNode } from '@/lib/talents';
 import { RatedLoadout } from '@/lib/pvp';
-import { minRankFilter, rankZeroFilter, LoadoutFilter } from '@/lib/loadout-filter';
+import { minRankFilter, rankZeroFilter, LoadoutFilter, TalentFilterMode, nextTalentFilterMode, talentFilter } from '@/lib/loadout-filter';
 import FilteringTalentNode from './filtering-talent-node';
 import SubTreeConnectionSvg from './sub-tree-connection-svg'; 
 import { getNodeUsage } from '@/lib/usage';
@@ -25,14 +25,8 @@ const useStyles = createStyles(theme => ({
   },
 }));
 
-enum NodeFilterMode {
-  Zero,
-  OneAndUp,
-  TwoAndUp,
-}
-
 interface NodeFilter {
-  mode: NodeFilterMode,
+  mode: TalentFilterMode,
   selectedTalent: number,
   filter: LoadoutFilter,
 }
@@ -89,15 +83,13 @@ export default function FilteringSubTreeView({
         }}
       >
         {nodes.map(node => {
-          let minimumRank = getMinRank(nodeFilters[node.id]?.mode);
           return (
             <FilteringTalentNode
               key={node.id}
               node={node}
               usage={usageMap[node.id]}
-              disabled={nodeFilters[node.id]?.mode == NodeFilterMode.Zero}
               selectedTalent={nodeFilters[node.id]?.selectedTalent}
-              minimumRank={minimumRank}
+              filterMode={nodeFilters[node.id]?.mode ?? TalentFilterMode.None}
               onTalentSelect={talentId => talentFilterSelected(node, talentId)}
               onTalentDeselect={() => talentFilterDeselected(node)}
             />
@@ -108,42 +100,21 @@ export default function FilteringSubTreeView({
   );
 }
 
-function getMinRank(mode?: NodeFilterMode) {
-  let minimumRank = 0;
-  switch (mode) {
-    case NodeFilterMode.OneAndUp:
-      minimumRank = 1;
-      break;
-    case NodeFilterMode.TwoAndUp:
-      minimumRank = 2;
-      break;
-  }
-  return minimumRank;
-}
-
 function cycleFilter(nodeFilters: NodeFilterMap, node: TalentNode, talentId: number) {
-  const previousFilter = nodeFilters[node.id] ?? null;
   let nextNodeFilters = {...nodeFilters};
 
-  if (!previousFilter) {
-    nextNodeFilters[node.id] = {
-      mode: NodeFilterMode.OneAndUp,
-      selectedTalent: talentId,
-      filter: minRankFilter(talentId, 1),
-    };
-  } else if (previousFilter.mode == NodeFilterMode.Zero) {
+  const previousMode = nodeFilters[node.id]?.mode ?? TalentFilterMode.None;
+  const nextMode = nextTalentFilterMode(previousMode, node.maxRank);
+
+  const filter = talentFilter(talentId, nextMode);
+
+  if (filter == null) {
     delete nextNodeFilters[node.id];
-  } else if (previousFilter.mode == NodeFilterMode.TwoAndUp || node.maxRank == 1) {
-    nextNodeFilters[node.id] = {
-      mode: NodeFilterMode.Zero,
-      selectedTalent: talentId,
-      filter: rankZeroFilter(talentId),
-    }
   } else {
     nextNodeFilters[node.id] = {
-      mode: NodeFilterMode.TwoAndUp,
+      mode: nextMode,
       selectedTalent: talentId,
-      filter: minRankFilter(talentId, 2),
+      filter: filter,
     }
   }
 

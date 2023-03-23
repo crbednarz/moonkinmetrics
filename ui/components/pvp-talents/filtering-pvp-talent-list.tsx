@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { Talent } from '@/lib/talents'
 import { RatedLoadout } from '@/lib/pvp';
-import { hasPvpTalent, missingPvpTalent, LoadoutFilter } from '@/lib/loadout-filter';
+import { LoadoutFilter, TalentFilterMode, nextTalentFilterMode, pvpTalentFilter } from '@/lib/loadout-filter';
 import FilteringPvpTalent from './filtering-pvp-talent'
 import {getPvpTalentUsage} from '@/lib/usage';
-enum FilterMode {
-  MissingTalent,
-  HasTalent,
-}
 
 interface TalentFilter {
-  mode: FilterMode,
+  mode: TalentFilterMode,
   filter: LoadoutFilter,
 }
 
@@ -53,8 +49,7 @@ export default function FilteringPvpTalentList({
           <FilteringPvpTalent
             key={talent.id}
             talent={talent}
-            disabled={talentFilters[talent.id]?.mode == FilterMode.MissingTalent}
-            highlight={talentFilters[talent.id]?.mode == FilterMode.HasTalent}
+            filterMode={talentFilters[talent.id]?.mode ?? TalentFilterMode.None}
             onSelect={(talent)=>{talentFilterSelected(talent)}}
             onDeselect={(talent)=>{talentFilterDeselected(talent)}}
             usage={usage}
@@ -66,35 +61,21 @@ export default function FilteringPvpTalentList({
   );
 }
 
-function getTalentUsage(talentId: number, loadouts: RatedLoadout[]) {
-  let count = 0;
-  for (let entry of loadouts) {
-    for (let selectedTalent of entry.pvpTalents) {
-      if (selectedTalent == talentId) {
-        count++;
-        break;
-      }
-    }
-  }
-  return count / loadouts.length;
-}
-
 function cycleFilter(talentFilters: TalentFilterMap, talent: Talent) {
-  const previousFilter = talentFilters[talent.id] ?? null;
   let nextTalentFilters = {...talentFilters};
 
-  if (!previousFilter) {
-    nextTalentFilters[talent.id] = {
-      mode: FilterMode.HasTalent,
-      filter: hasPvpTalent(talent.id),
-    };
-  } else if (previousFilter.mode == FilterMode.HasTalent) {
-    nextTalentFilters[talent.id] = {
-      mode: FilterMode.MissingTalent,
-      filter: missingPvpTalent(talent.id),
-    }
-  } else if (previousFilter.mode == FilterMode.MissingTalent) {
+  const previousMode = talentFilters[talent.id]?.mode ?? TalentFilterMode.None;
+  const nextMode = nextTalentFilterMode(previousMode, 1);
+
+  const filter = pvpTalentFilter(talent.id, nextMode);
+
+  if (filter == null) {
     delete nextTalentFilters[talent.id];
+  } else {
+    nextTalentFilters[talent.id] = {
+      mode: nextMode,
+      filter: filter,
+    }
   }
 
   return nextTalentFilters;
