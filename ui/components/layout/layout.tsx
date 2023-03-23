@@ -13,6 +13,7 @@ import {
   Space,
 } from '@mantine/core';
 import SiteNavbar from './site-navbar';
+import Link from 'next/link';
 
 const useStyles = createStyles(theme => ({
   logo: {
@@ -68,14 +69,16 @@ export default function Layout({
               },
             },
           })}>
-            <Flex className={classes.logo}>
-              <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} />
-              <Title>
-                Moonkin
-                <Space h="xs" />
-                Metrics
-              </Title>
-            </Flex>
+            <Link href="/">
+              <Flex className={classes.logo}>
+                <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} fit="contain" />
+                <Title>
+                  Moonkin
+                  <Space h="xs" />
+                  Metrics
+                </Title>
+              </Flex>
+            </Link>
             <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}
