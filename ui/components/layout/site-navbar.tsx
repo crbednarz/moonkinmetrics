@@ -10,8 +10,8 @@ export default function SiteNavbar({
   opened,
 }: SiteNavbarProps) {
   const router = useRouter();
-  const classParam: string = router.query.class_name as string;
-  const specParam: string = router.query.spec_name as string;
+  const classParam: string = (router.query.class_name ?? '') as string;
+  const specParam: string = (router.query.spec_name ?? '') as string;
   const bracket: string = router.query.bracket as string;
   
   return (
@@ -39,7 +39,7 @@ export default function SiteNavbar({
                   color: colorFromClass(wowClass, theme)
                 })}
                 onClick={() => {
-                  router.push(`/${wowClass}/${spec}/${bracket ?? 'Shuffle'}/`.replace(' ', '-'));
+                  router.push(`/${wowClass}/${spec}/${bracket ?? '3v3'}/`.replace(' ', '-'));
                 }}
               />
             ))}
