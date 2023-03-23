@@ -1,4 +1,4 @@
-import {Bar} from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +9,7 @@ import {
   Legend,
   ChartOptions,
 } from 'chart.js';
-import {colorToStyle, globalColors} from "@/lib/style-constants";
-import {Checkbox} from "@mantine/core";
-import {useState} from "react";
+import { colorToStyle, globalColors } from "@/lib/style-constants";
 
 ChartJS.register(
   CategoryScale,

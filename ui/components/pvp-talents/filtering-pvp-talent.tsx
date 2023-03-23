@@ -1,4 +1,4 @@
-import {TalentFilterMode} from '@/lib/loadout-filter';
+import { TalentFilterMode } from '@/lib/loadout-filter';
 import { Talent } from '@/lib/talents'
 import { TalentUsage } from '@/lib/usage';
 import FilteringTalent from '../tree/filtering-talent';

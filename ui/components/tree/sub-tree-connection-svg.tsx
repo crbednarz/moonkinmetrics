@@ -1,4 +1,4 @@
-import {getProgressColor, globalColors, lerpColors} from '@/lib/style-constants';
+import { getProgressColor } from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsageMap } from '@/lib/usage';
 

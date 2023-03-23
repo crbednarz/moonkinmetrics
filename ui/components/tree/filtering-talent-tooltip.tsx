@@ -1,4 +1,4 @@
-import {TalentFilterMode} from "@/lib/loadout-filter";
+import { TalentFilterMode } from "@/lib/loadout-filter";
 import { Talent } from "@/lib/talents";
 import { TalentUsage } from "@/lib/usage";
 import { Title, createStyles, Divider } from '@mantine/core';
@@ -26,15 +26,6 @@ export default function FilteringTalentTooltip({
 }: FilteringTalentTooltipProps) {
   const { classes } = useStyles();
   const maxRank = talent.ranks.length;
-  /* Info to display:
-   * - Talent name
-   * - Talent total usage (%, #)
-   *   - Loadouts at rank n: x% (y of z) 
-   * - Talent usage by rank (%, #)
-   * - Filter type
-   * - Total ranks
-   * - Tooltip for current rank?
-   */
 
   return (
     <div className={classes.tooltip}>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TalentNode } from '@/lib/talents';
 import { RatedLoadout } from '@/lib/pvp';
-import { minRankFilter, rankZeroFilter, LoadoutFilter, TalentFilterMode, nextTalentFilterMode, talentFilter } from '@/lib/loadout-filter';
+import { LoadoutFilter, TalentFilterMode, nextTalentFilterMode, talentFilter } from '@/lib/loadout-filter';
 import FilteringTalentNode from './filtering-talent-node';
 import SubTreeConnectionSvg from './sub-tree-connection-svg'; 
 import { getNodeUsage } from '@/lib/usage';

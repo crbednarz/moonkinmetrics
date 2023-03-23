@@ -1,9 +1,9 @@
-import {TalentFilterMode} from "@/lib/loadout-filter";
-import {colorToStyle, getProgressColor, getUsageColor} from "@/lib/style-constants";
+import { TalentFilterMode } from "@/lib/loadout-filter";
+import { colorToStyle, getProgressColor, getUsageColor } from "@/lib/style-constants";
 import { Talent } from "@/lib/talents";
-import {TalentUsage} from "@/lib/usage";
+import { TalentUsage } from "@/lib/usage";
 import { createStyles, getStylesRef, Popover, Progress } from "@mantine/core";
-import {useState} from "react";
+import { useState } from "react";
 import FilteringTalentTooltip from "./filtering-talent-tooltip";
 
 

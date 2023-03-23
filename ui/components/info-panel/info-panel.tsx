@@ -1,4 +1,4 @@
-import { createStyles, getStylesRef, rem, Stack } from '@mantine/core';
+import { createStyles, rem, Stack } from '@mantine/core';
 
 type InfoPanelProps = React.PropsWithChildren<{}>;
 

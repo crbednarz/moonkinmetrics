@@ -2,11 +2,10 @@ import { useState } from 'react';
 import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, RangeSlider, rem, Space, Title, Text, RingProgress } from '@mantine/core';
+import { Button, createStyles, Flex, RangeSlider, rem, Text, RingProgress } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
-import RatingsPlot from '../info-panel/ratings-plot';
 import RatingHistogram from '../info-panel/rating-histogram';
 
 const useStyles = createStyles(theme => ({

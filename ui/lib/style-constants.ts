@@ -1,4 +1,4 @@
-import {MantineThemeColorsOverride} from "@mantine/core";
+import { MantineThemeColorsOverride } from "@mantine/core";
 import { lerp } from "./util";
 
 interface Color {

@@ -1,6 +1,6 @@
-import {SPEC_BY_CLASS} from "@/lib/wow";
+import { SPEC_BY_CLASS } from "@/lib/wow";
 import { MantineTheme, Navbar, NavLink } from "@mantine/core";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 interface SiteNavbarProps {
   opened: boolean,

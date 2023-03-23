@@ -1,9 +1,9 @@
-import {TalentFilterMode} from '@/lib/loadout-filter';
-import {colorToStyle, getProgressColor, getUsageColor, globalColors, lerpColors} from '@/lib/style-constants';
+import { TalentFilterMode } from '@/lib/loadout-filter';
+import { colorToStyle, getUsageColor, globalColors, lerpColors } from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
 import { createStyles } from '@mantine/core';
-import {useState} from 'react';
+import { useState } from 'react';
 import FilteringTalent from './filtering-talent';
 
 const useStyles = createStyles(theme => ({

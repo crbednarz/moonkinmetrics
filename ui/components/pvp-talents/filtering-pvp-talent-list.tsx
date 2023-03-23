@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Talent } from '@/lib/talents'
 import { RatedLoadout } from '@/lib/pvp';
 import { LoadoutFilter, TalentFilterMode, nextTalentFilterMode, pvpTalentFilter } from '@/lib/loadout-filter';
+import { getPvpTalentUsage } from '@/lib/usage';
 import FilteringPvpTalent from './filtering-pvp-talent'
-import {getPvpTalentUsage} from '@/lib/usage';
 
 interface TalentFilter {
   mode: TalentFilterMode,

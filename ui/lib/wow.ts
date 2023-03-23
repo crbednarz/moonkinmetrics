@@ -1,4 +1,3 @@
-
 class ClassSpec {
   constructor(
     readonly className: string,

@@ -1,4 +1,4 @@
-import { Title, Text } from "@mantine/core";
+import { Title } from "@mantine/core";
 import dynamic from 'next/dynamic'
 
 interface RatingsInfoProps {

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {Talent, TalentNode, TalentTree} from './talents';
+import { Talent, TalentNode, TalentTree } from './talents';
 
 type RankByTalent = { [key: number]: number };
 

@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack, useMantineTheme } from '@mantine/core';
+import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
