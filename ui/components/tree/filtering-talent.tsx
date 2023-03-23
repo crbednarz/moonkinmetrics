@@ -1,3 +1,4 @@
+import {TalentFilterMode} from "@/lib/loadout-filter";
 import {colorToStyle, getProgressColor, getUsageColor} from "@/lib/style-constants";
 import { Talent } from "@/lib/talents";
 import {TalentUsage} from "@/lib/usage";
@@ -55,9 +56,14 @@ const useStyles = createStyles(theme => ({
   }
 }));
 
+interface TalentData {
+  talent: Talent;
+  usage: TalentUsage;
+  filterMode: TalentFilterMode;
+}
+
 interface FilteringTalentProps {
-  talents: Talent[];
-  talentsUsage: TalentUsage[];
+  talentsData: TalentData[];
   usage: number;
   onTalentSelect: (talent: Talent) => void;
   onTalentDeselect: (talent: Talent) => void;
@@ -65,8 +71,7 @@ interface FilteringTalentProps {
 }
 
 export default function FilteringTalent({
-  talents,
-  talentsUsage,
+  talentsData,
   usage,
   onTalentSelect,
   onTalentDeselect,
@@ -88,7 +93,7 @@ export default function FilteringTalent({
         <div
           className={classes.iconGroup}
           onMouseOver={() => {
-            if (talents.length == 1)
+            if (talentsData.length == 1)
               setShowTooltip(true);
           }}
           onMouseOut={() => setShowTooltip(false)}
@@ -96,11 +101,12 @@ export default function FilteringTalent({
           <div className={classes.usage} style={{color: talentColorStyle}}>
             {Math.round(usage * 100)}%
           </div>
-          {talents.map((talent, i) => {
+          {talentsData.map(talentData => {
             let talentUsage = usage;
-            if (talents.length > 1) {
-              talentUsage = talentsUsage[i].percent;
+            if (talentsData.length > 1) {
+              talentUsage = talentData.usage.percent;
             }
+            const talent = talentData.talent;
             return (
               <div
                 key={talent.id}
@@ -114,7 +120,7 @@ export default function FilteringTalent({
                   filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
                   backgroundColor: colorToStyle(getProgressColor(talentUsage)),
                 }}
-                className={`${classes.icon} ${talents.length > 1 ? classes.multiple : ''}`}
+                className={`${classes.icon} ${talentsData.length > 1 ? classes.multiple : ''}`}
               >
               </div>
             );
@@ -132,8 +138,9 @@ export default function FilteringTalent({
       {showTooltip && (
         <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
           <FilteringTalentTooltip
-            talent={talents[0]}
-            usage={talentsUsage[0]}
+            talent={talentsData[0].talent}
+            usage={talentsData[0].usage}
+            filterMode={talentsData[0].filterMode}
           />
         </Popover.Dropdown>
       )}

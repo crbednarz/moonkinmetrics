@@ -21,8 +21,11 @@ export default function FilteringPvpTalent({
   return (
     <div style={{ display: 'inline-block', margin: 5 }}>
       <FilteringTalent
-        talents={[talent]}
-        talentsUsage={[usage]}
+        talentsData={[{
+          talent,
+          usage,
+          filterMode,
+        }]}
         usage={usage.percent}
         onTalentSelect={onSelect}
         onTalentDeselect={onDeselect}

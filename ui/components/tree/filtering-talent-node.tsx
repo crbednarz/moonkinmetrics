@@ -105,8 +105,11 @@ export default function FilteringTalentNode({
           return (
             <FilteringTalent
               key={`${talentGroup.talents[0].id}`}
-              talents={talentGroup.talents}
-              talentsUsage={talentGroup.talents.map(talent => usage.talents[talent.id])}
+              talentsData={talentGroup.talents.map(talent => ({
+                talent: talent,
+                filterMode: (selectedTalent == talent.id) ? filterMode : TalentFilterMode.None,
+                usage: usage.talents[talent.id],
+              }))}
               usage={talentGroup.usage}
               onTalentSelect={talent => onTalentSelect(talent.id)}
               onTalentDeselect={talent => onTalentDeselect(talent.id)}

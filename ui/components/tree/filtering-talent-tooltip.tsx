@@ -1,7 +1,7 @@
-import { colorToStyle, getUsageColor } from "@/lib/style-constants";
-import { Talent, TalentNode } from "@/lib/talents";
-import { NodeUsage, TalentUsage } from "@/lib/usage";
-import { Title, RingProgress, createStyles, List, ThemeIcon, Stack, Divider } from '@mantine/core';
+import {TalentFilterMode} from "@/lib/loadout-filter";
+import { Talent } from "@/lib/talents";
+import { TalentUsage } from "@/lib/usage";
+import { Title, createStyles, Divider } from '@mantine/core';
 
 const useStyles = createStyles(() => ({
   tooltip: {
@@ -16,11 +16,13 @@ const useStyles = createStyles(() => ({
 export interface FilteringTalentTooltipProps {
   talent: Talent;
   usage: TalentUsage;
+  filterMode: TalentFilterMode;
 }
 
 export default function FilteringTalentTooltip({
   talent,
   usage,
+  filterMode,
 }: FilteringTalentTooltipProps) {
   const { classes } = useStyles();
   const maxRank = talent.ranks.length;
@@ -44,10 +46,41 @@ export default function FilteringTalentTooltip({
         ))}
         <Divider my="sm" />
         <p>
-          {talent.ranks[0].description}
+          {getTalentDescription(talent, filterMode)}
+        </p>
+        <Divider my="sm" />
+        <p>
+          {getTalentFilterDescription(filterMode, talent.ranks.length)}
         </p>
       </div>
     </div>
   );
 }
 
+function getTalentDescription(talent: Talent, filterMode: TalentFilterMode) {
+  switch (filterMode) {
+    case TalentFilterMode.RankTwoAndUp:
+      return talent.ranks[1].description;
+    case TalentFilterMode.RankThreeAndUp:
+      return talent.ranks[2].description;
+    default:
+      return talent.ranks[0].description;
+  }
+}
+
+function getTalentFilterDescription(filterMode: TalentFilterMode, maxRank: number) {
+  switch (filterMode) {
+    case TalentFilterMode.None:
+      return "No filter";
+    case TalentFilterMode.RankOneAndUp:
+      if (maxRank == 1)
+        return "Filter: Talent selected";
+      return "Filter: At least rank 1";
+    case TalentFilterMode.RankTwoAndUp:
+      return "Filter: At least rank 2";
+    case TalentFilterMode.RankThreeAndUp:
+      return "Filter: At least rank 3";
+    case TalentFilterMode.RankZero:
+      return "Filter: Talent not selected";
+  }
+}
