@@ -29,9 +29,6 @@ const useStyles = createStyles(theme => ({
     height: 56,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    [`&.${getStylesRef('multiple')}`]: {
-      width: 27,
-    },
   },
   usage: {
     position: 'absolute',
@@ -47,9 +44,6 @@ const useStyles = createStyles(theme => ({
     display: 'none',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  multiple: {
-    ref: getStylesRef('multiple'),
   },
   progress: {
     width: 56,
@@ -81,6 +75,8 @@ export default function FilteringTalent({
   let talentColorStyle = colorToStyle(getUsageColor(usage));
   const [showTooltip, setShowTooltip] = useState(false);
 
+
+
   return (
     <Popover
       position={tooltipDirection}
@@ -101,12 +97,22 @@ export default function FilteringTalent({
           <div className={classes.usage} style={{color: talentColorStyle}}>
             {Math.round(usage * 100)}%
           </div>
-          {talentsData.map(talentData => {
+          {talentsData.map((talentData, index) => {
             let talentUsage = usage;
             if (talentsData.length > 1) {
               talentUsage = talentData.usage.percent;
             }
             const talent = talentData.talent;
+            let width = 56;
+            if (talentsData.length > 1) {
+              const otherUsage = talentsData[index == 0 ? 1 : 0].usage;
+              let ratio = 0.5;
+              if (talentData.usage.selected + otherUsage.selected > 0) {
+                ratio = talentData.usage.selected / (otherUsage.selected + talentData.usage.selected);
+              }
+
+              width = Math.max(13, Math.min(54 - 13, Math.round(54 * ratio)));
+            }
             return (
               <div
                 key={talent.id}
@@ -119,8 +125,9 @@ export default function FilteringTalent({
                   backgroundImage: `url(${talent.icon})`,
                   filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
                   backgroundColor: colorToStyle(getProgressColor(talentUsage)),
+                  width,
                 }}
-                className={`${classes.icon} ${talentsData.length > 1 ? classes.multiple : ''}`}
+                className={classes.icon}
               >
               </div>
             );
