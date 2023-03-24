@@ -1,7 +1,7 @@
 import { TalentFilterMode } from "@/lib/loadout-filter";
 import { Talent } from "@/lib/talents";
 import { TalentUsage } from "@/lib/usage";
-import { Title, createStyles, Divider } from '@mantine/core';
+import { Title, createStyles, Divider, Table, Kbd, Flex, Text, Center } from '@mantine/core';
 
 const useStyles = createStyles(() => ({
   tooltip: {
@@ -32,17 +32,36 @@ export default function FilteringTalentTooltip({
       <Title order={5}>{talent.name}</Title>
       <Divider my="sm" />
       <div>
-        {usage.usageByRank.slice(1).map((count, i) => (
-          <span key={i}>{i+1}/{maxRank}: {Math.round((count / usage.total) * 100)}% ({count} players)<br/></span>
-        ))}
+        <Table verticalSpacing={3} fontSize={12} striped>
+          <tbody>
+            {usage.usageByRank.slice(1).map((count, i) => (
+              <tr key={i}>
+                <td>{i+1}/{maxRank}</td>
+                <td>{Math.round((count / usage.total) * 100)}%</td>
+                <td>{count} players</td>
+              </tr>
+            ))}
+            {(talent.ranks.length > 1) && (
+              <tr>
+                <td>Total</td>
+                <td>{Math.round(usage.percent * 100)}%</td>
+                <td>{usage.selected} players</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
         <Divider my="sm" />
         <p>
           {getTalentDescription(talent, filterMode)}
         </p>
         <Divider my="sm" />
-        <p>
-          {getTalentFilterDescription(filterMode, talent.ranks.length)}
-        </p>
+        <Center style={{fontSize: 16}} mb={10}>
+          Filter: {getTalentFilterDescription(filterMode, talent.ranks.length)}
+        </Center>
+        <Flex justify="space-between">
+          <Text><Kbd mr={5}>LMB</Kbd>Cycle filter</Text>
+          <Text>Clear filter<Kbd ml={5}>RMB</Kbd></Text>
+        </Flex>
       </div>
     </div>
   );
@@ -62,16 +81,16 @@ function getTalentDescription(talent: Talent, filterMode: TalentFilterMode) {
 function getTalentFilterDescription(filterMode: TalentFilterMode, maxRank: number) {
   switch (filterMode) {
     case TalentFilterMode.None:
-      return "No filter";
+      return "None";
     case TalentFilterMode.RankOneAndUp:
       if (maxRank == 1)
-        return "Filter: Talent selected";
-      return "Filter: At least rank 1";
+    return "Talent selected";
+      return "At least rank 1";
     case TalentFilterMode.RankTwoAndUp:
-      return "Filter: At least rank 2";
+      return "At least rank 2";
     case TalentFilterMode.RankThreeAndUp:
-      return "Filter: At least rank 3";
+      return "At least rank 3";
     case TalentFilterMode.RankZero:
-      return "Filter: Talent not selected";
+      return "Talent not selected";
   }
 }
