@@ -11,6 +11,7 @@ export default function Bracket() {
     <Layout>
       <Head>
         <title>Moonkin Metrics</title>
+        <meta name="description" content="World of Warcraft talent explorer for rated PvP." />
       </Head>
       <Center p='xl'>
         <h1>
