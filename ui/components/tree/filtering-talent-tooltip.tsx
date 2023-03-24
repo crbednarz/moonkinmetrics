@@ -1,4 +1,5 @@
 import { TalentFilterMode } from "@/lib/loadout-filter";
+import {colorToStyle, getProgressColor, getUsageColor, globalColors, globalThemeColors} from "@/lib/style-constants";
 import { Talent } from "@/lib/talents";
 import { TalentUsage } from "@/lib/usage";
 import { Title, createStyles, Divider, Table, Kbd, Flex, Text, Center } from '@mantine/core';
@@ -35,14 +36,25 @@ export default function FilteringTalentTooltip({
         <Table verticalSpacing={3} fontSize={12} striped>
           <tbody>
             {usage.usageByRank.slice(1).map((count, i) => (
-              <tr key={i}>
+              <tr
+                key={i}
+                style={{
+                  color: colorToStyle(getUsageColor((count / usage.total))),
+                  fontWeight: 700,
+                }}
+              >
                 <td>{i+1}/{maxRank}</td>
                 <td>{Math.round((count / usage.total) * 100)}%</td>
                 <td>{count} players</td>
               </tr>
             ))}
             {(talent.ranks.length > 1) && (
-              <tr>
+              <tr style={{
+                backgroundColor: colorToStyle(globalColors.dark[5]),
+                color: colorToStyle(getUsageColor(usage.percent)),
+                fontWeight: 700,
+              }}>
+
                 <td>Total</td>
                 <td>{Math.round(usage.percent * 100)}%</td>
                 <td>{usage.selected} players</td>

@@ -11,6 +11,9 @@ import {
   Flex,
   createStyles,
   Space,
+  Footer,
+  Anchor,
+  Alert,
 } from '@mantine/core';
 import SiteNavbar from './site-navbar';
 import Link from 'next/link';
@@ -79,6 +82,12 @@ export default function Layout({
                 </Title>
               </Flex>
             </Link>
+            <Alert title="NOTICE" color="primary.9" ml="auto" style={{textAlign: 'left'}}>
+              This is under active development and changing frequently!<br/>
+              If you have any feedback, please reach out on&nbsp;
+              <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics" target="_blank">Github</Anchor>&nbsp;or&nbsp;
+              <Anchor color="blue" href="https://discord.gg/d4stUFRY" target="_blank">Discord</Anchor>.
+            </Alert>
             <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
               <Burger
                 opened={opened}
