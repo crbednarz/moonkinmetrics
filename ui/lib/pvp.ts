@@ -26,10 +26,7 @@ export function getEncodedLeaderboard(className: string, specName: string, brack
     return JSON.parse(fileContents);
   });
 
-  const entries = [...usResults.entries];
-  if (!bracket.includes('shuffle')) {
-    entries.push(...euResults.entries);
-  }
+  const entries = [...usResults.entries, ...euResults.entries];
   return {
     'entries': entries.sort((a, b) => b.rating - a.rating),
     'timestamp': {
