@@ -1,4 +1,5 @@
 import { MantineThemeColorsOverride } from "@mantine/core";
+import { TalentFilterMode } from "./loadout-filter";
 import { lerp } from "./util";
 
 interface Color {
@@ -137,4 +138,36 @@ export function getUsageColor(usage: number) {
     };
     const highColor = lerpColors(lowColor, globalColors.hightlight[9], usage);
     return lerpColors(lowColor, highColor, usage);
+}
+
+export function getTalentColors(usage: number, filterMode: TalentFilterMode) {
+  let borderStrength = 0.3;
+  let bgStrength = 0.2;
+  let usageColor = getUsageColor(usage);
+  if (filterMode == TalentFilterMode.RankZero) {
+    usageColor = {
+      r: 200,
+      g: 50,
+      b: 50,
+    };
+    borderStrength = 0.5;
+    bgStrength = 0.3;
+
+  } else if (filterMode != TalentFilterMode.None) {
+    usageColor = {
+      r: 255,
+      g: 180,
+      b: 50,
+    };
+    borderStrength = 0.8;
+    bgStrength = 0.3;
+  }
+  const borderColor = lerpColors(usageColor, globalColors.dark[4], 1.0 - borderStrength);
+  const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
+
+  return {
+    borderColor: borderColor,
+    bgColor: bgColor,
+    color: usageColor,
+  };
 }

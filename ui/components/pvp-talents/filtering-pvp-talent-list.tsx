@@ -3,6 +3,7 @@ import { Talent } from '@/lib/talents'
 import { RatedLoadout } from '@/lib/pvp';
 import { LoadoutFilter, TalentFilterMode, nextTalentFilterMode, pvpTalentFilter } from '@/lib/loadout-filter';
 import { getPvpTalentUsage } from '@/lib/usage';
+import { Flex } from '@mantine/core';
 import FilteringPvpTalent from './filtering-pvp-talent'
 
 interface TalentFilter {
@@ -41,7 +42,7 @@ export default function FilteringPvpTalentList({
   const usageMap = getPvpTalentUsage(talents, loadouts);
 
   return (
-    <div> 
+    <Flex gap={5}> 
       {talents.map(talent => {
         let usage = usageMap[talent.id];
 
@@ -57,7 +58,7 @@ export default function FilteringPvpTalentList({
         );
       })}
 
-    </div>
+    </Flex>
   );
 }
 

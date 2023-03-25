@@ -1,5 +1,5 @@
 import { TalentFilterMode } from '@/lib/loadout-filter';
-import { colorToStyle, getUsageColor, globalColors, lerpColors } from '@/lib/style-constants';
+import { colorToStyle, getTalentColors, getUsageColor, globalColors, lerpColors } from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
 import { createStyles } from '@mantine/core';
@@ -46,29 +46,7 @@ export default function FilteringTalentNode({
   onTalentDeselect,
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
-  let borderStrength = 0.3;
-  let bgStrength = 0.2;
-  let usageColor = getUsageColor(usage.percent);
-  if (filterMode == TalentFilterMode.RankZero) {
-    usageColor = {
-      r: 200,
-      g: 50,
-      b: 50,
-    };
-    borderStrength = 0.5;
-    bgStrength = 0.3;
-
-  } else if (selectedTalent) {
-    usageColor = {
-      r: 255,
-      g: 180,
-      b: 50,
-    };
-    borderStrength = 0.8;
-    bgStrength = 0.3;
-  }
-  const borderColor = lerpColors(usageColor, globalColors.dark[4], 1.0 - borderStrength);
-  const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
+  const { borderColor, bgColor } = getTalentColors(usage.percent, filterMode);
 
   const [expanded, setExpanded] = useState(false);
 
