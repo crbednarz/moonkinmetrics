@@ -64,7 +64,7 @@ export default function Bracket({
       }}
     >
       <Head>
-        <title>{bracket} - {tree.specName} {tree.className} | Moonkin Metrics</title>
+        <title>{`${bracket} - ${tree.specName} ${tree.className} | Moonkin Metrics`}</title>
         <meta name="description" content={`Explore talent selection of ${tree.specName} ${tree.className} in rated ${bracket}.`} />
       </Head>
       <Layout>
