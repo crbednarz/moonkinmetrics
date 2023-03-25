@@ -130,7 +130,23 @@ function convertNodePositions(nodes: TalentNode[]) {
   };
 }
 
-const wowDirectory = path.join(process.cwd(), 'wow')
+const wowDirectory = path.join(process.cwd(), 'wow');
+
+function validateNodes(nodes: TalentNode[]) {
+  const ids = new Set<number>();
+  for (let node of nodes) {
+    ids.add(node.id);
+  }
+
+  return nodes.filter(node => {
+    for (let lockedBy of node.lockedBy) {
+      if (!ids.has(lockedBy)) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
 
 export function getTalentTree(className: string, specName: string) {
   const fileName = `${className.toLowerCase()}-${specName.toLowerCase()}.json`.replace(' ', '-');
@@ -140,8 +156,12 @@ export function getTalentTree(className: string, specName: string) {
   const jsonTree = JSON.parse(fileContents);
 
 
-  const classNodes = jsonTree['class_nodes'].map(deserializeNode);
-  const specNodes = jsonTree['spec_nodes'].map(deserializeNode);
+  let classNodes = jsonTree['class_nodes'].map(deserializeNode);
+  classNodes = validateNodes(classNodes);
+  let specNodes = jsonTree['spec_nodes'].map(deserializeNode);
+  specNodes = validateNodes(specNodes);
+
+
   const classSize = convertNodePositions(classNodes);
   const specSize = convertNodePositions(specNodes);
   const tree: TalentTree = {
