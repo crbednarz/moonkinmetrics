@@ -1,7 +1,5 @@
 import { createStyles, rem, Stack } from '@mantine/core';
 
-type InfoPanelProps = React.PropsWithChildren<{}>;
-
 const useStyles = createStyles(() => ({
   wrapper: {
     marginLeft: rem(20),
@@ -14,12 +12,17 @@ const useStyles = createStyles(() => ({
   }
 }));
 
+type InfoPanelProps = React.PropsWithChildren<{
+  className?: string;
+}>;
+
 export default function InfoPanel({
     children,
+    className,
 }: InfoPanelProps) {
   const { classes } = useStyles();
   return (
-    <div className={classes.wrapper}>
+    <div className={`${classes.wrapper} ${className}`}>
       <div className={classes.innerWrapper}>
         <Stack>
           {children}

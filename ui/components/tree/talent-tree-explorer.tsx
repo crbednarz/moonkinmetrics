@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, RangeSlider, rem, Text, RingProgress } from '@mantine/core';
+import { Button, createStyles, Flex, RangeSlider, rem, Text, RingProgress, getStylesRef } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
@@ -14,21 +14,11 @@ const useStyles = createStyles(theme => ({
     maxWidth: '100%',
     gridTemplateColumns: '[content] min-content [side-bar] min-content',
     gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
-    '& > *:first-child': {
-      minWidth: rem(400),
-      gridRow: 'top-bar / last-line',
-      gridColumn: 'side-bar',
-    },
     minWidth: theme.breakpoints.md,
     [`@media (max-width: ${theme.breakpoints.sm})`]: {
       display: 'block',
       minWidth: 'auto',
       '& > *': {
-        gridColumn: 'content / end',
-
-      },
-      '& > *:first-child': {
-        gridRow: 'top-bar',
         gridColumn: 'content / end',
       },
     },
@@ -41,6 +31,17 @@ const useStyles = createStyles(theme => ({
       flexWrap: 'wrap',
     },
   },
+  infoPanel: {
+    ref: getStylesRef('infoPanel'),
+    width: rem(400),
+    gridRow: 'top-bar / last-line',
+    gridColumn: 'side-bar',
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      gridRow: 'top-bar',
+      gridColumn: 'content / end',
+      width: 'auto',
+    },
+  }
 }));
 
 interface TalentTreeExplorerProps {
@@ -85,8 +86,6 @@ export default function TalentTreeExplorer({
     setResetCount(resetCount + 1);
   }
 
-
-
   const viewingPercent = Math.round(loadouts.length / allTalentsLoadouts.length * 100);
   const usScanTime = new Date(timestamp.us).toISOString();
   const euScanTime = new Date(timestamp.eu).toISOString();
@@ -100,9 +99,10 @@ export default function TalentTreeExplorer({
       label: Math.round(rating),
     };
   });
+
   return (
     <div className={classes.wrapper}>
-      <InfoPanel key={`info-${resetCount}`}>
+      <InfoPanel className={classes.infoPanel} key={`info-${resetCount}`}>
         <Flex align="center" gap={10}>
           <RingProgress
             size={80}
