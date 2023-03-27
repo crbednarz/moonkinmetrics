@@ -13,6 +13,7 @@ from .util import batched
 
 
 T = TypeVar('T')
+MAX_EXCEPTION_RETRIES = 5
 
 
 class _ApiCache:
@@ -178,7 +179,7 @@ class Client:
                 tasks = []
                 for url, context in urls:
                     task = asyncio.create_task(
-                        self._fetch(url, context, namespace, session))
+                        self._async_fetch(url, context, namespace, session))
                     tasks.append(task)
 
                 for task in asyncio.as_completed(tasks):
@@ -195,28 +196,35 @@ class Client:
                 if time_elapsed < 1.2:
                     await asyncio.sleep(1.2 - time_elapsed)
 
-    async def _fetch(
+    async def _async_fetch(
         self,
         url: str,
         context: T,
         namespace: str,
         session: ClientSession,
     ) -> tuple[Optional[dict], int, str, T]:
+        exception_count = 0
         while True:
-            async with session.get(
-                url,
-                headers=self.headers,
-                params={
-                    'namespace': namespace,
-                    'locale': self._locale,
-                }
-            ) as response:
-                json = None
-                if response.status == 429:
-                    await asyncio.sleep(2)
-                    continue
+            try:
+                async with session.get(
+                    url,
+                    headers=self.headers,
+                    params={
+                        'namespace': namespace,
+                        'locale': self._locale,
+                    },
+                ) as response:
+                    json = None
+                    if response.status == 429:
+                        await asyncio.sleep(2)
+                        continue
 
-                if response.status == 200:
-                    json = await response.json()
+                    if response.status == 200:
+                        json = await response.json()
 
-                return json, response.status, url, context
+                    return json, response.status, url, context
+            except Exception as e:
+                exception_count += 1
+                if exception_count > MAX_EXCEPTION_RETRIES:
+                    raise e
+                await asyncio.sleep(5)
