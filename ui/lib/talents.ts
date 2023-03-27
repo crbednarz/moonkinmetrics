@@ -140,11 +140,11 @@ function validateNodes(nodes: TalentNode[]) {
 
   return nodes.filter(node => {
     for (let lockedBy of node.lockedBy) {
-      if (!ids.has(lockedBy)) {
-        return false;
+      if (ids.has(lockedBy)) {
+        return true;
       }
     }
-    return true;
+    return node.lockedBy.length === 0;
   });
 }
 
