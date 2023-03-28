@@ -17,20 +17,18 @@ export default function App(props: AppProps) {
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          globalStyles: (theme) => ({
-            'html,body': {
-              minWidth: em(1010),
-            },
-          }),
           colorScheme: 'dark',
           colors: globalThemeColors(),
           fontFamily: "'Open Sans', sans-serif",
           breakpoints: {
-            xs: em(320),
-            sm: em(1010),
-            md: em(1225),
+            xs: em(700),
+            sm: em(1090),
+            md: em(1475),
             lg: em(1650),
             xl: em(2700),
+          },
+          shadows: {
+            xl: "0 0 15px -5px rgba(0, 0, 0, 0.6)",
           },
         }}
       >

@@ -81,7 +81,7 @@ export default function FilteringTalent({
     <Popover
       position={tooltipDirection}
       withArrow
-      shadow="0 0 15px -5px rgba(0, 0, 0, 0.6)"
+      shadow="xl"
       zIndex={5}
       opened={showTooltip}
     >

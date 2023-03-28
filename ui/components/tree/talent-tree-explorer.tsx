@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, RangeSlider, rem, Text, RingProgress, getStylesRef } from '@mantine/core';
+import { Button, createStyles, Flex, rem, getStylesRef, Menu } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
-import RatingHistogram from '../info-panel/rating-histogram';
+import FilteringStatsPanel from '@/components/info-panel/filtering-stats-panel';
+import { IconChartHistogram } from '@tabler/icons-react';
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -14,34 +15,55 @@ const useStyles = createStyles(theme => ({
     maxWidth: '100%',
     gridTemplateColumns: '[content] min-content [side-bar] min-content',
     gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
-    minWidth: theme.breakpoints.md,
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
-      display: 'block',
-      minWidth: 'auto',
+    gap: 10,
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      width: '100%',
+      columnGap: 0,
       '& > *': {
-        gridColumn: 'content / end',
+        gridColumn: 'content',
       },
     },
-    gap: '10px',
   },
   trees: {
     maxWidth: '100%',
-    gap: '10px',
+    gap: 10,
     [`@media (max-width: ${theme.breakpoints.xl})`]: {
       flexWrap: 'wrap',
+    },
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      maxWidth: '100vw',
+      overflow: 'auto',
     },
   },
   infoPanel: {
     ref: getStylesRef('infoPanel'),
-    width: rem(400),
     gridRow: 'top-bar / last-line',
     gridColumn: 'side-bar',
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
-      gridRow: 'top-bar',
-      gridColumn: 'content / end',
-      width: 'auto',
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      display: 'none',
     },
-  }
+  },
+  pvpTalents: {
+    gridRow: 'pvp-talents',
+    gridColumn: 'content',
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      gridColumn: 'content',
+    },
+  },
+  expandButton: {
+    position: 'sticky',
+    top: rem(7),
+    zIndex: 8,
+    display: 'none',
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      display: 'block',
+    },
+  },
+  infoMenu: {
+    padding: 20,
+    width: rem(400),
+    maxWidth: '100vw',
+  },
 }));
 
 interface TalentTreeExplorerProps {
@@ -55,15 +77,12 @@ export default function TalentTreeExplorer({
   leaderboard,
   timestamp,
 }: TalentTreeExplorerProps) {
-  const minRating = leaderboard[leaderboard.length - 1].rating;
-  const maxRating = leaderboard[0].rating;
-
   let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
   let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
   let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
-  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
   let [resetCount, setResetCount] = useState<number>(0);
+  let [statsOpened, setStatsOpened] = useState(false);
 
   const talentFilters = [
     ...classFilters,
@@ -82,70 +101,58 @@ export default function TalentTreeExplorer({
     setSpecFilters([]);
     setPvpFilters([]);
     setRatingFilter(undefined);
-    setRatingFilterRange([minRating, maxRating]);
     setResetCount(resetCount + 1);
   }
 
-  const viewingPercent = Math.round(loadouts.length / allTalentsLoadouts.length * 100);
-  const usScanTime = new Date(timestamp.us).toISOString();
-  const euScanTime = new Date(timestamp.eu).toISOString();
-  const filterStep = 25;
-  const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
-  const maxFilterRating = Math.ceil(maxRating/filterStep)*filterStep;
-  const marks = [0, 0.25, 0.5, 0.75, 1.0].map(p => {
-    const rating = p * (maxFilterRating - minFilterRating) + minFilterRating;
-    return {
-      value: rating,
-      label: Math.round(rating),
-    };
-  });
+
+  function updateRatingFilter(min: number, max: number) {
+    setRatingFilter(() => (loadout: RatedLoadout) => {
+      return loadout.rating >= min && loadout.rating <= max;
+    });
+  }
+  /*
+      */
+  const infoPanelContents = (
+    <FilteringStatsPanel
+      allLoadouts={leaderboard}
+      rangeFilteredLoadouts={allTalentsLoadouts}
+      talentFilteredLoadouts={loadouts}
+      timestamp={timestamp}
+      onRatingFilterChange={updateRatingFilter}
+      onReset={reset}
+    />
+  );
 
   return (
     <div className={classes.wrapper}>
       <InfoPanel className={classes.infoPanel} key={`info-${resetCount}`}>
-        <Flex align="center" gap={10}>
-          <RingProgress
-            size={80}
-            thickness={8}
-            sections={[{ value: viewingPercent, color: 'primary' }]}
-            label={
-              <Text color="primary" weight={700} align="center" size="m">
-                {viewingPercent}%
-              </Text>
-            }
-          />
-          <Text size="l">
-            {(talentFilters.length > 0) ? (
-              <><strong>{loadouts.length}</strong> of <strong>{allTalentsLoadouts.length}</strong> loadouts use selected talents.</>
-            ) : (
-              <>Viewing <strong>{loadouts.length}</strong> loadouts.</>
-            )}
-          </Text>
-        </Flex>
-        <RatingHistogram
-          allRatings={leaderboard.map(loadout => loadout.rating)}
-          filteredRatings={loadouts.map(loadout => loadout.rating)}
-          minRating={ratingFilterRange[0]}
-          maxRating={ratingFilterRange[1]}
-        />
-        <RangeSlider 
-          min={minFilterRating}
-          max={maxFilterRating}
-          step={filterStep}
-          defaultValue={[minFilterRating, maxFilterRating]}
-          onChange={value => {
-            setRatingFilter(() => (loadout: RatedLoadout) => {
-              return loadout.rating >= value[0] && loadout.rating <= value[1];
-            });
-            setRatingFilterRange(value);
-          }}
-          labelAlwaysOn
-          marks={marks}
-          my={'1.5rem'}
-        />
-        <Text italic={true} color="primary.9" opacity={0.5} size="sm">US scan time: {usScanTime}<br/>EU scan time: {euScanTime}</Text>
-        <Button onClick={reset}>Reset</Button>
+        {infoPanelContents}
       </InfoPanel>
+      <Menu
+        shadow="xl"
+        position="bottom"
+        width="400px"
+        opened={statsOpened}
+        onChange={setStatsOpened}
+      >
+        <Menu.Target>
+          <Button
+            className={classes.expandButton}
+            variant="filled"
+            mx={5}
+            size="md"
+            p="8px 12px"
+            leftIcon={( 
+              <IconChartHistogram size="2rem" />
+            )}
+          >
+            {statsOpened?"Hide Stats":"Show Stats"}
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown className={classes.infoMenu}>
+          {statsOpened && infoPanelContents}
+        </Menu.Dropdown>
+      </Menu>
       <Flex className={classes.trees}>
         <FilteringSubTree
           nodes={tree.classNodes}
@@ -164,12 +171,14 @@ export default function TalentTreeExplorer({
           key={`spec-${resetCount}`}
         />
       </Flex>
-      <FilteringPvpTalentList
-        talents={tree.pvpTalents}
-        onFiltersChange={filters => setPvpFilters(filters) }
-        loadouts={loadouts}
-        key={`pvp-${resetCount}`}
-      />
+      <div className={classes.pvpTalents}>
+        <FilteringPvpTalentList
+          talents={tree.pvpTalents}
+          onFiltersChange={filters => setPvpFilters(filters) }
+          loadouts={loadouts}
+          key={`pvp-${resetCount}`}
+        />
+      </div>
     </div>
   );
 }

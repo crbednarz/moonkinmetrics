@@ -1,5 +1,5 @@
 import { SPEC_BY_CLASS } from "@/lib/wow";
-import { createStyles, MantineTheme, Navbar, NavLink } from "@mantine/core";
+import { MantineTheme, Navbar, NavLink } from "@mantine/core";
 import { useRouter } from "next/router";
 
 interface SiteNavbarProps {

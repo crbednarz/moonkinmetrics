@@ -703,6 +703,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tabler/icons-react@npm:^2.11.0":
+  version: 2.11.0
+  resolution: "@tabler/icons-react@npm:2.11.0"
+  dependencies:
+    "@tabler/icons": 2.11.0
+    prop-types: ^15.7.2
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0
+  checksum: 12aa82bfeee168e2a12adc7848a8bdd36e595f3ce02129bf662b47b59dfb188c74e4f0f8c64443d939815ba4f944121fd19f31700dbc383ac7bf999a4a5f16f2
+  languageName: node
+  linkType: hard
+
+"@tabler/icons@npm:2.11.0":
+  version: 2.11.0
+  resolution: "@tabler/icons@npm:2.11.0"
+  checksum: 23d7f9f15f46d9e9edd26d6220ff5c3cf125a51beb23d0fd2a1f8a7b871f2632eec93056a044bc6042c3eba54136e51c037987c83c8d8bc4d7b20bf78519d776
+  languageName: node
+  linkType: hard
+
 "@tootallnate/once@npm:2":
   version: 2.0.0
   resolution: "@tootallnate/once@npm:2.0.0"
@@ -849,6 +868,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: f790b99a1bf63ef160c967e23c46feea7787e531292bb827126334612c234ed489a0dc2c7ba33156416f0ffa8d25bf2b0fdb7f35c2ba60eb3e960572bece4001
+  languageName: node
+  linkType: hard
+
+"add@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "add@npm:2.0.6"
+  checksum: e2d23d40494565dfed4acd65e478570c444db5ac6c053551ed429c39ea0f2c99d83df63e7befec936df601827d2254d06a2fb6f7dcfd2022e810b25eab818b8c
   languageName: node
   linkType: hard
 
@@ -3613,7 +3639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -4447,9 +4473,11 @@ __metadata:
     "@mantine/hooks": ^6.0.0
     "@mantine/next": ^6.0.0
     "@next/font": 13.1.6
+    "@tabler/icons-react": ^2.11.0
     "@types/node": 18.14.0
     "@types/react": 18.0.28
     "@types/react-dom": 18.0.11
+    add: ^2.0.6
     chart.js: ^4.2.1
     eslint: 8.34.0
     eslint-config-next: 13.1.6
@@ -4459,6 +4487,7 @@ __metadata:
     react-dom: 18.2.0
     sass: ^1.58.3
     typescript: 4.9.5
+    yarn: ^1.22.19
   languageName: unknown
   linkType: soft
 
@@ -4667,6 +4696,16 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
+  languageName: node
+  linkType: hard
+
+"yarn@npm:^1.22.19":
+  version: 1.22.19
+  resolution: "yarn@npm:1.22.19"
+  bin:
+    yarn: bin/yarn.js
+    yarnpkg: bin/yarn.js
+  checksum: b43d2cc5fee7e933beb12a8aee7dfceca9e9ef2dd17c5d04d15a12ab7bec5f5744ea34a07b86e013da7f291a18c4e1ad8f70e150f5ed2f4666e6723c7f0a8452
   languageName: node
   linkType: hard
 

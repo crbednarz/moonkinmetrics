@@ -1,5 +1,5 @@
 import { TalentFilterMode } from '@/lib/loadout-filter';
-import { colorToStyle, getTalentColors, getUsageColor, globalColors, lerpColors } from '@/lib/style-constants';
+import { colorToStyle, getTalentColors } from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsage } from '@/lib/usage';
 import { createStyles } from '@mantine/core';

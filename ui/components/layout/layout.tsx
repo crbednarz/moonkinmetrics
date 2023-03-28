@@ -1,28 +1,24 @@
-import { useState } from 'react';
 import {
   AppShell,
   rem,
   Image,
   Header,
-  MediaQuery,
-  Burger,
   Title,
-  useMantineTheme,
   Flex,
   createStyles,
   Space,
   Anchor,
   Alert,
-  Box,
 } from '@mantine/core';
 import Link from 'next/link';
-import {colorToStyle, globalColors} from '@/lib/style-constants';
+import { colorToStyle, globalColors } from '@/lib/style-constants';
 
 const useStyles = createStyles(theme => ({
-  logo: {
+  logoWrapper: {
     alignContent: 'center',
     alignItems: 'center',
     textAlign: 'left',
+    height: rem(120),
     '& > h1': {
       paddingTop: rem(15),
       fontSize: rem(40),
@@ -51,6 +47,10 @@ const useStyles = createStyles(theme => ({
     [`@media (max-width: ${theme.breakpoints.xl})`]: {
       maxWidth: theme.breakpoints.lg,
     },
+    [`@media (max-width: ${theme.breakpoints.xs})`]: {
+      flexDirection: 'column',
+      rowGap: rem(10),
+    }
   },
   link: {
     display: 'block',
@@ -61,7 +61,6 @@ const useStyles = createStyles(theme => ({
     color: theme.colors.dark[0],
     fontSize: theme.fontSizes.lg,
     fontWeight: 500,
-
     '&:hover': {
       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
     },
@@ -77,8 +76,6 @@ export default function Layout({
   className?: string
 }) {
   const { classes } = useStyles();
-  const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
   return (
     <AppShell
       navbarOffsetBreakpoint="lg"
@@ -95,8 +92,14 @@ export default function Layout({
         <Header height={{ }} withBorder={false} className={classes.headerWrapper}>
           <Flex className={classes.headerContent}>
             <Link href="/">
-              <Flex className={classes.logo}>
-                <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} fit="contain" />
+              <Flex className={classes.logoWrapper}>
+                <Image
+                  width={120}
+                  height={120}
+                  src="/logo.svg"
+                  alt="Moonkin Metrics"
+                  fit="contain"
+                />
                 <Title>
                   Moonkin
                   <Space h="xs" />
@@ -110,15 +113,6 @@ export default function Layout({
               <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics" target="_blank">Github</Anchor>&nbsp;or&nbsp;
               <Anchor color="blue" href="https://discord.gg/d4stUFRY" target="_blank">Discord</Anchor>.
             </Alert>
-            <MediaQuery largerThan="lg" styles={{ display: 'none' }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened(o => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
           </Flex>
         </Header>
       }

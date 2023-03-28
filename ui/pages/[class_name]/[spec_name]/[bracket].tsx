@@ -1,13 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, Title, createStyles, rem, MantineThemeColorsOverride, Tabs, Stack } from '@mantine/core';
+import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, Tabs, getStylesRef } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
 import { decodeLoadouts, getEncodedLeaderboard as getLeaderboardJson, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import Layout from '@/components/layout/layout';
 import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
-import { useRouter } from 'next/router';
-import {useMemo} from 'react';
 import Head from 'next/head';
 import SpecSelector from '@/components/layout/spec-selector';
 import SiteNavbar from '@/components/layout/site-navbar';
@@ -22,10 +22,16 @@ const useStyles = createStyles(theme => ({
   nav: {
     gridColumn: 'nav-bar',
     gridRow: 'content',
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
+      display: 'none',
+    }
   },
   content: {
     gridColumn: 'content',
     gridRow: 'content',
+  },
+  tabs: {
+    ref: getStylesRef('tabs'),
   },
   title: {
     gridRow: 'title-bar',
@@ -33,18 +39,9 @@ const useStyles = createStyles(theme => ({
     flexWrap: 'wrap',
     marginBottom: rem(5),
     justifyContent: 'space-between',
-    '& > h1': {
-      marginRight: rem(10),
+    [`@media (max-width: ${theme.breakpoints.xs})`]: {
+      justifyContent: 'center',
     },
-    '& > div:last-child': {
-      marginLeft: 'auto',
-    },
-    [`@media (max-width: ${theme.breakpoints.lg})`]: {
-      justifyContent: 'left',
-      '& > h1': {
-        marginLeft: `${rem(10)} !important`,
-      }
-    }
   },
 }));
 
@@ -87,10 +84,10 @@ export default function Bracket({
       </Head>
       <Layout>
         <div className={classes.contentGrid}>
-          <Flex className={classes.title} justify="space-between">
-            <Title>{tree.specName}</Title>
-            <Title color="wow-class">{tree.className}</Title>
+          <Flex className={classes.title} justify="space-between" align="center">
+            <SpecSelector />
             <Tabs
+              className={classes.tabs}
               value={bracket as string}
               onTabChange={value => {
                 const classParam = router.query['class_name'];
@@ -112,7 +109,7 @@ export default function Bracket({
             </Tabs>
           </Flex>
           <div className={classes.nav}>
-            <SiteNavbar/>
+              <SiteNavbar/>
           </div>
           <div className={classes.content}>
             <TalentTreeExplorer

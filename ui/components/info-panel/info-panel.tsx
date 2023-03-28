@@ -1,15 +1,22 @@
-import { createStyles, rem, Stack } from '@mantine/core';
+import { createStyles, rem } from '@mantine/core';
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles(theme => ({
   wrapper: {
     marginLeft: rem(20),
     marginRight: rem(20),
     height: 'auto',
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      margin: 0,
+    },
   },
   innerWrapper: {
     position: 'sticky',
     top: rem(7),
-  }
+    width: rem(400),
+    [`@media (max-width: ${theme.breakpoints.md})`]: {
+      display: 'none',
+    },
+  },
 }));
 
 type InfoPanelProps = React.PropsWithChildren<{
@@ -23,10 +30,8 @@ export default function InfoPanel({
   const { classes } = useStyles();
   return (
     <div className={`${classes.wrapper} ${className}`}>
-      <div className={classes.innerWrapper}>
-        <Stack>
-          {children}
-        </Stack>
+      <div className={`${classes.innerWrapper}`}>
+        {children}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { TalentFilterMode } from "@/lib/loadout-filter";
-import {colorToStyle, getProgressColor, getUsageColor, globalColors, globalThemeColors} from "@/lib/style-constants";
+import { colorToStyle, getUsageColor, globalColors } from "@/lib/style-constants";
 import { Talent } from "@/lib/talents";
 import { TalentUsage } from "@/lib/usage";
 import { Title, createStyles, Divider, Table, Kbd, Flex, Text, Center } from '@mantine/core';
