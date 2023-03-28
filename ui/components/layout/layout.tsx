@@ -11,12 +11,12 @@ import {
   Flex,
   createStyles,
   Space,
-  Footer,
   Anchor,
   Alert,
+  Box,
 } from '@mantine/core';
-import SiteNavbar from './site-navbar';
 import Link from 'next/link';
+import {colorToStyle, globalColors} from '@/lib/style-constants';
 
 const useStyles = createStyles(theme => ({
   logo: {
@@ -27,8 +27,46 @@ const useStyles = createStyles(theme => ({
       paddingTop: rem(15),
       fontSize: rem(40),
       lineHeight: rem(30),
-    }
-  }
+    },
+  },
+  headerWrapper: {
+    marginBottom: rem(20),
+    backgroundColor: colorToStyle(globalColors.dark[8], 0.4),
+    borderBottom: `1px solid ${theme.colors.dark[6]}`,
+    height: '100%',
+    padding: rem(10),
+    [`@media (max-width: ${theme.breakpoints.lg})`]: {
+      justifyContent: 'space-between',
+      '& > *': {
+        'margin': rem(10),
+      },
+    },
+  },
+  headerContent: {
+    margin: '0 auto',
+    boxSizing: 'content-box',
+    maxWidth: theme.breakpoints.xl,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
+      maxWidth: theme.breakpoints.lg,
+    },
+  },
+  link: {
+    display: 'block',
+    lineHeight: 1,
+    padding: `${rem(8)} ${rem(12)}`,
+    borderRadius: theme.radius.sm,
+    textDecoration: 'none',
+    color: theme.colors.dark[0],
+    fontSize: theme.fontSizes.lg,
+    fontWeight: 500,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    },
+  },
+
 }));
 
 export default function Layout({
@@ -47,11 +85,6 @@ export default function Layout({
       className={className}
       fixed={false}
       padding={0}
-      navbar={
-        <SiteNavbar
-          opened={opened}
-        />
-      }
       sx={() => ({
         textAlign: 'center',
         '& main > *,& nav > *': {
@@ -59,19 +92,8 @@ export default function Layout({
         }
       })}
       header={
-        <Header height={{ }} withBorder={false}>
-          <Flex sx={() => ({
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-            padding: rem(10),
-            [`@media (max-width: ${theme.breakpoints.lg})`]: {
-              justifyContent: 'space-between',
-              '& > *': {
-                'margin': rem(10),
-              },
-            },
-          })}>
+        <Header height={{ }} withBorder={false} className={classes.headerWrapper}>
+          <Flex className={classes.headerContent}>
             <Link href="/">
               <Flex className={classes.logo}>
                 <Image src="/logo.svg" alt="Moonkin Metrics" width={120} height={120} fit="contain" />
@@ -82,7 +104,7 @@ export default function Layout({
                 </Title>
               </Flex>
             </Link>
-            <Alert title="NOTICE" color="primary.9" ml="auto" style={{textAlign: 'left'}}>
+            <Alert title="NOTICE" color="primary.9" style={{textAlign: 'left'}}>
               This is under active development and changing frequently!<br/>
               If you have any feedback, please reach out on&nbsp;
               <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics" target="_blank">Github</Anchor>&nbsp;or&nbsp;

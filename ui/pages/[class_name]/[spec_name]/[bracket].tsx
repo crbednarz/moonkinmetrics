@@ -9,11 +9,29 @@ import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import { useRouter } from 'next/router';
 import {useMemo} from 'react';
 import Head from 'next/head';
+import SpecSelector from '@/components/layout/spec-selector';
+import SiteNavbar from '@/components/layout/site-navbar';
 
 const useStyles = createStyles(theme => ({
+  contentGrid: {
+    display: 'grid',
+    justifyContent: 'center',
+    gridTemplateColumns: '[nav-bar] min-content [content] min-content',
+    gridTemplateRows: '[title-bar] min-content [content] auto',
+  },
+  nav: {
+    gridColumn: 'nav-bar',
+    gridRow: 'content',
+  },
+  content: {
+    gridColumn: 'content',
+    gridRow: 'content',
+  },
   title: {
-    marginBottom: rem(10),
+    gridRow: 'title-bar',
+    gridColumn: 'content',
     flexWrap: 'wrap',
+    marginBottom: rem(5),
     justifyContent: 'space-between',
     '& > h1': {
       marginRight: rem(10),
@@ -68,7 +86,7 @@ export default function Bracket({
         <meta name="description" content={`Explore talent selection of ${tree.specName} ${tree.className} in rated ${bracket}.`} />
       </Head>
       <Layout>
-        <Stack style={{display: 'inline-flex', maxWidth: '100%'}}>
+        <div className={classes.contentGrid}>
           <Flex className={classes.title} justify="space-between">
             <Title>{tree.specName}</Title>
             <Title color="wow-class">{tree.className}</Title>
@@ -93,13 +111,18 @@ export default function Bracket({
               </Tabs.List>
             </Tabs>
           </Flex>
-          <TalentTreeExplorer
-            tree={tree}
-            timestamp={timestamp}
-            leaderboard={leaderboard}
-            key={`${tree.className}-${tree.specName}-${bracket}`}
-          />
-        </Stack>
+          <div className={classes.nav}>
+            <SiteNavbar/>
+          </div>
+          <div className={classes.content}>
+            <TalentTreeExplorer
+              tree={tree}
+              timestamp={timestamp}
+              leaderboard={leaderboard}
+              key={`${tree.className}-${tree.specName}-${bracket}`}
+            />
+          </div>
+        </div>
       </Layout>
     </MantineProvider>
   )

@@ -46,7 +46,10 @@ export default function FilteringTalentNode({
   onTalentDeselect,
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
-  const { borderColor, bgColor } = getTalentColors(usage.percent, filterMode);
+  const {
+    borderColor, bgColor,
+    borderHoverColor, bgHoverColor,
+  } = getTalentColors(usage.percent, filterMode);
 
   const [expanded, setExpanded] = useState(false);
 
@@ -75,8 +78,8 @@ export default function FilteringTalentNode({
       <div
         className={classes.talentGroup}
         style={{
-          borderColor: colorToStyle(borderColor),
-          backgroundColor: colorToStyle(bgColor),
+          backgroundColor: colorToStyle(expanded?bgHoverColor:bgColor),
+          borderColor: colorToStyle(expanded?borderHoverColor:borderColor),
         }}
       >
         {talentGroups.map((talentGroup, talentGroupIndex) => {

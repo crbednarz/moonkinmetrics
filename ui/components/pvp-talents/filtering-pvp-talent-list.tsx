@@ -42,7 +42,7 @@ export default function FilteringPvpTalentList({
   const usageMap = getPvpTalentUsage(talents, loadouts);
 
   return (
-    <Flex gap={5}> 
+    <Flex gap={5} wrap="wrap"> 
       {talents.map(talent => {
         let usage = usageMap[talent.id];
 

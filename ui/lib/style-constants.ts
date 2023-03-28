@@ -159,15 +159,19 @@ export function getTalentColors(usage: number, filterMode: TalentFilterMode) {
       g: 180,
       b: 50,
     };
-    borderStrength = 0.8;
+    borderStrength = 0.5;
     bgStrength = 0.3;
   }
   const borderColor = lerpColors(usageColor, globalColors.dark[4], 1.0 - borderStrength);
   const bgColor = lerpColors(usageColor, globalColors.dark[5], 1.0 - bgStrength);
+  const borderHoverColor = lerpColors(usageColor, globalColors.dark[4], 0.8 - borderStrength);
+  const bgHoverColor = lerpColors(usageColor, globalColors.dark[5], 0.8 - bgStrength);
 
   return {
-    borderColor: borderColor,
-    bgColor: bgColor,
+    borderColor,
+    bgColor,
+    borderHoverColor,
+    bgHoverColor,
     color: usageColor,
   };
 }
