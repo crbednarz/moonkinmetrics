@@ -3,7 +3,7 @@ import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, T
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLoadouts, getEncodedLeaderboard as getLeaderboardJson, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
+import { decodeLoadouts, getEncodedLeaderboard, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import Layout from '@/components/layout/layout';
@@ -150,7 +150,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const bracket = params!['bracket'] as string;
 
-  const leaderboardJson = getLeaderboardJson(className, specName, bracket.toLowerCase());
+  const leaderboardJson = getEncodedLeaderboard(className, specName, bracket.toLowerCase());
 
   const encodedLeaderboard = leaderboardJson['entries'] as string[];
   const timestamp = leaderboardJson['timestamp'] as LeaderboardTimestamp;

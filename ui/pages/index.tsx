@@ -1,5 +1,6 @@
 import Layout from "@/components/layout/layout";
-import { Center, createStyles } from "@mantine/core";
+import SiteNav from "@/components/layout/site-nav";
+import { Center, Container, createStyles, Stack, Title } from "@mantine/core";
 import Head from "next/head";
 
 const useStyles = createStyles(() => ({
@@ -13,11 +14,12 @@ export default function Bracket() {
         <title>Moonkin Metrics</title>
         <meta name="description" content="World of Warcraft talent explorer for rated PvP." />
       </Head>
-      <Center p='xl'>
-        <h1>
-          Home page under construction.<br/>Please use the navigation bar to explore the site.
-        </h1>
-      </Center>
+      <Container p='xl'>
+        <Stack justify="center" align="center" spacing="xl">
+          <Title>Moonkin Metrics</Title>
+          <SiteNav />
+        </Stack>
+      </Container>
     </Layout>
   );
 }
