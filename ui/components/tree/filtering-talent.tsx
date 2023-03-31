@@ -61,7 +61,7 @@ interface FilteringTalentProps {
   usage: number;
   onTalentSelect: (talent: Talent) => void;
   onTalentDeselect: (talent: Talent) => void;
-  tooltipDirection: 'left' | 'right';
+  tooltipDirection: 'left' | 'right' | 'bottom' | 'top';
 }
 
 export default function FilteringTalent({
@@ -74,8 +74,6 @@ export default function FilteringTalent({
   const { classes } = useStyles();
   let talentColorStyle = colorToStyle(getUsageColor(usage));
   const [showTooltip, setShowTooltip] = useState(false);
-
-
 
   return (
     <Popover

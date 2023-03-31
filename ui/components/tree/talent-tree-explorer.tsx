@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, rem, getStylesRef, Menu } from '@mantine/core';
+import { Button, createStyles, Flex, rem, Menu } from '@mantine/core';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
@@ -36,7 +36,6 @@ const useStyles = createStyles(theme => ({
     },
   },
   infoPanel: {
-    ref: getStylesRef('infoPanel'),
     gridRow: 'top-bar / last-line',
     gridColumn: 'side-bar',
     [`@media (max-width: ${theme.breakpoints.md})`]: {

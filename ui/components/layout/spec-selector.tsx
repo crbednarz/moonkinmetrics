@@ -12,7 +12,7 @@ const useStyles = createStyles(theme => ({
     borderRadius: theme.radius.sm,
     padding: '8px 0px 8px 12px',
     fontSize: '2.5rem',
-    '&.titleLink:hover': {
+    [`&.${getStylesRef('titleLink')}:hover`]: {
       backgroundColor: theme.colors.dark[6],
     },
     [`@media (min-width: ${theme.breakpoints.lg})`]: {

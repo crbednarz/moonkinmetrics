@@ -1,5 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, Tabs, getStylesRef } from '@mantine/core';
+import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, Tabs } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
@@ -29,9 +29,6 @@ const useStyles = createStyles(theme => ({
   content: {
     gridColumn: 'content',
     gridRow: 'content',
-  },
-  tabs: {
-    ref: getStylesRef('tabs'),
   },
   title: {
     gridRow: 'title-bar',
@@ -87,7 +84,6 @@ export default function Bracket({
           <Flex className={classes.title} justify="space-between" align="center">
             <SpecSelector />
             <Tabs
-              className={classes.tabs}
               value={bracket as string}
               onTabChange={value => {
                 const classParam = router.query['class_name'];

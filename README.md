@@ -10,7 +10,7 @@ Note that this project is under active development and is likely to change quite
 
 ## Contributing
 
-This project is fairly early in development and many aspects of the site are still in flux. As such, contributions are not being accepted right now.
+This project is under active development and many aspects of the site are still in flux. As such, contributions are not being accepted right now.
 
 Feedback is always welcome, though!
 
