@@ -1,7 +1,7 @@
-import {colorToStyle, globalColors, lerpColors} from "@/lib/style-constants";
+import { colorToStyle, globalColors } from "@/lib/style-constants";
 import { SPEC_BY_CLASS } from "@/lib/wow";
-import { Box, Button, Card, createStyles, Flex, MantineTheme, Menu, rem, Text, Title, useMantineTheme } from "@mantine/core";
-import { useRouter } from "next/router";
+import { Box, Button, createStyles, Flex, MantineTheme, rem, Title } from "@mantine/core";
+import Link from "next/link";
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -47,8 +47,6 @@ interface SiteNavProps {
 
 export default function SiteNav({
 }: SiteNavProps) {
-  const router = useRouter();
-
   const { classes } = useStyles();
   
   return (
@@ -68,7 +66,7 @@ export default function SiteNav({
             {wowClass}
           </Title>
           {SPEC_BY_CLASS[wowClass].map(spec => (
-            <Box key={spec}>
+            <Link key={spec} href={`/${wowClass}/${spec}/3v3/`.replace(' ', '-')}>
               <Button
                 key={spec}
                 variant="subtle"
@@ -76,13 +74,10 @@ export default function SiteNav({
                 sx={theme => ({
                   color: colorFromClass(wowClass, theme)
                 })}
-                onClick={() => {
-                  router.push(`/${wowClass}/${spec}/${'3v3'}/`.replace(' ', '-'));
-                }}
               >
                 {spec}
               </Button>
-            </Box>
+            </Link>
           ))}
         </Box>
       ))}

@@ -1,5 +1,6 @@
 import { SPEC_BY_CLASS } from "@/lib/wow";
 import { MantineTheme, Navbar, NavLink } from "@mantine/core";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 interface SiteNavbarProps {
@@ -29,18 +30,19 @@ export default function SiteNavbar({
             })}
           >
             {SPEC_BY_CLASS[wowClass].map(spec => (
-              <NavLink
+              <Link
+                href={`/${wowClass}/${spec}/${bracket ?? '3v3'}/`.replace(' ', '-')}
                 key={spec}
-                label={spec}
-                active={isParamMatch(wowClass, classParam) && isParamMatch(spec, specParam)}
-                sx={theme => ({
-                  color: colorFromClass(wowClass, theme),
-                })}
-                color={wowClass.toLowerCase().replace(' ', '-')}
-                onClick={() => {
-                  router.push(`/${wowClass}/${spec}/${bracket ?? '3v3'}/`.replace(' ', '-'));
-                }}
-              />
+              >
+                <NavLink
+                  label={spec}
+                  active={isParamMatch(wowClass, classParam) && isParamMatch(spec, specParam)}
+                  sx={theme => ({
+                    color: colorFromClass(wowClass, theme),
+                  })}
+                  color={wowClass.toLowerCase().replace(' ', '-')}
+                />
+              </Link>
             ))}
             </NavLink>
         ))}
