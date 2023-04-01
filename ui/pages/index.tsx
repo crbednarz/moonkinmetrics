@@ -7,6 +7,7 @@ import { RatedLoadout } from "@/lib/pvp";
 import Layout from "@/components/layout/layout";
 import FilteringNodeGroup from "@/components/tree/filtering-node-group";
 import FilteringStatsPanel from "@/components/info-panel/filtering-stats-panel";
+import Head from "next/head";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -55,7 +56,7 @@ const useStyles = createStyles((theme) => ({
     alignSelf: 'stretch',
     [`@media (max-width: ${theme.breakpoints.xs})`]: {
       width: '100%',
-    }
+    },
   },
   title: {
     fontSize: rem(34),
@@ -166,12 +167,15 @@ export default function Talents({
            "Right clicking will clear any filters."),
   }];
 
-
   return (
     <Layout>
+      <Head>
+        <title>Moonkin Metrics</title>
+        <meta name="description" content="World of Warcraft talent explorer for rated PvP." />
+      </Head>
       <Container p="xl" size={theme.breakpoints.lg}>
         <Stack justify="center" align="center" spacing="xl">
-          <Title size="3em" align="center">Moonkin Metrics</Title>
+          <Title size="3em" align="center" style={{fontFamily: "'Gabriela', serif"}}>Moonkin Metrics</Title>
           <Text size="lg" color="dimmed" className={classes.siteDescription}>
             Explore talent usage of the World of Warcraft PVP leaderboards.<br>
             </br>
@@ -197,9 +201,9 @@ export default function Talents({
           ))}
           <Flex className={classes.card} style={{justifyContent: 'center'}}>
             <Box className={classes.cardDescription}>
-              <Text size="2em" fw={500} mt="md" align="center">
+              <Title order={2} size="2em" fw={500} mt="md" align="center">
                 Explore and filter by rating
-              </Text>
+              </Title>
               <Text fz="md" c="dimmed" my="sm" align="center">
                 The information panel displays statistics about the loadouts that match your filters. You can set a minimum and maximum rating to better understand your range.
               </Text>
@@ -294,9 +298,9 @@ function DemoCard({
         />
       </Box>
       <Box className={classes.cardDescription}>
-        <Text size="2em" fw={500} mt="md">
+        <Title order={2} size="2em" fw={500} mt="md">
           {title}
-        </Text>
+        </Title>
         <Text fz="md" c="dimmed" my="sm">
           {text}
         </Text>

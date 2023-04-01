@@ -24,8 +24,7 @@ export default function App(props: AppProps) {
             body: {
               backgroundRepeatY: 'no-repeat',
               backgroundPosition: 'center top',
-
-            }
+            },
           }),
           colorScheme: 'dark',
           primaryColor: 'primary',

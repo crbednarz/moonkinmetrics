@@ -57,6 +57,11 @@ const useStyles = createStyles(theme => ({
       rowGap: rem(10),
     }
   },
+  headerLeftContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    wrap: 'wrap',
+  },
   link: {
     display: 'block',
     lineHeight: 1,
@@ -112,7 +117,7 @@ export default function Layout({
   const header = (
     <Header height="100%" withBorder={false} className={classes.headerWrapper}>
       <Flex className={classes.headerContent}>
-        <Flex align="center" wrap="wrap" justify="center">
+        <Flex className={classes.headerLeftContent}>
           <Link href="/">
             <Flex className={classes.logoWrapper}>
               <Image
@@ -122,7 +127,7 @@ export default function Layout({
                 alt="Moonkin Metrics"
                 fit="contain"
               />
-              <Title>
+              <Title style={{fontFamily: "'Gabriela', serif"}}>
                 Moonkin
                 <Space h="xs" />
                 Metrics
@@ -142,6 +147,7 @@ export default function Layout({
               rightIcon={link.rightIcon}
               target={link.target}
               sx={theme => ({
+                fontFamily: "'Gabriela', serif",
                 [`@media (max-width: ${theme.breakpoints.xs})`]: {
                   padding: '0 12px',
                   margin: '4px 0',
