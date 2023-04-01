@@ -14,7 +14,7 @@ export interface FilteringStatsPanelProps {
   allLoadouts: RatedLoadout[];
   rangeFilteredLoadouts: RatedLoadout[];
   talentFilteredLoadouts: RatedLoadout[];
-  timestamp: LeaderboardTimestamp;
+  timestamp?: LeaderboardTimestamp;
   onRatingFilterChange: (minRating: number, maxRating: number) => void;
   onReset: () => void;
 }
@@ -32,8 +32,8 @@ export default function FilteringStatsPanel({
   let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
 
   const viewingPercent = Math.round(talentFilteredLoadouts.length / rangeFilteredLoadouts.length * 100);
-  const usScanTime = new Date(timestamp.us).toISOString();
-  const euScanTime = new Date(timestamp.eu).toISOString();
+  const usScanTime = new Date(timestamp?.us ?? 0).toISOString();
+  const euScanTime = new Date(timestamp?.eu ?? 0).toISOString();
 
   const filterStep = 25;
   const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
@@ -86,7 +86,9 @@ export default function FilteringStatsPanel({
         marks={marks}
         my={'1.5rem'}
       />
-      <Text italic={true} color="primary.9" opacity={0.5} size="sm">US scan time: {usScanTime}<br/>EU scan time: {euScanTime}</Text>
+      {timestamp && (
+        <Text italic={true} color="primary.9" opacity={0.5} size="sm">US scan time: {usScanTime}<br/>EU scan time: {euScanTime}</Text>
+      )}
       <Button onClick={onReset}>Reset</Button>
     </Stack>
   );

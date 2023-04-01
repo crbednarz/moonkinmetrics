@@ -3,11 +3,11 @@ import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
 import { Button, createStyles, Flex, rem, Menu } from '@mantine/core';
+import { IconChartHistogram } from '@tabler/icons-react';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
 import FilteringStatsPanel from '@/components/info-panel/filtering-stats-panel';
-import { IconChartHistogram } from '@tabler/icons-react';
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -17,6 +17,8 @@ const useStyles = createStyles(theme => ({
     gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
     gap: 10,
     [`@media (max-width: ${theme.breakpoints.md})`]: {
+      display: 'flex',
+      flexDirection: 'column',
       width: '100%',
       columnGap: 0,
       '& > *': {
@@ -31,7 +33,7 @@ const useStyles = createStyles(theme => ({
       flexWrap: 'wrap',
     },
     [`@media (max-width: ${theme.breakpoints.md})`]: {
-      maxWidth: '100vw',
+      width: '100%',
       overflow: 'auto',
     },
   },
@@ -60,8 +62,7 @@ const useStyles = createStyles(theme => ({
   },
   infoMenu: {
     padding: 20,
-    width: rem(400),
-    maxWidth: '100vw',
+    width: rem(390),
   },
 }));
 
@@ -109,8 +110,7 @@ export default function TalentTreeExplorer({
       return loadout.rating >= min && loadout.rating <= max;
     });
   }
-  /*
-      */
+
   const infoPanelContents = (
     <FilteringStatsPanel
       allLoadouts={leaderboard}
@@ -130,7 +130,7 @@ export default function TalentTreeExplorer({
       <Menu
         shadow="xl"
         position="bottom"
-        width="400px"
+        width="390px"
         opened={statsOpened}
         onChange={setStatsOpened}
       >

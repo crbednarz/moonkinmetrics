@@ -18,6 +18,11 @@ const useStyles = createStyles(theme => ({
     justifyContent: 'center',
     gridTemplateColumns: '[nav-bar] min-content [content] min-content',
     gridTemplateRows: '[title-bar] min-content [content] auto',
+    marginBottom: 25,
+    [`@media (max-width: ${theme.breakpoints.xs})`]: {
+      display: 'flex',
+      flexDirection: 'column',
+    }
   },
   nav: {
     gridColumn: 'nav-bar',
@@ -38,6 +43,7 @@ const useStyles = createStyles(theme => ({
     justifyContent: 'space-between',
     [`@media (max-width: ${theme.breakpoints.xs})`]: {
       justifyContent: 'center',
+      overflow: 'hidden',
     },
   },
 }));
@@ -72,7 +78,6 @@ export default function Bracket({
           ...globalThemeColors(),
           ...extraColors,
         },
-        primaryColor: 'primary',
       }}
     >
       <Head>

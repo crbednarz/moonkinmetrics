@@ -11,42 +11,51 @@ interface Line {
   color: string,
 }
 
+interface PositionedNode {
+  x: number,
+  y: number,
+  node: TalentNode,
+}
+
 interface SubTreeConnectionSvgProps {
-  width: number,
-  height: number,
-  nodes: TalentNode[],
+  positionedNodes: PositionedNode[],
   usageMap: NodeUsageMap,
 }
 
 export default function SubTreeConnectionSvg({
-  width,
-  height,
-  nodes,
+  positionedNodes,
   usageMap,
 }: SubTreeConnectionSvgProps) {
-  let nodeMap = nodes.reduce<{[key: number]: TalentNode}>((map, node) => {
-    map[node.id] = node;
+  let positionMap = positionedNodes.reduce<{[key: number]: {x: number, y: number}}>((map, positionedNode) => {
+    const node = positionedNode.node;
+    map[node.id] = {
+      x: positionedNode.x,
+      y: positionedNode.y,
+    };
     return map;
   }, {});
-  let lines: Line[] = [];
-  const LINE_OFFSET = 28;
 
-  for (let node of nodes) {
+  let lines: Line[] = [];
+
+  for (let {x, y, node} of positionedNodes) {
     for (let lockedById of node.lockedBy) {
-      if (!(lockedById in nodeMap))
+      if (!(lockedById in positionMap))
         continue;
 
-      const otherNode = nodeMap[lockedById];
+      const {
+        x: otherX,
+        y: otherY,
+      } = positionMap[lockedById];
       const usage = usageMap[node.id];
       const parentUsage = usageMap[lockedById];
       const colorDelta = Math.min(parentUsage.percent, usage.percent);
       const color = getProgressColor(colorDelta);
       
       lines.push({
-        x1: node.x + LINE_OFFSET,
-        y1: node.y + LINE_OFFSET,
-        x2: otherNode.x + LINE_OFFSET,
-        y2: otherNode.y + LINE_OFFSET,
+        x1: x,
+        y1: y,
+        x2: otherX,
+        y2: otherY,
         width: 3,
         color: `rgb(${color.r}, ${color.g}, ${color.b})`,
       });
@@ -55,11 +64,12 @@ export default function SubTreeConnectionSvg({
 
   return (
     <svg
-      viewBox={`0 0 ${width} ${height}`}
       style={{
         position: 'absolute',
-        width: width,
-        height: height,
+        width: '100%',
+        height: '100%',
+        top: 0,
+        left: 0,
       }}
     >
       {lines.map((line, i) => (

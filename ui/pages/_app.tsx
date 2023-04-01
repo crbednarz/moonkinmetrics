@@ -1,8 +1,8 @@
 import '@/styles/globals.scss';
 import type { AppProps } from 'next/app';
-import Head from 'next/head';
 import { em, MantineProvider } from '@mantine/core';
 import { globalThemeColors } from '@/lib/style-constants';
+import Head from 'next/head';
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -10,18 +10,29 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
+        <meta name="viewport" content="width=device-width, shrink-to-fit=yes" />
       </Head>
 
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
         theme={{
+          globalStyles: (theme) => ({
+            'html,body': {
+              minWidth: em(400),
+            },
+            body: {
+              backgroundRepeatY: 'no-repeat',
+              backgroundPosition: 'center top',
+
+            }
+          }),
           colorScheme: 'dark',
+          primaryColor: 'primary',
           colors: globalThemeColors(),
           fontFamily: "'Open Sans', sans-serif",
           breakpoints: {
-            xs: em(700),
+            xs: em(980),
             sm: em(1090),
             md: em(1475),
             lg: em(1650),

@@ -7,14 +7,6 @@ import { useState } from 'react';
 import FilteringTalent from './filtering-talent';
 
 const useStyles = createStyles(theme => ({
-  node: {
-    position: 'absolute',
-    transform: 'translate(-50%, 0)',
-    zIndex: 1,
-    '&:hover': {
-      zIndex: 2,
-    }
-  },
   talentGroup: {
     position: 'relative',
     zIndex: 1,
@@ -28,7 +20,7 @@ const useStyles = createStyles(theme => ({
   },
 }));
 
-interface FilteringTalentNodeProps {
+interface FilteringTalentNodeProps extends React.HTMLAttributes<HTMLDivElement> {
   node: TalentNode;
   usage: NodeUsage;
   selectedTalent?: number;
@@ -44,6 +36,7 @@ export default function FilteringTalentNode({
   filterMode,
   onTalentSelect,
   onTalentDeselect,
+  ...restProps
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
   const {
@@ -67,11 +60,7 @@ export default function FilteringTalentNode({
 
   return (
     <div
-      className={classes.node}
-      style={{
-        left: node.x + 28,
-        top: node.y - 5,
-      }}
+      {...restProps}
       onMouseOver={() => setExpanded(true)}
       onMouseOut={() => setExpanded(false)}
     >
@@ -82,7 +71,7 @@ export default function FilteringTalentNode({
           borderColor: colorToStyle(expanded?borderHoverColor:borderColor),
         }}
       >
-        {talentGroups.map((talentGroup, talentGroupIndex) => {
+        {talentGroups.map(talentGroup => {
           return (
             <FilteringTalent
               key={`${talentGroup.talents[0].id}`}
@@ -94,7 +83,7 @@ export default function FilteringTalentNode({
               usage={talentGroup.usage}
               onTalentSelect={talent => onTalentSelect(talent.id)}
               onTalentDeselect={talent => onTalentDeselect(talent.id)}
-              tooltipDirection={(talentGroupIndex == 0 && talentGroups.length > 1)?"left":"right"}
+              tooltipDirection="bottom"
             />
           );
         })}

@@ -78,58 +78,6 @@ function deserializeTalent(jsonTalent: any) {
   }
 }
 
-function convertNodePositions(nodes: TalentNode[]) {
-  let minX = nodes[0].x;
-  let minY = nodes[0].y;
-  let maxX = minX;
-  let maxY = minY;
-
-  for (let node of nodes) {
-    minX = Math.min(node.x, minX);
-    minY = Math.min(node.y, minY);
-    maxX = Math.max(node.x, maxX);
-    maxY = Math.max(node.y, maxY);
-  }
-  const iconSize = 56;
-  const iconPadding = 24;
-  const paddedIconSize = iconSize + iconPadding * 2;
-  const blizzardIconSpacing = 600;
-  const iconRows = 10;
-  const iconCols = 9;
-
-  // Tree width has an additional 0.5 columns to accommodate choice talents expanding.
-  const width = paddedIconSize * (iconCols + 0.5);
-  const height = paddedIconSize * iconRows;
-
-
-  const xRange = maxX - minX;
-  const yRange = maxY - minY;
-  for (let node of nodes) {
-    let x = node.x;
-    let y = node.y;
-
-    // Normalize positions
-    x = (x - minX - xRange * 0.5) / blizzardIconSpacing;
-    y = (y - minY - yRange * 0.5) / blizzardIconSpacing;
-
-    // Center icons
-    x = (x - 0.5) * paddedIconSize + iconPadding;
-    y = (y - 0.5) * paddedIconSize + iconPadding;
-
-    // Center with stage size
-    x += width * 0.5;
-    y += height * 0.5;
-
-    node.x = x;
-    node.y = y;
-  }
-
-  return {
-    width,
-    height
-  };
-}
-
 const wowDirectory = path.join(process.cwd(), 'wow');
 
 function validateNodes(nodes: TalentNode[]) {
@@ -162,16 +110,24 @@ export function getTalentTree(className: string, specName: string) {
   specNodes = validateNodes(specNodes);
 
 
-  const classSize = convertNodePositions(classNodes);
-  const specSize = convertNodePositions(specNodes);
+  const iconSize = 56;
+  const iconPadding = 23;
+  const paddedIconSize = iconSize + iconPadding * 2;
+  const iconRows = 10;
+  const iconCols = 9;
+
+  // Tree width has an additional 0.5 columns to accommodate choice talents expanding.
+  const width = paddedIconSize * (iconCols + 0.5);
+  const height = paddedIconSize * iconRows;
+
   const tree: TalentTree = {
     className: jsonTree['class_name'],
     specName: jsonTree['spec_name'],
     classNodes,
     specNodes,
     pvpTalents: jsonTree['pvp_talents'].map(deserializeTalent),
-    classSize,
-    specSize,
+    classSize: {width, height},
+    specSize: {width, height},
   }
 
   return tree;

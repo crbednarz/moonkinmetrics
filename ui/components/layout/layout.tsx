@@ -9,9 +9,14 @@ import {
   Space,
   Anchor,
   Alert,
+  Button,
+  Box,
+  MediaQuery,
+  Center,
 } from '@mantine/core';
 import Link from 'next/link';
 import { colorToStyle, globalColors } from '@/lib/style-constants';
+import { IconExternalLink } from '@tabler/icons-react';
 
 const useStyles = createStyles(theme => ({
   logoWrapper: {
@@ -19,6 +24,7 @@ const useStyles = createStyles(theme => ({
     alignItems: 'center',
     textAlign: 'left',
     height: rem(120),
+    marginRight: rem(20),
     '& > h1': {
       paddingTop: rem(15),
       fontSize: rem(40),
@@ -29,7 +35,6 @@ const useStyles = createStyles(theme => ({
     marginBottom: rem(20),
     backgroundColor: colorToStyle(globalColors.dark[8], 0.4),
     borderBottom: `1px solid ${theme.colors.dark[6]}`,
-    height: '100%',
     padding: rem(10),
     [`@media (max-width: ${theme.breakpoints.lg})`]: {
       justifyContent: 'space-between',
@@ -76,6 +81,86 @@ export default function Layout({
   className?: string
 }) {
   const { classes } = useStyles();
+
+  const headerLinks = [
+    {
+      title: "Home",
+      href: "/",
+    },
+    {
+      title: "Talents",
+      href: "/talents",
+    },
+    {
+      title: "GitHub",
+      href: "https://github.com/crbednarz/moonkinmetrics",
+      rightIcon: (<IconExternalLink />),
+      target: "_blank",
+    },
+  ];
+
+
+  const notice = (
+    <Alert title="NOTICE" color="primary.9" style={{textAlign: 'left'}} maw={400}>
+      Moonkin Metrics is currently in beta and changing frequently.
+      If you have any feedback, please reach out on{' '}
+      <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics/discussions" target="_blank">GitHub</Anchor>{' '}or{' '}
+      <Anchor color="blue" href="https://discord.gg/d4stUFRY" target="_blank">Discord</Anchor>.
+    </Alert>
+  );
+
+  const header = (
+    <Header height="100%" withBorder={false} className={classes.headerWrapper}>
+      <Flex className={classes.headerContent}>
+        <Flex align="center" wrap="wrap" justify="center">
+          <Link href="/">
+            <Flex className={classes.logoWrapper}>
+              <Image
+                width={120}
+                height={120}
+                src="/logo.svg"
+                alt="Moonkin Metrics"
+                fit="contain"
+              />
+              <Title>
+                Moonkin
+                <Space h="xs" />
+                Metrics
+              </Title>
+            </Flex>
+          </Link>
+          <Box>
+
+          {headerLinks.map(link => (
+            <Button
+              key={link.title}
+              color="primary"
+              variant="subtle"
+              component="a"
+              size="lg"
+              href={link.href}
+              rightIcon={link.rightIcon}
+              target={link.target}
+              sx={theme => ({
+                [`@media (max-width: ${theme.breakpoints.xs})`]: {
+                  padding: '0 12px',
+                  margin: '4px 0',
+                  height: 34,
+                },
+              })}
+            >
+              {link.title}
+            </Button>
+          ))}
+          </Box>
+        </Flex>
+        <MediaQuery smallerThan="xs" styles={{display: 'none'}}>
+          {notice}
+        </MediaQuery>
+      </Flex>
+    </Header>
+  );
+
   return (
     <AppShell
       navbarOffsetBreakpoint="lg"
@@ -88,33 +173,15 @@ export default function Layout({
           textAlign: 'left',
         }
       })}
-      header={
-        <Header height={{ }} withBorder={false} className={classes.headerWrapper}>
-          <Flex className={classes.headerContent}>
-            <Link href="/">
-              <Flex className={classes.logoWrapper}>
-                <Image
-                  width={120}
-                  height={120}
-                  src="/logo.svg"
-                  alt="Moonkin Metrics"
-                  fit="contain"
-                />
-                <Title>
-                  Moonkin
-                  <Space h="xs" />
-                  Metrics
-                </Title>
-              </Flex>
-            </Link>
-            <Alert title="NOTICE" color="primary.9" style={{textAlign: 'left'}}>
-              This is under active development and changing frequently!<br/>
-              If you have any feedback, please reach out on&nbsp;
-              <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics" target="_blank">Github</Anchor>&nbsp;or&nbsp;
-              <Anchor color="blue" href="https://discord.gg/d4stUFRY" target="_blank">Discord</Anchor>.
-            </Alert>
-          </Flex>
-        </Header>
+      header={header}
+      footer={
+        <MediaQuery largerThan="xs" styles={{display: 'none'}}>
+          <Center>
+            <Box m={10} display="inline-block">
+              {notice}
+            </Box>
+          </Center>
+        </MediaQuery>
       }
     >
       {children}

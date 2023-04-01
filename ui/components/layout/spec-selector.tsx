@@ -2,6 +2,7 @@ import { SPEC_BY_CLASS } from "@/lib/wow";
 import { createStyles, getStylesRef, Menu, rem, Title, UnstyledButton } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import {useRouter} from "next/router";
+import {Fragment} from "react";
 
 const useStyles = createStyles(theme => ({
   title: {
@@ -45,7 +46,7 @@ const useStyles = createStyles(theme => ({
     flexWrap: 'wrap',
     maxHeight: '500px',
     overflow: 'auto',
-  }
+  },
 }));
 
 interface SpecSelectorProps {
@@ -72,8 +73,8 @@ export default function SpecSelector({
       </Menu.Target>
       <Menu.Dropdown className={classes.dropdown}>
         {Object.keys(SPEC_BY_CLASS).map(wowClass => (
-          <>
-            <Menu.Label key={wowClass}>{wowClass}</Menu.Label>
+          <Fragment key={wowClass}>
+            <Menu.Label>{wowClass}</Menu.Label>
             {SPEC_BY_CLASS[wowClass].map(spec => (
               <Menu.Item
                 key={spec}
@@ -85,7 +86,7 @@ export default function SpecSelector({
                 {`${spec} ${wowClass}`}
               </Menu.Item>
             ))}
-          </>
+          </Fragment>
         ))}
       </Menu.Dropdown>
     </Menu>

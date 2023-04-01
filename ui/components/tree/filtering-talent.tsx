@@ -82,6 +82,8 @@ export default function FilteringTalent({
       shadow="xl"
       zIndex={5}
       opened={showTooltip}
+      keepMounted={false}
+      withinPortal={true}
     >
       <Popover.Target>
         <div
@@ -114,7 +116,10 @@ export default function FilteringTalent({
             return (
               <div
                 key={talent.id}
-                onClick={() => onTalentSelect(talent)}
+                onClick={() => {
+                  if (showTooltip)
+                    onTalentSelect(talent)
+                }}
                 onContextMenu={e => {
                   e.preventDefault();
                   onTalentDeselect(talent);
@@ -140,15 +145,13 @@ export default function FilteringTalent({
           </div>
         </div>
       </Popover.Target>
-      {showTooltip && (
-        <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
-          <FilteringTalentTooltip
-            talent={talentsData[0].talent}
-            usage={talentsData[0].usage}
-            filterMode={talentsData[0].filterMode}
-          />
-        </Popover.Dropdown>
-      )}
+      <Popover.Dropdown sx={{ pointerEvents: 'none' }}>
+        <FilteringTalentTooltip
+          talent={talentsData[0].talent}
+          usage={talentsData[0].usage}
+          filterMode={talentsData[0].filterMode}
+        />
+      </Popover.Dropdown>
     </Popover>
   );
 }

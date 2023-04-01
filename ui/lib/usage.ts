@@ -15,7 +15,7 @@ export interface NodeUsage {
   talents: TalentUsageMap;
 }
 
-type TalentUsageMap = {
+export type TalentUsageMap = {
   [key: number]: TalentUsage
 }
 
