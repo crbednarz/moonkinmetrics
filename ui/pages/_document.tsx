@@ -12,7 +12,8 @@ export default class _Document extends Document {
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Gabriela&family=Open+Sans:wght@500&display=optional" rel="stylesheet" />
+        {/* eslint-disable-next-line @next/next/google-font-display */}
+        <link href="https://fonts.googleapis.com/css2?family=Gabriela&family=Open+Sans:wght@500;700&display=fallback" rel="stylesheet" />
       </Head>
       <body>
         <Main />
