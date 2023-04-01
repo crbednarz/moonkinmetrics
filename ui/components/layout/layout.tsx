@@ -60,7 +60,7 @@ const useStyles = createStyles(theme => ({
   headerLeftContent: {
     justifyContent: 'center',
     alignItems: 'center',
-    wrap: 'wrap',
+    flexWrap: 'wrap',
   },
   link: {
     display: 'block',
