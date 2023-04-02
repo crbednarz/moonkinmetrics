@@ -73,7 +73,10 @@ export default function FilteringTalent({
 }: FilteringTalentProps) {
   const { classes } = useStyles();
   let talentColorStyle = colorToStyle(getUsageColor(usage));
-  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltip, setTooltip] = useState({
+    show: false,
+    showTime: 0,
+  });
 
   return (
     <Popover
@@ -81,7 +84,7 @@ export default function FilteringTalent({
       withArrow
       shadow="xl"
       zIndex={5}
-      opened={showTooltip}
+      opened={tooltip.show}
       keepMounted={false}
       withinPortal={true}
     >
@@ -89,10 +92,30 @@ export default function FilteringTalent({
         <div
           className={classes.iconGroup}
           onMouseOver={() => {
-            if (talentsData.length == 1)
-              setShowTooltip(true);
+            const time = new Date().getTime();
+            if (talentsData.length == 1) {
+              setTooltip({
+                show: true,
+                showTime: time,
+              });
+            }
           }}
-          onMouseOut={() => setShowTooltip(false)}
+          onMouseOut={() => {
+            setTooltip({
+              show: false,
+              showTime: 0,
+            });
+          }}
+          onClick={() => {
+            const currentTime = new Date().getTime();
+            if (tooltip.show && currentTime - tooltip.showTime > 100) {
+              onTalentSelect(talentsData[0].talent);
+            }
+          }}
+          onContextMenu={e => {
+            e.preventDefault();
+            onTalentDeselect(talentsData[0].talent);
+          }}
         >
           <div className={classes.usage} style={{color: talentColorStyle}}>
             {Math.round(usage * 100)}%
@@ -116,14 +139,6 @@ export default function FilteringTalent({
             return (
               <div
                 key={talent.id}
-                onClick={() => {
-                  if (showTooltip)
-                    onTalentSelect(talent)
-                }}
-                onContextMenu={e => {
-                  e.preventDefault();
-                  onTalentDeselect(talent);
-                }}
                 style={{
                   backgroundImage: `url(${talent.icon})`,
                   filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,

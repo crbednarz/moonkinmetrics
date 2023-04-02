@@ -49,7 +49,7 @@ export default function FilteringPvpTalent({
         usage={usage.percent}
         onTalentSelect={onSelect}
         onTalentDeselect={onDeselect}
-        tooltipDirection="right"
+        tooltipDirection="top"
       />
     </div>
   );

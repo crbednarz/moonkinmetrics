@@ -39,12 +39,12 @@ export default function FilteringTalentTooltip({
               <tr
                 key={i}
                 style={{
-                  color: colorToStyle(getUsageColor((count / usage.total))),
+                  color: colorToStyle(getUsageColor((usage.total == 0)?0:(count / usage.total))),
                   fontWeight: 700,
                 }}
               >
                 <td>{i+1}/{maxRank}</td>
-                <td>{Math.round((count / usage.total) * 100)}%</td>
+                <td>{Math.round(((usage.total == 0)?0:(count / usage.total)) * 100)}%</td>
                 <td>{count} players</td>
               </tr>
             ))}
