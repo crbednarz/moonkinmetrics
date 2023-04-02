@@ -142,11 +142,12 @@ export default function Layout({
               color="primary"
               variant="subtle"
               component="a"
-              size="lg"
+              size="xl"
               href={link.href}
               rightIcon={link.rightIcon}
               target={link.target}
               sx={theme => ({
+                height: 50,
                 fontFamily: "'Gabriela', serif",
                 [`@media (max-width: ${theme.breakpoints.xs})`]: {
                   padding: '0 12px',
