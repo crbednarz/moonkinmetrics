@@ -110,7 +110,7 @@ export default function Layout({
       Moonkin Metrics is currently in beta and changing frequently.
       If you have any feedback, please reach out on{' '}
       <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics/discussions" target="_blank">GitHub</Anchor>{' '}or{' '}
-      <Anchor color="blue" href="https://discord.gg/d4stUFRY" target="_blank">Discord</Anchor>.
+      <Anchor color="blue" href="https://discord.gg/t7XmtxwNNF" target="_blank">Discord</Anchor>.
     </Alert>
   );
 
