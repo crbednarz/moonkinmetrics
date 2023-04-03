@@ -106,6 +106,7 @@ export default function Bracket({
                 <Tabs.Tab value="Shuffle">Solo Shuffle</Tabs.Tab>
                 <Tabs.Tab value="3v3">3v3</Tabs.Tab>
                 <Tabs.Tab value="2v2">2v2</Tabs.Tab>
+                <Tabs.Tab value="RBG">RBG</Tabs.Tab>
               </Tabs.List>
             </Tabs>
           </Flex>
@@ -127,7 +128,7 @@ export default function Bracket({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    let paths = ['3v3', '2v2', 'Shuffle'].map(bracket => (
+    let paths = ['RBG', '3v3', '2v2', 'Shuffle'].map(bracket => (
       CLASS_SPECS.map(classSpec => ({
       params: {
         class_name: classSpec.className.replace(' ', '-'),

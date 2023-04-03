@@ -32,7 +32,7 @@ def cli(ctx, output_path, client_id, client_secret, cache_path, region):
 
 @cli.command()
 @click.argument('bracket',
-                type=click.Choice(['2v2', '3v3', 'shuffle']),
+                type=click.Choice(['2v2', '3v3', 'shuffle', 'rbg']),
                 required=True)
 @click.option('-m', '--shuffle-min-rating', type=click.INT, default=1800)
 @click.option('--shuffle-class', type=click.STRING)
@@ -66,6 +66,7 @@ def all(ctx):
     scan_talents(client, output_path)
     scan_pvp_ladder(client, output_path, '2v2')
     scan_pvp_ladder(client, output_path, '3v3')
+    scan_pvp_ladder(client, output_path, 'rbg')
     scan_pvp_ladder(client, output_path, 'shuffle')
 
 

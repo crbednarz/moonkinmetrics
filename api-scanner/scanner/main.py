@@ -117,9 +117,9 @@ async def _collect_shuffle_leaderboard(
     path = os.path.join(output_path, filename)
     print(f"Writing to path: {path}")
     with open(path, 'w') as file:
-        json.dump(_with_timestamp({
-            'entries': encode_loadouts(rated_loadouts, talent_tree),
-        }), file, indent=2)
+        json.dump(_with_timestamp(
+            encode_loadouts(rated_loadouts, talent_tree),
+        ), file, indent=2)
 
 
 async def _collect_arena_leaderboard(
@@ -165,9 +165,9 @@ async def _collect_arena_leaderboard(
         talent_tree = tree_map[(class_name, spec_name)]
         print(f"Writing to path: {path}")
         with open(path, 'w') as file:
-            json.dump(_with_timestamp({
-                'entries': encode_loadouts(entries, talent_tree),
-            }), file, indent=2)
+            json.dump(_with_timestamp(
+                encode_loadouts(entries, talent_tree),
+            ), file, indent=2)
 
 
 def _shuffle_bracket(class_name: str, spec_name: str) -> str:

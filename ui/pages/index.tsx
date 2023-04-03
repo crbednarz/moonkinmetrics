@@ -179,7 +179,7 @@ export default function Talents({
           <Text size="lg" color="dimmed" className={classes.siteDescription}>
             Explore talent usage of the World of Warcraft PVP leaderboards.<br>
             </br>
-            Supports 2v2, 3v3, or Solo Shuffle.
+            Supports 2v2, 3v3, Solo Shuffle, and Rated Battlegrounds.
           </Text>
           <Button
             component="a"

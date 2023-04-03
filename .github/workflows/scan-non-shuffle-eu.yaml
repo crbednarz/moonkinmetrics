@@ -31,6 +31,7 @@ jobs:
         run: |
           python api-scanner/cli.py -r eu -o ./wow ladder 2v2
           python api-scanner/cli.py -r eu -o ./wow ladder 3v3
+          python api-scanner/cli.py -r eu -o ./wow ladder rbg
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:

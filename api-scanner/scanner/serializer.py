@@ -32,21 +32,22 @@ def create_talent_encode_map(nodes: list[TalentNode]) -> dict[int, int]:
 
 
 def encode_loadouts(loadouts: list[RatedLoadout],
-                    tree: TalentTree) -> list[str]:
+                    tree: TalentTree) -> dict:
     talent_map = create_talent_encode_map(tree.class_nodes + tree.spec_nodes)
     pvp_talent_map = create_pvp_index_map(tree.pvp_talents)
 
-    return [
-        '|'.join([
-            encode_talents(
-                entry.loadout.class_nodes + entry.loadout.spec_nodes,
-                talent_map
-            ),
-            encode_pvp_talents(entry.loadout.pvp_talents, pvp_talent_map),
-            str(entry.rating),
-        ])
-        for entry in loadouts
-    ]
+    return {
+        'entries': [
+            '|'.join([
+                encode_talents(
+                    entry.loadout.class_nodes + entry.loadout.spec_nodes,
+                    talent_map
+                ),
+                encode_pvp_talents(entry.loadout.pvp_talents, pvp_talent_map),
+                str(entry.rating),
+            ]) for entry in loadouts
+        ],
+    }
 
 
 def encode_talents(nodes: list[LoadoutNode],
@@ -64,21 +65,6 @@ def encode_pvp_talents(talents: list[LoadoutPvpTalent],
     for talent in talents:
         talent_bytes.append(pvp_talent_map[talent.id])
     return base64.b64encode(talent_bytes).decode('ascii')
-
-
-def rated_loadout_to_dict(loadout: PlayerLoadout, rating: int) -> dict:
-    return {
-        'class_nodes': [
-            dataclasses.asdict(node) for node in loadout.class_nodes
-        ],
-        'spec_nodes': [
-            dataclasses.asdict(node) for node in loadout.spec_nodes
-        ],
-        'pvp_talents': [
-            dataclasses.asdict(talent) for talent in loadout.pvp_talents
-        ],
-        'rating': rating,
-    }
 
 
 def talent_tree_to_dict(tree: TalentTree, spell_media: dict[int, str]) -> dict:
