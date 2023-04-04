@@ -3,7 +3,7 @@ import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, T
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLoadouts, getEncodedLeaderboard, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
+import { decodeLeaderboard, EncodedLeaderboard, getEncodedLeaderboard, Leaderboard, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import Layout from '@/components/layout/layout';
@@ -52,15 +52,13 @@ export default function Bracket({
   tree,
   encodedLeaderboard,
   bracket,
-  timestamp,
 }: {
   tree: TalentTree,
-  encodedLeaderboard: string[],
+  encodedLeaderboard: EncodedLeaderboard,
   bracket: string,
-  timestamp: LeaderboardTimestamp,
 }) {
-  const leaderboard = useMemo<RatedLoadout[]>(() => {
-    return decodeLoadouts(encodedLeaderboard, tree);
+  const leaderboard = useMemo<Leaderboard>(() => {
+    return decodeLeaderboard(encodedLeaderboard, tree);
   }, [encodedLeaderboard, tree]);
 
   const classSlug = tree.className.toLowerCase().replace(' ', '-');
@@ -116,7 +114,6 @@ export default function Bracket({
           <div className={classes.content}>
             <TalentTreeExplorer
               tree={tree}
-              timestamp={timestamp}
               leaderboard={leaderboard}
               key={`${tree.className}-${tree.specName}-${bracket}`}
             />
@@ -144,25 +141,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const className = (params!['class_name'] as string).replace('-', ' ');
   const specName = (params!['spec_name'] as string).replace('-', ' ');
   const tree = getTalentTree(className, specName);
 
   const bracket = params!['bracket'] as string;
-
-  const leaderboardJson = getEncodedLeaderboard(className, specName, bracket.toLowerCase());
-
-  const encodedLeaderboard = leaderboardJson['entries'] as string[];
-  const timestamp = leaderboardJson['timestamp'] as LeaderboardTimestamp;
+  const encodedLeaderboard = getEncodedLeaderboard(className, specName, bracket.toLowerCase());
 
   return {
     props: {
       tree,
       encodedLeaderboard,
       bracket,
-      timestamp,
     }
   }
 }
