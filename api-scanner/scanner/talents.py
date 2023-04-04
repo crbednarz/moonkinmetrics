@@ -9,6 +9,12 @@ from .bnet import Client
 from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
 
 
+NODE_FILTER = set([
+    91046,
+    91047,
+])
+
+
 @dataclass
 class Spell:
     id: int
@@ -207,8 +213,8 @@ async def _get_tree_for_spec(client: Client, class_name: str,
     return TalentTree(
         class_name,
         tree_link.spec_name,
-        class_nodes,
-        spec_nodes,
+        _filter_nodes(class_nodes),
+        _filter_nodes(spec_nodes),
         await _get_pvp_talents(client, class_name, tree_link.spec_name)
     )
 
@@ -295,7 +301,24 @@ async def _get_tree_for_missing_spec(
     return TalentTree(
         class_name,
         spec_name,
-        class_nodes,
-        spec_nodes,
+        _filter_nodes(class_nodes),
+        _filter_nodes(spec_nodes),
         await _get_pvp_talents(client, class_name, spec_name)
     )
+
+
+def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
+    ids = set([node.id for node in nodes])
+
+    def filter_node(node: TalentNode) -> bool:
+        missing_parent = True
+        for locked_by in node.locked_by:
+            if locked_by in ids:
+                missing_parent = False
+                break
+        if missing_parent and len(node.locked_by) > 0:
+            return False
+
+        return node.id not in NODE_FILTER
+
+    return list(filter(filter_node, nodes))

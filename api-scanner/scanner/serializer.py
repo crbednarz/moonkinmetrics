@@ -1,80 +1,110 @@
 import base64
 import dataclasses
 
-from .player import LoadoutNode, LoadoutPvpTalent, PlayerLoadout
+from .player import Realm
 from .pvp import RatedLoadout
 from .talents import Talent, TalentNode, TalentTree
 
 
-NODE_FILTER = set([
-    91046,
-    91047,
-])
+class LoadoutEncoder:
+    VERSION = 1
+
+    def __init__(self, tree: TalentTree, realms: list[Realm]):
+        self._talent_map = LoadoutEncoder._create_talent_encode_map(
+            tree.class_nodes + tree.spec_nodes)
+        self._pvp_talent_map = LoadoutEncoder._create_pvp_index_map(
+            tree.pvp_talents)
+
+        self._multi_rank_nodes = set([
+            node.id for node in tree.class_nodes + tree.spec_nodes
+            if node.max_rank > 1
+        ])
+        self._realm_map: dict[str, int] = {}
+        self._realm_names: dict[str, str] = {}
+        for realm in realms:
+            self._realm_names[realm.slug] = realm.name
+
+    def metadata(self) -> dict:
+        realm_list = [""] * len(self._realm_map)
+        for realm, index in self._realm_map.items():
+            realm_list[index] = realm
+
+        return {
+            'version': LoadoutEncoder.VERSION,
+            'realms': [{
+                'slug': slug,
+                'name': self._realm_names[slug],
+            } for slug in realm_list],
+        }
+
+    def encode_loadout(self, rated_loadout: RatedLoadout) -> str:
+        """Encodes a rated loadout into a base64 compact string."""
+        output = bytearray()
+
+        loadout = rated_loadout.loadout
+        nodes = loadout.class_nodes + loadout.spec_nodes
+
+        output.append(len(nodes))
+        for node in nodes:
+            output.append(self._talent_map[node.talent_id])
+            if node.node_id in self._multi_rank_nodes:
+                output.append(node.rank)
+
+        output.append(len(loadout.pvp_talents))
+        for talent in loadout.pvp_talents:
+            output.append(self._pvp_talent_map[talent.id])
+
+        rating = rated_loadout.rating
+        output.append(rating & 0xFF)
+        output.append((rating >> 8) & 0xFF)
+
+        realm = rated_loadout.player.realm.slug
+        realm_index = self._realm_map.setdefault(realm, len(self._realm_map))
+        output.append(realm_index & 0xFF)
+        output.append((realm_index >> 8) & 0xFF)
+        output.append(1 if rated_loadout.faction == 'HORDE' else 0)
+
+        return '|'.join([
+            base64.b64encode(output).decode('ascii'),
+            rated_loadout.player.name,
+        ])
+
+    @staticmethod
+    def _create_pvp_index_map(talents: list[Talent]) -> dict[int, int]:
+        sorted_ids = sorted([talent.id for talent in talents])
+        return {talent_id: index for index, talent_id in enumerate(sorted_ids)}
+
+    @staticmethod
+    def _create_talent_encode_map(nodes: list[TalentNode]) -> dict[int, int]:
+        talent_ids = []
+        for node in nodes:
+            for talent in node.talents:
+                talent_ids.append(talent.id)
+
+        talent_ids.sort()
+        talent_map = {}
+        for index, talent_id in enumerate(talent_ids):
+            talent_map[talent_id] = index
+
+        return talent_map
 
 
-def create_pvp_index_map(talents: list[Talent]) -> dict[int, int]:
-    sorted_ids = sorted([talent.id for talent in talents])
-    return {talent_id: index for index, talent_id in enumerate(sorted_ids)}
-
-
-def create_talent_encode_map(nodes: list[TalentNode]) -> dict[int, int]:
-    talent_ids = []
-    for node in nodes:
-        for talent in node.talents:
-            talent_ids.append(talent.id)
-
-    talent_ids.sort()
-    talent_map = {}
-    for index, talent_id in enumerate(talent_ids):
-        talent_map[talent_id] = index
-
-    return talent_map
-
-
-def encode_loadouts(loadouts: list[RatedLoadout],
-                    tree: TalentTree) -> dict:
-    talent_map = create_talent_encode_map(tree.class_nodes + tree.spec_nodes)
-    pvp_talent_map = create_pvp_index_map(tree.pvp_talents)
-
+def encode_loadouts(loadouts: list[RatedLoadout], tree: TalentTree,
+                    realms: list[Realm]) -> dict:
+    encoder = LoadoutEncoder(tree, realms)
+    entries = [encoder.encode_loadout(loadout) for loadout in loadouts]
     return {
-        'entries': [
-            '|'.join([
-                encode_talents(
-                    entry.loadout.class_nodes + entry.loadout.spec_nodes,
-                    talent_map
-                ),
-                encode_pvp_talents(entry.loadout.pvp_talents, pvp_talent_map),
-                str(entry.rating),
-            ]) for entry in loadouts
-        ],
+        'encoding': encoder.metadata(),
+        'entries': entries,
     }
-
-
-def encode_talents(nodes: list[LoadoutNode],
-                   talent_map: dict[int, int]) -> str:
-    talent_bytes = bytearray()
-    for node in nodes:
-        talent_bytes.append(talent_map[node.talent_id])
-        talent_bytes.append(node.rank)
-    return base64.b64encode(talent_bytes).decode('ascii')
-
-
-def encode_pvp_talents(talents: list[LoadoutPvpTalent],
-                       pvp_talent_map: dict[int, int]) -> str:
-    talent_bytes = bytearray()
-    for talent in talents:
-        talent_bytes.append(pvp_talent_map[talent.id])
-    return base64.b64encode(talent_bytes).decode('ascii')
 
 
 def talent_tree_to_dict(tree: TalentTree, spell_media: dict[int, str]) -> dict:
     return {
         'class_name': tree.class_name,
         'spec_name': tree.spec_name,
-        'class_nodes': _nodes_to_json(_filter_nodes(tree.class_nodes),
-                                      spell_media),
-        'spec_nodes': _nodes_to_json(_filter_nodes(tree.spec_nodes),
-                                     spell_media),
+        'class_nodes': _nodes_to_json(tree.class_nodes, spell_media),
+        'spec_nodes': _nodes_to_json(tree.spec_nodes, spell_media),
         'pvp_talents': _pvp_talents_to_json(tree.pvp_talents, spell_media),
     }
 
@@ -99,10 +129,3 @@ def _pvp_talents_to_json(talents: list[Talent],
         output.append(talent_dict)
 
     return output
-
-
-def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
-    return list(filter(
-        lambda node: (node.id not in NODE_FILTER),
-        nodes,
-    ))

@@ -6,24 +6,38 @@ from .bnet import Client
 from .constants import CLASS_SPEC_BY_SPEC_ID
 
 
+@dataclass
+class RealmLink:
+    slug: str
+    url: str
+
+
+@dataclass
+class Realm:
+    id: int
+    name: str
+    slug: str
+    url: str
+
+
+@dataclass
 class PlayerLink:
-    def __init__(self, realm_slug: str, name: str):
-        self.realm_slug = realm_slug
-        self.name = name
+    realm: RealmLink
+    name: str
 
     @property
     def full_name(self) -> str:
-        return f"{self.name} - {self.realm_slug}"
+        return f"{self.name} - {self.realm.slug}"
 
     @property
     def specialization_resource(self) -> str:
         return (f"/profile/wow/character/"
-                f"{self.realm_slug}/{self.name.lower()}/specializations")
+                f"{self.realm.slug}/{self.name.lower()}/specializations")
 
     @property
     def profile_resource(self) -> str:
         return (f"/profile/wow/character/"
-                f"{self.realm_slug}/{self.name.lower()}")
+                f"{self.realm.slug}/{self.name.lower()}")
 
 
 @dataclass
@@ -172,3 +186,15 @@ def _get_active_loadout(player: PlayerLink, spec_name: str,
             return loadout
 
     raise RuntimeError(f"No active loadout for {player.full_name}")
+
+
+def get_realms(client: Client) -> list[Realm]:
+    realms = client.get_dynamic_resource('/data/wow/realm/index')
+    return [
+        Realm(
+            realm['id'],
+            realm['name'],
+            realm['slug'],
+            realm['key']['href']
+        ) for realm in realms['realms']
+    ]

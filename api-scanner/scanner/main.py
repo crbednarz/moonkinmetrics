@@ -8,7 +8,13 @@ from pathlib import Path
 
 from .bnet import Client
 from .media import get_spell_icons
-from .player import (LoadoutRequestStatus, PlayerLoadout, get_player_loadouts)
+from .player import (
+    LoadoutRequestStatus,
+    PlayerLoadout,
+    Realm,
+    get_player_loadouts,
+    get_realms,
+)
 from .pvp import RatedLoadout, get_pvp_leaderboard
 from .serializer import encode_loadouts, talent_tree_to_dict
 from .talents import TalentTree, get_talent_trees
@@ -31,6 +37,7 @@ def scan_pvp_ladder(
 
     output_path = os.path.join(output_path, PVP_DIRECTORY, bracket)
     talent_trees = loop.run_until_complete(_fetch_talent_trees(client))
+    realms = get_realms(client)
     _create_dir(output_path)
 
     if bracket == 'shuffle':
@@ -51,6 +58,7 @@ def scan_pvp_ladder(
                 tree.spec_name,
                 output_path,
                 tree,
+                realms,
                 shuffle_min_rating,
             ))
     else:
@@ -60,6 +68,7 @@ def scan_pvp_ladder(
             bracket,
             output_path,
             talent_trees,
+            realms,
         ))
 
 
@@ -87,6 +96,7 @@ async def _collect_shuffle_leaderboard(
     spec_name: str,
     output_path: str,
     talent_tree: TalentTree,
+    realms: list[Realm],
     min_rating: int = 1800,
 ) -> None:
     bracket = _shuffle_bracket(class_name, spec_name)
@@ -94,22 +104,24 @@ async def _collect_shuffle_leaderboard(
     for entry in get_pvp_leaderboard(client, bracket):
         if entry.rating < min_rating:
             break
-        scan_targets.append((entry.player, entry.rating))
+        scan_targets.append((entry.player, entry))
 
     rated_loadouts = []
     async for result in get_player_loadouts(client, scan_targets, spec_name):
-        loadout, player, rating, status = result
+        loadout, player, entry, status = result
         print(f"Requested talents for {player.full_name}... ", end='')
         if status != LoadoutRequestStatus.SUCCESS or loadout is None:
             print("Failed")
             continue
 
-        print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
+        print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
-        rated_loadouts.append(RatedLoadout(loadout, rating))
+        rated_loadouts.append(
+            RatedLoadout(player, loadout, entry.faction, entry.rating)
+        )
 
     rated_loadouts.sort(key=lambda entry: entry.rating, reverse=True)
 
@@ -118,15 +130,16 @@ async def _collect_shuffle_leaderboard(
     print(f"Writing to path: {path}")
     with open(path, 'w') as file:
         json.dump(_with_timestamp(
-            encode_loadouts(rated_loadouts, talent_tree),
-        ), file, indent=2)
+            encode_loadouts(rated_loadouts, talent_tree, realms),
+        ), file, indent=2, ensure_ascii=False)
 
 
 async def _collect_arena_leaderboard(
     client: Client,
     bracket: str,
     output_path: str,
-    talent_trees: list[TalentTree]
+    talent_trees: list[TalentTree],
+    realms: list[Realm],
 ) -> None:
     tree_map = {}
     output = {}
@@ -136,16 +149,17 @@ async def _collect_arena_leaderboard(
 
     scan_targets = []
     for entry in get_pvp_leaderboard(client, bracket):
-        scan_targets.append((entry.player, entry.rating))
+        scan_targets.append((entry.player, entry))
 
     async for result in get_player_loadouts(client, scan_targets):
-        loadout, player, rating, status = result
+        loadout, player, entry, status = result
+
         print(f"Requested talents for {player.full_name}... ", end='')
         if status != LoadoutRequestStatus.SUCCESS or loadout is None:
             print("Failed")
             continue
 
-        print(f"{loadout.class_name} - {loadout.spec_name} - {rating}")
+        print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
         talent_tree = tree_map[(loadout.class_name, loadout.spec_name)]
         if not _validate_talents(loadout, talent_tree):
@@ -153,7 +167,8 @@ async def _collect_arena_leaderboard(
             continue
 
         output[(loadout.class_name, loadout.spec_name)].append(
-            RatedLoadout(loadout, rating))
+            RatedLoadout(player, loadout, entry.faction, entry.rating)
+        )
 
     for (class_name, spec_name), entries in output.items():
         if len(entries) == 0:
@@ -166,8 +181,8 @@ async def _collect_arena_leaderboard(
         print(f"Writing to path: {path}")
         with open(path, 'w') as file:
             json.dump(_with_timestamp(
-                encode_loadouts(entries, talent_tree),
-            ), file, indent=2)
+                encode_loadouts(entries, talent_tree, realms),
+            ), file, indent=2, ensure_ascii=False)
 
 
 def _shuffle_bracket(class_name: str, spec_name: str) -> str:
@@ -212,7 +227,8 @@ def _get_filename(class_name: str, spec_name: str) -> str:
     return f"{class_name}-{spec_name}.json".lower().replace(' ', '-')
 
 
-def _get_regional_filename(class_name: str, spec_name: str, region: str) -> str:
+def _get_regional_filename(class_name: str, spec_name: str,
+                           region: str) -> str:
     return f"{class_name}-{spec_name}.{region}.json".lower().replace(' ', '-')
 
 

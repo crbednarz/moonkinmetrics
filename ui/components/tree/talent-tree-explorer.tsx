@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp';
+import { Leaderboard, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
 import { Button, createStyles, Flex, rem, Menu } from '@mantine/core';
@@ -68,14 +68,12 @@ const useStyles = createStyles(theme => ({
 
 interface TalentTreeExplorerProps {
   tree: TalentTree;
-  leaderboard: RatedLoadout[];
-  timestamp: LeaderboardTimestamp;
+  leaderboard: Leaderboard;
 };
 
 export default function TalentTreeExplorer({
   tree,
   leaderboard,
-  timestamp,
 }: TalentTreeExplorerProps) {
   let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
   let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
@@ -89,7 +87,7 @@ export default function TalentTreeExplorer({
     ...specFilters,
     ...pvpFilters,
   ];
-  let allTalentsLoadouts = leaderboard;
+  let allTalentsLoadouts = leaderboard.entries;
   if (ratingFilter) {
     allTalentsLoadouts = filterRatedLoadouts(allTalentsLoadouts, [ratingFilter]);
   }
@@ -113,10 +111,9 @@ export default function TalentTreeExplorer({
 
   const infoPanelContents = (
     <FilteringStatsPanel
-      allLoadouts={leaderboard}
+      leaderboard={leaderboard}
       rangeFilteredLoadouts={allTalentsLoadouts}
       talentFilteredLoadouts={loadouts}
-      timestamp={timestamp}
       onRatingFilterChange={updateRatingFilter}
       onReset={reset}
     />
@@ -154,28 +151,28 @@ export default function TalentTreeExplorer({
       </Menu>
       <Flex className={classes.trees}>
         <FilteringSubTree
+          key={`class-${resetCount}`}
           nodes={tree.classNodes}
           onFiltersChange={filters => setClassFilters(filters) }
           loadouts={loadouts}
           width={tree.classSize.width}
           height={tree.classSize.height}
-          key={`class-${resetCount}`}
         />
         <FilteringSubTree
+          key={`spec-${resetCount}`}
           nodes={tree.specNodes}
           onFiltersChange={filters => setSpecFilters(filters) }
           loadouts={loadouts}
           width={tree.specSize.width}
           height={tree.specSize.height}
-          key={`spec-${resetCount}`}
         />
       </Flex>
       <div className={classes.pvpTalents}>
         <FilteringPvpTalentList
+          key={`pvp-${resetCount}`}
           talents={tree.pvpTalents}
           onFiltersChange={filters => setPvpFilters(filters) }
           loadouts={loadouts}
-          key={`pvp-${resetCount}`}
         />
       </div>
     </div>

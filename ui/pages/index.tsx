@@ -3,7 +3,7 @@ import { getTalentTree, TalentNode, TalentTree } from "@/lib/talents";
 import { Container, Stack, useMantineTheme, Text, Box, createStyles, rem, Flex, getStylesRef, Title, Divider, Button } from "@mantine/core";
 import { GetStaticProps} from "next";
 import { useState} from "react";
-import { RatedLoadout } from "@/lib/pvp";
+import { Faction, Leaderboard, RatedLoadout } from "@/lib/pvp";
 import Layout from "@/components/layout/layout";
 import FilteringNodeGroup from "@/components/tree/filtering-node-group";
 import FilteringStatsPanel from "@/components/info-panel/filtering-stats-panel";
@@ -104,8 +104,8 @@ export default function Talents({
       talents: {},
       pvpTalents: [],
       rating: 1800 + Math.round((99 - i)*(99 - i) / 15),
+      region: (i % 2) == 0 ? 'eu' : 'us',
   }));
-
 
   // Demo 1
   const umbralEmbraceNode = getNode(tree, "Umbral Embrace");
@@ -154,7 +154,6 @@ export default function Talents({
 
   for (let i = 25; i < 100; i++)
     loadouts[i].talents[elunesGuidanceNode.talents[0].id] = 1;
-
 
   const guideData = [{
     nodes: [umbralEmbraceNode],
@@ -234,6 +233,7 @@ function InfoPanelDemoCard({
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
   let [resetCount, setResetCount] = useState<number>(0);
 
+  const leaderboard = { entries: loadouts };
   const rangeFilteredLoadouts = filterRatedLoadouts(loadouts, ratingFilter ? [ratingFilter] : []);
   const filteredLoadouts = filterRatedLoadouts(rangeFilteredLoadouts, filters);
 
@@ -251,7 +251,7 @@ function InfoPanelDemoCard({
       </Box>
       <Box className={classes.infoPanel}>
         <FilteringStatsPanel
-          allLoadouts={loadouts}
+          leaderboard={leaderboard}
           rangeFilteredLoadouts={rangeFilteredLoadouts}
           talentFilteredLoadouts={filteredLoadouts}
           onRatingFilterChange={(min, max) => {
