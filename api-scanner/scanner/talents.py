@@ -51,30 +51,22 @@ class TalentNode:
     max_rank: int
     node_type: str
 
-    def __init__(self, raw_node: dict):
-        self.id = raw_node['id']
-        self.x = raw_node['raw_position_x']
-        self.y = raw_node['raw_position_y']
-        self.row = raw_node['display_row']
-        self.col = raw_node['display_col']
-        self.unlocks = raw_node.get('unlocks', [])
-        self.locked_by = raw_node.get('locked_by', [])
-        self.node_type = raw_node['node_type']['type']
-
+    @staticmethod
+    def from_raw_node(raw_node: dict):
         base_rank = raw_node['ranks'][0]
         if 'choice_of_tooltips' in base_rank:
-            self.max_rank = 1
+            max_rank = 1
             tooltips = [
                 [base_rank['choice_of_tooltips'][0]],
                 [base_rank['choice_of_tooltips'][1]],
             ]
         else:
-            self.max_rank = len(raw_node['ranks'])
+            max_rank = len(raw_node['ranks'])
             tooltips = [
                 [rank['tooltip'] for rank in raw_node['ranks']]
             ]
 
-        self.talents = []
+        talents = []
         for tooltip_ranks in tooltips:
             base_tooltip = tooltip_ranks[0]
             base_spell_tooltip = base_tooltip['spell_tooltip']
@@ -96,11 +88,24 @@ class TalentNode:
                 base_spell['name'],
                 ranks,
             )
-            self.talents.append(Talent(
+            talents.append(Talent(
                 base_tooltip['talent']['id'],
                 base_tooltip['talent']['name'],
                 spell,
             ))
+        node = TalentNode(
+            id=raw_node['id'],
+            x=raw_node['raw_position_x'],
+            y=raw_node['raw_position_y'],
+            row=raw_node['display_row'],
+            col=raw_node['display_col'],
+            unlocks=raw_node.get('unlocks', []),
+            locked_by=raw_node.get('locked_by', []),
+            node_type=raw_node['node_type']['type'],
+            talents=talents,
+            max_rank=max_rank,
+        )
+        return node
 
 
 @dataclass
@@ -204,11 +209,11 @@ async def _get_tree_for_spec(client: Client, class_name: str,
 
     class_nodes = []
     for response_node in response['class_talent_nodes']:
-        class_nodes.append(TalentNode(response_node))
+        class_nodes.append(TalentNode.from_raw_node(response_node))
 
     spec_nodes = []
     for response_node in response['spec_talent_nodes']:
-        spec_nodes.append(TalentNode(response_node))
+        spec_nodes.append(TalentNode.from_raw_node(response_node))
 
     return TalentTree(
         class_name,
@@ -277,7 +282,7 @@ async def _get_tree_for_missing_spec(
     response = client.get_url(tree_link.url)
     urls_with_context = []
     for response_node in response['talent_nodes']:
-        node = TalentNode(response_node)
+        node = TalentNode.from_raw_node(response_node)
         base_rank = response_node['ranks'][0]
         if 'choice_of_tooltips' in base_rank:
             tooltip = base_rank['choice_of_tooltips'][0]
