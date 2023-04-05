@@ -6,40 +6,39 @@ class ClassSpec {
 }
 
 export const SPEC_BY_CLASS: {[key: string]: string[]} = {
-  'Hunter': [
-    'Beast Mastery',
-    'Survival',
-    'Marksmanship',
-  ],
-  'Shaman': [
-    'Elemental',
-    'Enhancement',
-    'Restoration',
-  ],
-  'Druid': [
-    'Guardian',
-    'Feral',
-    'Balance',
-    'Restoration',
-  ],
-  'Warrior': [
-    'Fury',
-    'Arms',
-    'Protection',
-  ],
-  'Monk': [
-    'Windwalker',
-    'Brewmaster',
-    'Mistweaver',
-  ],
-  'Evoker': [
-    'Preservation',
-    'Devastation',
-  ],
   'Death Knight': [
+    'Blood',
     'Frost',
     'Unholy',
-    'Blood',
+  ],
+  'Demon Hunter': [
+    'Havoc',
+    'Vengeance',
+  ],
+  'Druid': [
+    'Balance',
+    'Feral',
+    'Guardian',
+    'Restoration',
+  ],
+  'Evoker': [
+    'Devastation',
+    'Preservation',
+  ],
+  'Hunter': [
+    'Beast Mastery',
+    'Marksmanship',
+    'Survival',
+  ],
+  'Mage': [
+    'Arcane',
+    'Fire',
+    'Frost',
+  ],
+  'Monk': [
+    'Brewmaster',
+    'Mistweaver',
+    'Windwalker',
   ],
   'Paladin': [
     'Holy',
@@ -48,28 +47,29 @@ export const SPEC_BY_CLASS: {[key: string]: string[]} = {
   ],
   'Priest': [
     'Discipline',
-    'Shadow',
     'Holy',
-  ],
-  'Mage': [
-    'Arcane',
-    'Fire',
-    'Frost',
+    'Shadow',
   ],
   'Rogue': [
-    'Subtlety',
     'Assassination',
     'Outlaw',
+    'Subtlety',
   ],
-  'Demon Hunter': [
-    'Havoc',
-    'Vengeance',
+  'Shaman': [
+    'Elemental',
+    'Enhancement',
+    'Restoration',
   ],
   'Warlock': [
-    'Destruction',
-    'Demonology',
     'Affliction',
-  ]
+    'Demonology',
+    'Destruction',
+  ],
+  'Warrior': [
+    'Arms',
+    'Fury',
+    'Protection',
+  ],
 };
 
 export const CLASS_SPECS: ClassSpec[] = [

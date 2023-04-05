@@ -1,0 +1,3607 @@
+{
+  "class_name": "Druid",
+  "spec_name": "Balance",
+  "class_nodes": [
+    {
+      "id": 82199,
+      "x": 2100,
+      "y": 1500,
+      "row": 1,
+      "col": 2,
+      "unlocks": [
+        82223,
+        82222
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 108282,
+          "name": "Rake",
+          "spell": {
+            "id": 1822,
+            "name": "Rake",
+            "ranks": [
+              {
+                "description": "Rake the target for 83 Bleed damage and an additional 674 Bleed damage over 15 sec.\r\n\r\nAwards 1 combo point.",
+                "cast_time": "Instant",
+                "power_cost": "35 Energy",
+                "range": "Melee Range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_disembowel.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82220,
+      "x": 3300,
+      "y": 1500,
+      "row": 1,
+      "col": 4,
+      "unlocks": [
+        82219,
+        82223
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 108303,
+          "name": "Frenzied Regeneration",
+          "spell": {
+            "id": 22842,
+            "name": "Frenzied Regeneration",
+            "ranks": [
+              {
+                "description": "Heals you for 32% health over 3 sec.",
+                "cast_time": "Instant",
+                "power_cost": "10 Rage",
+                "range": null,
+                "cooldown": "1 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bullrush.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82217,
+      "x": 4500,
+      "y": 1500,
+      "row": 1,
+      "col": 6,
+      "unlocks": [
+        82216,
+        82219
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 108300,
+          "name": "Rejuvenation",
+          "spell": {
+            "id": 774,
+            "name": "Rejuvenation",
+            "ranks": [
+              {
+                "description": "Heals the target for 7,364 over 12 sec.",
+                "cast_time": "Instant",
+                "power_cost": "30,000 Mana",
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rejuvenation.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82201,
+      "x": 5700,
+      "y": 1500,
+      "row": 1,
+      "col": 8,
+      "unlocks": [
+        82208,
+        82202
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 108284,
+          "name": "Starfire",
+          "spell": {
+            "id": 194153,
+            "name": "Starfire",
+            "ranks": [
+              {
+                "description": "Call down a burst of energy, causing 3,550 Arcane damage to the target, and 1,192 Arcane damage to all other enemies within 10 yards.\r\n\r\nGenerates 8 Astral Power.",
+                "cast_time": "2.3 sec cast",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_starfire.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82223,
+      "x": 2700,
+      "y": 2100,
+      "row": 2,
+      "col": 3,
+      "unlocks": [
+        82222,
+        82226
+      ],
+      "locked_by": [
+        82220,
+        82199
+      ],
+      "talents": [
+        {
+          "id": 108306,
+          "name": "Thrash",
+          "spell": {
+            "id": 106832,
+            "name": "Thrash",
+            "ranks": [
+              {
+                "description": "Thrash all nearby enemies, dealing immediate physical damage and periodic bleed damage. Damage varies by shapeshift form.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "Melee Range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_thrash.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82219,
+      "x": 3900,
+      "y": 2100,
+      "row": 2,
+      "col": 5,
+      "unlocks": [
+        82218
+      ],
+      "locked_by": [
+        82220,
+        82217
+      ],
+      "talents": [
+        {
+          "id": 108302,
+          "name": "Improved Barkskin",
+          "spell": {
+            "id": 327993,
+            "name": "Improved Barkskin",
+            "ranks": [
+              {
+                "description": "Barkskin's duration is increased by 4 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_stoneclawtotem.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82216,
+      "x": 4500,
+      "y": 2100,
+      "row": 2,
+      "col": 6,
+      "unlocks": [
+        82241,
+        82205
+      ],
+      "locked_by": [
+        82217
+      ],
+      "talents": [
+        {
+          "id": 108299,
+          "name": "Swiftmend",
+          "spell": {
+            "id": 18562,
+            "name": "Swiftmend",
+            "ranks": [
+              {
+                "description": "Consumes a Regrowth, Wild Growth, or Rejuvenation effect to instantly heal an ally for 18,947.",
+                "cast_time": "Instant",
+                "power_cost": "20,000 Mana",
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_relics_idolofrejuvenation.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82208,
+      "x": 5700,
+      "y": 2100,
+      "row": 2,
+      "col": 8,
+      "unlocks": [
+        82212
+      ],
+      "locked_by": [
+        82201
+      ],
+      "talents": [
+        {
+          "id": 108291,
+          "name": "Sunfire",
+          "spell": {
+            "id": 93402,
+            "name": "Sunfire",
+            "ranks": [
+              {
+                "description": "A quick beam of solar light burns the enemy for 1,090 Nature damage and then an additional 9,541 Nature damage over 18 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_firestarter.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82202,
+      "x": 6300,
+      "y": 2100,
+      "row": 2,
+      "col": 9,
+      "unlocks": [],
+      "locked_by": [
+        82201
+      ],
+      "talents": [
+        {
+          "id": 108285,
+          "name": "Starsurge",
+          "spell": {
+            "id": 78674,
+            "name": "Starsurge",
+            "ranks": [
+              {
+                "description": "Launch a surge of stellar energies at the target, dealing 6,340 Astral damage.",
+                "cast_time": "Instant",
+                "power_cost": "40 Astral Power",
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane03.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82222,
+      "x": 2100,
+      "y": 2700,
+      "row": 3,
+      "col": 2,
+      "unlocks": [
+        82239,
+        82221
+      ],
+      "locked_by": [
+        82223,
+        82199
+      ],
+      "talents": [
+        {
+          "id": 108305,
+          "name": "Rip",
+          "spell": {
+            "id": 1079,
+            "name": "Rip",
+            "ranks": [
+              {
+                "description": "Finishing move that causes Bleed damage over time. Lasts longer per combo point.\r\n\r\n   1 point  : 427 over 8 sec\r\n   2 points: 641 over 12 sec\r\n   3 points: 855 over 16 sec\r\n   4 points: 1,068 over 20 sec\r\n   5 points: 1,281 over 24 sec",
+                "cast_time": "Instant",
+                "power_cost": "20 Energy\n0 Combo Points",
+                "range": "Melee Range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ghoulfrenzy.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82226,
+      "x": 2700,
+      "y": 2700,
+      "row": 3,
+      "col": 3,
+      "unlocks": [
+        82225,
+        82227
+      ],
+      "locked_by": [
+        82223
+      ],
+      "talents": [
+        {
+          "id": 108309,
+          "name": "Improved Swipe",
+          "spell": {
+            "id": 400158,
+            "name": "Improved Swipe",
+            "ranks": [
+              {
+                "description": "Increases Swipe damage by 100%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_monsterclaw_03.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82218,
+      "x": 3900,
+      "y": 2700,
+      "row": 3,
+      "col": 5,
+      "unlocks": [
+        82227
+      ],
+      "locked_by": [
+        82219
+      ],
+      "talents": [
+        {
+          "id": 108301,
+          "name": "Verdant Heart",
+          "spell": {
+            "id": 301768,
+            "name": "Verdant Heart",
+            "ranks": [
+              {
+                "description": "Frenzied Regeneration and Barkskin increase all healing received by 20%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_bullrush.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82241,
+      "x": 4500,
+      "y": 2700,
+      "row": 3,
+      "col": 6,
+      "unlocks": [
+        82214,
+        82206
+      ],
+      "locked_by": [
+        82216
+      ],
+      "talents": [
+        {
+          "id": 108325,
+          "name": "Wild Growth",
+          "spell": {
+            "id": 48438,
+            "name": "Wild Growth",
+            "ranks": [
+              {
+                "description": "Heals up to 5 injured allies within 30 yards of the target for 5,967 over 7 sec. Healing starts high and declines over the duration.",
+                "cast_time": "1.5 sec cast",
+                "power_cost": "55,000 Mana",
+                "range": "40 yd range",
+                "cooldown": "10 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_flourish.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82205,
+      "x": 5100,
+      "y": 2700,
+      "row": 3,
+      "col": 7,
+      "unlocks": [],
+      "locked_by": [
+        82216
+      ],
+      "talents": [
+        {
+          "id": 108288,
+          "name": "Remove Corruption",
+          "spell": {
+            "id": 2782,
+            "name": "Remove Corruption",
+            "ranks": [
+              {
+                "description": "Nullifies corrupting effects on the friendly target, removing all Curse and Poison effects.",
+                "cast_time": "Instant",
+                "power_cost": "16,250 Mana",
+                "range": "40 yd range",
+                "cooldown": "8 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_removecurse.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82212,
+      "x": 5700,
+      "y": 2700,
+      "row": 3,
+      "col": 8,
+      "unlocks": [
+        82210,
+        82211,
+        82214
+      ],
+      "locked_by": [
+        82208
+      ],
+      "talents": [
+        {
+          "id": 108295,
+          "name": "Moonkin Form",
+          "spell": {
+            "id": 24858,
+            "name": "Moonkin Form",
+            "ranks": [
+              {
+                "description": "Shapeshift into Moonkin Form, increasing the damage of your spells by 10% and your armor by 125%, and granting protection from Polymorph effects.\r\n\r\nThe act of shapeshifting frees you from movement impairing effects.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_forceofnature.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82221,
+      "x": 1500,
+      "y": 3300,
+      "row": 4,
+      "col": 1,
+      "unlocks": [
+        82197
+      ],
+      "locked_by": [
+        82222
+      ],
+      "talents": [
+        {
+          "id": 108304,
+          "name": "Maim",
+          "spell": {
+            "id": 22570,
+            "name": "Maim",
+            "ranks": [
+              {
+                "description": "Finishing move that causes Physical damage and stuns the target. Damage and duration increased per combo point:\r\n\r\n   1 point  : 64 damage, 1 sec\r\n   2 points: 128 damage, 2 sec\r\n   3 points: 190 damage, 3 sec\r\n   4 points: 256 damage, 4 sec\r\n   5 points: 316 damage, 5 sec",
+                "cast_time": "Instant",
+                "power_cost": "30 Energy\n0 Combo Points",
+                "range": "Melee Range",
+                "cooldown": "20 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_mangle.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82225,
+      "x": 2700,
+      "y": 3297,
+      "row": 4,
+      "col": 3,
+      "unlocks": [
+        82224
+      ],
+      "locked_by": [
+        82226
+      ],
+      "talents": [
+        {
+          "id": 108308,
+          "name": "Killer Instinct",
+          "spell": {
+            "id": 108299,
+            "name": "Killer Instinct",
+            "ranks": [
+              {
+                "description": "Physical damage and Armor increased by 3%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Physical damage and Armor increased by 6%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_predatoryinstincts.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82227,
+      "x": 3300,
+      "y": 3300,
+      "row": 4,
+      "col": 4,
+      "unlocks": [
+        82228
+      ],
+      "locked_by": [
+        82226,
+        82218
+      ],
+      "talents": [
+        {
+          "id": 108310,
+          "name": "Ironfur",
+          "spell": {
+            "id": 192081,
+            "name": "Ironfur",
+            "ranks": [
+              {
+                "description": "Increases armor by 1,706 for 7 sec.",
+                "cast_time": "Instant",
+                "power_cost": "40 Rage",
+                "range": null,
+                "cooldown": "0.5 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_ironfur.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82214,
+      "x": 5100,
+      "y": 3300,
+      "row": 4,
+      "col": 7,
+      "unlocks": [
+        82213
+      ],
+      "locked_by": [
+        82212,
+        82241
+      ],
+      "talents": [
+        {
+          "id": 108297,
+          "name": "Nurturing Instinct",
+          "spell": {
+            "id": 33873,
+            "name": "Nurturing Instinct",
+            "ranks": [
+              {
+                "description": "Magical damage and healing increased by 3%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Magical damage and healing increased by 6%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_healinginstincts.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82211,
+      "x": 6300,
+      "y": 3300,
+      "row": 4,
+      "col": 9,
+      "unlocks": [],
+      "locked_by": [
+        82212
+      ],
+      "talents": [
+        {
+          "id": 108294,
+          "name": "Hibernate",
+          "spell": {
+            "id": 2637,
+            "name": "Hibernate",
+            "ranks": [
+              {
+                "description": "Forces the enemy target to sleep for up to 40 sec.  Any damage will awaken the target.  Only one target can be forced to hibernate at a time.  Only works on Beasts and Dragonkin.",
+                "cast_time": "1.5 sec cast",
+                "power_cost": "15,000 Mana",
+                "range": "30 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_sleep.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82239,
+      "x": 2100,
+      "y": 3900,
+      "row": 5,
+      "col": 2,
+      "unlocks": [
+        82197,
+        82238
+      ],
+      "locked_by": [
+        82222
+      ],
+      "talents": [
+        {
+          "id": 108323,
+          "name": "Feline Swiftness",
+          "spell": {
+            "id": 131768,
+            "name": "Feline Swiftness",
+            "ranks": [
+              {
+                "description": "Increases your movement speed by 8%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Increases your movement speed by 15%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dash.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82228,
+      "x": 3300,
+      "y": 3900,
+      "row": 5,
+      "col": 4,
+      "unlocks": [
+        82236,
+        82229
+      ],
+      "locked_by": [
+        82227
+      ],
+      "talents": [
+        {
+          "id": 108311,
+          "name": "Thick Hide",
+          "spell": {
+            "id": 16931,
+            "name": "Thick Hide",
+            "ranks": [
+              {
+                "description": "Reduces all damage taken by 3%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Reduces all damage taken by 6%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pelt_bear_03.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82198,
+      "x": 3900,
+      "y": 3900,
+      "row": 5,
+      "col": 5,
+      "unlocks": [
+        82229
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 108281,
+          "name": "Wild Charge",
+          "spell": {
+            "id": 102401,
+            "name": "Wild Charge",
+            "ranks": [
+              {
+                "description": "Fly to a nearby ally's position.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "5-25 yd range",
+                "cooldown": "15 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_wildcharge.jpg"
+        },
+        {
+          "id": 108280,
+          "name": "Tiger Dash",
+          "spell": {
+            "id": 252216,
+            "name": "Tiger Dash",
+            "ranks": [
+              {
+                "description": "Shift into Cat Form and increase your movement speed by 200%, reducing gradually over 5 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "45 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dash_orange.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 82206,
+      "x": 4500,
+      "y": 3900,
+      "row": 5,
+      "col": 6,
+      "unlocks": [
+        82240,
+        82229
+      ],
+      "locked_by": [
+        82241
+      ],
+      "talents": [
+        {
+          "id": 108289,
+          "name": "Natural Recovery",
+          "spell": {
+            "id": 377796,
+            "name": "Natural Recovery",
+            "ranks": [
+              {
+                "description": "Healing done and healing taken increased by 2%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Healing done and healing taken increased by 4%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_naturalperfection.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82213,
+      "x": 5100,
+      "y": 3900,
+      "row": 5,
+      "col": 7,
+      "unlocks": [],
+      "locked_by": [
+        82214
+      ],
+      "talents": [
+        {
+          "id": 108296,
+          "name": "Cyclone",
+          "spell": {
+            "id": 33786,
+            "name": "Cyclone",
+            "ranks": [
+              {
+                "description": "Tosses the enemy target into the air, disorienting them but making them invulnerable for up to 6 sec. Only one target can be affected by your Cyclone at a time.",
+                "cast_time": "1.7 sec cast",
+                "power_cost": "25,000 Mana",
+                "range": "20 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_earthbind.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82210,
+      "x": 5700,
+      "y": 3900,
+      "row": 5,
+      "col": 8,
+      "unlocks": [
+        82209,
+        82207
+      ],
+      "locked_by": [
+        82212
+      ],
+      "talents": [
+        {
+          "id": 108293,
+          "name": "Astral Influence",
+          "spell": {
+            "id": 197524,
+            "name": "Astral Influence",
+            "ranks": [
+              {
+                "description": "Increases the range of all of your abilities by 3 yards.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Increases the range of all of your abilities by 5 yards.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_lens_flare.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82197,
+      "x": 1500,
+      "y": 4500,
+      "row": 6,
+      "col": 1,
+      "unlocks": [],
+      "locked_by": [
+        82239,
+        82221
+      ],
+      "talents": [
+        {
+          "id": 108279,
+          "name": "Tireless Pursuit",
+          "spell": {
+            "id": 377801,
+            "name": "Tireless Pursuit",
+            "ranks": [
+              {
+                "description": "For 3 sec after leaving Cat Form or Travel Form, you retain up to 40% movement speed.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_tirelesspursuit.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82224,
+      "x": 2700,
+      "y": 4500,
+      "row": 6,
+      "col": 3,
+      "unlocks": [
+        82236,
+        82238
+      ],
+      "locked_by": [
+        82225
+      ],
+      "talents": [
+        {
+          "id": 108307,
+          "name": "Skull Bash",
+          "spell": {
+            "id": 106839,
+            "name": "Skull Bash",
+            "ranks": [
+              {
+                "description": "You charge and bash the target's skull, interrupting spellcasting and preventing any spell in that school from being cast for 4 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "13 yd range",
+                "cooldown": "15 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_bone_skull_04.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82229,
+      "x": 3900,
+      "y": 4500,
+      "row": 6,
+      "col": 5,
+      "unlocks": [
+        82234
+      ],
+      "locked_by": [
+        82198,
+        82228,
+        82206
+      ],
+      "talents": [
+        {
+          "id": 108312,
+          "name": "Soothe",
+          "spell": {
+            "id": 2908,
+            "name": "Soothe",
+            "ranks": [
+              {
+                "description": "Soothes the target, dispelling all enrage effects.",
+                "cast_time": "Instant",
+                "power_cost": "14,000 Mana",
+                "range": "40 yd range",
+                "cooldown": "10 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_hunter_beastsoothe.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82207,
+      "x": 5100,
+      "y": 4500,
+      "row": 6,
+      "col": 7,
+      "unlocks": [
+        82242
+      ],
+      "locked_by": [
+        82210
+      ],
+      "talents": [
+        {
+          "id": 108290,
+          "name": "Improved Sunfire",
+          "spell": {
+            "id": 231050,
+            "name": "Improved Sunfire",
+            "ranks": [
+              {
+                "description": "Sunfire now applies its damage over time effect to all enemies within 8 yards.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_mage_firestarter.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82209,
+      "x": 6300,
+      "y": 4500,
+      "row": 6,
+      "col": 9,
+      "unlocks": [
+        92228
+      ],
+      "locked_by": [
+        82210
+      ],
+      "talents": [
+        {
+          "id": 108292,
+          "name": "Typhoon",
+          "spell": {
+            "id": 132469,
+            "name": "Typhoon",
+            "ranks": [
+              {
+                "description": "Blasts targets within 15 yards in front of you with a violent Typhoon, knocking them back and reducing their movement speed by 50% for 6 sec. Usable in all shapeshift forms.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "30 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_typhoon.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82238,
+      "x": 2100,
+      "y": 5100,
+      "row": 7,
+      "col": 2,
+      "unlocks": [
+        82237
+      ],
+      "locked_by": [
+        82239,
+        82224
+      ],
+      "talents": [
+        {
+          "id": 108322,
+          "name": "Primal Fury",
+          "spell": {
+            "id": 159286,
+            "name": "Primal Fury",
+            "ranks": [
+              {
+                "description": "When you critically strike with an attack that generates a combo point, you gain an additional combo point.\r\n\r\nDamage over time cannot trigger this effect.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_racial_cannibalize.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82236,
+      "x": 3300,
+      "y": 5100,
+      "row": 7,
+      "col": 4,
+      "unlocks": [
+        82235,
+        82237
+      ],
+      "locked_by": [
+        82228,
+        82224
+      ],
+      "talents": [
+        {
+          "id": 108319,
+          "name": "Matted Fur",
+          "spell": {
+            "id": 385786,
+            "name": "Matted Fur",
+            "ranks": [
+              {
+                "description": "When you use Barkskin or Survival Instincts, absorb 1,320 damage for 8 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_pelt_15.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82234,
+      "x": 3900,
+      "y": 5100,
+      "row": 7,
+      "col": 5,
+      "unlocks": [
+        82233,
+        82235,
+        92229
+      ],
+      "locked_by": [
+        82229
+      ],
+      "talents": [
+        {
+          "id": 108317,
+          "name": "Stampeding Roar",
+          "spell": {
+            "id": 106898,
+            "name": "Stampeding Roar",
+            "ranks": [
+              {
+                "description": "Shift into Bear Form and let loose a wild roar, increasing the movement speed of all friendly players within 15 yards by 60% for 8 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "2 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_stampedingroar_cat.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82240,
+      "x": 4500,
+      "y": 5100,
+      "row": 7,
+      "col": 6,
+      "unlocks": [
+        82242,
+        92229
+      ],
+      "locked_by": [
+        82206
+      ],
+      "talents": [
+        {
+          "id": 108324,
+          "name": "Improved Rejuvenation",
+          "spell": {
+            "id": 231040,
+            "name": "Improved Rejuvenation",
+            "ranks": [
+              {
+                "description": "Rejuvenation's duration is increased by 3 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_rejuvenation.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 92228,
+      "x": 5700,
+      "y": 5100,
+      "row": 7,
+      "col": 8,
+      "unlocks": [
+        82242
+      ],
+      "locked_by": [
+        82209
+      ],
+      "talents": [
+        {
+          "id": 119304,
+          "name": "Gale Winds",
+          "spell": {
+            "id": 400142,
+            "name": "Gale Winds",
+            "ranks": [
+              {
+                "description": "Increases Typhoon's radius by 20% and its range by 5 yds.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_galewinds.jpg"
+        },
+        {
+          "id": 119303,
+          "name": "Incessant Tempest",
+          "spell": {
+            "id": 400140,
+            "name": "Incessant Tempest",
+            "ranks": [
+              {
+                "description": "Reduces the cooldown of Typhoon by 5 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_skyreach_wind.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 82237,
+      "x": 2700,
+      "y": 5700,
+      "row": 8,
+      "col": 3,
+      "unlocks": [
+        82246
+      ],
+      "locked_by": [
+        82238,
+        82236
+      ],
+      "talents": [
+        {
+          "id": 108321,
+          "name": "Incapacitating Roar",
+          "spell": {
+            "id": 99,
+            "name": "Incapacitating Roar",
+            "ranks": [
+              {
+                "description": "Shift into Bear Form and invoke the spirit of Ursol to let loose a deafening roar, incapacitating all enemies within 10 yards for 3 sec. Damage will cancel the effect.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "30 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_demoralizingroar.jpg"
+        },
+        {
+          "id": 108320,
+          "name": "Mighty Bash",
+          "spell": {
+            "id": 5211,
+            "name": "Mighty Bash",
+            "ranks": [
+              {
+                "description": "Invokes the spirit of Ursoc to stun the target for 4 sec. Usable in all shapeshift forms.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "Melee Range",
+                "cooldown": "1 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_bash.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 82235,
+      "x": 3300,
+      "y": 5700,
+      "row": 8,
+      "col": 4,
+      "unlocks": [],
+      "locked_by": [
+        82234,
+        82236
+      ],
+      "talents": [
+        {
+          "id": 108318,
+          "name": "Ursine Vigor",
+          "spell": {
+            "id": 377842,
+            "name": "Ursine Vigor",
+            "ranks": [
+              {
+                "description": "For 4 sec after shifting into Bear Form, your health and armor are increased by 10%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "For 4 sec after shifting into Bear Form, your health and armor are increased by 20%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_markofursol.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82233,
+      "x": 3900,
+      "y": 5700,
+      "row": 8,
+      "col": 5,
+      "unlocks": [
+        82230,
+        82232
+      ],
+      "locked_by": [
+        82234
+      ],
+      "talents": [
+        {
+          "id": 108316,
+          "name": "Lycara's Teachings",
+          "spell": {
+            "id": 378988,
+            "name": "Lycara's Teachings",
+            "ranks": [
+              {
+                "description": "You gain 2% of a stat while in each form:\r\n\r\nNo Form: Haste\r\nCat Form: Critical Strike\r\nBear Form: Versatility\r\nMoonkin Form: Mastery",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "You gain 4% of a stat while in each form:\r\n\r\nNo Form: Haste\r\nCat Form: Critical Strike\r\nBear Form: Versatility\r\nMoonkin Form: Mastery",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "You gain 6% of a stat while in each form:\r\n\r\nNo Form: Haste\r\nCat Form: Critical Strike\r\nBear Form: Versatility\r\nMoonkin Form: Mastery",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_trinket_ardenweald_02_green.jpg"
+        }
+      ],
+      "max_rank": 3,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 92229,
+      "x": 4500,
+      "y": 5700,
+      "row": 8,
+      "col": 6,
+      "unlocks": [],
+      "locked_by": [
+        82240,
+        82234
+      ],
+      "talents": [
+        {
+          "id": 119305,
+          "name": "Forestwalk",
+          "spell": {
+            "id": 400129,
+            "name": "Forestwalk",
+            "ranks": [
+              {
+                "description": "Casting Regrowth increases your movement speed and healing received by 5% for 3 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Casting Regrowth increases your movement speed and healing received by 5% for 6 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_lifegivingspeed.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82242,
+      "x": 5100,
+      "y": 5700,
+      "row": 8,
+      "col": 7,
+      "unlocks": [
+        82243
+      ],
+      "locked_by": [
+        92228,
+        82207,
+        82240
+      ],
+      "talents": [
+        {
+          "id": 108327,
+          "name": "Mass Entanglement",
+          "spell": {
+            "id": 102359,
+            "name": "Mass Entanglement",
+            "ranks": [
+              {
+                "description": "Roots the target and all enemies within 15 yards in place for 30 sec. Damage may interrupt the effect. Usable in all shapeshift forms.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "30 yd range",
+                "cooldown": "30 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_massentanglement.jpg"
+        },
+        {
+          "id": 108326,
+          "name": "Ursol's Vortex",
+          "spell": {
+            "id": 102793,
+            "name": "Ursol's Vortex",
+            "ranks": [
+              {
+                "description": "Conjures a vortex of wind for 10 sec at the destination, reducing the movement speed of all enemies within 8 yards by 50%. The first time an enemy attempts to leave the vortex, winds will pull that enemy back to its center.  Usable in all shapeshift forms.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "30 yd range",
+                "cooldown": "1 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_ursolsvortex.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 82246,
+      "x": 2700,
+      "y": 6300,
+      "row": 9,
+      "col": 3,
+      "unlocks": [
+        82245
+      ],
+      "locked_by": [
+        82237
+      ],
+      "talents": [
+        {
+          "id": 108331,
+          "name": "Well-Honed Instincts",
+          "spell": {
+            "id": 377847,
+            "name": "Well-Honed Instincts",
+            "ranks": [
+              {
+                "description": "When you fall below 40% health, you cast Frenzied Regeneration, up to once every 120 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "When you fall below 40% health, you cast Frenzied Regeneration, up to once every 90 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_tigersroar.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82230,
+      "x": 3600,
+      "y": 6300,
+      "row": 9,
+      "col": 4,
+      "unlocks": [
+        82231
+      ],
+      "locked_by": [
+        82233
+      ],
+      "talents": [
+        {
+          "id": 108313,
+          "name": "Improved Stampeding Roar",
+          "spell": {
+            "id": 288826,
+            "name": "Improved Stampeding Roar",
+            "ranks": [
+              {
+                "description": "Cooldown reduced by 60 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_stamedingroar.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82232,
+      "x": 4200,
+      "y": 6300,
+      "row": 9,
+      "col": 5,
+      "unlocks": [
+        82231
+      ],
+      "locked_by": [
+        82233
+      ],
+      "talents": [
+        {
+          "id": 108315,
+          "name": "Renewal",
+          "spell": {
+            "id": 108238,
+            "name": "Renewal",
+            "ranks": [
+              {
+                "description": "Instantly heals you for 30% of maximum health. Usable in all shapeshift forms.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "1.5 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureblessing.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82243,
+      "x": 5100,
+      "y": 6300,
+      "row": 9,
+      "col": 7,
+      "unlocks": [
+        82244
+      ],
+      "locked_by": [
+        82242
+      ],
+      "talents": [
+        {
+          "id": 108328,
+          "name": "Innervate",
+          "spell": {
+            "id": 29166,
+            "name": "Innervate",
+            "ranks": [
+              {
+                "description": "Infuse a friendly healer with energy, allowing them to cast spells without spending mana for 10 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": "3 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_lightning.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82245,
+      "x": 2700,
+      "y": 6900,
+      "row": 10,
+      "col": 3,
+      "unlocks": [],
+      "locked_by": [
+        82246
+      ],
+      "talents": [
+        {
+          "id": 108330,
+          "name": "Protector of the Pack",
+          "spell": {
+            "id": 378986,
+            "name": "Protector of the Pack",
+            "ranks": [
+              {
+                "description": "Store 5% of your damage, up to 22,044. Your next Regrowth consumes all stored damage to increase its healing.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_denmother.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 82231,
+      "x": 3900,
+      "y": 6900,
+      "row": 10,
+      "col": 5,
+      "unlocks": [],
+      "locked_by": [
+        82230,
+        82232
+      ],
+      "talents": [
+        {
+          "id": 108314,
+          "name": "Heart of the Wild",
+          "spell": {
+            "id": 319454,
+            "name": "Heart of the Wild",
+            "ranks": [
+              {
+                "description": "Abilities not associated with your specialization are substantially empowered for 45 sec.\r\n\r\nBalance: Magical damage increased by 30%.\r\n\r\nFeral: Physical damage increased by 30%.\r\n\r\nGuardian: Bear Form gives an additional 20% Stamina, multiple uses of Ironfur may overlap, and Frenzied Regeneration has 2 charges.\r\n\r\nRestoration: Healing increased by 30%, and mana costs reduced by 50%.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "5 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_blessingofagility.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 82244,
+      "x": 5100,
+      "y": 6900,
+      "row": 10,
+      "col": 7,
+      "unlocks": [],
+      "locked_by": [
+        82243
+      ],
+      "talents": [
+        {
+          "id": 108329,
+          "name": "Nature's Vigil",
+          "spell": {
+            "id": 124974,
+            "name": "Nature's Vigil",
+            "ranks": [
+              {
+                "description": "For 30 sec, all single-target damage also heals a nearby friendly target for 20% of the damage done.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "1.5 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/achievement_zone_feralas.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    }
+  ],
+  "spec_nodes": [
+    {
+      "id": 88223,
+      "x": 11700,
+      "y": 1500,
+      "row": 1,
+      "col": 18,
+      "unlocks": [
+        88231,
+        88225
+      ],
+      "locked_by": [],
+      "talents": [
+        {
+          "id": 114863,
+          "name": "Eclipse",
+          "spell": {
+            "id": 79577,
+            "name": "Eclipse",
+            "ranks": [
+              {
+                "description": "Casting 2 Starfires empowers Wrath for 15 sec. Casting 2 Wraths empowers Starfire for 15 sec.\r\n\r\n Eclipse (Solar)\r\nNature spells deal 15% additional damage and Wrath damage is increased by 20%.\r\n\r\n Eclipse (Lunar)\r\nArcane spells deal 15% additional damage and the damage Starfire deals to nearby enemies is increased by 30%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_eclipseorange.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88225,
+      "x": 11100,
+      "y": 2100,
+      "row": 2,
+      "col": 17,
+      "unlocks": [
+        88203,
+        88210
+      ],
+      "locked_by": [
+        88223
+      ],
+      "talents": [
+        {
+          "id": 114866,
+          "name": "Shooting Stars",
+          "spell": {
+            "id": 202342,
+            "name": "Shooting Stars",
+            "ranks": [
+              {
+                "description": "Moonfire, Sunfire, and Stellar Flare damage over time has a chance to call down a falling star, dealing 976 Astral damage and generating 2 Astral Power.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_priest_divinestar_shadow2.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88231,
+      "x": 12300,
+      "y": 2100,
+      "row": 2,
+      "col": 19,
+      "unlocks": [
+        88210,
+        88201,
+        88211
+      ],
+      "locked_by": [
+        88223
+      ],
+      "talents": [
+        {
+          "id": 114872,
+          "name": "Solar Beam",
+          "spell": {
+            "id": 78675,
+            "name": "Solar Beam",
+            "ranks": [
+              {
+                "description": "Summons a beam of solar light over an enemy target's location, interrupting the target and silencing all enemies within the beam.  Lasts 8 sec.",
+                "cast_time": "Instant",
+                "power_cost": "42,000 Mana",
+                "range": "40 yd range",
+                "cooldown": "1 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vehicle_sonicshockwave.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 88203,
+      "x": 10500,
+      "y": 2700,
+      "row": 3,
+      "col": 16,
+      "unlocks": [
+        91048,
+        88226
+      ],
+      "locked_by": [
+        88225
+      ],
+      "talents": [
+        {
+          "id": 114840,
+          "name": "Solstice",
+          "spell": {
+            "id": 343647,
+            "name": "Solstice",
+            "ranks": [
+              {
+                "description": "During the first 6 sec of every Eclipse, Shooting Stars fall 200% more often.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_moonandstars.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88210,
+      "x": 11700,
+      "y": 2700,
+      "row": 3,
+      "col": 18,
+      "unlocks": [
+        88226,
+        88208
+      ],
+      "locked_by": [
+        88225,
+        88231
+      ],
+      "talents": [
+        {
+          "id": 114849,
+          "name": "Force of Nature",
+          "spell": {
+            "id": 205636,
+            "name": "Force of Nature",
+            "ranks": [
+              {
+                "description": "Summons a stand of 3 Treants for 10 sec which immediately taunt and attack enemies in the targeted area.\r\n\r\nGenerates 20 Astral Power.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": "1 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_forceofnature.jpg"
+        },
+        {
+          "id": 119654,
+          "name": "Warrior of Elune",
+          "spell": {
+            "id": 202425,
+            "name": "Warrior of Elune",
+            "ranks": [
+              {
+                "description": "Your next 3 Starfires are instant cast and generate 40% increased Astral Power.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "45 sec cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_holy_elunesgrace.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 88211,
+      "x": 12300,
+      "y": 2700,
+      "row": 3,
+      "col": 19,
+      "unlocks": [
+        88208
+      ],
+      "locked_by": [
+        88231
+      ],
+      "talents": [
+        {
+          "id": 114850,
+          "name": "Light of the Sun",
+          "spell": {
+            "id": 202918,
+            "name": "Light of the Sun",
+            "ranks": [
+              {
+                "description": "Reduces the remaining cooldown on Solar Beam by 15 sec when it interrupts the primary target.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_vehicle_sonicshockwave.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88201,
+      "x": 12900,
+      "y": 2700,
+      "row": 3,
+      "col": 20,
+      "unlocks": [
+        88208,
+        88209
+      ],
+      "locked_by": [
+        88231
+      ],
+      "talents": [
+        {
+          "id": 114838,
+          "name": "Starfall",
+          "spell": {
+            "id": 191034,
+            "name": "Starfall",
+            "ranks": [
+              {
+                "description": "Calls down waves of falling stars upon enemies within 40 yds, dealing 4,938 Astral damage over 8 sec. Multiple uses of this ability may overlap.",
+                "cast_time": "Instant",
+                "power_cost": "50 Astral Power",
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_starfall.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 91048,
+      "x": 9899,
+      "y": 3300,
+      "row": 4,
+      "col": 15,
+      "unlocks": [
+        88202,
+        88204
+      ],
+      "locked_by": [
+        88203
+      ],
+      "talents": [
+        {
+          "id": 114846,
+          "name": "Stellar Flare",
+          "spell": {
+            "id": 202347,
+            "name": "Stellar Flare",
+            "ranks": [
+              {
+                "description": "Burns the target for 679 Astral damage, and then an additional 6,397 damage over 24 sec. If dispelled, causes 15,430 damage to the dispeller and blast them upwards.\r\n\r\nGenerates 8 Astral Power.",
+                "cast_time": "1.5 sec cast",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_stellarflare.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 88226,
+      "x": 11100,
+      "y": 3300,
+      "row": 4,
+      "col": 17,
+      "unlocks": [
+        88204,
+        88215
+      ],
+      "locked_by": [
+        88203,
+        88210
+      ],
+      "talents": [
+        {
+          "id": 114867,
+          "name": "Nature's Balance",
+          "spell": {
+            "id": 202430,
+            "name": "Nature's Balance",
+            "ranks": [
+              {
+                "description": "While in combat you generate 1 Astral Power every 2 sec.\r\n\r\nWhile out of combat your Astral Power rebalances to 50 instead of depleting to empty.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_balanceofpower.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88208,
+      "x": 12300,
+      "y": 3300,
+      "row": 4,
+      "col": 19,
+      "unlocks": [
+        88219,
+        88215
+      ],
+      "locked_by": [
+        88211,
+        88201,
+        88210
+      ],
+      "talents": [
+        {
+          "id": 114847,
+          "name": "Twin Moons",
+          "spell": {
+            "id": 279620,
+            "name": "Twin Moons",
+            "ranks": [
+              {
+                "description": "Moonfire deals 10% increased damage and also hits another nearby enemy within 15 yds of the target.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_starfall.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88209,
+      "x": 13500,
+      "y": 3300,
+      "row": 4,
+      "col": 21,
+      "unlocks": [
+        88232,
+        88219
+      ],
+      "locked_by": [
+        88201
+      ],
+      "talents": [
+        {
+          "id": 114848,
+          "name": "Aetherial Kindling",
+          "spell": {
+            "id": 327541,
+            "name": "Aetherial Kindling",
+            "ranks": [
+              {
+                "description": "Casting Starfall extends the duration of active Moonfires and Sunfires by 4 sec, up to 28 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_starfall.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88204,
+      "x": 10500,
+      "y": 3899,
+      "row": 5,
+      "col": 16,
+      "unlocks": [
+        88229,
+        88212,
+        88202
+      ],
+      "locked_by": [
+        91048,
+        88226
+      ],
+      "talents": [
+        {
+          "id": 114841,
+          "name": "Astral Smolder",
+          "spell": {
+            "id": 394058,
+            "name": "Astral Smolder",
+            "ranks": [
+              {
+                "description": "Your critical strikes from Starfire and Wrath cause the target to languish for an additional 20% of your spell's damage over 4 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Your critical strikes from Starfire and Wrath cause the target to languish for an additional 40% of your spell's damage over 4 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_fire_bluefire.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88215,
+      "x": 11700,
+      "y": 3900,
+      "row": 5,
+      "col": 18,
+      "unlocks": [
+        88222,
+        88212,
+        88221
+      ],
+      "locked_by": [
+        88208,
+        88226
+      ],
+      "talents": [
+        {
+          "id": 114854,
+          "name": "Celestial Alignment",
+          "spell": {
+            "id": 194223,
+            "name": "Celestial Alignment",
+            "ranks": [
+              {
+                "description": "Celestial bodies align, maintaining both Eclipses and granting 10% haste for 20 sec.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": "3 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_natureguardian.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 88219,
+      "x": 12900,
+      "y": 3899,
+      "row": 5,
+      "col": 20,
+      "unlocks": [
+        88222
+      ],
+      "locked_by": [
+        88209,
+        88208
+      ],
+      "talents": [
+        {
+          "id": 114858,
+          "name": "Umbral Intensity",
+          "spell": {
+            "id": 383195,
+            "name": "Umbral Intensity",
+            "ranks": [
+              {
+                "description": "Solar Eclipse increases the damage of Wrath by an additional 10%. \r\n\r\nLunar Eclipse increases the damage Starfire deals to nearby enemies by an additional 10%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Solar Eclipse increases the damage of Wrath by an additional 20%. \r\n\r\nLunar Eclipse increases the damage Starfire deals to nearby enemies by an additional 20%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_eclipse.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88202,
+      "x": 9899,
+      "y": 4500,
+      "row": 6,
+      "col": 15,
+      "unlocks": [
+        88227,
+        88220
+      ],
+      "locked_by": [
+        91048,
+        88204
+      ],
+      "talents": [
+        {
+          "id": 114839,
+          "name": "Waning Twilight",
+          "spell": {
+            "id": 393956,
+            "name": "Waning Twilight",
+            "ranks": [
+              {
+                "description": "When you have 3 periodic effects on a target, your damage and healing on them are increased by 4%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "When you have 3 periodic effects on a target, your damage and healing on them are increased by 8%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shadow_twilight.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88229,
+      "x": 10500,
+      "y": 4500,
+      "row": 6,
+      "col": 16,
+      "unlocks": [
+        88227
+      ],
+      "locked_by": [
+        88204
+      ],
+      "talents": [
+        {
+          "id": 114870,
+          "name": "Stellar Innervation",
+          "spell": {
+            "id": 394115,
+            "name": "Stellar Innervation",
+            "ranks": [
+              {
+                "description": "During Solar Eclipse, Sunfire generates 100% additional Astral Power. During Lunar Eclipse, Moonfire generates 100% additional Astral Power.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/sha_ability_mage_firestarter_nightborne.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88212,
+      "x": 11100,
+      "y": 4499,
+      "row": 6,
+      "col": 17,
+      "unlocks": [
+        88227,
+        88216
+      ],
+      "locked_by": [
+        88204,
+        88215
+      ],
+      "talents": [
+        {
+          "id": 114851,
+          "name": "Soul of the Forest",
+          "spell": {
+            "id": 114107,
+            "name": "Soul of the Forest",
+            "ranks": [
+              {
+                "description": "Eclipse increases Wrath's Astral power generation 50%, and increases Starfire's area effect damage by 150%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_manatree.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88221,
+      "x": 11700,
+      "y": 4499,
+      "row": 6,
+      "col": 18,
+      "unlocks": [
+        88216
+      ],
+      "locked_by": [
+        88215
+      ],
+      "talents": [
+        {
+          "id": 114861,
+          "name": "Orbital Strike",
+          "spell": {
+            "id": 390378,
+            "name": "Orbital Strike",
+            "ranks": [
+              {
+                "description": "Celestial Alignment blasts all enemies in a targeted area for 10,751 Astral damage and applies Stellar Flare to them.\r\n\r\nReduces the cooldown of Celestial Alignment by 60 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cresentburn.jpg"
+        },
+        {
+          "id": 114860,
+          "name": "Primordial Arcanic Pulsar",
+          "spell": {
+            "id": 393960,
+            "name": "Primordial Arcanic Pulsar",
+            "ranks": [
+              {
+                "description": "Every 600 Astral Power spent grants Celestial Alignment for 12 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane03.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 88222,
+      "x": 12300,
+      "y": 4499,
+      "row": 6,
+      "col": 19,
+      "unlocks": [
+        88207,
+        88216
+      ],
+      "locked_by": [
+        88219,
+        88215
+      ],
+      "talents": [
+        {
+          "id": 114862,
+          "name": "Nature's Grace",
+          "spell": {
+            "id": 393958,
+            "name": "Nature's Grace",
+            "ranks": [
+              {
+                "description": "After an Eclipse ends, you gain 15% Haste for 6 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_naturesblessing.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88232,
+      "x": 13500,
+      "y": 4499,
+      "row": 6,
+      "col": 21,
+      "unlocks": [
+        88207,
+        88235
+      ],
+      "locked_by": [
+        88209
+      ],
+      "talents": [
+        {
+          "id": 114873,
+          "name": "Lunar Shrapnel",
+          "spell": {
+            "id": 393868,
+            "name": "Lunar Shrapnel",
+            "ranks": [
+              {
+                "description": "Starfall's stars have a chance to deal an additional 13% damage to nearby enemies when they damage an enemy afflicted by Moonfire. Deals reduced damage beyond 8 targets.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Starfall's stars have a chance to deal an additional 25% damage to nearby enemies when they damage an enemy afflicted by Moonfire. Deals reduced damage beyond 8 targets.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane04.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88227,
+      "x": 10500,
+      "y": 5099,
+      "row": 7,
+      "col": 16,
+      "unlocks": [
+        88214,
+        88199,
+        88220
+      ],
+      "locked_by": [
+        88229,
+        88212,
+        88202
+      ],
+      "talents": [
+        {
+          "id": 114868,
+          "name": "Cosmic Rapidity",
+          "spell": {
+            "id": 400059,
+            "name": "Cosmic Rapidity",
+            "ranks": [
+              {
+                "description": "Your Moonfire, Sunfire, and Stellar Flare deal damage 13% faster.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Your Moonfire, Sunfire, and Stellar Flare deal damage 25% faster.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_swarm.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88216,
+      "x": 11700,
+      "y": 5098,
+      "row": 7,
+      "col": 18,
+      "unlocks": [
+        88217,
+        88200,
+        88214
+      ],
+      "locked_by": [
+        88221,
+        88212,
+        88222
+      ],
+      "talents": [
+        {
+          "id": 114855,
+          "name": "Umbral Embrace",
+          "spell": {
+            "id": 393760,
+            "name": "Umbral Embrace",
+            "ranks": [
+              {
+                "description": "Dealing Astral damage has a chance to cause your next Wrath or Starfire cast during an Eclipse to become Astral and deal 25% additional damage.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Dealing Astral damage has a chance to cause your next Wrath or Starfire cast during an Eclipse to become Astral and deal 50% additional damage.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_improvedmoonkinform.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88207,
+      "x": 12900,
+      "y": 5098,
+      "row": 7,
+      "col": 20,
+      "unlocks": [
+        88200,
+        88236,
+        88235
+      ],
+      "locked_by": [
+        88232,
+        88222
+      ],
+      "talents": [
+        {
+          "id": 114845,
+          "name": "Power of Goldrinn",
+          "spell": {
+            "id": 394046,
+            "name": "Power of Goldrinn",
+            "ranks": [
+              {
+                "description": "Starsurge has a chance to summon the Spirit of Goldrinn, which immediately deals 2,483 Astral damage to the target.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Starsurge has a chance to summon the Spirit of Goldrinn, which immediately deals 4,967 Astral damage to the target.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_mount_spectralwolf.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88220,
+      "x": 9900,
+      "y": 5700,
+      "row": 8,
+      "col": 15,
+      "unlocks": [
+        88205,
+        88218
+      ],
+      "locked_by": [
+        88202,
+        88227
+      ],
+      "talents": [
+        {
+          "id": 114859,
+          "name": "Wild Mushroom",
+          "spell": {
+            "id": 88747,
+            "name": "Wild Mushroom",
+            "ranks": [
+              {
+                "description": "Grow a magical mushroom at the target enemy's location. After 1 sec, the mushroom detonates, dealing 7,715 Nature damage and generating up to 20 Astral Power based on targets hit.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/druid_ability_wildmushroom_a.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 88199,
+      "x": 10500,
+      "y": 5700,
+      "row": 8,
+      "col": 16,
+      "unlocks": [
+        88218
+      ],
+      "locked_by": [
+        88227
+      ],
+      "talents": [
+        {
+          "id": 114836,
+          "name": "Orbit Breaker",
+          "spell": {
+            "id": 383197,
+            "name": "Orbit Breaker",
+            "ranks": [
+              {
+                "description": "Every 30th Shooting Star calls down a Full Moon at 80% power upon its target.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_moonandstars.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88214,
+      "x": 11100,
+      "y": 5700,
+      "row": 8,
+      "col": 17,
+      "unlocks": [
+        88218,
+        88206
+      ],
+      "locked_by": [
+        88227,
+        88216
+      ],
+      "talents": [
+        {
+          "id": 114853,
+          "name": "Balance of All Things",
+          "spell": {
+            "id": 394048,
+            "name": "Balance of All Things",
+            "ranks": [
+              {
+                "description": "Entering Eclipse increases your critical strike chance with Arcane or Nature spells by 16%, decreasing by 2% every 1 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Entering Eclipse increases your critical strike chance with Arcane or Nature spells by 24%, decreasing by 3% every 1 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_earthandsky.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88217,
+      "x": 11700,
+      "y": 5700,
+      "row": 8,
+      "col": 18,
+      "unlocks": [
+        88206
+      ],
+      "locked_by": [
+        88216
+      ],
+      "talents": [
+        {
+          "id": 114856,
+          "name": "Sundered Firmament",
+          "spell": {
+            "id": 394094,
+            "name": "Sundered Firmament",
+            "ranks": [
+              {
+                "description": "Every other Eclipse creates a Fury of Elune at 20% effectiveness that follows your current target for 8 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_equinox.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88200,
+      "x": 12300,
+      "y": 5700,
+      "row": 8,
+      "col": 19,
+      "unlocks": [
+        88224,
+        88206
+      ],
+      "locked_by": [
+        88207,
+        88216
+      ],
+      "talents": [
+        {
+          "id": 114837,
+          "name": "Starlord",
+          "spell": {
+            "id": 202345,
+            "name": "Starlord",
+            "ranks": [
+              {
+                "description": "Starsurge and Starfall grant you 2% Haste for 15 sec.\r\n\r\nStacks up to 3 times. Gaining a stack does not refresh the duration.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              },
+              {
+                "description": "Starsurge and Starfall grant you 4% Haste for 15 sec.\r\n\r\nStacks up to 3 times. Gaining a stack does not refresh the duration.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_shaman_measuredinsight.jpg"
+        }
+      ],
+      "max_rank": 2,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88236,
+      "x": 12900,
+      "y": 5700,
+      "row": 8,
+      "col": 20,
+      "unlocks": [
+        88224
+      ],
+      "locked_by": [
+        88207
+      ],
+      "talents": [
+        {
+          "id": 114877,
+          "name": "Rattle the Stars",
+          "spell": {
+            "id": 393954,
+            "name": "Rattle the Stars",
+            "ranks": [
+              {
+                "description": "Starsurge and Starfall reduce the cost of Starsurge and Starfall by 5% and increase their damage by 10% for 5 sec, stacking up to 2 times.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_arcane01.jpg"
+        },
+        {
+          "id": 114878,
+          "name": "Starweaver",
+          "spell": {
+            "id": 393940,
+            "name": "Starweaver",
+            "ranks": [
+              {
+                "description": "Starsurge has a 20% chance to make Starfall free. Starfall has a 40% chance to make Starsurge free.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_arcane_invocation.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 88235,
+      "x": 13500,
+      "y": 5700,
+      "row": 8,
+      "col": 21,
+      "unlocks": [
+        88224
+      ],
+      "locked_by": [
+        88232,
+        88207
+      ],
+      "talents": [
+        {
+          "id": 114876,
+          "name": "Astral Communion",
+          "spell": {
+            "id": 400636,
+            "name": "Astral Communion",
+            "ranks": [
+              {
+                "description": "Increases maximum Astral Power by 20 and teaches Astral Communion:\r\n\r\nAstral Communion:\r\nGenerates 60 Astral Power. 60 sec cooldown.\r\n\r\n",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/talentspec_druid_balance.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "ACTIVE"
+    },
+    {
+      "id": 88205,
+      "x": 9900,
+      "y": 6300,
+      "row": 9,
+      "col": 15,
+      "unlocks": [],
+      "locked_by": [
+        88220
+      ],
+      "talents": [
+        {
+          "id": 114842,
+          "name": "Fungal Growth",
+          "spell": {
+            "id": 392999,
+            "name": "Fungal Growth",
+            "ranks": [
+              {
+                "description": "Enemies struck by Wild Mushrooms are damaged for an additional 70% over 8 sec and slowed by 50%.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/druid_ability_wildmushroom_b.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88218,
+      "x": 10500,
+      "y": 6299,
+      "row": 9,
+      "col": 16,
+      "unlocks": [
+        88234
+      ],
+      "locked_by": [
+        88214,
+        88199,
+        88220
+      ],
+      "talents": [
+        {
+          "id": 114857,
+          "name": "Denizen of the Dream",
+          "spell": {
+            "id": 394065,
+            "name": "Denizen of the Dream",
+            "ranks": [
+              {
+                "description": "Your Moonfire and Sunfire have a chance to summon a Faerie Dragon to assist you in battle for 30 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_faeriedragon2_orange.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88206,
+      "x": 11700,
+      "y": 6300,
+      "row": 9,
+      "col": 18,
+      "unlocks": [
+        88228
+      ],
+      "locked_by": [
+        88214,
+        88200,
+        88217
+      ],
+      "talents": [
+        {
+          "id": 114844,
+          "name": "Incarnation: Chosen of Elune",
+          "spell": {
+            "id": 102560,
+            "name": "Incarnation: Chosen of Elune",
+            "ranks": [
+              {
+                "description": "An improved Moonkin Form that grants both Eclipses, any learned Celestial Alignment bonuses, and 10% critical strike chance.\r\n\r\nLasts 30 sec. You may shapeshift in and out of this improved Moonkin Form for its duration.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "3 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_incarnation.jpg"
+        },
+        {
+          "id": 114843,
+          "name": "Convoke the Spirits",
+          "spell": {
+            "id": 391528,
+            "name": "Convoke the Spirits",
+            "ranks": [
+              {
+                "description": "Call upon the Night Fae for an eruption of energy, channeling a rapid flurry of 16 Druid spells and abilities over 4 sec.\r\n\r\nYou will cast Wild Growth, Swiftmend, Moonfire, Wrath, Regrowth, Rejuvenation, Rake, and Thrash on appropriate nearby targets, favoring your current shapeshift form.",
+                "cast_time": "Channeled",
+                "power_cost": null,
+                "range": null,
+                "cooldown": "2 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ardenweald_druid.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 88224,
+      "x": 12900,
+      "y": 6300,
+      "row": 9,
+      "col": 20,
+      "unlocks": [
+        88213
+      ],
+      "locked_by": [
+        88200,
+        88236,
+        88235
+      ],
+      "talents": [
+        {
+          "id": 114864,
+          "name": "Fury of Elune",
+          "spell": {
+            "id": 202770,
+            "name": "Fury of Elune",
+            "ranks": [
+              {
+                "description": "Calls down a beam of pure celestial energy that follows the enemy, dealing up to 14,679 Astral damage over 8 sec within its area. Damage reduced on secondary targets.\r\n\r\nGenerates 40 Astral Power over its duration.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": "1 min cooldown"
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_dreamstate.jpg"
+        },
+        {
+          "id": 114865,
+          "name": "New Moon",
+          "spell": {
+            "id": 274281,
+            "name": "New Moon",
+            "ranks": [
+              {
+                "description": "Deals 5546.0 Astral damage to the target and empowers New Moon to become Half Moon. \r\n\r\nGenerates 10 Astral Power.",
+                "cast_time": "1 sec cast",
+                "power_cost": null,
+                "range": "40 yd range",
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_newmoon.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "CHOICE"
+    },
+    {
+      "id": 88234,
+      "x": 10500,
+      "y": 6899,
+      "row": 10,
+      "col": 16,
+      "unlocks": [],
+      "locked_by": [
+        88218
+      ],
+      "talents": [
+        {
+          "id": 114875,
+          "name": "Friend of the Fae",
+          "spell": {
+            "id": 394081,
+            "name": "Friend of the Fae",
+            "ranks": [
+              {
+                "description": "When a Faerie Dragon is summoned, your Arcane and Nature damage is increased by 4% for 30 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_elemental_primal_mana.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88228,
+      "x": 11700,
+      "y": 6900,
+      "row": 10,
+      "col": 18,
+      "unlocks": [],
+      "locked_by": [
+        88206
+      ],
+      "talents": [
+        {
+          "id": 114869,
+          "name": "Elune's Guidance",
+          "spell": {
+            "id": 393991,
+            "name": "Elune's Guidance",
+            "ranks": [
+              {
+                "description": "Incarnation: Chosen of Elune reduces the Astral Power cost of Starsurge by 5, and the Astral Power cost of Starfall by 8.\r\n\r\nConvoke the Spirits' cooldown is reduced by 50% and its duration and number of spells cast is reduced by 25%. Convoke the Spirits has an increased chance to use an exceptional spell or ability.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_ardenweald_druid.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    },
+    {
+      "id": 88213,
+      "x": 12900,
+      "y": 6899,
+      "row": 10,
+      "col": 20,
+      "unlocks": [],
+      "locked_by": [
+        88224
+      ],
+      "talents": [
+        {
+          "id": 114852,
+          "name": "Radiant Moonlight",
+          "spell": {
+            "id": 394121,
+            "name": "Radiant Moonlight",
+            "ranks": [
+              {
+                "description": "Full Moon becomes Full Moon once more before resetting to New Moon.\r\n\r\nFury of Elune's cooldown is reduced by 15 sec.",
+                "cast_time": "Passive",
+                "power_cost": null,
+                "range": null,
+                "cooldown": null
+              }
+            ]
+          },
+          "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_fullmoon.jpg"
+        }
+      ],
+      "max_rank": 1,
+      "node_type": "PASSIVE"
+    }
+  ],
+  "pvp_talents": [
+    {
+      "id": 822,
+      "name": "Dying Stars",
+      "spell": {
+        "id": 232546,
+        "name": "Dying Stars",
+        "ranks": [
+          {
+            "description": "Sunfire and Moonfire generate 3 Astral Power when they are dispelled.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/artifactability_balancedruid_moonandstars.jpg"
+    },
+    {
+      "id": 182,
+      "name": "Crescent Burn",
+      "spell": {
+        "id": 200567,
+        "name": "Crescent Burn",
+        "ranks": [
+          {
+            "description": "Using Moonfire on a target already afflicted by Moonfire's damage over time effect deals 35% additional direct damage.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_starfall.jpg"
+    },
+    {
+      "id": 184,
+      "name": "Moon and Stars",
+      "spell": {
+        "id": 233750,
+        "name": "Moon and Stars",
+        "ranks": [
+          {
+            "description": "Entering an Eclipse summons a beam of light at your location granting you 70% reduction in silence and interrupts for 10 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_fortifiedbark.jpg"
+    },
+    {
+      "id": 185,
+      "name": "Moonkin Aura",
+      "spell": {
+        "id": 209740,
+        "name": "Moonkin Aura",
+        "ranks": [
+          {
+            "description": "Starsurge grants 4% spell critical strike chance to 8 allies within 40 yards for 18 sec, stacking up to 3 times.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_improvedmoonkinform.jpg"
+    },
+    {
+      "id": 836,
+      "name": "Faerie Swarm",
+      "spell": {
+        "id": 209749,
+        "name": "Faerie Swarm",
+        "ranks": [
+          {
+            "description": "Swarms the target with Faeries, disarming the enemy, preventing the use of any weapons or shield and reducing movement speed by 30% for 5 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_druid_swarm.jpg"
+    },
+    {
+      "id": 834,
+      "name": "Deep Roots",
+      "spell": {
+        "id": 233755,
+        "name": "Deep Roots",
+        "ranks": [
+          {
+            "description": "Increases the amount of damage required to cancel your Entangling Roots by 250%.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_misc_herb_sansamroot.jpg"
+    },
+    {
+      "id": 3058,
+      "name": "Star Burst",
+      "spell": {
+        "id": 356517,
+        "name": "Star Burst",
+        "ranks": [
+          {
+            "description": "Starfall calls down collapsing stars that last 15 sec. Enemies that come into contact with a star cause it to burst, knocking nearby enemies upwards and dealing 15,430 Astral damage. Generates 15 Astral Power.\r\n\r\nThe Druid and their allies may pick up stars, causing them to orbit around you.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cresentburn.jpg"
+    },
+    {
+      "id": 5407,
+      "name": "Owlkin Adept",
+      "spell": {
+        "id": 354541,
+        "name": "Owlkin Adept",
+        "ranks": [
+          {
+            "description": "Owlkin Frenzy can stack up to 2 times and reduces the cast time of your next Cyclone or Entangling Roots by 30%.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_owlkinfrenzy.jpg"
+    },
+    {
+      "id": 180,
+      "name": "Celestial Guardian",
+      "spell": {
+        "id": 233754,
+        "name": "Celestial Guardian",
+        "ranks": [
+          {
+            "description": "Bear Form reduces magic damage taken from spells by 10% and you may now cast Moonfire while in Bear Form.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_protectorofthepack.jpg"
+    },
+    {
+      "id": 3731,
+      "name": "Thorns",
+      "spell": {
+        "id": 305497,
+        "name": "Thorns",
+        "ranks": [
+          {
+            "description": "Sprout thorns for 12 sec on the friendly target. When victim to melee attacks, thorns deals 6,737 Nature damage back to the attacker.\r\n\r\nAttackers also have their movement speed reduced by 50% for 4 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_thorns.jpg"
+    },
+    {
+      "id": 3728,
+      "name": "Protector of the Grove",
+      "spell": {
+        "id": 209730,
+        "name": "Protector of the Grove",
+        "ranks": [
+          {
+            "description": "When using Regrowth on an ally the initial heal will always have a critical effect and the cast time of Regrowth will be reduced by 50% for 6 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_naturesblessing.jpg"
+    },
+    {
+      "id": 5383,
+      "name": "High Winds",
+      "spell": {
+        "id": 200931,
+        "name": "High Winds",
+        "ranks": [
+          {
+            "description": "Cyclone leaves the target reeling, reducing their damage and healing by 30% for 4 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_cyclone.jpg"
+    },
+    {
+      "id": 5503,
+      "name": "Precognition",
+      "spell": {
+        "id": 377360,
+        "name": "Precognition",
+        "ranks": [
+          {
+            "description": "If an interrupt is used on you while you are not casting, gain 15% Haste and become immune to crowd control, interrupt, and cast pushback effects for 5 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/spell_nature_focusedmind.jpg"
+    },
+    {
+      "id": 5515,
+      "name": "Malorne's Swiftness",
+      "spell": {
+        "id": 236147,
+        "name": "Malorne's Swiftness",
+        "ranks": [
+          {
+            "description": "Your Travel Form movement speed while within a Battleground or Arena is increased by 20% and you always move at 100% movement speed while in Travel Form.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/inv_stagform.jpg"
+    },
+    {
+      "id": 5526,
+      "name": "Reactive Resin",
+      "spell": {
+        "id": 203399,
+        "name": "Reactive Resin",
+        "ranks": [
+          {
+            "description": "Casting Rejuvenation grants the target 2 charges of Reactive Resin.\r\n\r\nReactive Resin will heal the target for 3,024 after taking a melee critical strike, and increase the duration of Rejuvenation by 2.7 sec.",
+            "cast_time": null,
+            "power_cost": null,
+            "range": null,
+            "cooldown": null
+          }
+        ]
+      },
+      "icon": "https://render.worldofwarcraft.com/us/icons/56/ability_druid_empoweredtouch.jpg"
+    }
+  ]
+}
