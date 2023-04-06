@@ -1,9 +1,9 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, Tabs } from '@mantine/core';
+import { Flex, MantineProvider, createStyles, rem, MantineThemeColorsOverride, Tabs, Button } from '@mantine/core';
 import { CLASS_SPECS } from '@/lib/wow';
 import { CLASS_COLORS, createThemeColors, globalThemeColors } from '@/lib/style-constants';
 import { getTalentTree, TalentTree } from '@/lib/talents'
-import { decodeLeaderboard, EncodedLeaderboard, getEncodedLeaderboard, Leaderboard, LeaderboardTimestamp, RatedLoadout } from '@/lib/pvp'
+import { decodeLeaderboard, EncodedLeaderboard, getEncodedLeaderboard, Leaderboard } from '@/lib/pvp'
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import Layout from '@/components/layout/layout';
@@ -68,6 +68,15 @@ export default function Bracket({
 
   const { classes } = useStyles();
   const router = useRouter();
+  const classParam = router.query['class_name'];
+  const specParam = router.query['spec_name'];
+  const brackets = [
+    { value: 'Shuffle', label: 'Solo Shuffle' },
+    { value: '3v3', label: '3v3' },
+    { value: '2v2', label: '2v2' },
+    { value: 'RBG', label: 'RBG' },
+  ];
+
   return (
     <MantineProvider
       inherit
@@ -86,27 +95,35 @@ export default function Bracket({
         <div className={classes.contentGrid}>
           <Flex className={classes.title} justify="space-between" align="center">
             <SpecSelector />
-            <Tabs
-              value={bracket as string}
-              onTabChange={value => {
-                const classParam = router.query['class_name'];
-                const specParam = router.query['spec_name'];
-
-                router.push(`/${classParam}/${specParam}/${value}`)
-              }}
-              variant="pills"
-            >
-              <Tabs.List sx={() => ({
-                '& span': {
-                  fontSize: rem(22),
-                }
-              })}>
-                <Tabs.Tab value="Shuffle">Solo Shuffle</Tabs.Tab>
-                <Tabs.Tab value="3v3">3v3</Tabs.Tab>
-                <Tabs.Tab value="2v2">2v2</Tabs.Tab>
-                <Tabs.Tab value="RBG">RBG</Tabs.Tab>
-              </Tabs.List>
-            </Tabs>
+            <Flex gap={rem(6)}>
+              {brackets.map(bracket => {
+                const isActive = bracket.value == router.query['bracket']
+                return (
+                  <Button
+                    key={bracket.value}
+                    component="a"
+                    styles={theme => ({
+                      root: {
+                        padding: '10px 16px',
+                        lineHeight: rem(22),
+                        border: 'none',
+                      },
+                      label: {
+                        color: isActive ? theme.colors.primary[0] : theme.colors.primary[5],
+                        fontSize: rem(22),
+                        fontWeight: 400,
+                        lineHeight: rem(22),
+                      },
+                    })}
+                    h={42}
+                    href={`/${classParam}/${specParam}/${bracket.value}`}
+                    variant={isActive ? 'filled' : 'subtle'}
+                  >
+                    {bracket.label}
+                  </Button>
+                );
+              })}
+            </Flex>
           </Flex>
           <div className={classes.nav}>
               <SiteNavbar/>
