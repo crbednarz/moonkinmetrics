@@ -137,27 +137,32 @@ export default function Layout({
           <Box>
 
           {headerLinks.map(link => (
-            <Button
+            <Link
               key={link.title}
-              color="primary"
-              variant="subtle"
-              component="a"
-              size="xl"
               href={link.href}
-              rightIcon={link.rightIcon}
-              target={link.target}
-              sx={theme => ({
-                height: 50,
-                fontFamily: "'Gabriela', serif",
-                [`@media (max-width: ${theme.breakpoints.xs})`]: {
-                  padding: '0 12px',
-                  margin: '4px 0',
-                  height: 34,
-                },
-              })}
+              passHref
             >
-              {link.title}
-            </Button>
+              <Button
+                key={link.title}
+                color="primary"
+                variant="subtle"
+                component="a"
+                size="xl"
+                rightIcon={link.rightIcon}
+                target={link.target}
+                sx={theme => ({
+                  height: 50,
+                  fontFamily: "'Gabriela', serif",
+                  [`@media (max-width: ${theme.breakpoints.xs})`]: {
+                    padding: '0 12px',
+                    margin: '4px 0',
+                    height: 34,
+                  },
+                })}
+              >
+                {link.title}
+              </Button>
+            </Link>
           ))}
           </Box>
         </Flex>

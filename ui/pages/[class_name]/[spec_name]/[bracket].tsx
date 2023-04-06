@@ -11,6 +11,7 @@ import TalentTreeExplorer from '@/components/tree/talent-tree-explorer';
 import Head from 'next/head';
 import SpecSelector from '@/components/layout/spec-selector';
 import SiteNavbar from '@/components/layout/site-navbar';
+import Link from 'next/link';
 
 const useStyles = createStyles(theme => ({
   contentGrid: {
@@ -99,28 +100,28 @@ export default function Bracket({
               {brackets.map(bracket => {
                 const isActive = bracket.value == router.query['bracket']
                 return (
-                  <Button
-                    key={bracket.value}
-                    component="a"
-                    styles={theme => ({
-                      root: {
-                        padding: '10px 16px',
-                        lineHeight: rem(22),
-                        border: 'none',
-                      },
-                      label: {
-                        color: isActive ? theme.colors.primary[0] : theme.colors.primary[5],
-                        fontSize: rem(22),
-                        fontWeight: 400,
-                        lineHeight: rem(22),
-                      },
-                    })}
-                    h={42}
-                    href={`/${classParam}/${specParam}/${bracket.value}`}
-                    variant={isActive ? 'filled' : 'subtle'}
-                  >
-                    {bracket.label}
-                  </Button>
+                  <Link key={bracket.value} href={`/${classParam}/${specParam}/${bracket.value}/`} passHref>
+                    <Button
+                      component="a"
+                      styles={theme => ({
+                        root: {
+                          padding: '10px 16px',
+                          lineHeight: rem(22),
+                          border: 'none',
+                        },
+                        label: {
+                          color: isActive ? theme.colors.primary[0] : theme.colors.primary[5],
+                          fontSize: rem(22),
+                          fontWeight: 400,
+                          lineHeight: rem(22),
+                        },
+                      })}
+                      h={42}
+                      variant={isActive ? 'filled' : 'subtle'}
+                    >
+                      {bracket.label}
+                    </Button>
+                  </Link>
                 );
               })}
             </Flex>

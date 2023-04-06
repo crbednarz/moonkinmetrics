@@ -8,6 +8,7 @@ import Layout from "@/components/layout/layout";
 import FilteringNodeGroup from "@/components/tree/filtering-node-group";
 import FilteringStatsPanel from "@/components/info-panel/filtering-stats-panel";
 import Head from "next/head";
+import Link from "next/link";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -180,14 +181,15 @@ export default function Talents({
             </br>
             Supports 2v2, 3v3, Solo Shuffle, and Rated Battlegrounds.
           </Text>
-          <Button
-            component="a"
-            href="/talents"
-            size="xl"
-            variant="filled"
-          >
-            Explore Talents
-          </Button>
+          <Link href="/talents" passHref>
+            <Button
+              component="a"
+              size="xl"
+              variant="filled"
+            >
+              Explore Talents
+            </Button>
+          </Link>
           <Divider my="xl" color="primary" w={200} />
           {guideData.map((guide, i) => (
             <DemoCard
