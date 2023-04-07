@@ -181,7 +181,7 @@ export default function Talents({
             </br>
             Supports 2v2, 3v3, Solo Shuffle, and Rated Battlegrounds.
           </Text>
-          <Link href="/talents" passHref>
+          <Link href="/talents" passHref legacyBehavior>
             <Button
               component="a"
               size="xl"

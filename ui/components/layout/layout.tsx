@@ -140,16 +140,17 @@ export default function Layout({
             <Link
               key={link.title}
               href={link.href}
+              target={link.target}
               passHref
+              legacyBehavior
             >
               <Button
                 key={link.title}
                 color="primary"
                 variant="subtle"
-                component="a"
                 size="xl"
+                component="a"
                 rightIcon={link.rightIcon}
-                target={link.target}
                 sx={theme => ({
                   height: 50,
                   fontFamily: "'Gabriela', serif",

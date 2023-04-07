@@ -100,7 +100,7 @@ export default function Bracket({
               {brackets.map(bracket => {
                 const isActive = bracket.value == router.query['bracket']
                 return (
-                  <Link key={bracket.value} href={`/${classParam}/${specParam}/${bracket.value}/`} passHref>
+                  <Link key={bracket.value} href={`/${classParam}/${specParam}/${bracket.value}/`} passHref legacyBehavior>
                     <Button
                       component="a"
                       styles={theme => ({
