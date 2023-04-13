@@ -13,13 +13,12 @@ NOTE: This project in beta and is likely to change quite a bit!
 At a high-level, development setup consists of:
 1. Run `api-scanner/cli.py talents` to collect information about talent trees.
 2. Run `api-scanner/cli.py -r <region> ladder <bracket>` to collect leaderboard data.
-3. Run the development server with `yarn dev` from the `ui/` directory.
+3. Run the development server with `npm run dev` from the `ui/` directory.
 
 ### Prerequisite
 
 - Python 3.10 (venv recommended)
 - Node
-- Yarn
 - [Battle.net API key](https://develop.battle.net/)
 
 ### Quick start
@@ -71,20 +70,20 @@ Simply install dependencies.
 
 ```
 cd ui
-yarn install
+npm install
 ```
 
 Then run the server.
 ```
-yarn dev
+npm run dev
 ```
 
 With that, the site is up and running. Changes made to source should be seen live on the development server at `http://localhost:3000/`.
 
 If you've finished scanning all brackets, you may also render the static pages with:
 ```
-yarn build
-yarn next export
+npm run build
+npm run export
 ```
 
 Which will dump the rendered site to the `ui/out/` directory.

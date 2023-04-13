@@ -33,10 +33,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '18'
-          cache: 'yarn'
-          cache-dependency-path: 'ui/yarn.lock'
+          cache: 'npm'
+          cache-dependency-path: 'ui/package-lock.json'
       - name: Install dependencies
-        run: yarn install
+        run: npm install
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -45,8 +45,8 @@ jobs:
       - name: Download WoW data
         run: aws s3 sync ${{ env.AWS_WOW_DATA_OBJECT}} ./wow/
       - name: Build UI
-        run: yarn build
+        run: npm run build
       - name: General static site
-        run: yarn next export
+        run: npm run export
       - name: Upload to S3
         run: aws s3 sync --delete ./out/ ${{ env.AWS_SITE_OBJECT }}
