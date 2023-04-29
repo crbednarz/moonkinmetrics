@@ -236,8 +236,8 @@ function InfoPanelDemoCard({
   let [resetCount, setResetCount] = useState<number>(0);
 
   const leaderboard = { entries: loadouts };
-  const rangeFilteredLoadouts = filterRatedLoadouts(loadouts, ratingFilter ? [ratingFilter] : []);
-  const filteredLoadouts = filterRatedLoadouts(rangeFilteredLoadouts, filters);
+  const ratingFilteredLoadouts = filterRatedLoadouts(loadouts, ratingFilter ? [ratingFilter] : []);
+  const filteredLoadouts = filterRatedLoadouts(ratingFilteredLoadouts, filters);
 
   const { classes } = useStyles();
   return (
@@ -254,8 +254,8 @@ function InfoPanelDemoCard({
       <Box className={classes.infoPanel}>
         <FilteringStatsPanel
           leaderboard={leaderboard}
-          rangeFilteredLoadouts={rangeFilteredLoadouts}
-          talentFilteredLoadouts={filteredLoadouts}
+          loadoutsInRatingRange={ratingFilteredLoadouts.length}
+          filteredLoadouts={filteredLoadouts}
           onRatingFilterChange={(min, max) => {
             setRatingFilter(() => (loadout: RatedLoadout) => {
               return loadout.rating >= min && loadout.rating <= max;

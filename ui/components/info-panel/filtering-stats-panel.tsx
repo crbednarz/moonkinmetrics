@@ -1,27 +1,48 @@
 import {Leaderboard, RatedLoadout} from "@/lib/pvp";
 import {
   Button,
+  createStyles,
   Flex,
-  RangeSlider,
-  RingProgress,
-  Stack,
+  NavLink,
+  Progress,
+  rem,
+  Tabs,
   Text,
 } from "@mantine/core";
-import { useState } from "react";
+import { IconChartHistogram, IconTrophy } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import RatingHistogram from "../info-panel/rating-histogram";
+import RatingFilterPanel from "./rating-filter-panel";
+import {colorToStyle, getProgressColor} from "@/lib/style-constants";
+
+const useStyles = createStyles(theme => ({
+  tabButton: {
+    flexGrow: 1,
+  },
+  tabs: {
+    flexBasis: '100%',
+  },
+  panel: {
+    '& > *': {
+      minWidth: rem(340),
+    },
+  },
+}));
 
 export interface FilteringStatsPanelProps {
   leaderboard: Leaderboard;
-  rangeFilteredLoadouts: RatedLoadout[];
-  talentFilteredLoadouts: RatedLoadout[];
+  loadoutsInRatingRange: number;
+  filteredLoadouts: RatedLoadout[];
   onRatingFilterChange: (minRating: number, maxRating: number) => void;
   onReset: () => void;
 }
 
+
 export default function FilteringStatsPanel({
   leaderboard,
-  rangeFilteredLoadouts,
-  talentFilteredLoadouts,
+  loadoutsInRatingRange,
+  filteredLoadouts,
   onRatingFilterChange,
   onReset,
 }: FilteringStatsPanelProps) {
@@ -29,67 +50,132 @@ export default function FilteringStatsPanel({
   const minRating = allLoadouts[allLoadouts.length - 1].rating;
   const maxRating = allLoadouts[0].rating;
   let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
+  let [activeTab, setActiveTab] = useState<string | null>('histogram');
 
-  const viewingPercent = Math.round(talentFilteredLoadouts.length / rangeFilteredLoadouts.length * 100);
+  const { classes } = useStyles();
 
-  const filterStep = 25;
-  const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
-  const maxFilterRating = Math.ceil(maxRating/filterStep)*filterStep;
-  const marks = [0, 0.25, 0.5, 0.75, 1.0].map(p => {
-    const rating = p * (maxFilterRating - minFilterRating) + minFilterRating;
-    return {
-      value: rating,
-      label: Math.round(rating),
-    };
-  });
+  useEffect(() => {
+    if (Cookies.get('activeTab')) {
+      setActiveTab(Cookies.get('activeTab')!);
+    }
+  }, []);
+
+  let percentage = 1;
+  if (loadoutsInRatingRange > 0) {
+    percentage = filteredLoadouts.length / loadoutsInRatingRange;
+  }
+  let rangeText = `${ratingFilterRange[0]} - ${ratingFilterRange[1]}`;
+  if (ratingFilterRange[0] !== minRating && ratingFilterRange[1] >= maxRating) {
+    rangeText = `${ratingFilterRange[0]}+`;
+  }
+
+  const stats = (
+    <Flex gap={15} direction="column" w="100%">
+      <div>
+        <Text size="xl" align="center">
+          Viewing{' '}
+          <Text component="span" weight={500} color={colorToStyle(getProgressColor(percentage))}>
+            {Math.round(percentage * 100)}%
+          </Text>
+          {' '}of players at {rangeText}
+        </Text>
+      </div>
+      <Progress value={percentage * 100}/>
+      <Flex justify="space-between">
+        <StatFact title="Total Loadouts" value={allLoadouts.length} />
+        <StatFact title={`${rangeText} Loadouts`} value={loadoutsInRatingRange} />
+        <StatFact title={`Visible Loadouts`} value={filteredLoadouts.length} />
+      </Flex>
+    </Flex>
+  );
 
   return (
-    <Stack>
-      <Flex align="center" gap={10}>
-        <RingProgress
-          size={80}
-          thickness={8}
-          sections={[{ value: viewingPercent, color: 'primary' }]}
-          label={
-            <Text color="primary" weight={700} align="center" size="m">
-              {viewingPercent}%
-            </Text>
+    <Flex
+      className={classes.panel}
+      wrap="wrap"
+      justify="center"
+      align="center"
+      gap={25}
+    >
+      <Tabs
+        value={activeTab}
+        onTabChange={value => {
+          if (value) {
+            Cookies.set('activeTab', value.toString());
+            setActiveTab(value);
           }
-        />
-        <Text size="l">
-          {(rangeFilteredLoadouts.length != talentFilteredLoadouts.length) ? (
-            <><strong>{talentFilteredLoadouts.length}</strong> of <strong>{rangeFilteredLoadouts.length}</strong> loadouts use selected talents.</>
-          ) : (
-            <>Viewing <strong>{rangeFilteredLoadouts.length}</strong> loadouts.</>
-          )}
-        </Text>
-      </Flex>
-      <RatingHistogram
-        allRatings={allLoadouts.map(loadout => loadout.rating)}
-        filteredRatings={talentFilteredLoadouts.map(loadout => loadout.rating)}
-        minRating={ratingFilterRange[0]}
-        maxRating={ratingFilterRange[1]}
-      />
-      <RangeSlider 
-        min={minFilterRating}
-        max={maxFilterRating}
-        step={filterStep}
-        defaultValue={[minFilterRating, maxFilterRating]}
-        onChange={value => {
-          onRatingFilterChange(value[0], value[1]);
-          setRatingFilterRange(value);
         }}
-        labelAlwaysOn
-        marks={marks}
-        my={'1.5rem'}
+        className={classes.tabs}
+      >
+        <Tabs.List>
+          <Tabs.Tab value="histogram" className={classes.tabButton} icon={<IconChartHistogram />}>Histogram</Tabs.Tab>
+          <Tabs.Tab value="players" className={classes.tabButton} icon={<IconTrophy />}>Top Players</Tabs.Tab>
+        </Tabs.List>
+        <Tabs.Panel value="histogram" w="100%">
+          <RatingHistogram
+            allRatings={allLoadouts.map(loadout => loadout.rating)}
+            filteredRatings={filteredLoadouts.map(loadout => loadout.rating)}
+            minRating={ratingFilterRange[0]}
+            maxRating={ratingFilterRange[1]}
+          />
+        </Tabs.Panel>
+        <Tabs.Panel value="players" w="100%">
+          {filteredLoadouts.slice(0, 5).map((loadout, i) => (
+            <NavLink
+              key={i}
+              sx={{
+                alignContent: 'center',
+                alignItems: 'stretch',
+                '& > span': {
+                  alignSelf: 'unset',
+                  'webkit-align-self': 'unset',
+                },
+              }}
+              icon={loadout.rating}
+              label={loadout.player?.name}
+              description={loadout.player?.realm.name}
+            />
+          ))}
+        </Tabs.Panel>
+      </Tabs>
+      <RatingFilterPanel
+        leaderboard={leaderboard}
+        onRatingFilterChange={(minRating, maxRating) => {
+          setRatingFilterRange([minRating, maxRating]);
+          onRatingFilterChange(minRating, maxRating);
+        }}
       />
+      {stats}
+      <Button onClick={onReset}>Reset All</Button>
       {leaderboard.timestamp && (
-        <Text italic={true} color="primary.9" opacity={0.5} size="sm">
-          US scan time: {new Date(leaderboard.timestamp.us).toISOString()}<br/>
-          EU scan time: {new Date(leaderboard.timestamp.eu).toISOString()}
+        <Text color="primary.9" opacity={0.5} size="sm" w="100%" align="center">
+          Last scanned:<br/>
+          US: {new Date(leaderboard.timestamp.us).toISOString()}<br/>
+          EU: {new Date(leaderboard.timestamp.eu).toISOString()}
         </Text>
       )}
-      <Button onClick={onReset}>Reset</Button>
-    </Stack>
+    </Flex>
+
+  );
+}
+
+
+export function StatFact({
+  title,
+  value,
+}: {
+  title: string;
+  value: string | number;
+}) {
+  
+  return (
+    <div>
+      <Text c="dimmed" tt="uppercase" fw={700} fz="xs" maw={rem(75)}>
+        {title}
+      </Text>
+      <Text fw={700} fz="xl">
+        {value}
+      </Text>
+    </div>
   );
 }

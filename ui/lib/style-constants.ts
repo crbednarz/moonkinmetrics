@@ -75,23 +75,21 @@ export function createThemeColors(
 }
 
 export const globalColors = (() => {
-  const colors: {[key: string]: Color[]} = {};
+  const colors: {[key: string]: Color[]} = {
+    dark: createShades(
+      { r: 23, g: 28, b: 34 }, 7,
+      { r: 175, g: 191, b: 190 }, 0,
+    ),
+    primary: createShades(
+      { r: 118, g: 153, b: 147 }
+    ),
+    highlight: createShades(
+      { r: 100, g: 175, b: 125 }
+    ),
+  };
   for (let key in CLASS_COLORS) {
     colors[key] = createShades(CLASS_COLORS[key]);
   }
-
-  colors['dark'] = createShades(
-    {r: 23, g: 28, b: 34}, 7,
-    {r: 175, g: 191, b: 190}, 0,
-  );
-
-  colors['primary'] = createShades(
-    {r: 118, g: 153, b: 147}
-  );
-
-  colors['hightlight'] = createShades(
-      {r: 100, g: 175, b: 125}
-  );
 
   return colors;
 })();
@@ -126,7 +124,7 @@ export function colorToStyle(color: Color, alpha: number = 1.0): string {
 
 export function getProgressColor(progress: number) {
   const lowColor = globalColors['dark'][5];
-  const highColor = globalColors['hightlight'][9]; 
+  const highColor = globalColors['highlight'][9]; 
   return lerpColors(lowColor, highColor, progress);
 }
 
@@ -136,7 +134,7 @@ export function getUsageColor(usage: number) {
       g: 55,
       b: 0,
     };
-    const highColor = lerpColors(lowColor, globalColors.hightlight[9], usage);
+    const highColor = lerpColors(lowColor, globalColors.highlight[9], usage);
     return lerpColors(lowColor, highColor, usage);
 }
 
@@ -149,7 +147,7 @@ export function getTalentColors(usage: number, filterMode: TalentFilterMode) {
       r: 200,
       g: 50,
       b: 50,
-    };
+    }
     borderStrength = 0.5;
     bgStrength = 0.3;
 
