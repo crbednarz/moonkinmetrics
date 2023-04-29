@@ -15,7 +15,7 @@ const useStyles = createStyles(theme => ({
     maxWidth: '100%',
     gridTemplateColumns: '[content] min-content [side-bar] min-content',
     gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
-    gap: 10,
+    gap: 30,
     [`@media (max-width: ${theme.breakpoints.md})`]: {
       display: 'flex',
       flexDirection: 'column',
@@ -112,8 +112,8 @@ export default function TalentTreeExplorer({
   const infoPanelContents = (
     <FilteringStatsPanel
       leaderboard={leaderboard}
-      rangeFilteredLoadouts={allTalentsLoadouts}
-      talentFilteredLoadouts={loadouts}
+      filteredLoadouts={loadouts}
+      loadoutsInRatingRange={allTalentsLoadouts.length}
       onRatingFilterChange={updateRatingFilter}
       onReset={reset}
     />
@@ -146,7 +146,7 @@ export default function TalentTreeExplorer({
           </Button>
         </Menu.Target>
         <Menu.Dropdown className={classes.infoMenu}>
-          {statsOpened && infoPanelContents}
+          {infoPanelContents}
         </Menu.Dropdown>
       </Menu>
       <Flex className={classes.trees}>

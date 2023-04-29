@@ -2,8 +2,6 @@ import { createStyles, rem } from '@mantine/core';
 
 const useStyles = createStyles(theme => ({
   wrapper: {
-    marginLeft: rem(20),
-    marginRight: rem(20),
     height: 'auto',
     [`@media (max-width: ${theme.breakpoints.md})`]: {
       margin: 0,
