@@ -1,10 +1,10 @@
 import {Leaderboard, RatedLoadout} from "@/lib/pvp";
 import {
+  Box,
   Button,
   createStyles,
   Flex,
   NavLink,
-  Progress,
   rem,
   Tabs,
   Text,
@@ -15,8 +15,9 @@ import Cookies from "js-cookie";
 import RatingHistogram from "../info-panel/rating-histogram";
 import RatingFilterPanel from "./rating-filter-panel";
 import {colorToStyle, getProgressColor} from "@/lib/style-constants";
+import moment from "moment";
 
-const useStyles = createStyles(theme => ({
+const useStyles = createStyles(() => ({
   tabButton: {
     flexGrow: 1,
   },
@@ -71,16 +72,6 @@ export default function FilteringStatsPanel({
 
   const stats = (
     <Flex gap={15} direction="column" w="100%">
-      <div>
-        <Text size="xl" align="center">
-          Viewing{' '}
-          <Text component="span" weight={500} color={colorToStyle(getProgressColor(percentage))}>
-            {Math.round(percentage * 100)}%
-          </Text>
-          {' '}of players at {rangeText}
-        </Text>
-      </div>
-      <Progress value={percentage * 100}/>
       <Flex justify="space-between">
         <StatFact title="Total Loadouts" value={allLoadouts.length} />
         <StatFact title={`${rangeText} Loadouts`} value={loadoutsInRatingRange} />
@@ -138,20 +129,29 @@ export default function FilteringStatsPanel({
           ))}
         </Tabs.Panel>
       </Tabs>
-      <RatingFilterPanel
-        leaderboard={leaderboard}
-        onRatingFilterChange={(minRating, maxRating) => {
-          setRatingFilterRange([minRating, maxRating]);
-          onRatingFilterChange(minRating, maxRating);
-        }}
-      />
+      <Box w="100%">
+        <Text size="xl" align="center" w="100%">
+          Viewing{' '}
+          <Text component="span" weight={500} color={colorToStyle(getProgressColor(percentage))}>
+            {Math.round(percentage * 100)}%
+          </Text>
+          {' '}of players at
+        </Text>
+        <RatingFilterPanel
+          leaderboard={leaderboard}
+          onRatingFilterChange={(minRating, maxRating) => {
+            setRatingFilterRange([minRating, maxRating]);
+            onRatingFilterChange(minRating, maxRating);
+          }}
+        />
+      </Box>
       {stats}
-      <Button onClick={onReset}>Reset All</Button>
+      <Button onClick={onReset} color="dark.4" w="100%">Reset All</Button>
       {leaderboard.timestamp && (
-        <Text color="primary.9" opacity={0.5} size="sm" w="100%" align="center">
-          Last scanned:<br/>
-          US: {new Date(leaderboard.timestamp.us).toISOString()}<br/>
-          EU: {new Date(leaderboard.timestamp.eu).toISOString()}
+        <Text color="dimmed" opacity={0.5} size="sm" w="100%" align="center">
+          Updated
+          US: {moment(leaderboard.timestamp.us).fromNow()} | 
+          EU: {moment(leaderboard.timestamp.eu).fromNow()}
         </Text>
       )}
     </Flex>

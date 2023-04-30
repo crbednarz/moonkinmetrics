@@ -18,10 +18,6 @@ const useStyles = createStyles(theme => ({
     flexBasis: '100%',
     overflow: 'visible',
     textAlign: 'center',
-    background: theme.colors.dark[6],
-    padding: 15,
-    paddingTop: 5,
-    borderRadius: 5,
   },
   ratingFilterPanelInner: {
   },
@@ -66,8 +62,10 @@ export default function RatingFilterPanel({
 
   return (
     <Box className={classes.ratingFilterPanel}>
-      <Text size="lg" weight={500}>Filter By Rating</Text>
       <Box className={classes.ratingFilterPanelInner}>
+        <Text size={rem(30)}>
+          {ratingFilterRange[0]} - {ratingFilterRange[1]}
+        </Text>
         <RangeSlider 
           min={minFilterRating}
           max={maxFilterRating}
@@ -77,9 +75,10 @@ export default function RatingFilterPanel({
             onRatingFilterChange(value[0], value[1]);
             setRatingFilterRange(value);
           }}
-          labelAlwaysOn
+          label={null}
           marks={marks}
-          my={'2.5rem'}
+          mt={rem(5)}
+          mb={'2rem'}
           mx={rem(15)}
         />
         <Flex gap={5}>
