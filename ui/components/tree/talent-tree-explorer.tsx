@@ -15,7 +15,8 @@ const useStyles = createStyles(theme => ({
     maxWidth: '100%',
     gridTemplateColumns: '[content] min-content [side-bar] min-content',
     gridTemplateRows: '[top-bar] min-content [content] auto [pvp-talents] auto',
-    gap: 30,
+    columnGap: 30,
+    rowGap: 10,
     [`@media (max-width: ${theme.breakpoints.md})`]: {
       display: 'flex',
       flexDirection: 'column',
