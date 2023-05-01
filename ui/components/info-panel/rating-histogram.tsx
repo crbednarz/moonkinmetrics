@@ -58,6 +58,7 @@ export default function RatingHistogram({
   const chartColor = colorToStyle(globalColors.primary[5]);
   const options: ChartOptions<"bar"> = {
     responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         type: 'linear',

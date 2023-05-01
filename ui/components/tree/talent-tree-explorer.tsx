@@ -62,8 +62,8 @@ const useStyles = createStyles(theme => ({
     },
   },
   infoMenu: {
-    padding: 20,
-    width: rem(390),
+    padding: 15,
+    minWidth: rem(390),
   },
 }));
 
@@ -128,7 +128,7 @@ export default function TalentTreeExplorer({
       <Menu
         shadow="xl"
         position="bottom"
-        width="390px"
+        width="target"
         opened={statsOpened}
         onChange={setStatsOpened}
       >

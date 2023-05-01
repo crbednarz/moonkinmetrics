@@ -22,11 +22,15 @@ const useStyles = createStyles(() => ({
     flexGrow: 1,
   },
   tabs: {
-    flexBasis: '100%',
+  },
+  tabPanel: {
+    minHeight: rem(300),
+
   },
   panel: {
     '& > *': {
       minWidth: rem(340),
+      flex: '1 1 0px',
     },
   },
 }));
@@ -86,7 +90,8 @@ export default function FilteringStatsPanel({
       wrap="wrap"
       justify="center"
       align="center"
-      gap={25}
+      direction="row"
+      gap={20}
     >
       <Tabs
         value={activeTab}
@@ -102,7 +107,7 @@ export default function FilteringStatsPanel({
           <Tabs.Tab value="histogram" className={classes.tabButton} icon={<IconChartHistogram />}>Histogram</Tabs.Tab>
           <Tabs.Tab value="players" className={classes.tabButton} icon={<IconTrophy />}>Top Players</Tabs.Tab>
         </Tabs.List>
-        <Tabs.Panel value="histogram" w="100%">
+        <Tabs.Panel value="histogram" className={classes.tabPanel}>
           <RatingHistogram
             allRatings={allLoadouts.map(loadout => loadout.rating)}
             filteredRatings={filteredLoadouts.map(loadout => loadout.rating)}
@@ -110,7 +115,7 @@ export default function FilteringStatsPanel({
             maxRating={ratingFilterRange[1]}
           />
         </Tabs.Panel>
-        <Tabs.Panel value="players" w="100%">
+        <Tabs.Panel value="players" className={classes.tabPanel}>
           {filteredLoadouts.slice(0, 5).map((loadout, i) => (
             <NavLink
               key={i}
@@ -129,31 +134,41 @@ export default function FilteringStatsPanel({
           ))}
         </Tabs.Panel>
       </Tabs>
-      <Box w="100%">
-        <Text size="xl" align="center" w="100%">
-          Viewing{' '}
-          <Text component="span" weight={500} color={colorToStyle(getProgressColor(percentage))}>
-            {Math.round(percentage * 100)}%
+      <Flex
+        wrap="wrap"
+        justify="center"
+        align="center"
+        direction="column"
+        gap={20}
+      >
+        <Box w="100%">
+          <Text size="lg" align="center">
+            Viewing{' '}
+            <Text component="span" weight={500} color={colorToStyle(getProgressColor(percentage))}>
+              {Math.round(percentage * 100)}%
+            </Text>
+            {' '}of players at {rangeText}
           </Text>
-          {' '}of players at
-        </Text>
-        <RatingFilterPanel
-          leaderboard={leaderboard}
-          onRatingFilterChange={(minRating, maxRating) => {
-            setRatingFilterRange([minRating, maxRating]);
-            onRatingFilterChange(minRating, maxRating);
-          }}
-        />
-      </Box>
-      {stats}
-      <Button onClick={onReset} color="dark.4" w="100%">Reset All</Button>
-      {leaderboard.timestamp && (
-        <Text color="dimmed" opacity={0.5} size="sm" w="100%" align="center">
-          Updated
-          US: {moment(leaderboard.timestamp.us).fromNow()} | 
-          EU: {moment(leaderboard.timestamp.eu).fromNow()}
-        </Text>
-      )}
+          <RatingFilterPanel
+            leaderboard={leaderboard}
+            onRatingFilterChange={(minRating, maxRating) => {
+              setRatingFilterRange([minRating, maxRating]);
+              onRatingFilterChange(minRating, maxRating);
+            }}
+          />
+        </Box>
+        {stats}
+        <Box w="100%">
+          <Button onClick={onReset} color="dark.4" w="100%" m={0}>Reset All</Button>
+          {leaderboard.timestamp && (
+            <Text color="dimmed" size="sm" align="center" mt={rem(5)}>
+              Updated
+              US: {moment(leaderboard.timestamp.us).fromNow()} | 
+              EU: {moment(leaderboard.timestamp.eu).fromNow()}
+            </Text>
+          )}
+        </Box>
+      </Flex>
     </Flex>
 
   );
@@ -167,7 +182,7 @@ export function StatFact({
   title: string;
   value: string | number;
 }) {
-  
+
   return (
     <div>
       <Text c="dimmed" tt="uppercase" fw={700} fz="xs" maw={rem(75)}>

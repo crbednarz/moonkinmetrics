@@ -63,9 +63,6 @@ export default function RatingFilterPanel({
   return (
     <Box className={classes.ratingFilterPanel}>
       <Box className={classes.ratingFilterPanelInner}>
-        <Text size={rem(30)}>
-          {ratingFilterRange[0]} - {ratingFilterRange[1]}
-        </Text>
         <RangeSlider 
           min={minFilterRating}
           max={maxFilterRating}
