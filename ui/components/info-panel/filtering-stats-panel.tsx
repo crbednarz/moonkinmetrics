@@ -41,6 +41,7 @@ export interface FilteringStatsPanelProps {
   filteredLoadouts: RatedLoadout[];
   onRatingFilterChange: (minRating: number, maxRating: number) => void;
   onReset: () => void;
+  showTopPlayers?: boolean;
 }
 
 
@@ -50,6 +51,7 @@ export default function FilteringStatsPanel({
   filteredLoadouts,
   onRatingFilterChange,
   onReset,
+  showTopPlayers = true,
 }: FilteringStatsPanelProps) {
   const allLoadouts = leaderboard.entries;
   const minRating = allLoadouts[allLoadouts.length - 1].rating;
@@ -60,10 +62,13 @@ export default function FilteringStatsPanel({
   const { classes } = useStyles();
 
   useEffect(() => {
+    if (!showTopPlayers)
+      return;
+
     if (Cookies.get('activeTab')) {
       setActiveTab(Cookies.get('activeTab')!);
     }
-  }, []);
+  }, [showTopPlayers]);
 
   let percentage = 1;
   if (loadoutsInRatingRange > 0) {
@@ -89,7 +94,7 @@ export default function FilteringStatsPanel({
       className={classes.panel}
       wrap="wrap"
       justify="center"
-      align="center"
+      align="stretch"
       direction="row"
       gap={20}
     >
@@ -105,7 +110,9 @@ export default function FilteringStatsPanel({
       >
         <Tabs.List>
           <Tabs.Tab value="histogram" className={classes.tabButton} icon={<IconChartHistogram />}>Histogram</Tabs.Tab>
-          <Tabs.Tab value="players" className={classes.tabButton} icon={<IconTrophy />}>Top Players</Tabs.Tab>
+          {showTopPlayers && (
+            <Tabs.Tab value="players" className={classes.tabButton} icon={<IconTrophy />}>Top Players</Tabs.Tab>
+          )}
         </Tabs.List>
         <Tabs.Panel value="histogram" className={classes.tabPanel}>
           <RatingHistogram
@@ -115,31 +122,33 @@ export default function FilteringStatsPanel({
             maxRating={ratingFilterRange[1]}
           />
         </Tabs.Panel>
-        <Tabs.Panel value="players" className={classes.tabPanel}>
-          {filteredLoadouts.slice(0, 5).map((loadout, i) => (
-            <NavLink
-              key={i}
-              sx={{
-                alignContent: 'center',
-                alignItems: 'stretch',
-                '& > span': {
-                  alignSelf: 'unset',
-                  'webkit-align-self': 'unset',
-                },
-              }}
-              icon={loadout.rating}
-              label={loadout.player?.name}
-              description={loadout.player?.realm.name}
-            />
-          ))}
-        </Tabs.Panel>
+        {showTopPlayers && (
+          <Tabs.Panel value="players" className={classes.tabPanel}>
+            {filteredLoadouts.slice(0, 5).map((loadout, i) => (
+              <NavLink
+                key={i}
+                sx={{
+                  alignContent: 'center',
+                  alignItems: 'stretch',
+                  '& > span': {
+                    alignSelf: 'unset',
+                    'webkit-align-self': 'unset',
+                  },
+                }}
+                icon={loadout.rating}
+                label={loadout.player?.name}
+                description={loadout.player?.realm.name}
+              />
+            ))}
+          </Tabs.Panel>
+        )}
       </Tabs>
       <Flex
         wrap="wrap"
-        justify="center"
-        align="center"
+        justify="space-evenly"
         direction="column"
-        gap={20}
+        mih={rem(250)}
+        mah={rem(350)}
       >
         <Box w="100%">
           <Text size="lg" align="center">
