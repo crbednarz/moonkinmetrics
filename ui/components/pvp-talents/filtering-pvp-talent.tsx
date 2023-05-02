@@ -20,6 +20,7 @@ interface FilteringPvpTalentProps {
   filterMode: TalentFilterMode;
   onSelect: (talent: Talent) => void;
   onDeselect: (talent: Talent) => void;
+  highlightTalent?: number;
 }
 
 export default function FilteringPvpTalent({
@@ -28,6 +29,7 @@ export default function FilteringPvpTalent({
   filterMode,
   onSelect,
   onDeselect,
+  highlightTalent,
 }: FilteringPvpTalentProps) {
   const { classes } = useStyles();
   const { borderColor, bgColor } = getTalentColors(usage.percent, filterMode);
@@ -50,6 +52,7 @@ export default function FilteringPvpTalent({
         onTalentSelect={onSelect}
         onTalentDeselect={onDeselect}
         tooltipDirection="top"
+        highlightTalent={highlightTalent}
       />
     </div>
   );

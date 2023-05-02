@@ -201,6 +201,7 @@ export default function TalentTreeExplorer({
           talents={tree.pvpTalents}
           onFiltersChange={filters => setPvpFilters(filters) }
           loadouts={loadouts}
+          highlight={highlightedLoadout}
         />
       </div>
     </div>
