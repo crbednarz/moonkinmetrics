@@ -153,7 +153,7 @@ export default function FilteringStatsPanel({
                 label={loadout.player?.name}
                 description={loadout.player?.realm.name}
                 onClick={() => {
-                  onHighlightLoadout(loadout);
+                  onHighlightLoadout??(loadout);
                 }}
                 active={highlightLoadout === loadout}
                 rightSection={
@@ -185,6 +185,8 @@ export default function FilteringStatsPanel({
           <RatingFilterPanel
             leaderboard={leaderboard}
             onRatingFilterChange={onRatingFilterChange}
+            minRating={minRating}
+            maxRating={maxRating}
           />
         </Box>
         {stats}

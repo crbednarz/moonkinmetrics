@@ -1,4 +1,5 @@
-import { getProgressColor } from '@/lib/style-constants';
+import {RatedLoadout} from '@/lib/pvp';
+import { getProgressColor, globalColors } from '@/lib/style-constants';
 import { TalentNode } from '@/lib/talents';
 import { NodeUsageMap } from '@/lib/usage';
 
@@ -9,6 +10,7 @@ interface Line {
   y2: number,
   width: number,
   color: string,
+  opacity: number,
 }
 
 interface PositionedNode {
@@ -20,11 +22,13 @@ interface PositionedNode {
 interface SubTreeConnectionSvgProps {
   positionedNodes: PositionedNode[],
   usageMap: NodeUsageMap,
+  highlight?: RatedLoadout,
 }
 
 export default function SubTreeConnectionSvg({
   positionedNodes,
   usageMap,
+  highlight,
 }: SubTreeConnectionSvgProps) {
   let positionMap = positionedNodes.reduce<{[key: number]: {x: number, y: number}}>((map, positionedNode) => {
     const node = positionedNode.node;
@@ -38,6 +42,14 @@ export default function SubTreeConnectionSvg({
   let lines: Line[] = [];
 
   for (let {x, y, node} of positionedNodes) {
+    let highlightSelf = false;
+    for (let talent of node.talents) {
+      if (highlight?.talents[talent.id]) {
+        highlightSelf = true;
+        break;
+      }
+    }
+
     for (let lockedById of node.lockedBy) {
       if (!(lockedById in positionMap))
         continue;
@@ -49,7 +61,20 @@ export default function SubTreeConnectionSvg({
       const usage = usageMap[node.id];
       const parentUsage = usageMap[lockedById];
       const colorDelta = Math.min(parentUsage.percent, usage.percent);
-      const color = getProgressColor(colorDelta);
+      let color = getProgressColor(colorDelta);
+      let opacity = 0.5;
+
+      let highlightParent = false;
+      for (let talent of Object.keys(parentUsage.talents)) {
+        if (highlight?.talents[+talent]) {
+          highlightParent = true;
+          break;
+        }
+      }
+      if (highlight && highlightSelf && highlightParent) {
+        color = globalColors.highlight[5];
+        opacity = 0.6;
+      }
       
       lines.push({
         x1: x,
@@ -58,6 +83,7 @@ export default function SubTreeConnectionSvg({
         y2: otherY,
         width: 3,
         color: `rgb(${color.r}, ${color.g}, ${color.b})`,
+        opacity,
       });
     }
   }
@@ -80,7 +106,7 @@ export default function SubTreeConnectionSvg({
           x2={line.x2}
           y2={line.y2}
           strokeWidth={line.width}
-          opacity={0.5}
+          opacity={line.opacity}
           stroke={line.color}
         />
       ))}

@@ -100,6 +100,7 @@ export default function FilteringNodeGroupView({
             node,
           }))}
           usageMap={usageMap}
+          highlight={highlight}
         />
         {nodes.map((node, index) => {
           let highlightTalent;

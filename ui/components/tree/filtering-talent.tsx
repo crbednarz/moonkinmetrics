@@ -29,14 +29,15 @@ const useStyles = createStyles(theme => ({
     borderRadius: theme.radius.sm,
     overflow: 'hidden',
     [`&.${getStylesRef('highlight')}`]: {
-      border: `2px solid ${theme.colors.blue[5]}`,
+      border: `2px solid ${theme.colors.highlight[5]}`,
     },
   },
   highlight: {
     ref: getStylesRef('highlight'),
   },
   icon: {
-    height: 56,
+    width: '100%',
+    height: '100%',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
   },

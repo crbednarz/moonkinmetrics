@@ -89,6 +89,10 @@ export const globalColors = (() => {
     horde: createShades(
       { r: 175, g: 55, b: 0 }
     ),
+    highlight: createShades(
+      { r: 24, g: 100, b: 171 }, 9,
+      { r: 51, g: 154, b: 240 }, 5,
+    ),
     alliance: createShades(
       { r: 0, g: 112, b: 221 }
     ),
