@@ -17,12 +17,14 @@ interface FilteringPvpTalentListProps {
   talents: Talent[]
   loadouts: RatedLoadout[];
   onFiltersChange: (filters: LoadoutFilter[]) => void;
+  highlight?: RatedLoadout,
 }
 
 export default function FilteringPvpTalentList({
   talents,
   loadouts,
   onFiltersChange,
+  highlight,
 }: FilteringPvpTalentListProps) {
   let [talentFilters, setTalentFilters] = useState<TalentFilterMap>({});
 
@@ -46,6 +48,11 @@ export default function FilteringPvpTalentList({
       {talents.map(talent => {
         let usage = usageMap[talent.id];
 
+        let highlightTalent;
+        if (highlight && highlight.pvpTalents.includes(talent.id)) {
+          highlightTalent = talent.id;
+        }
+
         return (
           <FilteringPvpTalent
             key={talent.id}
@@ -54,6 +61,7 @@ export default function FilteringPvpTalentList({
             onSelect={(talent)=>{talentFilterSelected(talent)}}
             onDeselect={(talent)=>{talentFilterDeselected(talent)}}
             usage={usage}
+            highlightTalent={highlightTalent}
           />
         );
       })}
