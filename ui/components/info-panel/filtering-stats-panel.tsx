@@ -88,8 +88,8 @@ export default function FilteringStatsPanel({
   }
 
   const topPlayers = filteredLoadouts.slice(0, 5);
-  if (highlightLoadout && !topPlayers.includes(highlightLoadout)) {
-    onHighlightLoadout??(null);
+  if (onHighlightLoadout && highlightLoadout && !topPlayers.includes(highlightLoadout)) {
+    onHighlightLoadout(undefined);
   }
 
   const stats = (
@@ -153,11 +153,12 @@ export default function FilteringStatsPanel({
                 label={loadout.player?.name}
                 description={loadout.player?.realm.name}
                 onClick={() => {
-                  onHighlightLoadout??(loadout);
+                  if (onHighlightLoadout)
+                    onHighlightLoadout(loadout);
                 }}
                 active={highlightLoadout === loadout}
                 rightSection={
-                  <Link href={armoryUrl(loadout)} target="_blank">
+                  <Link href={armoryUrl(loadout)} target="_blank" onClick={e => e.stopPropagation()}>
                     <IconExternalLink />
                   </Link>
                 }
