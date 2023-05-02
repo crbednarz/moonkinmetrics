@@ -33,6 +33,7 @@ interface FilteringSubTreeViewProps {
   onFiltersChange: (filters: LoadoutFilter[]) => void;
   width: number,
   height: number,
+  highlight?: RatedLoadout,
 };
 
 export default function FilteringSubTreeView({
@@ -41,6 +42,7 @@ export default function FilteringSubTreeView({
   onFiltersChange,
   width,
   height,
+  highlight,
 }: FilteringSubTreeViewProps) {
   const { classes } = useStyles();
 
@@ -57,6 +59,7 @@ export default function FilteringSubTreeView({
           nodes={nodes}
           loadouts={loadouts}
           onFiltersChange={onFiltersChange}
+          highlight={highlight}
         />
       </div>
     </div>

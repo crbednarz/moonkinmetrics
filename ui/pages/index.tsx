@@ -233,6 +233,10 @@ function InfoPanelDemoCard({
 }) {
   let [filters, setFilters] = useState<LoadoutFilter[]>([]);
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
+
+  const minRating = loadouts[loadouts.length - 1].rating;
+  const maxRating = loadouts[0].rating;
+  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
   let [resetCount, setResetCount] = useState<number>(0);
 
   const leaderboard = { entries: loadouts };
@@ -256,7 +260,10 @@ function InfoPanelDemoCard({
           leaderboard={leaderboard}
           loadoutsInRatingRange={ratingFilteredLoadouts.length}
           filteredLoadouts={filteredLoadouts}
+          minRating={ratingFilterRange[0]}
+          maxRating={ratingFilterRange[1]}
           onRatingFilterChange={(min, max) => {
+            setRatingFilterRange([min, max]);
             setRatingFilter(() => (loadout: RatedLoadout) => {
               return loadout.rating >= min && loadout.rating <= max;
             });

@@ -27,6 +27,7 @@ interface FilteringTalentNodeProps extends React.HTMLAttributes<HTMLDivElement> 
   filterMode: TalentFilterMode;
   onTalentSelect: (talentId: number) => void;
   onTalentDeselect: (talentId: number) => void;
+  highlightTalent?: number;
 }
 
 export default function FilteringTalentNode({
@@ -36,6 +37,7 @@ export default function FilteringTalentNode({
   filterMode,
   onTalentSelect,
   onTalentDeselect,
+  highlightTalent,
   ...restProps
 }: FilteringTalentNodeProps) {
   const { classes } = useStyles();
@@ -84,6 +86,7 @@ export default function FilteringTalentNode({
               onTalentSelect={talent => onTalentSelect(talent.id)}
               onTalentDeselect={talent => onTalentDeselect(talent.id)}
               tooltipDirection="bottom"
+              highlightTalent={highlightTalent}
             />
           );
         })}

@@ -7,7 +7,7 @@ import { getNodeUsage } from '@/lib/usage';
 import { createStyles } from '@mantine/core';
 import SubTreeConnectionSvg from './sub-tree-connection-svg';
 
-const useStyle = createStyles(() => ({
+const useStyle = createStyles(theme => ({
   nodeGroup: {
   },
   node: {
@@ -32,12 +32,14 @@ interface FilteringNodeGroupProps {
   nodes: TalentNode[];
   loadouts: RatedLoadout[];
   onFiltersChange: (filters: LoadoutFilter[]) => void;
+  highlight?: RatedLoadout,
 };
 
 export default function FilteringNodeGroupView({
   nodes,
   loadouts,
   onFiltersChange,
+  highlight,
 }: FilteringNodeGroupProps) {
   const { classes } = useStyle();
   let [nodeFilters, setNodeFilters] = useState<NodeFilterMap>({});
@@ -100,6 +102,14 @@ export default function FilteringNodeGroupView({
           usageMap={usageMap}
         />
         {nodes.map((node, index) => {
+          let highlightTalent;
+          for (let talent of node.talents) {
+            if (highlight?.talents[talent.id]) {
+              highlightTalent = talent.id;
+              break;
+            }
+          }
+
           return (
             <FilteringTalentNode
               key={node.id}
@@ -114,6 +124,7 @@ export default function FilteringNodeGroupView({
               filterMode={nodeFilters[node.id]?.mode ?? TalentFilterMode.None}
               onTalentSelect={talentId => talentFilterSelected(node, talentId)}
               onTalentDeselect={() => talentFilterDeselected(node)}
+              highlightTalent={highlightTalent}
             />
           )
         })}
