@@ -1,4 +1,4 @@
-import {Leaderboard, RatedLoadout} from "@/lib/pvp";
+import {Faction, Leaderboard, RatedLoadout} from "@/lib/pvp";
 import {
   Box,
   Button,
@@ -9,13 +9,14 @@ import {
   Tabs,
   Text,
 } from "@mantine/core";
-import { IconChartHistogram, IconTrophy } from "@tabler/icons-react";
+import { IconChartHistogram, IconExternalLink, IconTrophy } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import RatingHistogram from "../info-panel/rating-histogram";
 import RatingFilterPanel from "./rating-filter-panel";
 import {colorToStyle, getProgressColor} from "@/lib/style-constants";
 import moment from "moment";
+import Link from "next/link";
 
 const useStyles = createStyles(() => ({
   tabButton: {
@@ -82,9 +83,9 @@ export default function FilteringStatsPanel({
   const stats = (
     <Flex gap={15} direction="column" w="100%">
       <Flex justify="space-between">
-        <StatFact title="Total Loadouts" value={allLoadouts.length} />
-        <StatFact title={`${rangeText} Loadouts`} value={loadoutsInRatingRange} />
-        <StatFact title={`Visible Loadouts`} value={filteredLoadouts.length} />
+        <Stat title="Total Loadouts" value={allLoadouts.length} />
+        <Stat title={`${rangeText} Loadouts`} value={loadoutsInRatingRange} />
+        <Stat title={`Visible Loadouts`} value={filteredLoadouts.length} />
       </Flex>
     </Flex>
   );
@@ -135,9 +136,16 @@ export default function FilteringStatsPanel({
                     'webkit-align-self': 'unset',
                   },
                 }}
+                c={loadout.player?.faction == Faction.Horde ? "horde.4" : "alliance.4"}
                 icon={loadout.rating}
                 label={loadout.player?.name}
                 description={loadout.player?.realm.name}
+                rightSection={
+                  <Link href={armoryUrl(loadout)} target="_blank">
+                    <IconExternalLink />
+                  </Link>
+                }
+
               />
             ))}
           </Tabs.Panel>
@@ -184,7 +192,7 @@ export default function FilteringStatsPanel({
 }
 
 
-export function StatFact({
+function Stat({
   title,
   value,
 }: {
@@ -202,4 +210,17 @@ export function StatFact({
       </Text>
     </div>
   );
+}
+
+
+function armoryUrl(loadout: RatedLoadout) {
+  if (!loadout.player)
+    return '';
+  
+  let url = `https://worldofwarcraft.com/en-us/character/us/`;
+  if (loadout.region == 'eu') {
+    url = `https://worldofwarcraft.com/en-gb/character/eu/`;
+  }
+  url += `${loadout.player?.realm.slug}/${loadout.player?.name}`;
+  return url;
 }

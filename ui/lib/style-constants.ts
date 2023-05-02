@@ -86,6 +86,12 @@ export const globalColors = (() => {
     highlight: createShades(
       { r: 100, g: 175, b: 125 }
     ),
+    horde: createShades(
+      { r: 175, g: 55, b: 0 }
+    ),
+    alliance: createShades(
+      { r: 0, g: 112, b: 221 }
+    ),
   };
   for (let key in CLASS_COLORS) {
     colors[key] = createShades(CLASS_COLORS[key]);
