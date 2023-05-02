@@ -88,6 +88,13 @@ export default function TalentTreeExplorer({
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
   let [resetCount, setResetCount] = useState<number>(0);
   let [statsOpened, setStatsOpened] = useState(false);
+  let [highlightedLoadout, setHighlightedLoadout] = useState<RatedLoadout>();
+
+
+  const allLoadouts = leaderboard.entries;
+  const minRating = allLoadouts[allLoadouts.length - 1].rating;
+  const maxRating = allLoadouts[0].rating;
+  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
 
   const talentFilters = [
     ...classFilters,
@@ -106,11 +113,13 @@ export default function TalentTreeExplorer({
     setSpecFilters([]);
     setPvpFilters([]);
     setRatingFilter(undefined);
+    setHighlightedLoadout(undefined);
     setResetCount(resetCount + 1);
   }
 
 
   function updateRatingFilter(min: number, max: number) {
+    setRatingFilterRange([min, max]);
     setRatingFilter(() => (loadout: RatedLoadout) => {
       return loadout.rating >= min && loadout.rating <= max;
     });
@@ -122,6 +131,16 @@ export default function TalentTreeExplorer({
       filteredLoadouts={loadouts}
       loadoutsInRatingRange={allTalentsLoadouts.length}
       onRatingFilterChange={updateRatingFilter}
+      minRating={ratingFilterRange[0]}
+      maxRating={ratingFilterRange[1]}
+      highlightLoadout={highlightedLoadout}
+      onHighlightLoadout={loadout => {
+        if (loadout == highlightedLoadout) {
+          setHighlightedLoadout(undefined);
+        } else {
+          setHighlightedLoadout(loadout);
+        }
+      }}
       onReset={reset}
     />
   );
@@ -164,6 +183,7 @@ export default function TalentTreeExplorer({
           loadouts={loadouts}
           width={tree.classSize.width}
           height={tree.classSize.height}
+          highlight={highlightedLoadout}
         />
         <FilteringSubTree
           key={`spec-${resetCount}`}
@@ -172,6 +192,7 @@ export default function TalentTreeExplorer({
           loadouts={loadouts}
           width={tree.specSize.width}
           height={tree.specSize.height}
+          highlight={highlightedLoadout}
         />
       </Flex>
       <div className={classes.pvpTalents}>

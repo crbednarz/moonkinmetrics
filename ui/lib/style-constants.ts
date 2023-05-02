@@ -83,7 +83,7 @@ export const globalColors = (() => {
     primary: createShades(
       { r: 118, g: 153, b: 147 }
     ),
-    highlight: createShades(
+    highValue: createShades(
       { r: 100, g: 175, b: 125 }
     ),
     horde: createShades(
@@ -130,7 +130,7 @@ export function colorToStyle(color: Color, alpha: number = 1.0): string {
 
 export function getProgressColor(progress: number) {
   const lowColor = globalColors['dark'][5];
-  const highColor = globalColors['highlight'][9]; 
+  const highColor = globalColors.highValue[9]; 
   return lerpColors(lowColor, highColor, progress);
 }
 
@@ -140,7 +140,7 @@ export function getUsageColor(usage: number) {
       g: 55,
       b: 0,
     };
-    const highColor = lerpColors(lowColor, globalColors.highlight[9], usage);
+    const highColor = lerpColors(lowColor, globalColors.highValue[9], usage);
     return lerpColors(lowColor, highColor, usage);
 }
 

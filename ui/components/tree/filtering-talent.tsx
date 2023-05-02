@@ -20,24 +20,35 @@ const useStyles = createStyles(theme => ({
       display: 'flex',
     },
   },
-  icon: {
+  iconWrapper: {
     display: 'inline-block',
+    position: 'relative',
     border: `1px solid ${theme.colors.dark[7]}`,
+    width: 56,
+    height: 56,
     borderRadius: theme.radius.sm,
     overflow: 'hidden',
-    width: 56,
+    [`&.${getStylesRef('highlight')}`]: {
+      border: `2px solid ${theme.colors.blue[5]}`,
+    },
+  },
+  highlight: {
+    ref: getStylesRef('highlight'),
+  },
+  icon: {
     height: 56,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
   },
   usage: {
     position: 'absolute',
-    borderRadius: theme.radius.sm,
     zIndex: 2,
     pointerEvents: 'none',
     ref: getStylesRef('usage'),
-    width: 56,
-    height: 56,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     background: 'rgba(20, 20, 20, 0.85)',
     fontSize: 21,
     fontWeight: 700,
@@ -47,7 +58,7 @@ const useStyles = createStyles(theme => ({
   },
   progress: {
     width: 56,
-  }
+  },
 }));
 
 interface TalentData {
@@ -62,6 +73,7 @@ interface FilteringTalentProps {
   onTalentSelect: (talent: Talent) => void;
   onTalentDeselect: (talent: Talent) => void;
   tooltipDirection: 'left' | 'right' | 'bottom' | 'top';
+  highlightTalent?: number;
 }
 
 export default function FilteringTalent({
@@ -69,7 +81,8 @@ export default function FilteringTalent({
   usage,
   onTalentSelect,
   onTalentDeselect,
-  tooltipDirection
+  tooltipDirection,
+  highlightTalent,
 }: FilteringTalentProps) {
   const { classes } = useStyles();
   let talentColorStyle = colorToStyle(getUsageColor(usage));
@@ -117,9 +130,6 @@ export default function FilteringTalent({
             onTalentDeselect(talentsData[0].talent);
           }}
         >
-          <div className={classes.usage} style={{color: talentColorStyle}}>
-            {Math.round(usage * 100)}%
-          </div>
           {talentsData.map((talentData, index) => {
             let talentUsage = usage;
             if (talentsData.length > 1) {
@@ -139,14 +149,23 @@ export default function FilteringTalent({
             return (
               <div
                 key={talent.id}
+                className={`${classes.iconWrapper} ${highlightTalent == talent.id ? classes.highlight : ''}`}
                 style={{
-                  backgroundImage: `url(${talent.icon})`,
-                  filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
-                  backgroundColor: colorToStyle(getProgressColor(talentUsage)),
                   width,
                 }}
-                className={classes.icon}
               >
+          <div className={classes.usage} style={{color: talentColorStyle}}>
+            {Math.round(usage * 100)}%
+          </div>
+                <div
+                  style={{
+                    backgroundImage: `url(${talent.icon})`,
+                    filter: `grayscale(${0.75 - talentUsage * 0.75}) contrast(${talentUsage * 0.5 + 0.5}) brightness(${talentUsage * 0.5 + 0.5})`,
+                    backgroundColor: colorToStyle(getProgressColor(talentUsage)),
+                  }}
+                  className={classes.icon}
+                >
+                </div>
               </div>
             );
           })}

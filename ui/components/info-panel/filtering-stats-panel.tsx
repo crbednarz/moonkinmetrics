@@ -40,8 +40,12 @@ export interface FilteringStatsPanelProps {
   leaderboard: Leaderboard;
   loadoutsInRatingRange: number;
   filteredLoadouts: RatedLoadout[];
+  minRating: number;
+  maxRating: number;
   onRatingFilterChange: (minRating: number, maxRating: number) => void;
   onReset: () => void;
+  highlightLoadout?: RatedLoadout;
+  onHighlightLoadout?: (loadout?: RatedLoadout) => void;
   showTopPlayers?: boolean;
 }
 
@@ -50,14 +54,17 @@ export default function FilteringStatsPanel({
   leaderboard,
   loadoutsInRatingRange,
   filteredLoadouts,
+  minRating,
+  maxRating,
   onRatingFilterChange,
   onReset,
+  highlightLoadout,
+  onHighlightLoadout,
   showTopPlayers = true,
 }: FilteringStatsPanelProps) {
   const allLoadouts = leaderboard.entries;
-  const minRating = allLoadouts[allLoadouts.length - 1].rating;
-  const maxRating = allLoadouts[0].rating;
-  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
+  const leaderboardMin = allLoadouts[allLoadouts.length - 1].rating;
+  const leaderboardMax = allLoadouts[0].rating;
   let [activeTab, setActiveTab] = useState<string | null>('histogram');
 
   const { classes } = useStyles();
@@ -75,9 +82,14 @@ export default function FilteringStatsPanel({
   if (loadoutsInRatingRange > 0) {
     percentage = filteredLoadouts.length / loadoutsInRatingRange;
   }
-  let rangeText = `${ratingFilterRange[0]} - ${ratingFilterRange[1]}`;
-  if (ratingFilterRange[0] !== minRating && ratingFilterRange[1] >= maxRating) {
-    rangeText = `${ratingFilterRange[0]}+`;
+  let rangeText = `${minRating} - ${minRating}`;
+  if (minRating !== leaderboardMin && maxRating >= leaderboardMax) {
+    rangeText = `${minRating}+`;
+  }
+
+  const topPlayers = filteredLoadouts.slice(0, 5);
+  if (highlightLoadout && !topPlayers.includes(highlightLoadout)) {
+    onHighlightLoadout??(null);
   }
 
   const stats = (
@@ -119,13 +131,13 @@ export default function FilteringStatsPanel({
           <RatingHistogram
             allRatings={allLoadouts.map(loadout => loadout.rating)}
             filteredRatings={filteredLoadouts.map(loadout => loadout.rating)}
-            minRating={ratingFilterRange[0]}
-            maxRating={ratingFilterRange[1]}
+            minRating={minRating}
+            maxRating={maxRating}
           />
         </Tabs.Panel>
         {showTopPlayers && (
           <Tabs.Panel value="players" className={classes.tabPanel}>
-            {filteredLoadouts.slice(0, 5).map((loadout, i) => (
+            {topPlayers.map((loadout, i) => (
               <NavLink
                 key={i}
                 sx={{
@@ -140,6 +152,10 @@ export default function FilteringStatsPanel({
                 icon={loadout.rating}
                 label={loadout.player?.name}
                 description={loadout.player?.realm.name}
+                onClick={() => {
+                  onHighlightLoadout(loadout);
+                }}
+                active={highlightLoadout === loadout}
                 rightSection={
                   <Link href={armoryUrl(loadout)} target="_blank">
                     <IconExternalLink />
@@ -168,10 +184,7 @@ export default function FilteringStatsPanel({
           </Text>
           <RatingFilterPanel
             leaderboard={leaderboard}
-            onRatingFilterChange={(minRating, maxRating) => {
-              setRatingFilterRange([minRating, maxRating]);
-              onRatingFilterChange(minRating, maxRating);
-            }}
+            onRatingFilterChange={onRatingFilterChange}
           />
         </Box>
         {stats}
