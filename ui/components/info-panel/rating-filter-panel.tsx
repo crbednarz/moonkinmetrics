@@ -3,11 +3,9 @@ import {
   Box,
   Button,
   createStyles,
-  Divider,
   Flex,
   RangeSlider,
   rem,
-  Text,
 } from "@mantine/core";
 import { useState } from "react";
 
@@ -33,22 +31,25 @@ const useStyles = createStyles(theme => ({
 
 export interface RatingFilterPanelProps {
   leaderboard: Leaderboard;
+  minRating: number;
+  maxRating: number;
   onRatingFilterChange: (minRating: number, maxRating: number) => void;
 }
 
 
 export default function RatingFilterPanel({
   leaderboard,
+  minRating,
+  maxRating,
   onRatingFilterChange,
 }: RatingFilterPanelProps) {
   const loadouts = leaderboard.entries;
-  const minRating = loadouts[loadouts.length - 1].rating;
-  const maxRating = loadouts[0].rating;
+  const leaderboardMin = loadouts[loadouts.length - 1].rating;
+  const leaderboardMax = loadouts[0].rating;
 
   const filterStep = 25;
-  const minFilterRating = Math.floor(minRating/filterStep)*filterStep;
-  const maxFilterRating = Math.ceil(maxRating/filterStep)*filterStep;
-  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minFilterRating, maxFilterRating]);
+  const minFilterRating = Math.floor(leaderboardMin/filterStep)*filterStep;
+  const maxFilterRating = Math.ceil(leaderboardMax/filterStep)*filterStep;
 
   const marks = [0, 0.25, 0.5, 0.75, 1.0].map(p => {
     const rating = p * (maxFilterRating - minFilterRating) + minFilterRating;
@@ -67,10 +68,9 @@ export default function RatingFilterPanel({
           min={minFilterRating}
           max={maxFilterRating}
           step={filterStep}
-          value={ratingFilterRange}
+          value={[minRating, maxRating]}
           onChange={value => {
             onRatingFilterChange(value[0], value[1]);
-            setRatingFilterRange(value);
           }}
           label={null}
           marks={marks}
@@ -80,14 +80,13 @@ export default function RatingFilterPanel({
         />
         <Flex gap={5}>
           {[2000, 2400, 2800, 3200].filter(rating => {
-            return rating >= minRating && rating <= maxRating;
+            return rating >= leaderboardMin && rating <= leaderboardMax;
           }).map(rating => (
             <Button
               key={rating}
               className={classes.presetButton}
               onClick={() => {
                 onRatingFilterChange(rating, maxFilterRating);
-                setRatingFilterRange([rating, maxFilterRating]);
               }}
             >
               {`${rating}+`}
@@ -98,7 +97,6 @@ export default function RatingFilterPanel({
             color="dark.4"
             onClick={() => {
               onRatingFilterChange(minFilterRating, maxFilterRating);
-              setRatingFilterRange([minFilterRating, maxFilterRating]);
             }}
           >
             Reset
