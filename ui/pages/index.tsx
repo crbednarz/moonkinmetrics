@@ -266,6 +266,7 @@ function InfoPanelDemoCard({
             setFilters([]);
             setResetCount(resetCount + 1);
           }}
+          showTopPlayers={false}
         />
       </Box>
     </Flex>

@@ -45,6 +45,12 @@ const useStyles = createStyles(theme => ({
       display: 'none',
     },
   },
+  sideBar: {
+    '& > div > div': {
+      flexDirection: 'column',
+      minHeight: rem(700),
+    },
+  },
   pvpTalents: {
     gridRow: 'pvp-talents',
     gridColumn: 'content',
@@ -122,7 +128,7 @@ export default function TalentTreeExplorer({
 
   return (
     <div className={classes.wrapper}>
-      <InfoPanel className={classes.infoPanel} key={`info-${resetCount}`}>
+      <InfoPanel className={`${classes.infoPanel} ${classes.sideBar}`} key={`info-${resetCount}`}>
         {infoPanelContents}
       </InfoPanel>
       <Menu
