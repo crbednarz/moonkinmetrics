@@ -116,6 +116,10 @@ export default function TalentTreeExplorer({
     setSpecFilters([]);
     setPvpFilters([]);
     setRatingFilter(undefined);
+    setRatingFilterRange([
+      Math.floor(minRating / 25) * 25,
+      Math.ceil(maxRating / 25) * 25,
+    ]);
     setHighlightedLoadout(undefined);
     setResetCount(resetCount + 1);
   }
@@ -150,7 +154,7 @@ export default function TalentTreeExplorer({
 
   return (
     <div className={classes.wrapper}>
-      <InfoPanel className={`${classes.infoPanel} ${classes.sideBar}`} key={`info-${resetCount}`}>
+      <InfoPanel className={`${classes.infoPanel} ${classes.sideBar}`}>
         {infoPanelContents}
       </InfoPanel>
       <Menu
