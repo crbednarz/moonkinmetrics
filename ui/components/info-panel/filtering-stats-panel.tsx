@@ -82,7 +82,7 @@ export default function FilteringStatsPanel({
   if (loadoutsInRatingRange > 0) {
     percentage = filteredLoadouts.length / loadoutsInRatingRange;
   }
-  let rangeText = `${minRating} - ${minRating}`;
+  let rangeText = `${minRating} - ${maxRating}`;
   if (minRating !== leaderboardMin && maxRating >= leaderboardMax) {
     rangeText = `${minRating}+`;
   }

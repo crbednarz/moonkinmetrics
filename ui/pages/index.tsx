@@ -236,7 +236,10 @@ function InfoPanelDemoCard({
 
   const minRating = loadouts[loadouts.length - 1].rating;
   const maxRating = loadouts[0].rating;
-  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
+  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([
+    Math.floor(minRating / 25) * 25,
+    Math.ceil(maxRating / 25) * 25
+  ]);
   let [resetCount, setResetCount] = useState<number>(0);
 
   const leaderboard = { entries: loadouts };
@@ -272,6 +275,10 @@ function InfoPanelDemoCard({
             setRatingFilter(undefined);
             setFilters([]);
             setResetCount(resetCount + 1);
+            setRatingFilterRange([
+              Math.floor(minRating / 25) * 25,
+              Math.ceil(maxRating / 25) * 25,
+            ]);
           }}
           showTopPlayers={false}
         />

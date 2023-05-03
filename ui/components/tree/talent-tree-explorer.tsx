@@ -94,7 +94,10 @@ export default function TalentTreeExplorer({
   const allLoadouts = leaderboard.entries;
   const minRating = allLoadouts[allLoadouts.length - 1].rating;
   const maxRating = allLoadouts[0].rating;
-  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([minRating, maxRating]);
+  let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([
+    Math.floor(minRating / 25) * 25,
+    Math.ceil(maxRating / 25) * 25,
+  ]);
 
   const talentFilters = [
     ...classFilters,
