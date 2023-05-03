@@ -66,6 +66,7 @@ export default function FilteringStatsPanel({
   const leaderboardMin = allLoadouts[allLoadouts.length - 1].rating;
   const leaderboardMax = allLoadouts[0].rating;
   let [activeTab, setActiveTab] = useState<string | null>('histogram');
+  let [relativeTimestamp, setRelativeTimestamp] = useState<boolean>(false);
 
   const { classes } = useStyles();
 
@@ -77,6 +78,10 @@ export default function FilteringStatsPanel({
       setActiveTab(Cookies.get('activeTab')!);
     }
   }, [showTopPlayers]);
+
+  useEffect(() => {
+    setRelativeTimestamp(true);
+  }, [setRelativeTimestamp]);
 
   let percentage = 1;
   if (loadoutsInRatingRange > 0) {
@@ -194,11 +199,19 @@ export default function FilteringStatsPanel({
         <Box w="100%">
           <Button onClick={onReset} color="dark.4" w="100%" m={0}>Reset All</Button>
           {leaderboard.timestamp && (
-            <Text color="dimmed" size="sm" align="center" mt={rem(5)}>
-              Updated
-              US: {moment(leaderboard.timestamp.us).fromNow()} | 
-              EU: {moment(leaderboard.timestamp.eu).fromNow()}
-            </Text>
+            relativeTimestamp ? (
+              <Text color="dimmed" size="sm" align="center" mt={rem(5)}>
+                Updated
+                US: {moment(leaderboard.timestamp.us).fromNow()} | 
+                EU: {moment(leaderboard.timestamp.eu).fromNow()}
+              </Text>
+            ) : (
+              <Text color="dimmed" size="sm" align="center" mt={rem(5)}>
+                Updated
+                US: {new Date(leaderboard.timestamp.us).toLocaleDateString('en-US', {timeZone: 'GMT'})} | 
+                EU: {new Date(leaderboard.timestamp.eu).toLocaleDateString('en-US', {timeZone: 'GMT'})}
+              </Text>
+            )
           )}
         </Box>
       </Flex>
