@@ -197,7 +197,7 @@ export default function FilteringStatsPanel({
         </Box>
         {stats}
         <Box w="100%">
-          <Button onClick={onReset} color="dark.4" w="100%" m={0}>Reset All</Button>
+          <Button onClick={onReset} color="caution" w="100%" m={0}>Reset All</Button>
           {leaderboard.timestamp && (
             relativeTimestamp ? (
               <Text color="dimmed" size="sm" align="center" mt={rem(5)}>
