@@ -59,6 +59,7 @@ class PlayerLoadout:
     class_nodes: list[LoadoutNode]
     spec_nodes: list[LoadoutNode]
     pvp_talents: list[LoadoutPvpTalent]
+    code: str
 
 
 class MissingPlayerError(Exception):
@@ -100,6 +101,10 @@ async def get_player_loadouts(
             yield None, player, context, LoadoutRequestStatus.MISSING_PLAYER
             continue
 
+        if 'active_specialization' not in response:
+            yield None, player, context, LoadoutRequestStatus.ERROR
+            continue
+
         spec_id = response['active_specialization']['id']
         (class_name, spec_name) = CLASS_SPEC_BY_SPEC_ID[spec_id]
         if override_spec is not None:
@@ -114,20 +119,6 @@ async def get_player_loadouts(
             continue
 
         yield loadout, player, context, LoadoutRequestStatus.SUCCESS
-
-
-def get_player_loadout(client: Client, player: PlayerLink,
-                       override_spec: Optional[str] = None) -> PlayerLoadout:
-    try:
-        response = client.get_profile_resource(player.specialization_resource)
-    except RuntimeError:
-        raise MissingPlayerError(player)
-    spec_id = response['active_specialization']['id']
-    (class_name, spec_name) = CLASS_SPEC_BY_SPEC_ID[spec_id]
-    if override_spec is not None:
-        spec_name = override_spec
-    json_loadout = _get_active_loadout(player, spec_name, response)
-    return _deserialize_json_loadout(json_loadout, class_name, spec_name)
 
 
 def _deserialize_json_loadout(json_loadout: dict, class_name: str,
@@ -157,7 +148,8 @@ def _deserialize_json_loadout(json_loadout: dict, class_name: str,
     return PlayerLoadout(
         class_name, spec_name,
         class_nodes, spec_nodes,
-        pvp_talents
+        pvp_talents,
+        code=json_loadout['talent_loadout_code'],
     )
 
 

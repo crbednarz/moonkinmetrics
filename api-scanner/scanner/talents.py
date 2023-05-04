@@ -6,13 +6,7 @@ from itertools import chain
 from typing import AsyncGenerator, Generator, Optional
 
 from .bnet import Client
-from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID
-
-
-NODE_FILTER = set([
-    91046,
-    91047,
-])
+from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID, SPEC_ID_BY_CLASS_SPEC
 
 
 @dataclass
@@ -111,7 +105,9 @@ class TalentNode:
 @dataclass
 class TalentTree:
     class_name: str
+    class_id: int
     spec_name: str
+    spec_id: int
     class_nodes: list[TalentNode]
     spec_nodes: list[TalentNode]
     pvp_talents: list[Talent]
@@ -143,7 +139,7 @@ class _ClassTalentTreeLink:
         result = re.search(r'/talent-tree/(\d+)', url)
         if result is None:
             raise RuntimeError(f"Unable to find id in {url}")
-        self.id = result.group(1)
+        self.id = int(result.group(1))
         self.url = url
         self.class_name = class_name
 
@@ -153,8 +149,8 @@ class _SpecTalentTreeLink:
         result = re.search(r'/talent-tree/(\d+)/[^/]+/(\d+)', url)
         if result is None:
             raise RuntimeError(f"Unable to find id in {url}")
-        self.class_id = result.group(1)
-        self.spec_id = result.group(2)
+        self.class_id = int(result.group(1))
+        self.spec_id = int(result.group(2))
         self.url = url
         self.spec_name = spec_name
 
@@ -177,7 +173,7 @@ async def get_talent_trees(client: Client) -> AsyncGenerator[TalentTree, None]:
                                                trees_index)
 
 
-def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: str) -> str:
+def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: int) -> str:
     for tree_link in trees_index.class_trees:
         if tree_link.id == id:
             return tree_link.class_name
@@ -217,7 +213,9 @@ async def _get_tree_for_spec(client: Client, class_name: str,
 
     return TalentTree(
         class_name,
+        tree_link.class_id,
         tree_link.spec_name,
+        tree_link.spec_id,
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
         await _get_pvp_talents(client, class_name, tree_link.spec_name)
@@ -270,6 +268,7 @@ async def _get_tree_for_missing_spec(
     class_name: str, spec_name: str,
     tree_index: _TalentTreesIndex
 ) -> TalentTree:
+    print(f"Warning: Using fallback for {class_name} - {spec_name}")
     game_nodes = {}
     for game_node in INGAME_SPEC_NODES[class_name][spec_name]:
         game_nodes[game_node['id']] = game_node
@@ -305,7 +304,9 @@ async def _get_tree_for_missing_spec(
 
     return TalentTree(
         class_name,
+        tree_link.id,
         spec_name,
+        SPEC_ID_BY_CLASS_SPEC[(class_name, spec_name)],
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
         await _get_pvp_talents(client, class_name, spec_name)
@@ -324,6 +325,6 @@ def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
         if missing_parent and len(node.locked_by) > 0:
             return False
 
-        return node.id not in NODE_FILTER
+        return True
 
     return list(filter(filter_node, nodes))

@@ -38,7 +38,9 @@ export interface TalentNode {
 
 export interface TalentTree {
   className: string;
+  classId: number;
   specName: string;
+  specId: number;
   classSize: Dimensions;
   specSize: Dimensions;
   classNodes: TalentNode[];
@@ -122,7 +124,9 @@ export function getTalentTree(className: string, specName: string) {
 
   const tree: TalentTree = {
     className: jsonTree['class_name'],
+    classId: jsonTree['class_id'],
     specName: jsonTree['spec_name'],
+    specId: jsonTree['spec_id'],
     classNodes,
     specNodes,
     pvpTalents: jsonTree['pvp_talents'].map(deserializeTalent),

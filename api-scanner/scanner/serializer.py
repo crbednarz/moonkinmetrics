@@ -67,6 +67,7 @@ class LoadoutEncoder:
         return '|'.join([
             base64.b64encode(output).decode('ascii'),
             rated_loadout.player.name,
+            rated_loadout.loadout.code,
         ])
 
     @staticmethod
@@ -102,7 +103,9 @@ def encode_loadouts(loadouts: list[RatedLoadout], tree: TalentTree,
 def talent_tree_to_dict(tree: TalentTree, spell_media: dict[int, str]) -> dict:
     return {
         'class_name': tree.class_name,
+        'class_id': tree.class_id,
         'spec_name': tree.spec_name,
+        'spec_id': tree.spec_id,
         'class_nodes': _nodes_to_json(tree.class_nodes, spell_media),
         'spec_nodes': _nodes_to_json(tree.spec_nodes, spell_media),
         'pvp_talents': _pvp_talents_to_json(tree.pvp_talents, spell_media),

@@ -15,6 +15,7 @@ export interface RatedLoadout {
   pvpTalents: number[];
   rating: number;
   region: string;
+  shareCode?: string;
   player?: {
     name: string;
     faction: Faction;
@@ -124,7 +125,7 @@ function decodeLoadoutsV1(encodedLeaderboard: any, tree: TalentTree, region: str
   const v1Leaderboard = encodedLeaderboard as V1Leaderboard;
 
   return v1Leaderboard.entries.map(encodedLoadout => {
-    const [b64Data, name] = encodedLoadout.split('|');
+    const [b64Data, name, shareCode] = encodedLoadout.split('|');
     const dataBytes = new Uint8Array(Buffer.from(b64Data, 'base64'));
 
     let index = 0
@@ -156,6 +157,7 @@ function decodeLoadoutsV1(encodedLeaderboard: any, tree: TalentTree, region: str
       pvpTalents,
       rating,
       region,
+      shareCode,
       player: {
         name,
         faction: isHorde ? Faction.Horde : Faction.Alliance,

@@ -1,15 +1,19 @@
 import {Faction, Leaderboard, RatedLoadout} from "@/lib/pvp";
 import {
+  ActionIcon,
+  Badge,
   Box,
   Button,
+  CopyButton,
   createStyles,
   Flex,
   NavLink,
   rem,
   Tabs,
   Text,
+  Tooltip,
 } from "@mantine/core";
-import { IconChartHistogram, IconExternalLink, IconTrophy } from "@tabler/icons-react";
+import { IconChartHistogram, IconCheck, IconCopy, IconExternalLink, IconTrophy } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import RatingHistogram from "../info-panel/rating-histogram";
@@ -163,9 +167,28 @@ export default function FilteringStatsPanel({
                 }}
                 active={highlightLoadout === loadout}
                 rightSection={
-                  <Link href={armoryUrl(loadout)} target="_blank" onClick={e => e.stopPropagation()}>
-                    <IconExternalLink />
-                  </Link>
+                  <Flex gap={10} align="center">
+                    <Badge>{loadout.region}</Badge>
+                    {loadout.shareCode && (
+                      <CopyButton value={loadout.shareCode}>
+                        {({ copied, copy }) => (
+                          <Tooltip label={copied ? 'Copied' : 'Copy Talents'} withArrow position="left">
+                            <ActionIcon component="span" color="primary.5" onClick={e => {
+                              copy();
+                              e.stopPropagation();
+                            }}>
+                              {copied ? <IconCheck size="1.5rem" /> : <IconCopy size="1.5rem" />}
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
+                      </CopyButton>
+                    )}
+                    <Link href={armoryUrl(loadout)} target="_blank" onClick={e => e.stopPropagation()}>
+                      <Tooltip label={'Visit Armory'} withArrow position="left">
+                        <IconExternalLink />
+                      </Tooltip>
+                    </Link>
+                  </Flex>
                 }
 
               />

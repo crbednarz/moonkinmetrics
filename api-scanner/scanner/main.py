@@ -204,6 +204,15 @@ def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
         if node.rank > max_rank:
             return False
 
+    for loadout_talent in loadout.pvp_talents:
+        found_talent = False
+        for tree_talent in talent_tree.pvp_talents:
+            if tree_talent.id == loadout_talent.id:
+                found_talent = True
+                break
+        if not found_talent:
+            return False
+
     return True
 
 
