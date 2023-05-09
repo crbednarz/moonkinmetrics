@@ -107,7 +107,7 @@ export default function Layout({
 
   const notice = (
     <Alert title="NOTICE" color="primary.9" style={{textAlign: 'left'}} maw={400}>
-      Moonkin Metrics is currently in beta and changing frequently.
+      Moonkin Metrics is currently in beta.
       If you have any feedback, please reach out on{' '}
       <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics/discussions" target="_blank">GitHub</Anchor>{' '}or{' '}
       <Anchor color="blue" href="https://discord.gg/t7XmtxwNNF" target="_blank">Discord</Anchor>.

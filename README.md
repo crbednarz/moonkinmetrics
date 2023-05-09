@@ -6,8 +6,6 @@ There are two distinct pieces to the site:
 - `api-scanner` - A Python project which scrapes the Blizzard API for information about talents, pvp leaderboards, and spell icons.
 - `ui` - A Next.js front-end which can be rendered to static pages.
 
-NOTE: This project in beta and is likely to change quite a bit!
-
 ## Working with the site
 
 At a high-level, development setup consists of:
@@ -90,9 +88,7 @@ Which will dump the rendered site to the `ui/out/` directory.
 
 ## Contributing
 
-This project is under active development and many aspects of the site are still in flux. As such, contributions are not being accepted right now.
-
-Feedback is always welcome, though!
+Contribution are now welcome. However, fair warning: Much of the project is missing sufficient documentation and testing, which could make it challenging to work on. This is something I'm actively working to improve, but in the meantime, feel free to reach out directly either as a GitHub discussion or on [discord](https://discord.gg/t7XmtxwNNF) if you have any questions.
 
 ## License
 
