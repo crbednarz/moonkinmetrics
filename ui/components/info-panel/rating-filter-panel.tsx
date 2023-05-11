@@ -61,6 +61,8 @@ export default function RatingFilterPanel({
 
   const { classes } = useStyles();
 
+  const ratingQuickSelect = [1200, 1600, 2000, 2400, 2800, 3200];
+
   return (
     <Box className={classes.ratingFilterPanel}>
       <Box className={classes.ratingFilterPanelInner}>
@@ -79,9 +81,9 @@ export default function RatingFilterPanel({
           mx={rem(15)}
         />
         <Flex gap={5}>
-          {[2000, 2400, 2800, 3200].filter(rating => {
+          {ratingQuickSelect.filter(rating => {
             return rating >= leaderboardMin && rating <= leaderboardMax;
-          }).map(rating => (
+          }).slice(-4).map(rating => (
             <Button
               key={rating}
               className={classes.presetButton}

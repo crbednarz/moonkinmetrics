@@ -34,16 +34,18 @@ def cli(ctx, output_path, client_id, client_secret, cache_path, region):
 @click.argument('bracket',
                 type=click.Choice(['2v2', '3v3', 'shuffle', 'rbg']),
                 required=True)
-@click.option('-m', '--shuffle-min-rating', type=click.INT, default=1800)
+@click.option('-m', '--min-rating', type=click.INT, default=1000)
+@click.option('-l', '--max-entries', type=click.INT, default=10000)
 @click.option('--shuffle-class', type=click.STRING)
 @click.option('--shuffle-spec', type=click.STRING)
 @click.pass_context
-def ladder(ctx, bracket, shuffle_min_rating, shuffle_class, shuffle_spec):
+def ladder(ctx, bracket, min_rating, max_entries, shuffle_class, shuffle_spec):
     scan_pvp_ladder(
         ctx.obj['client'],
         ctx.obj['output_path'],
         bracket,
-        shuffle_min_rating,
+        min_rating,
+        max_entries,
         shuffle_class,
         shuffle_spec,
     )
@@ -56,18 +58,6 @@ def talents(ctx):
         ctx.obj['client'],
         ctx.obj['output_path'],
     )
-
-
-@cli.command()
-@click.pass_context
-def all(ctx):
-    client = ctx.obj['client']
-    output_path = ctx.obj['output_path']
-    scan_talents(client, output_path)
-    scan_pvp_ladder(client, output_path, '2v2')
-    scan_pvp_ladder(client, output_path, '3v3')
-    scan_pvp_ladder(client, output_path, 'rbg')
-    scan_pvp_ladder(client, output_path, 'shuffle')
 
 
 if __name__ == '__main__':

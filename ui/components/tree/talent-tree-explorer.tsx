@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Leaderboard, RatedLoadout } from '@/lib/pvp';
 import { TalentTree } from '@/lib/talents';
 import { filterRatedLoadouts, LoadoutFilter } from '@/lib/loadout-filter';
-import { Button, createStyles, Flex, rem, Menu } from '@mantine/core';
+import { Button, createStyles, Flex, rem, Menu, Text, Box } from '@mantine/core';
 import { IconChartHistogram } from '@tabler/icons-react';
 import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
@@ -71,6 +71,18 @@ const useStyles = createStyles(theme => ({
     padding: 15,
     minWidth: rem(390),
   },
+  disabledStatsPanel: {
+    minHeight: rem(300),
+    display: 'flex',
+    alignItems: 'center',
+    '& > span': {
+      margin: '50px auto',
+      textAlign: 'center',
+      color: theme.colors.dark[3],
+      fontSize: rem(28),
+      fontWeight: 700,
+    },
+  }
 }));
 
 interface TalentTreeExplorerProps {
@@ -92,8 +104,12 @@ export default function TalentTreeExplorer({
 
 
   const allLoadouts = leaderboard.entries;
-  const minRating = allLoadouts[allLoadouts.length - 1].rating;
-  const maxRating = allLoadouts[0].rating;
+  let minRating = 0;
+  let maxRating = 100;
+  if (allLoadouts.length > 0) {
+    minRating = allLoadouts[allLoadouts.length - 1].rating;
+    maxRating = allLoadouts[0].rating;
+  }
   let [ratingFilterRange, setRatingFilterRange] = useState<[number, number]>([
     Math.floor(minRating / 25) * 25,
     Math.ceil(maxRating / 25) * 25,
@@ -132,24 +148,31 @@ export default function TalentTreeExplorer({
     });
   }
 
-  const infoPanelContents = (
-    <FilteringStatsPanel
-      leaderboard={leaderboard}
-      filteredLoadouts={loadouts}
-      loadoutsInRatingRange={allTalentsLoadouts.length}
-      onRatingFilterChange={updateRatingFilter}
-      minRating={ratingFilterRange[0]}
-      maxRating={ratingFilterRange[1]}
-      highlightLoadout={highlightedLoadout}
-      onHighlightLoadout={loadout => {
-        if (loadout == highlightedLoadout) {
-          setHighlightedLoadout(undefined);
-        } else {
-          setHighlightedLoadout(loadout);
-        }
-      }}
-      onReset={reset}
-    />
+  const infoPanelContents = 
+    leaderboard.entries.length > 0 ? (
+      <FilteringStatsPanel
+        leaderboard={leaderboard}
+        filteredLoadouts={loadouts}
+        loadoutsInRatingRange={allTalentsLoadouts.length}
+        onRatingFilterChange={updateRatingFilter}
+        minRating={ratingFilterRange[0]}
+        maxRating={ratingFilterRange[1]}
+        highlightLoadout={highlightedLoadout}
+        onHighlightLoadout={loadout => {
+          if (loadout == highlightedLoadout) {
+            setHighlightedLoadout(undefined);
+          } else {
+            setHighlightedLoadout(loadout);
+          }
+        }}
+        onReset={reset}
+      />
+  ) : (
+    <Box className={classes.disabledStatsPanel}>
+      <Text component="span">
+        No players found above 1000 rating.
+      </Text>
+    </Box>
   );
 
   return (

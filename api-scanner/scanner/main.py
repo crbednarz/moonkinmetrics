@@ -28,7 +28,8 @@ def scan_pvp_ladder(
     client: Client,
     output_path: str,
     bracket: str,
-    shuffle_min_rating: int = 1800,
+    min_rating: int,
+    max_entries: int,
     shuffle_class: str = '',
     shuffle_spec: str = '',
 ) -> None:
@@ -59,7 +60,8 @@ def scan_pvp_ladder(
                 output_path,
                 tree,
                 realms,
-                shuffle_min_rating,
+                min_rating,
+                max_entries,
             ))
     else:
         print(f"Collecting player talents for {bracket}...")
@@ -69,6 +71,8 @@ def scan_pvp_ladder(
             output_path,
             talent_trees,
             realms,
+            min_rating,
+            max_entries,
         ))
 
 
@@ -97,12 +101,15 @@ async def _collect_shuffle_leaderboard(
     output_path: str,
     talent_tree: TalentTree,
     realms: list[Realm],
-    min_rating: int = 1800,
+    min_rating: int,
+    max_entries: int,
 ) -> None:
     bracket = _shuffle_bracket(class_name, spec_name)
     scan_targets = []
-    for entry in get_pvp_leaderboard(client, bracket):
+    for index, entry in enumerate(get_pvp_leaderboard(client, bracket)):
         if entry.rating < min_rating:
+            break
+        if index >= max_entries:
             break
         scan_targets.append((entry.player, entry))
 
@@ -140,6 +147,8 @@ async def _collect_arena_leaderboard(
     output_path: str,
     talent_trees: list[TalentTree],
     realms: list[Realm],
+    min_rating: int,
+    max_entries: int,
 ) -> None:
     tree_map = {}
     output = {}
@@ -148,7 +157,11 @@ async def _collect_arena_leaderboard(
         output[(tree.class_name, tree.spec_name)] = []
 
     scan_targets = []
-    for entry in get_pvp_leaderboard(client, bracket):
+    for index, entry in enumerate(get_pvp_leaderboard(client, bracket)):
+        if entry.rating < min_rating:
+            break
+        if index >= max_entries:
+            break
         scan_targets.append((entry.player, entry))
 
     async for result in get_player_loadouts(client, scan_targets):
@@ -171,8 +184,6 @@ async def _collect_arena_leaderboard(
         )
 
     for (class_name, spec_name), entries in output.items():
-        if len(entries) == 0:
-            continue
         entries.sort(key=lambda entry: entry.rating, reverse=True)
 
         filename = _get_regional_filename(class_name, spec_name, client.region)
