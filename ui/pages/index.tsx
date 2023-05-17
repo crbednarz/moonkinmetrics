@@ -100,68 +100,81 @@ export default function Talents({
   const theme = useMantineTheme();
   const { classes } = useStyles();
 
+  const { loadouts: demo1Loadouts, nodes: demo1Nodes } = createSampleData(tree, [
+    {
+      name: 'Armored to the Teeth',
+      rank: i => {
+        if (i < 15)
+          return 1;
+        if (i < 95)
+          return 2;
+        return 0;
+      },
+    },
+  ]);
 
-  const loadouts = new Array(100).fill({}).map<RatedLoadout>((_, i) => ({
-      talents: {},
-      pvpTalents: [],
-      rating: 1800 + Math.round((99 - i)*(99 - i) / 15),
-      region: (i % 2) == 0 ? 'eu' : 'us',
-  }));
+  const { loadouts: demo2Loadouts, nodes: demo2Nodes } = createSampleData(tree, [
+    {
+      name: 'Impale',
+      rank: i => i < 90 ? 1 : 0,
+    },
+    {
+      name: 'Exhilarating Blows',
+      rank: i => i < 65 ? 1 : 0,
+    },
+    {
+      name: 'Improved Sweeping Strikes',
+      rank: i => i < 15 ? 1 : 0,
+    },
+    {
+      name: 'Strength of Arms',
+      rank: i => (i >= 15 && i < 85) ? 1 : 0,
+    },
+    {
+      name: 'Cleave',
+      rank: i => i < 20 ? 1 : 0,
+    },
+  ]);
 
-  // Demo 1
-  const umbralEmbraceNode = getNode(tree, "Umbral Embrace");
-  for (let i = 0; i < 15; i++)
-    loadouts[i].talents[umbralEmbraceNode.talents[0].id] = 1;
-  for (let i = 15; i < 95; i++)
-    loadouts[i].talents[umbralEmbraceNode.talents[0].id] = 2;
-
-  // Demo 2
-  const starfallNode = getNode(tree, "Starfall");
-  const solarBeamNode = getNode(tree, "Solar Beam");
-  const fonNode = getNode(tree, "Force of Nature");
-  const lightOfTheSunNode = getNode(tree, "Light of the Sun");
-  for (let i = 0; i < 85; i++)
-    loadouts[i].talents[solarBeamNode.talents[0].id] = 1;
-
-  for (let i = 10; i < 85; i++)
-    loadouts[i].talents[starfallNode.talents[0].id] = 1;
-
-  for (let i = 25; i < 70; i++)
-    loadouts[i].talents[fonNode.talents[0].id] = 1;
-  for (let i = 70; i < 85; i++)
-    loadouts[i].talents[fonNode.talents[1].id] = 1;
-
-  for (let i = 0; i < 20; i++)
-    loadouts[i].talents[lightOfTheSunNode.talents[0].id] = 1;
-
-  const balanceOfAllThingsNode = getNode(tree, "Balance of All Things");
-  const denizenOfTheDreamNode = getNode(tree, "Denizen of the Dream");
-  const incarnationNode = getNode(tree, "Incarnation: Chosen of Elune");
-  const friendOfTheFaeNode = getNode(tree, "Friend of the Fae");
-  const elunesGuidanceNode = getNode(tree, "Elune's Guidance");
-  for (let i = 0; i < 100; i++)
-    loadouts[i].talents[balanceOfAllThingsNode.talents[0].id] = 2;
-
-  for (let i = 0; i < 75; i++)
-    loadouts[i].talents[denizenOfTheDreamNode.talents[0].id] = 1;
-
-  for (let i = 20; i < 80; i++)
-    loadouts[i].talents[incarnationNode.talents[0].id] = 1
-  for (let i = 80; i < 100; i++)
-    loadouts[i].talents[incarnationNode.talents[1].id] = 1;
-
-  for (let i = 0; i < 40; i++)
-    loadouts[i].talents[friendOfTheFaeNode.talents[0].id] = 1;
-
-  for (let i = 25; i < 100; i++)
-    loadouts[i].talents[elunesGuidanceNode.talents[0].id] = 1;
+  const { loadouts: demo3Loadouts, nodes: demo3Nodes } = createSampleData(tree, [
+    {
+      name: 'Tactician',
+      rank: () => 1,
+    },
+    {
+      name: 'Skullsplitter',
+      rank: i => i < 85 ? 1 : 0,
+    },
+    {
+      name: 'Rend',
+      rank: i => i >= 20 ? 1 : 0,
+    },
+    {
+      name: 'Improved Slam',
+      rank: i => (i > 20 && i <= 25) ? 1 : 0,
+    },
+    {
+      name: 'Tide of Blood',
+      rank: i => i < 75 ? 1 : 0,
+    },
+    {
+      name: 'Bloodborne',
+      rank: i => i < 15 ? 1 : 2,
+    },
+    {
+      name: 'Dreadnaught',
+      rank: i => i > 35 ? 1 : 0,
+    },
+  ]);
 
   const guideData = [{
-    nodes: [umbralEmbraceNode],
+    nodes: demo1Nodes,
+    loadouts: demo1Loadouts,
     title: "Hover over talents for details",
     text: "Hovering over a talent will display usage information by rank, tooltip text, and more.",
   }, {
-    nodes: [solarBeamNode, fonNode, lightOfTheSunNode, starfallNode],
+    nodes: demo2Nodes,
+    loadouts: demo2Loadouts,
     title: "Click talents to filter usage information",
     text: ("Left clicking on a talent will cycle through filters, limiting which players' loadouts are used based on talent selection.\n" +
            "Right clicking will clear any filters."),
@@ -195,7 +208,7 @@ export default function Talents({
             <DemoCard
               key={i}
               nodes={guide.nodes}
-              loadouts={loadouts}
+              loadouts={guide.loadouts}
               title={guide.title}
               text={guide.text}
             />
@@ -211,8 +224,8 @@ export default function Talents({
             </Box>
           </Flex>
           <InfoPanelDemoCard
-            nodes={[balanceOfAllThingsNode, denizenOfTheDreamNode, incarnationNode, friendOfTheFaeNode, elunesGuidanceNode]}
-            loadouts={loadouts}
+            nodes={demo3Nodes}
+            loadouts={demo3Loadouts}
           />
           <Button onClick={() => scrollTo(0, 0)}>Scroll to top</Button>
         </Stack>
@@ -326,7 +339,35 @@ function DemoCard({
   );
 }
 
-function getNode(tree: TalentTree, talentName: string) {
+interface SampleTalentDescription {
+  name: string,
+  rank: (index: number, rating: number) => number,
+}
+
+function createSampleData(tree: TalentTree, talents: SampleTalentDescription[]) {
+  const loadouts = new Array(100).fill({}).map<RatedLoadout>((_, i) => ({
+      talents: {},
+      pvpTalents: [],
+      rating: 1800 + Math.round((99 - i)*(99 - i) / 15),
+      region: (i % 2) == 0 ? 'eu' : 'us',
+  }));
+
+  const nodes = new Array<TalentNode>();
+  for (let { name, rank } of talents) {
+    const node = getNodeByTalentName(tree, name);
+    const talentId = node.talents.find(talent => talent.name == name)!.id;
+    for (let i = 0; i < loadouts.length; i++) {
+      loadouts[i].talents[talentId] = rank(i, loadouts[i].rating);
+    }
+
+    if (nodes.find(n => n.id == node.id) == null) {
+      nodes.push(node);
+    }
+  }
+  return { loadouts, nodes };
+}
+
+function getNodeByTalentName(tree: TalentTree, talentName: string) {
   let node = [...tree.specNodes, ...tree.classNodes].find(node => {
     return node.talents.find(talent => talent.name == talentName) != null;
   });
@@ -334,8 +375,8 @@ function getNode(tree: TalentTree, talentName: string) {
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const className = "Druid";
-  const specName = "Balance";
+  const className = "Warrior";
+  const specName = "Arms";
   const tree = getTalentTree(className, specName);
 
   return {
