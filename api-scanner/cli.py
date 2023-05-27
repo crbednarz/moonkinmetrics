@@ -34,7 +34,7 @@ def cli(ctx, output_path, client_id, client_secret, cache_path, region):
 @click.argument('bracket',
                 type=click.Choice(['2v2', '3v3', 'shuffle', 'rbg']),
                 required=True)
-@click.option('-m', '--min-rating', type=click.INT, default=1000)
+@click.option('-m', '--min-rating', type=click.INT, default=1600)
 @click.option('-l', '--max-entries', type=click.INT, default=10000)
 @click.option('--shuffle-class', type=click.STRING)
 @click.option('--shuffle-spec', type=click.STRING)
