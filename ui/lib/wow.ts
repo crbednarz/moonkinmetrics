@@ -22,6 +22,7 @@ export const SPEC_BY_CLASS: {[key: string]: string[]} = {
     'Restoration',
   ],
   'Evoker': [
+    'Augmentation',
     'Devastation',
     'Preservation',
   ],
@@ -91,6 +92,7 @@ export const CLASS_SPECS: ClassSpec[] = [
   new ClassSpec('Monk', 'Mistweaver'),
   new ClassSpec('Evoker', 'Preservation'),
   new ClassSpec('Evoker', 'Devastation'),
+  new ClassSpec('Evoker', 'Augmentation'),
   new ClassSpec('Death Knight', 'Frost'),
   new ClassSpec('Death Knight', 'Unholy'),
   new ClassSpec('Death Knight', 'Blood'),

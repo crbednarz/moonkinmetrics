@@ -47,7 +47,13 @@ class TalentNode:
 
     @staticmethod
     def from_raw_node(raw_node: dict):
-        base_rank = raw_node['ranks'][0]
+        try:
+            base_rank = raw_node['ranks'][0]
+        except KeyError:
+            # Augmentation seems to have an invisible node with no ranks.
+            # For now we'll just ignore it.
+            return None
+
         if 'choice_of_tooltips' in base_rank:
             max_rank = 1
             tooltips = [
@@ -205,11 +211,15 @@ async def _get_tree_for_spec(client: Client, class_name: str,
 
     class_nodes = []
     for response_node in response['class_talent_nodes']:
-        class_nodes.append(TalentNode.from_raw_node(response_node))
+        node = TalentNode.from_raw_node(response_node)
+        if node:
+            class_nodes.append(node)
 
     spec_nodes = []
     for response_node in response['spec_talent_nodes']:
-        spec_nodes.append(TalentNode.from_raw_node(response_node))
+        node = TalentNode.from_raw_node(response_node)
+        if node:
+            spec_nodes.append(node)
 
     return TalentTree(
         class_name,
@@ -282,6 +292,8 @@ async def _get_tree_for_missing_spec(
     urls_with_context = []
     for response_node in response['talent_nodes']:
         node = TalentNode.from_raw_node(response_node)
+        if not node:
+            continue
         base_rank = response_node['ranks'][0]
         if 'choice_of_tooltips' in base_rank:
             tooltip = base_rank['choice_of_tooltips'][0]

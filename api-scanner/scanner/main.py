@@ -123,6 +123,7 @@ async def _collect_shuffle_leaderboard(
 
         print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
+        _remap_old_talents(loadout, talent_tree)
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
@@ -175,6 +176,7 @@ async def _collect_arena_leaderboard(
         print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
         talent_tree = tree_map[(loadout.class_name, loadout.spec_name)]
+        _remap_old_talents(loadout, talent_tree)
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
             continue
@@ -202,6 +204,29 @@ def _shuffle_bracket(class_name: str, spec_name: str) -> str:
     return f'shuffle-{class_slug}-{spec_slug}'
 
 
+def _remap_old_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
+    """Remap any talents missing from tree to the new talents of the same name.
+    """
+    talent_ids = set()
+    talent_names = dict()
+    for node in chain(talent_tree.class_nodes, talent_tree.spec_nodes):
+        for talent in node.talents:
+            talent_ids.add(talent.id)
+            talent_names[talent.name] = (node.id, talent.id)
+
+    for node in chain(loadout.class_nodes, loadout.spec_nodes):
+        if node.talent_id not in talent_ids:
+            talent_name = node.talent_name
+            if talent_name == 'Demonic Knowledge':
+                talent_name = 'Shadowflame Acolyte'
+            elif talent_name == "Shadow's Bite":
+                talent_name = 'Fel Covenant'
+            ids = talent_names.get(talent_name)
+            if ids:
+                node.node_id = ids[0]
+                node.talent_id = ids[1]
+
+
 def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     max_ranks = {}
     for node in chain(talent_tree.class_nodes, talent_tree.spec_nodes):
@@ -211,6 +236,7 @@ def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     for node in chain(loadout.class_nodes, loadout.spec_nodes):
         max_rank = max_ranks.get(node.talent_id)
         if max_rank is None:
+            print(f'Missing talent: N: {node.node_id} - T: {node.talent_id}')
             return False
         if node.rank > max_rank:
             return False

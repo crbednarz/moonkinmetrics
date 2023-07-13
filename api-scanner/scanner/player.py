@@ -44,6 +44,7 @@ class PlayerLink:
 class LoadoutNode:
     node_id: int
     talent_id: int
+    talent_name: str
     rank: int
 
 
@@ -128,6 +129,7 @@ def _deserialize_json_loadout(json_loadout: dict, class_name: str,
         class_nodes.append(LoadoutNode(
             raw_node['id'],
             raw_node['tooltip']['talent']['id'],
+            raw_node['tooltip']['talent']['name'],
             raw_node['rank'],
         ))
 
@@ -136,6 +138,7 @@ def _deserialize_json_loadout(json_loadout: dict, class_name: str,
         spec_nodes.append(LoadoutNode(
             raw_node['id'],
             raw_node['tooltip']['talent']['id'],
+            raw_node['tooltip']['talent']['name'],
             raw_node['rank'],
         ))
 
