@@ -19,25 +19,24 @@ func Authenticate(client HttpClient, clientId string, clientSecret string) (stri
 		"https://oauth.battle.net/token",
 		strings.NewReader(values.Encode()),
 	)
+	if err != nil {
+		return "", fmt.Errorf("unable to create authentication request: %w", err)
+	}
 	authRequest.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	authRequest.SetBasicAuth(clientId, clientSecret)
 
-	if err != nil {
-		return "", err
-	}
-
 	response, err := client.Do(authRequest)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("authentication error: %w", err)
 	}
 
 	if response.StatusCode != 200 {
-		return "", fmt.Errorf("failed to authorize: %s", response.Status)
+		return "", fmt.Errorf("authentication failed with code: %s", response.Status)
 	}
 
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("authentication has invalid body: %w", err)
 	}
 
 	authResponse := struct {
@@ -47,7 +46,7 @@ func Authenticate(client HttpClient, clientId string, clientSecret string) (stri
 	err = json.Unmarshal(body, &authResponse)
 
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("authentication cannot parse response: %w", err)
 	}
 
 	return authResponse.AccessToken, nil
