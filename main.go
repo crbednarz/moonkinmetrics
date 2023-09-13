@@ -1,25 +1,28 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/crbednarz/moonkinmetrics/scanner/pkg/bnet"
-	"io"
+	"log"
+	"encoding/json"
+	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"net/http"
 	"os"
 )
 
 func main() {
-	client := bnet.NewRateLimitedClient(&http.Client{})
+	log.Printf("Starting up")
+	httpClient := &http.Client{}
 	token, err := bnet.Authenticate(
-		client,
+		httpClient,
 		os.Getenv("WOW_CLIENT_ID"),
 		os.Getenv("WOW_CLIENT_SECRET"),
 	)
-
 	if err != nil {
 		panic(err)
 	}
+	client := bnet.NewClient(httpClient)
+	log.Printf("Authentication complete")
 
 	request := bnet.Request{
 		Locale:    "en_US",
@@ -28,12 +31,31 @@ func main() {
 		Region:    "us",
 		Token:     token,
 	}
+	log.Printf("Requesting %s", request.Path)
 
-	response, err := bnet.Get(client, request)
+	response, err := client.Get(request)
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("Request complete")
+
+	log.Printf("Initializing storage")
+	storage, err := storage.NewSqlite("wow.db")
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("Storage initialized")
+
+	err = storage.Store(request, response.Body)
 	if err != nil {
 		panic(err)
 	}
 
+	storedResponse, err := storage.Get(request)
+	if err != nil {
+		panic(err)
+	}
+	
 	leaderboardJson := struct {
 		Entries []struct {
 			Character struct {
@@ -52,11 +74,7 @@ func main() {
 			} `json:"faction"`
 		} `json:"entries"`
 	}{}
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		panic(err)
-	}
-	err = json.Unmarshal(body, &leaderboardJson)
+	err = json.Unmarshal(storedResponse.Body, &leaderboardJson)
 	if err != nil {
 		panic(err)
 	}
