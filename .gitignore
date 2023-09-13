@@ -200,3 +200,4 @@ next-env.d.ts
 !ui/lib
 ui/wow
 /tmp/
+*.db
