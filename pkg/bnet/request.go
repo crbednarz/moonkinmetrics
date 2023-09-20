@@ -57,8 +57,8 @@ type RequestBuilder struct {
 }
 
 // Build creates a new WoW API request with the given path and namespace.
-func (b *RequestBuilder) Build(path string, namespace string) *Request {
-    return &Request{
+func (b *RequestBuilder) Build(path string, namespace string) Request {
+    return Request{
         Locale: b.Locale,
         Namespace: namespace,
         Path: path,
