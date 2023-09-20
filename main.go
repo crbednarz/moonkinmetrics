@@ -1,13 +1,17 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
-	"encoding/json"
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"net/http"
 	"os"
+	"strings"
+	"time"
+
+	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/scanner"
+	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
 
 func main() {
@@ -24,34 +28,21 @@ func main() {
 	client := bnet.NewClient(httpClient)
 	log.Printf("Authentication complete")
 
-	request := bnet.Request{
-		Locale:    "en_US",
-		Namespace: "dynamic-us",
-		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
-		Region:    "us",
-		Token:     token,
-	}
-	log.Printf("Requesting %s", request.Path)
-
-	response, err := client.Get(request)
-	if err != nil {
-		panic(err)
-	}
-	log.Printf("Request complete")
-
-	log.Printf("Initializing storage")
 	storage, err := storage.NewSqlite("wow.db")
 	if err != nil {
 		panic(err)
 	}
 	log.Printf("Storage initialized")
+	scan := scanner.New(storage, client)
 
-	err = storage.Store(request, response.Body)
-	if err != nil {
-		panic(err)
-	}
+	response, err := client.Get(bnet.Request{
+		Locale:    "en_US",
+		Namespace: "dynamic-us",
+		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
+		Region:    "us",
+		Token:     token,
+	})
 
-	storedResponse, err := storage.Get(request)
 	if err != nil {
 		panic(err)
 	}
@@ -74,12 +65,55 @@ func main() {
 			} `json:"faction"`
 		} `json:"entries"`
 	}{}
-	err = json.Unmarshal(storedResponse.Body, &leaderboardJson)
+	err = json.Unmarshal(response.Body, &leaderboardJson)
 	if err != nil {
 		panic(err)
 	}
+	log.Printf("Leaderboard retrieved")
 
+	requestBuilder := bnet.RequestBuilder{
+		Locale: "en_US",
+		Region: "us",
+		Token: token,
+	}
+
+	requests := make(chan scanner.RefreshRequest, len(leaderboardJson.Entries) * 2)
+	results := make(chan scanner.RefreshResult, len(leaderboardJson.Entries) * 2)
+	scan.Refresh(requests, results)
 	for _, entry := range leaderboardJson.Entries {
-		fmt.Printf("%s-%s: %d\n", entry.Character.Name, entry.Character.Realm.Slug, entry.Rating)
+		requests <- scanner.RefreshRequest{
+			ApiRequest: requestBuilder.Build(
+				fmt.Sprintf(
+					"/profile/wow/character/%s/%s",
+					entry.Character.Realm.Slug,
+					strings.ToLower(entry.Character.Name),
+				),
+				"profile-us",
+			),
+			MaxAge: 24 * 7 * time.Hour,
+			Validator: nil,
+		}
+		requests <- scanner.RefreshRequest{
+			ApiRequest: requestBuilder.Build(
+				fmt.Sprintf(
+					"/profile/wow/character/%s/%s/specializations",
+					entry.Character.Realm.Slug,
+					strings.ToLower(entry.Character.Name),
+				),
+				"profile-us",
+			),
+			MaxAge: 24 * 7 * time.Hour,
+			Validator: nil,
+		}
+	}
+	close(requests)
+
+	for result := range results {
+		if result.Err != nil {
+			log.Printf("Error: %s", result.Err)
+		} else {
+			log.Printf("Success: %s", result.ApiRequest.Path)
+
+		}
 	}
 }
