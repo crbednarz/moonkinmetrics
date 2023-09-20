@@ -21,7 +21,7 @@ type Client struct {
 func NewClient(client HttpClient) *Client {
 	return &Client{
 		httpClient: client,
-		limiter: rate.NewLimiter(rate.Every(time.Second), 100),
+		limiter: rate.NewLimiter(rate.Every(time.Second / 100), 10),
 	}
 }
 

@@ -1,12 +1,28 @@
 package storage
 
 import (
+	"errors"
 	"fmt"
 	"testing"
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 )
+
+func createMockResponses(count int) []Response {
+    responses := make([]Response, count)
+    for i := 0; i < count; i++ {
+        responses[i] = Response{
+            Request: bnet.Request{
+                Region:    "us",
+                Namespace: "profile-us",
+                Path:      fmt.Sprintf("/data/wow/character/tichondrius/char%d", i),
+            },
+            Body: []byte(fmt.Sprintf("{\"value\": %d}}", i)),
+        }
+    }
+    return responses
+}
 
 func TestCanRetrieve(t *testing.T) {
     db, err := NewSqlite(":memory:")
@@ -43,27 +59,18 @@ func TestCanRetrieveFromMany(t *testing.T) {
         t.Fatal(err)
     }
 
-    for i := 0; i < 100; i++ {
-        request := bnet.Request{
-            Region:    "us",
-            Namespace: "profile-us",
-            Path:      fmt.Sprintf("/data/wow/character/tichondrius/charact%d", i),
-        }
-        response := []byte(fmt.Sprintf("{\"value\": %d}}", i))
+    mockResponses := createMockResponses(100)
 
-        err = db.Store(request, response)
+    for i := 0; i < 100; i++ {
+        err = db.Store(mockResponses[i].Request, mockResponses[i].Body)
         if err != nil {
             t.Fatal(err)
         }
     }
 
     for i := 0; i < 100; i++ {
-        request := bnet.Request{
-            Region:    "us",
-            Namespace: "profile-us",
-            Path:      fmt.Sprintf("/data/wow/character/tichondrius/charact%d", i),
-        }
-        response := []byte(fmt.Sprintf("{\"value\": %d}}", i))
+        request := mockResponses[i].Request
+        response := mockResponses[i].Body
 
         storedResponse, err := db.Get(request)
         if err != nil {
@@ -117,7 +124,55 @@ func TestCanReplace(t *testing.T) {
         t.Fatalf("expected %s, got %s", response, storedResponse.Body)
     }
 
-    if storedResponse.Timestamp == originalTimestamp {
-        t.Fatalf("expected timestamp to change, got %d", storedResponse.Timestamp)
+    if storedResponse.Timestamp.Equal(originalTimestamp) {
+        t.Fatalf("expected timestamps to be different, got %s", storedResponse.Timestamp)
+    }
+}
+
+func TestCanInsertLinked(t *testing.T) {
+    db, err := NewSqlite(":memory:")
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    mockResponses := createMockResponses(100)
+
+    err = db.StoreLinked(mockResponses)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    for i := 0; i < 100; i++ {
+        request := mockResponses[i].Request
+        response := mockResponses[i].Body
+
+        storedResponse, err := db.Get(request)
+        if err != nil {
+            t.Fatal(err)
+        }
+        if string(storedResponse.Body) != string(response) {
+            t.Fatalf("expected %s, got %s", response, storedResponse.Body)
+        }
+    }
+
+}
+
+func TestMissing(t *testing.T) {
+    db, err := NewSqlite(":memory:")
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    request := bnet.Request{
+        Region:    "us",
+        Namespace: "profile-us",
+        Path:      "/data/wow/character/tichondrius/charactername",
+    }
+
+    _, err = db.Get(request)
+    if err == nil {
+        t.Fatal("expected error, got nil")
+    } else if !errors.Is(err, ErrNotFound) {
+        t.Fatalf("expected ErrNotFound, got %v", err)
     }
 }
