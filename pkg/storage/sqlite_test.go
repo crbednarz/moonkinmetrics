@@ -37,7 +37,7 @@ func TestCanRetrieve(t *testing.T) {
     }
     response := []byte("{\"hello\": \"world\"}}")
 
-    err = db.Store(request, response)
+    err = db.Store(request, response, time.Hour)
     if err != nil {
         t.Fatal(err)
     }
@@ -52,6 +52,29 @@ func TestCanRetrieve(t *testing.T) {
     }
 }
 
+func TestCanExpire(t *testing.T) {
+    db, err := NewSqlite(":memory:")
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    request := bnet.Request{
+        Region:    "us",
+        Namespace: "profile-us",
+        Path:      "/data/wow/character/tichondrius/charactername",
+    }
+    response := []byte("{\"hello\": \"world\"}}")
+
+    err = db.Store(request, response, -1 * time.Second)
+    if err != nil {
+        t.Fatal(err)
+    }
+
+    _, err = db.Get(request)
+    if !errors.Is(err, ErrNotFound) {
+        t.Fatalf("expected %s, got %s", ErrNotFound, err)
+    }
+}
 
 func TestCanRetrieveFromMany(t *testing.T) {
     db, err := NewSqlite(":memory:")
@@ -62,7 +85,7 @@ func TestCanRetrieveFromMany(t *testing.T) {
     mockResponses := createMockResponses(100)
 
     for i := 0; i < 100; i++ {
-        err = db.Store(mockResponses[i].Request, mockResponses[i].Body)
+        err = db.Store(mockResponses[i].Request, mockResponses[i].Body, time.Hour)
         if err != nil {
             t.Fatal(err)
         }
@@ -95,7 +118,7 @@ func TestCanReplace(t *testing.T) {
     }
     response := []byte("{\"value\": \"1\"}}")
 
-    err = db.Store(request, response)
+    err = db.Store(request, response, time.Hour)
     if err != nil {
         t.Fatal(err)
     }
@@ -110,7 +133,7 @@ func TestCanReplace(t *testing.T) {
 
     response = []byte("{\"value\": \"2\"}}")
 
-    err = db.Store(request, response)
+    err = db.Store(request, response, time.Hour)
     if err != nil {
         t.Fatal(err)
     }
@@ -137,7 +160,7 @@ func TestCanInsertLinked(t *testing.T) {
 
     mockResponses := createMockResponses(100)
 
-    err = db.StoreLinked(mockResponses)
+    err = db.StoreLinked(mockResponses, time.Hour)
     if err != nil {
         t.Fatal(err)
     }

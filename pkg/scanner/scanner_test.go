@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
+
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
@@ -58,7 +60,7 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 
 func newMockRequest(path string) RefreshRequest {
     return RefreshRequest{
-        MaxAge: 0,
+        Lifespan: time.Hour,
         ApiRequest: bnet.Request{
             Locale: "mock_Locale",
             Region: "mock-region",

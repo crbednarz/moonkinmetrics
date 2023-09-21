@@ -20,11 +20,14 @@ type Response struct {
 
 type ResponseStorage interface {
     // Stores response for later retrieval by request.
-    Store(request bnet.Request, response []byte) error
+    Store(request bnet.Request, response []byte, lifespan time.Duration) error
 
     // Stores set of responses, ensuring that all responses are stored or none are.
-    StoreLinked(responses []Response) error
+    StoreLinked(responses []Response, lifespan time.Duration) error
 
-    // Retrieves response for request.
+    // Retrieves a non-expired response for the given request.
     Get(request bnet.Request) (StoredResponse, error)
+
+    // Cleans up expired responses.
+    Clean() error
 }
