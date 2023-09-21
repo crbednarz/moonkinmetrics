@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS ApiResponses(
     locale TEXT NOT NULL,
     data BLOB NOT NULL,
     timestamp INTEGER NOT NULL,
+    expires INTEGER NOT NULL,
     PRIMARY KEY(path, region, namespace)
 );
 
