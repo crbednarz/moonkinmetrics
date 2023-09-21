@@ -33,22 +33,24 @@ func NewSqlite(path string) (*Sqlite, error) {
     return &Sqlite{db: db}, nil
 }
 
-func (s *Sqlite) Store(request bnet.Request, response []byte) error {
+func (s *Sqlite) Store(request bnet.Request, response []byte, lifespan time.Duration) error {
     s.lock.Lock()
     defer s.lock.Unlock()
+    now := time.Now()
     _, err := s.db.Exec(
-        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?, ?)",
         request.Region,
         request.Namespace,
         request.Path,
         request.Locale,
         response,
-        time.Now().Unix(),
+        now.Unix(),
+        now.Add(lifespan).Unix(),
     )
     return err
 }
 
-func (s *Sqlite) StoreLinked(responses []Response) error {
+func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error {
     s.lock.Lock()
     defer s.lock.Unlock()
     tx, err := s.db.Begin()
@@ -56,7 +58,7 @@ func (s *Sqlite) StoreLinked(responses []Response) error {
         return err
     }
     stmt, err := tx.Prepare(
-        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp) VALUES (?, ?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?, ?)",
     )
     if err != nil {
         if txErr := tx.Rollback(); txErr != nil {
@@ -65,6 +67,7 @@ func (s *Sqlite) StoreLinked(responses []Response) error {
             return fmt.Errorf("failed to prepare statement: %w", err)
         }
     }
+    now := time.Now()
     for _, response := range responses {
         _, err = stmt.Exec(
             response.Request.Region,
@@ -73,6 +76,7 @@ func (s *Sqlite) StoreLinked(responses []Response) error {
             response.Request.Locale,
             response.Body,
             time.Now().Unix(),
+            now.Add(lifespan).Unix(),
         )
         if err != nil {
             if txErr := tx.Rollback(); txErr != nil {
@@ -89,10 +93,11 @@ func (s *Sqlite) Get(request bnet.Request) (StoredResponse, error) {
     s.lock.RLock()
     defer s.lock.RUnlock()
     row := s.db.QueryRow(
-        "SELECT data, timestamp FROM ApiResponses WHERE region = ? AND namespace = ? AND path = ?",
+        "SELECT data, timestamp FROM ApiResponses WHERE region = ? AND namespace = ? AND path = ? AND expires >= ?",
         request.Region,
         request.Namespace,
         request.Path,
+        time.Now().Unix(),
     )
     var response StoredResponse
     var timestamp int64
@@ -104,4 +109,11 @@ func (s *Sqlite) Get(request bnet.Request) (StoredResponse, error) {
         return response, ErrNotFound
     }
     return response, err
+}
+
+func (s *Sqlite) Clean() error {
+    s.lock.Lock()
+    defer s.lock.Unlock()
+    _, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?", time.Now().Unix())
+    return err
 }
