@@ -14,7 +14,14 @@ type MockHttpClient struct {
 }
 
 func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
-	if req.URL.String() != "https://mock-region.api.blizzard.com/data/wow/mock/path?locale=mock_Locale&namespace=mock-namespace" {
+	if req.URL.String() == "https://oauth.battle.net/token" {
+		return &http.Response{
+			StatusCode: 200,
+			Body: io.NopCloser(strings.NewReader(`{"access_token":"mock_token"}`)),
+		}, nil
+	}
+
+	if req.URL.String() != "https://us.api.blizzard.com/data/wow/mock/path?locale=en_US&namespace=profile-us" {
 		return nil, fmt.Errorf("unexpected url: %s", req.URL.String())
 	}
 
@@ -35,14 +42,13 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 
 func TestClientCanGet(t *testing.T) {
 	request := Request{
-		Locale: "mock_Locale",
-		Region: "mock-region",
-		Namespace: "mock-namespace",
-		Token: "mock_token",
+		Region: RegionUS,
+		Namespace: NamespaceProfile,
 		Path: "/data/wow/mock/path",
 	}
 
-	client := NewClient(&MockHttpClient{})
+	client := NewClient(&MockHttpClient{}, "mock_client_id", "mock_client_secret")
+	client.Authenticate()
 
 	response, err := client.Get(request)
 	if err != nil {

@@ -14,8 +14,8 @@ func createMockResponses(count int) []Response {
     for i := 0; i < count; i++ {
         responses[i] = Response{
             Request: bnet.Request{
-                Region:    "us",
-                Namespace: "profile-us",
+                Region:    bnet.RegionUS,
+                Namespace: bnet.NamespaceProfile,
                 Path:      fmt.Sprintf("/data/wow/character/tichondrius/char%d", i),
             },
             Body: []byte(fmt.Sprintf("{\"value\": %d}}", i)),
@@ -31,8 +31,8 @@ func TestCanRetrieve(t *testing.T) {
     }
 
     request := bnet.Request{
-        Region:    "us",
-        Namespace: "profile-us",
+        Region:    bnet.RegionUS,
+        Namespace: bnet.NamespaceProfile,
         Path:      "/data/wow/character/tichondrius/charactername",
     }
     response := []byte("{\"hello\": \"world\"}}")
@@ -59,8 +59,8 @@ func TestCanExpire(t *testing.T) {
     }
 
     request := bnet.Request{
-        Region:    "us",
-        Namespace: "profile-us",
+        Region:    bnet.RegionUS,
+        Namespace: bnet.NamespaceProfile,
         Path:      "/data/wow/character/tichondrius/charactername",
     }
     response := []byte("{\"hello\": \"world\"}}")
@@ -112,8 +112,8 @@ func TestCanReplace(t *testing.T) {
     }
 
     request := bnet.Request{
-        Region:    "us",
-        Namespace: "profile-us",
+        Region:    bnet.RegionUS,
+        Namespace: bnet.NamespaceProfile,
         Path:      "/data/wow/character/tichondrius/charactername",
     }
     response := []byte("{\"value\": \"1\"}}")
@@ -187,8 +187,8 @@ func TestMissing(t *testing.T) {
     }
 
     request := bnet.Request{
-        Region:    "us",
-        Namespace: "profile-us",
+        Region:    bnet.RegionUS,
+        Namespace: bnet.NamespaceProfile,
         Path:      "/data/wow/character/tichondrius/charactername",
     }
 

@@ -44,7 +44,7 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
             ShouldFail: false,
         }
     }
-    client := bnet.NewClient(httpClient)
+    client := bnet.NewClient(httpClient, "mock_client_id", "mock_client_secret")
     cache, err := storage.NewSqlite(":memory:")
     if err != nil {
         return nil, err
@@ -62,10 +62,8 @@ func newMockRequest(path string) RefreshRequest {
     return RefreshRequest{
         Lifespan: time.Hour,
         ApiRequest: bnet.Request{
-            Locale: "mock_Locale",
-            Region: "mock-region",
-            Namespace: "mock-namespace",
-            Token: "mock_token",
+            Region: bnet.RegionUS,
+            Namespace: bnet.NamespaceProfile,
             Path: path,
         },
         Validator: nil,
