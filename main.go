@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/scanner"
+	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
 
@@ -33,7 +33,7 @@ func main() {
 		panic(err)
 	}
 	log.Printf("Storage initialized")
-	scan := scanner.New(storage, client)
+	scan := scan.NewScanner(storage, client)
 
 	response, err := client.Get(bnet.Request{
 		Locale:    "en_US",
@@ -77,11 +77,11 @@ func main() {
 		Token: token,
 	}
 
-	requests := make(chan scanner.RefreshRequest, len(leaderboardJson.Entries) * 2)
-	results := make(chan scanner.RefreshResult, len(leaderboardJson.Entries) * 2)
+	requests := make(chan scan.RefreshRequest, len(leaderboardJson.Entries) * 2)
+	results := make(chan scan.RefreshResult, len(leaderboardJson.Entries) * 2)
 	scan.Refresh(requests, results)
 	for _, entry := range leaderboardJson.Entries {
-		requests <- scanner.RefreshRequest{
+		requests <- scan.RefreshRequest{
 			ApiRequest: requestBuilder.Build(
 				fmt.Sprintf(
 					"/profile/wow/character/%s/%s",
@@ -90,10 +90,10 @@ func main() {
 				),
 				"profile-us",
 			),
-			MaxAge: 24 * 7 * time.Hour,
+			Lifespan: 24 * time.Hour,
 			Validator: nil,
 		}
-		requests <- scanner.RefreshRequest{
+		requests <- scan.RefreshRequest{
 			ApiRequest: requestBuilder.Build(
 				fmt.Sprintf(
 					"/profile/wow/character/%s/%s/specializations",
@@ -102,7 +102,7 @@ func main() {
 				),
 				"profile-us",
 			),
-			MaxAge: 24 * 7 * time.Hour,
+			Lifespan: 24 * time.Hour,
 			Validator: nil,
 		}
 	}
