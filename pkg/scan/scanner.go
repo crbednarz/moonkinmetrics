@@ -1,4 +1,4 @@
-package scanner
+package scan
 
 import (
 	"errors"
@@ -48,8 +48,8 @@ type RefreshResult struct {
     Err error
 }
 
-// New creates a new scanner instance.
-func New(storage storage.ResponseStorage, client *bnet.Client) *Scanner {
+// NewScanner creates a new scanner instance.
+func NewScanner(storage storage.ResponseStorage, client *bnet.Client) *Scanner {
     return &Scanner{
         storage: storage,
         client: client,
