@@ -16,16 +16,15 @@ import (
 
 func main() {
 	log.Printf("Starting up")
-	httpClient := &http.Client{}
-	token, err := bnet.Authenticate(
-		httpClient,
+	client := bnet.NewClient(
+		&http.Client{},
 		os.Getenv("WOW_CLIENT_ID"),
 		os.Getenv("WOW_CLIENT_SECRET"),
 	)
+	err := client.Authenticate()
 	if err != nil {
 		panic(err)
 	}
-	client := bnet.NewClient(httpClient)
 	log.Printf("Authentication complete")
 
 	storage, err := storage.NewSqlite("wow.db")
@@ -33,14 +32,12 @@ func main() {
 		panic(err)
 	}
 	log.Printf("Storage initialized")
-	scan := scan.NewScanner(storage, client)
+	scanner := scan.NewScanner(storage, client)
 
 	response, err := client.Get(bnet.Request{
-		Locale:    "en_US",
-		Namespace: "dynamic-us",
+		Namespace: bnet.NamespaceDynamic,
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
-		Region:    "us",
-		Token:     token,
+		Region:    bnet.RegionUS,
 	})
 
 	if err != nil {
@@ -71,37 +68,33 @@ func main() {
 	}
 	log.Printf("Leaderboard retrieved")
 
-	requestBuilder := bnet.RequestBuilder{
-		Locale: "en_US",
-		Region: "us",
-		Token: token,
-	}
-
 	requests := make(chan scan.RefreshRequest, len(leaderboardJson.Entries) * 2)
 	results := make(chan scan.RefreshResult, len(leaderboardJson.Entries) * 2)
-	scan.Refresh(requests, results)
+	scanner.Refresh(requests, results)
 	for _, entry := range leaderboardJson.Entries {
 		requests <- scan.RefreshRequest{
-			ApiRequest: requestBuilder.Build(
-				fmt.Sprintf(
+			ApiRequest: bnet.Request{
+				Path: fmt.Sprintf(
 					"/profile/wow/character/%s/%s",
 					entry.Character.Realm.Slug,
 					strings.ToLower(entry.Character.Name),
 				),
-				"profile-us",
-			),
+				Namespace: bnet.NamespaceProfile,
+				Region: bnet.RegionUS,
+			},
 			Lifespan: 24 * time.Hour,
 			Validator: nil,
 		}
 		requests <- scan.RefreshRequest{
-			ApiRequest: requestBuilder.Build(
-				fmt.Sprintf(
+			ApiRequest: bnet.Request{
+				Path: fmt.Sprintf(
 					"/profile/wow/character/%s/%s/specializations",
 					entry.Character.Realm.Slug,
 					strings.ToLower(entry.Character.Name),
 				),
-				"profile-us",
-			),
+				Namespace: bnet.NamespaceProfile,
+				Region: bnet.RegionUS,
+			},
 			Lifespan: 24 * time.Hour,
 			Validator: nil,
 		}

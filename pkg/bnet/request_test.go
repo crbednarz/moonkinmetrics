@@ -7,11 +7,9 @@ import (
 
 func TestRequestToString(t *testing.T) {
 	request := Request{
-		Locale:    "en_US",
-		Namespace: "dynamic-us",
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
-		Region:    "us",
-		Token:     "TEST_TOKEN",
+		Namespace: NamespaceDynamic,
+		Region:    RegionUS,
 	}
 	expected := url.URL{
 		Scheme:   "https",
@@ -27,11 +25,9 @@ func TestRequestToString(t *testing.T) {
 
 func TestRequestToUrl(t *testing.T) {
 	request := Request{
-		Locale:    "en_US",
-		Namespace: "dynamic-us",
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
-		Region:    "us",
-		Token:     "TEST_TOKEN",
+		Namespace: NamespaceDynamic,
+		Region:    RegionUS,
 	}
 	expected := url.URL{
 		Scheme:   "https",
@@ -47,13 +43,11 @@ func TestRequestToUrl(t *testing.T) {
 
 func TestRequestToHttpRequest(t *testing.T) {
 	request := Request{
-		Locale:    "en_US",
-		Namespace: "dynamic-us",
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
-		Region:    "us",
-		Token:     "TEST_TOKEN",
+		Namespace: NamespaceDynamic,
+		Region:    RegionUS,
 	}
-	actual, err := request.HttpRequest()
+	actual, err := request.HttpRequest("TEST_TOKEN")
 	if err != nil {
 		t.Errorf("Expected no error, got %s", err.Error())
 	}
