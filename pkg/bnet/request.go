@@ -6,21 +6,39 @@ import (
     "net/url"
 )
 
+type Namespace string
+type Region string
+
+const (
+    NamespaceStatic Namespace = "static"
+    NamespaceDynamic Namespace = "dynamic"
+    NamespaceProfile Namespace = "profile"
+)
+
+const (
+    RegionUS Region = "us"
+    RegionEU Region = "eu"
+)
+
 // A WoW API request.
 type Request struct {
-    Locale string
-    Namespace string
     Path string
-    Region string
-    Token string
+    Region Region
+    Namespace Namespace
 }
 
 // Returns the url.URL representation of the WoW API request.
 // This does not include the authorization header, so is typically used for logging.
 func (r *Request) Url() *url.URL {
+    locale := "en_US"
+    if r.Region == RegionEU {
+        locale = "en_GB"
+    }
+
+    namespace := fmt.Sprintf("%s-%s", r.Namespace, r.Region)
     query := url.Values{}
-    query.Set("locale", r.Locale)
-    query.Set("namespace", r.Namespace)
+    query.Set("locale", locale)
+    query.Set("namespace", namespace)
     return &url.URL{
         Scheme: "https",
         Host: fmt.Sprintf("%s.api.blizzard.com", r.Region),
@@ -35,34 +53,15 @@ func (r *Request) String() string {
     return r.Url().String()
 }
 
-// Creates an http.Request from the WoW API request.
+// Creates an http.Request from the WoW API request with the given token.
 // This includes the authorization header, unlike Url() and String().
-func (r *Request) HttpRequest() (*http.Request, error) {
+func (r *Request) HttpRequest(token string) (*http.Request, error) {
     request, err := http.NewRequest("GET", r.String(), nil)
     if err != nil {
         return nil, err
     }
-    request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", r.Token))
+    request.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
     request.Header.Add("Accept", "application/json")
     return request, nil
 }
 
-// A RequestBuilder allows requests to be built with typically static parameters.
-// These consist of the locale, region, and token.
-// Typically only one builder will be needed per region.
-type RequestBuilder struct {
-    Locale string
-    Region string
-    Token string
-}
-
-// Build creates a new WoW API request with the given path and namespace.
-func (b *RequestBuilder) Build(path string, namespace string) Request {
-    return Request{
-        Locale: b.Locale,
-        Namespace: namespace,
-        Path: path,
-        Region: b.Region,
-        Token: b.Token,
-    }
-}

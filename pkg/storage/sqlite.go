@@ -38,11 +38,10 @@ func (s *Sqlite) Store(request bnet.Request, response []byte, lifespan time.Dura
     defer s.lock.Unlock()
     now := time.Now()
     _, err := s.db.Exec(
-        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?)",
         request.Region,
         request.Namespace,
         request.Path,
-        request.Locale,
         response,
         now.Unix(),
         now.Add(lifespan).Unix(),
@@ -58,7 +57,7 @@ func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error
         return err
     }
     stmt, err := tx.Prepare(
-        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, locale, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT OR REPLACE INTO ApiResponses (region, namespace, path, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?)",
     )
     if err != nil {
         if txErr := tx.Rollback(); txErr != nil {
@@ -73,7 +72,6 @@ func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error
             response.Request.Region,
             response.Request.Namespace,
             response.Request.Path,
-            response.Request.Locale,
             response.Body,
             time.Now().Unix(),
             now.Add(lifespan).Unix(),
