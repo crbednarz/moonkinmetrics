@@ -1,4 +1,4 @@
-package scanner
+package scan
 
 import (
 	"fmt"
@@ -50,7 +50,7 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
         return nil, err
     }
 
-    scanner := New(
+    scanner := NewScanner(
         cache,
         client,
     )
