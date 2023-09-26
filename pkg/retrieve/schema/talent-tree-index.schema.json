@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "required": ["spec_talent_trees", "class_talent_trees"],
+  "properties": {
+    "spec_talent_trees": {
+      "$ref": "#/$defs/tree_link"
+    },
+    "class_talent_trees": {
+      "$ref": "#/$defs/tree_link"
+    }
+  },
+  "$defs": {
+    "tree_link": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "name"],
+        "properties": {
+          "key": {
+            "type": "object",
+            "required": ["href"],
+            "properties": {
+              "href": {
+                "type": "string"
+              }
+            }
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
