@@ -17,18 +17,22 @@ type HttpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
+// Client is a rate limited HTTP client for the Battle.net API.
+// Note that Authenticate must be called before making any requests.
 type Client struct {
-	httpClient HttpClient
-	limiter *rate.Limiter
-	clientId string
+	httpClient   HttpClient
+	limiter      *rate.Limiter
+	clientId     string
 	clientSecret string
-	token string
+	token        string
 }
 
 func NewClient(client HttpClient, clientId string, clientSecret string) *Client {
 	return &Client{
-		httpClient: client,
-		limiter: rate.NewLimiter(rate.Every(time.Second / 100), 10),
+		httpClient:   client,
+		limiter:      rate.NewLimiter(rate.Every(time.Second/100), 10),
+		clientId:     clientId,
+		clientSecret: clientSecret,
 	}
 }
 
@@ -54,8 +58,8 @@ func (c *Client) Get(request Request) (*Response, error) {
 	}
 
 	return &Response{
-		Body: body,
-		Request: &request,
+		Body:       body,
+		Request:    &request,
 		StatusCode: response.StatusCode,
 	}, err
 }

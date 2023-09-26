@@ -17,7 +17,7 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 	if req.URL.String() == "https://oauth.battle.net/token" {
 		return &http.Response{
 			StatusCode: 200,
-			Body: io.NopCloser(strings.NewReader(`{"access_token":"mock_token"}`)),
+			Body:       io.NopCloser(strings.NewReader(`{"access_token":"mock_token"}`)),
 		}, nil
 	}
 
@@ -35,16 +35,15 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 
 	return &http.Response{
 		StatusCode: 200,
-		Body: io.NopCloser(strings.NewReader(mockBody)),
+		Body:       io.NopCloser(strings.NewReader(mockBody)),
 	}, nil
 }
 
-
 func TestClientCanGet(t *testing.T) {
 	request := Request{
-		Region: RegionUS,
+		Region:    RegionUS,
 		Namespace: NamespaceProfile,
-		Path: "/data/wow/mock/path",
+		Path:      "/data/wow/mock/path",
 	}
 
 	client := NewClient(&MockHttpClient{}, "mock_client_id", "mock_client_secret")
