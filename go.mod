@@ -1,6 +1,6 @@
 module github.com/crbednarz/moonkinmetrics
 
-go 1.19
+go 1.21
 
 require (
 	github.com/mattn/go-sqlite3 v1.14.17
