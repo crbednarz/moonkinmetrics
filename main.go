@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
@@ -32,7 +32,7 @@ func main() {
 	log.Printf("Storage initialized")
 	scanner := scan.NewScanner(storage, client)
 
-	trees, err := retrieve.GetTalentTrees(scanner)
+	trees, err := talents.GetTalentTrees(scanner)
 	if err != nil {
 		panic(err)
 	}
