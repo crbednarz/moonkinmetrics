@@ -75,3 +75,28 @@ func TestRequestToHttpRequest(t *testing.T) {
 		t.Errorf("Expected %s, got %s", expectedAcceptHeader, actual.Header.Get("Accept"))
 	}
 }
+
+func TestRequestFromUrl(t *testing.T) {
+	rawUrl := "https://us.api.blizzard.com/data/wow/talent-tree/850?namespace=static-10.1.7_51059-us"
+	expected := Request{
+		Path:      "/data/wow/talent-tree/850",
+		Namespace: NamespaceStatic,
+		Region:    RegionUS,
+	}
+	actual, err := RequestFromUrl(rawUrl)
+	if err != nil {
+		t.Errorf("Expected no error, got %s", err.Error())
+	}
+
+	if actual.Path != expected.Path {
+		t.Errorf("Expected %s, got %s", expected.Path, actual.Path)
+	}
+
+	if actual.Namespace != expected.Namespace {
+		t.Errorf("Expected %s, got %s", expected.Namespace, actual.Namespace)
+	}
+
+	if actual.Region != expected.Region {
+		t.Errorf("Expected %s, got %s", expected.Region, actual.Region)
+	}
+}

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"regexp"
 )
 
 type Namespace string
@@ -13,6 +14,10 @@ const (
 	NamespaceStatic  Namespace = "static"
 	NamespaceDynamic Namespace = "dynamic"
 	NamespaceProfile Namespace = "profile"
+)
+
+var (
+	urlRegex = regexp.MustCompile(`^https?:\/\/(us|eu)\.api\.blizzard\.com(\/[^?]+)\?.*namespace=(static|dynamic|profile)-.+$`)
 )
 
 const (
@@ -25,6 +30,26 @@ type Request struct {
 	Path      string
 	Region    Region
 	Namespace Namespace
+}
+
+// Creates a WoW API request from the given URL.
+// The URL is expected to be in the format returned by the WoW API.
+// e.g. https://us.api.blizzard.com/data/wow/talents?namespace=static-10.1.7_51059-us
+func RequestFromUrl(rawUrl string) (Request, error) {
+	matches := urlRegex.FindStringSubmatch(rawUrl)
+	if len(matches) != 4 {
+		return Request{}, fmt.Errorf("invalid url: %s", rawUrl)
+	}
+
+	region := Region(matches[1])
+	path := matches[2]
+	namespace := Namespace(matches[3])
+
+	return Request{
+		Path:      path,
+		Region:    region,
+		Namespace: namespace,
+	}, nil
 }
 
 // Returns the url.URL representation of the WoW API request.
