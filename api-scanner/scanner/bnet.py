@@ -134,7 +134,8 @@ class Client:
                     }
                 )
 
-                if response.status_code == 429:
+                if (response.status_code == 429 or
+                   response.status_code == 500):
                     time.sleep(2)
                     continue
                 break
@@ -215,7 +216,8 @@ class Client:
                     },
                 ) as response:
                     json = None
-                    if response.status == 429:
+                    if (response.status == 429 or
+                       response.status == 500):
                         await asyncio.sleep(2)
                         continue
 

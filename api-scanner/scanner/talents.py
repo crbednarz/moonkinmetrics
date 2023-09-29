@@ -6,7 +6,8 @@ from itertools import chain
 from typing import AsyncGenerator, Generator, Optional
 
 from .bnet import Client
-from .constants import CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID, SPEC_ID_BY_CLASS_SPEC
+from .constants import (CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID,
+                        SPEC_ID_BY_CLASS_SPEC)
 
 
 @dataclass
