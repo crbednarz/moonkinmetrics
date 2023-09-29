@@ -3,14 +3,14 @@
   "required": ["spec_talent_trees", "class_talent_trees"],
   "properties": {
     "spec_talent_trees": {
-      "$ref": "#/$defs/tree_link"
+      "$ref": "#/$defs/tree_links"
     },
     "class_talent_trees": {
-      "$ref": "#/$defs/tree_link"
+      "$ref": "#/$defs/tree_links"
     }
   },
   "$defs": {
-    "tree_link": {
+    "tree_links": {
       "type": "array",
       "minItems": 1,
       "items": {
