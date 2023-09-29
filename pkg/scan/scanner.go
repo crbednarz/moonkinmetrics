@@ -73,7 +73,8 @@ func (s *Scanner) RefreshSingle(request RefreshRequest) RefreshResult {
 // Note that the scanner will block should the results channel be full.
 func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- RefreshResult) {
 	apiRequests := make(chan RefreshRequest, cap(requests))
-	for i := 0; i < min(100, cap(requests)); i++ {
+	workerCount := min(max(1, cap(requests)), 100)
+	for i := 0; i < workerCount; i++ {
 		go s.apiWorker(apiRequests, results)
 	}
 
