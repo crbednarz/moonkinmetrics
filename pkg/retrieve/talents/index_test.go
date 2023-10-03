@@ -23,11 +23,11 @@ var (
 	missingDataIndex string
 )
 
-type MockHttpClient struct {
+type mockHttpClient struct {
 	IndexBody string
 }
 
-func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
+func (m *mockHttpClient) Do(req *http.Request) (*http.Response, error) {
 	response := &http.Response{
 		StatusCode: 200,
 		Body:       io.NopCloser(strings.NewReader(m.IndexBody)),
@@ -38,7 +38,7 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 
 func newMockScanner(indexBody string) (*scan.Scanner, error) {
 	client := bnet.NewClient(
-		&MockHttpClient{
+		&mockHttpClient{
 			IndexBody: indexBody,
 		},
 		"mock_client_id",

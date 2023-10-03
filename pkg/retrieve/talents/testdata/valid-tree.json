@@ -1,0 +1,4832 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/talent-tree/786/playable-specialization/262?namespace=static-10.1.7_51059-us"
+    }
+  },
+  "id": 786,
+  "playable_class": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/playable-class/7?namespace=static-10.1.7_51059-us"
+    },
+    "name": "Shaman",
+    "id": 7
+  },
+  "playable_specialization": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/playable-specialization/262?namespace=static-10.1.7_51059-us"
+    },
+    "name": "Elemental",
+    "id": 262
+  },
+  "name": "Elemental",
+  "media": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/media/talent-tree/786/playable-specialization/262?namespace=static-10.1.7_51059-us"
+    }
+  },
+  "restriction_lines": [
+    {
+      "required_points": 20,
+      "restricted_row": 7.5,
+      "is_for_class": true
+    },
+    {
+      "required_points": 8,
+      "restricted_row": 4.5,
+      "is_for_class": true
+    },
+    {
+      "required_points": 8,
+      "restricted_row": 4.5,
+      "is_for_class": false
+    },
+    {
+      "required_points": 20,
+      "restricted_row": 7.5,
+      "is_for_class": false
+    }
+  ],
+  "class_talent_nodes": [
+    {
+      "id": 81063,
+      "unlocks": [
+        81106
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106951?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Chain Heal",
+              "id": 106951
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/1064?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Chain Heal",
+                "id": 1064
+              },
+              "description": "Heals the friendly target for 12,474, then jumps up to 15 yards to heal the 3 most injured nearby allies. Healing is reduced by 30% with each jump.",
+              "cast_time": "2.5 sec cast",
+              "power_cost": null,
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 1,
+      "display_col": 1,
+      "raw_position_x": 1800,
+      "raw_position_y": 1200
+    },
+    {
+      "id": 81062,
+      "unlocks": [
+        81068,
+        81067
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106952?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Lava Burst",
+              "id": 106952
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/51505?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Lava Burst",
+                "id": 51505
+              },
+              "description": "Hurls molten lava at the target, dealing 5,245 Fire damage. Lava Burst will always critically strike if the target is affected by Flame Shock.",
+              "cast_time": "2 sec cast",
+              "power_cost": "1,250 Mana",
+              "range": "40 yd range"
+            }
+          },
+          "default_points": 1
+        }
+      ],
+      "display_row": 1,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 1200
+    },
+    {
+      "id": 81057,
+      "unlocks": [
+        81056,
+        81072,
+        81068
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106950?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Astral Shift",
+              "id": 106950
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/108271?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Astral Shift",
+                "id": 108271
+              },
+              "description": "Shift partially into the elemental planes, taking 40% less damage for 12 sec.",
+              "cast_time": "Instant",
+              "cooldown": "2 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 1,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 1200
+    },
+    {
+      "id": 81061,
+      "unlocks": [
+        81074,
+        81060,
+        81085
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107008?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Chain Lightning",
+              "id": 107008
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/188443?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Chain Lightning",
+                "id": 188443
+              },
+              "description": "Hurls a lightning bolt at the enemy, dealing 3,502 Nature damage and then jumping to additional nearby enemies. Affects 3 total targets.",
+              "cast_time": "2 sec cast",
+              "power_cost": "500 Mana",
+              "range": "40 yd range"
+            }
+          },
+          "default_points": 1
+        }
+      ],
+      "display_row": 1,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 1200
+    },
+    {
+      "id": 81068,
+      "locked_by": [
+        81057,
+        81062
+      ],
+      "unlocks": [
+        81071,
+        81067,
+        81064
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106953?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Wind Shear",
+              "id": 106953
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/57994?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Wind Shear",
+                "id": 57994
+              },
+              "description": "Disrupts the target's concentration with a burst of wind, interrupting spellcasting and preventing any spell in that school from being cast for 2 sec.",
+              "cast_time": "Instant",
+              "range": "30 yd range",
+              "cooldown": "12 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 2,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 81056,
+      "locked_by": [
+        81057
+      ],
+      "unlocks": [
+        81071
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106949?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Planes Traveler",
+                "id": 106949
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381647?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Planes Traveler",
+                  "id": 381647
+                },
+                "description": "Reduces the cooldown of Astral Shift by 30 sec.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106948?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Astral Bulwark",
+                "id": 106948
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/377933?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Astral Bulwark",
+                  "id": 377933
+                },
+                "description": "Astral Shift reduces damage taken by an additional 20%.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 2,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 81072,
+      "locked_by": [
+        81057
+      ],
+      "unlocks": [
+        81071,
+        81058
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106959?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Spirit Wolf",
+                "id": 106959
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/260878?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Spirit Wolf",
+                  "id": 260878
+                },
+                "description": "While transformed into a Ghost Wolf, you gain 5% increased movement speed and 5% damage reduction every 1 sec, stacking up to 4 times.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106958?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Thunderous Paws",
+                "id": 106958
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378075?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Thunderous Paws",
+                  "id": 378075
+                },
+                "description": "Ghost Wolf removes snares and increases your movement speed by an additional 25% for the first 3 sec. May only occur once every 20 sec.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 2,
+      "display_col": 6,
+      "raw_position_x": 4800,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 81074,
+      "locked_by": [
+        81061
+      ],
+      "unlocks": [
+        81076,
+        81058
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106961?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Frost Shock",
+              "id": 106961
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/196840?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Frost Shock",
+                "id": 196840
+              },
+              "description": "Chills the target with frost, causing 3,453 Frost damage and reducing the target's movement speed by 50% for 6 sec.",
+              "cast_time": "Instant",
+              "power_cost": "500 Mana",
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 2,
+      "display_col": 7,
+      "raw_position_x": 5400,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 81060,
+      "locked_by": [
+        81061
+      ],
+      "unlocks": [
+        81059
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107007?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Maelstrom Weapon",
+              "id": 107007
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/187880?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Maelstrom Weapon",
+                "id": 187880
+              },
+              "description": "When you deal damage with a melee weapon, you have a chance to gain Maelstrom Weapon, stacking up to 5 times. Each stack of Maelstrom Weapon reduces the cast time of your next damage or healing spell by 20%.\r\n\r\nA maximum of 5 stacks of Maelstrom Weapon can be consumed at a time.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 2,
+      "display_col": 9,
+      "raw_position_x": 6600,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 81106,
+      "locked_by": [
+        81063
+      ],
+      "unlocks": [
+        81105,
+        81100
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106968?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Earth Shield",
+              "id": 106968
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/974?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Earth Shield",
+                "id": 974
+              },
+              "description": "Protects the target with an earthen shield, increasing your healing on them by 20% and healing them for 3,930 when they take damage. This heal can only occur once every few seconds. Maximum 9 charges.\r\n\r\nEarth Shield can only be placed on one target at a time. Only one Elemental Shield can be active on the Shaman.",
+              "cast_time": "Instant",
+              "power_cost": null,
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 1,
+      "raw_position_x": 1800,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81067,
+      "locked_by": [
+        81068,
+        81062
+      ],
+      "unlocks": [
+        81069,
+        92682,
+        81100
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106973?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Fire and Ice",
+              "id": 106973
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382886?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Fire and Ice",
+                "id": 382886
+              },
+              "description": "Increases all Fire and Frost damage you deal by 3%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81064,
+      "locked_by": [
+        81068
+      ],
+      "unlocks": [
+        81069
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106974?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Earth Elemental",
+              "id": 106974
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/198103?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Earth Elemental",
+                "id": 198103
+              },
+              "description": "Calls forth a Greater Earth Elemental to protect you and your allies for 1 min.\r\n\r\nWhile this elemental is active, your maximum health is increased by 15%.",
+              "cast_time": "Instant",
+              "cooldown": "5 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81071,
+      "locked_by": [
+        81072,
+        81056,
+        81068
+      ],
+      "unlocks": [
+        81069,
+        81070
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106957?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Capacitor Totem",
+              "id": 106957
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/192058?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Capacitor Totem",
+                "id": 192058
+              },
+              "description": "Summons a totem at the target location that gathers electrical energy from the surrounding air and explodes after 2 sec, stunning all enemies within 8 yards for 3 sec.",
+              "cast_time": "Instant",
+              "power_cost": "5,000 Mana",
+              "range": "40 yd range",
+              "cooldown": "1 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81058,
+      "locked_by": [
+        81072,
+        81074
+      ],
+      "unlocks": [
+        81079,
+        81076
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106963?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Ancestral Wolf Affinity",
+              "id": 106963
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382197?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Ancestral Wolf Affinity",
+                "id": 382197
+              },
+              "description": "Cleanse Spirit, Wind Shear, Purge, and totem casts no longer cancel Ghost Wolf.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 6,
+      "raw_position_x": 4800,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81085,
+      "locked_by": [
+        81061
+      ],
+      "unlocks": [
+        81086,
+        81059,
+        81076
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106804?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Brimming with Life",
+              "id": 106804
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381689?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Brimming with Life",
+                "id": 381689
+              },
+              "description": "Maximum health increased by 8%, and while you are at full health, Reincarnation cools down 75% faster.\r\n\r\n",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 3,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 81105,
+      "locked_by": [
+        81106
+      ],
+      "unlocks": [
+        81092
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106967?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Orbit",
+              "id": 106967
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/383010?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Orbit",
+                "id": 383010
+              },
+              "description": "Increases the number of Elemental Shields you can have active on yourself by 1.\r\n\r\nYou can have Earth Shield on yourself and one ally at the same time.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 1,
+      "raw_position_x": 1800,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81100,
+      "locked_by": [
+        81067,
+        81106
+      ],
+      "unlocks": [
+        81075,
+        81101
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106993?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Healing Stream Totem",
+              "id": 106993
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/5394?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Healing Stream Totem",
+                "id": 5394
+              },
+              "description": "Summons a totem at your feet for 15 sec that heals an injured party or raid member within 40 yards for 2,581 every 1.8 sec.\r\n\r\nIf you already know Healing Stream Totem, instead gain 1 additional charge of Healing Stream Totem.",
+              "cast_time": "Instant",
+              "power_cost": null
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 2,
+      "raw_position_x": 2400,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 92682,
+      "locked_by": [
+        81067
+      ],
+      "unlocks": [
+        81075,
+        81082
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/119826?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Ancestral Defense",
+              "id": 119826
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382947?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Ancestral Defense",
+                "id": 382947
+              },
+              "description": "Increases Leech by 2% and reduces damage taken from area-of-effect attacks by 2%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81069,
+      "locked_by": [
+        81071,
+        81067,
+        81064
+      ],
+      "unlocks": [
+        81082
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106954?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Tremor Totem",
+              "id": 106954
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/8143?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Tremor Totem",
+                "id": 8143
+              },
+              "description": "Summons a totem at your feet that shakes the ground around it for 10 sec, removing Fear, Charm and Sleep effects from party and raid members within 30 yards.",
+              "cast_time": "Instant",
+              "power_cost": "1,150 Mana",
+              "cooldown": "1 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81070,
+      "locked_by": [
+        81071
+      ],
+      "unlocks": [
+        81079,
+        81082
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106956?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Static Charge",
+                "id": 106956
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/265046?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Static Charge",
+                  "id": 265046
+                },
+                "description": "Reduces the cooldown of Capacitor Totem by 5 sec for each enemy it stuns, up to a maximum reduction of 20 sec.",
+                "cast_time": "Passive",
+                "cooldown": "1 min cooldown"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106955?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Guardian's Cudgel",
+                "id": 106955
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381819?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Guardian's Cudgel",
+                  "id": 381819
+                },
+                "description": "When Capacitor Totem fades or is destroyed, another Capacitor Totem is automatically dropped in the same place.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 4,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81076,
+      "locked_by": [
+        81074,
+        81085,
+        81058
+      ],
+      "unlocks": [
+        81079,
+        81086
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106965?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Purge",
+                "id": 106965
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/370?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Purge",
+                  "id": 370
+                },
+                "description": "Purges the enemy target, removing 1 beneficial Magic effect.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "30 yd range"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106964?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Greater Purge",
+                "id": 106964
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378773?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Greater Purge",
+                  "id": 378773
+                },
+                "description": "Purges the enemy target, removing 2 beneficial Magic effects.",
+                "cast_time": "Instant",
+                "power_cost": null,
+                "range": "30 yd range",
+                "cooldown": "12 sec cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 4,
+      "display_col": 7,
+      "raw_position_x": 5400,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81059,
+      "locked_by": [
+        81060,
+        81085
+      ],
+      "unlocks": [
+        81086
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107006?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Flurry",
+              "id": 107006
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382888?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Flurry",
+                "id": 382888
+              },
+              "description": "Increases your attack speed by 15% for your next 3 melee swings after dealing a critical strike with a spell or ability.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 9,
+      "raw_position_x": 6600,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 81101,
+      "locked_by": [
+        81100
+      ],
+      "unlocks": [
+        81066,
+        81084,
+        81092
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106996?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Swirling Currents",
+              "id": 106996
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378094?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Swirling Currents",
+                "id": 378094
+              },
+              "description": "Increases the healing done by Healing Stream Totem by 40%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106996?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Swirling Currents",
+              "id": 106996
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378094?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Swirling Currents",
+                "id": 378094
+              },
+              "description": "Increases the healing done by Healing Stream Totem by 80%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 2,
+      "raw_position_x": 2400,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81075,
+      "locked_by": [
+        92682,
+        81100
+      ],
+      "unlocks": [
+        81084
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106966?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Cleanse Spirit",
+              "id": 106966
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/51886?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Cleanse Spirit",
+                "id": 51886
+              },
+              "description": "Removes all Curse effects from a friendly target.",
+              "cast_time": "Instant",
+              "power_cost": "25,000 Mana",
+              "range": "40 yd range",
+              "cooldown": "8 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81082,
+      "locked_by": [
+        92682,
+        81069,
+        81070
+      ],
+      "unlocks": [
+        81084,
+        81081
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106971?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Earthgrab Totem",
+                "id": 106971
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/51485?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Earthgrab Totem",
+                  "id": 51485
+                },
+                "description": "Summons a totem at the target location for 20 sec. The totem pulses every 2 sec, rooting all enemies within 8 yards for 8 sec. Enemies previously rooted by the totem instead suffer 50% movement speed reduction.",
+                "cast_time": "Instant",
+                "power_cost": "1,250 Mana",
+                "range": "35 yd range",
+                "cooldown": "30 sec cooldown"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106970?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Wind Rush Totem",
+                "id": 106970
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/192077?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Wind Rush Totem",
+                  "id": 192077
+                },
+                "description": "Summons a totem at the target location for 15 sec, continually granting all allies who pass within 10 yards 40% increased movement speed for 5 sec.",
+                "cast_time": "Instant",
+                "range": "40 yd range",
+                "cooldown": "2 min cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 5,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81079,
+      "locked_by": [
+        81076,
+        81058,
+        81070
+      ],
+      "unlocks": [
+        81078,
+        81081,
+        81094
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106981?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Hex",
+              "id": 106981
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/51514?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Hex",
+                "id": 51514
+              },
+              "description": "Transforms the enemy into a frog for 1 min. While hexed, the victim is incapacitated, and cannot attack or cast spells. Damage may cancel the effect. Limit 1. Only works on Humanoids and Beasts.",
+              "cast_time": "1.7 sec cast",
+              "range": "30 yd range",
+              "cooldown": "30 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 6,
+      "raw_position_x": 4800,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81086,
+      "locked_by": [
+        81076,
+        81059,
+        81085
+      ],
+      "unlocks": [
+        81087
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107005?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Nature's Fury",
+              "id": 107005
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381655?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Nature's Fury",
+                "id": 381655
+              },
+              "description": "Increases the critical strike chance of your Nature spells and abilities by 2%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107005?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Nature's Fury",
+              "id": 107005
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381655?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Nature's Fury",
+                "id": 381655
+              },
+              "description": "Increases the critical strike chance of your Nature spells and abilities by 4%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81092,
+      "locked_by": [
+        81101,
+        81105
+      ],
+      "unlocks": [
+        81066
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106983?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Surging Shields",
+              "id": 106983
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382033?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Surging Shields",
+                "id": 382033
+              },
+              "description": "Increases the damage dealt by Lightning Shield by 50%.\r\n\r\nIncreases the healing done by Earth Shield by 12%.\r\n\r\n",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106983?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Surging Shields",
+              "id": 106983
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382033?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Surging Shields",
+                "id": 382033
+              },
+              "description": "Increases the damage dealt by Lightning Shield by 100%.\r\n\r\nIncreases the healing done by Earth Shield by 25%.\r\n\r\n",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 1,
+      "raw_position_x": 1800,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81084,
+      "locked_by": [
+        81075,
+        81101,
+        81082
+      ],
+      "unlocks": [
+        81102,
+        81097,
+        81066
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106978?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Warding",
+              "id": 106978
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381650?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Warding",
+                "id": 381650
+              },
+              "description": "Reduces all magic damage taken by 2%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106978?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Warding",
+              "id": 106978
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381650?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Warding",
+                "id": 381650
+              },
+              "description": "Reduces all magic damage taken by 4%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81081,
+      "locked_by": [
+        81082,
+        81079
+      ],
+      "unlocks": [
+        81097,
+        81094,
+        81080
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106969?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Nature's Guardian",
+              "id": 106969
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/30884?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Nature's Guardian",
+                "id": 30884
+              },
+              "description": "When your health is brought below 35%, you instantly heal for 10% of your maximum health. Cannot occur more than once every 45 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106969?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Nature's Guardian",
+              "id": 106969
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/30884?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Nature's Guardian",
+                "id": 30884
+              },
+              "description": "When your health is brought below 35%, you instantly heal for 20% of your maximum health. Cannot occur more than once every 45 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81078,
+      "locked_by": [
+        81079
+      ],
+      "unlocks": [
+        81104,
+        81088
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106980?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Voodoo Mastery",
+                "id": 106980
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/204268?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Voodoo Mastery",
+                  "id": 204268
+                },
+                "description": "Reduces the cooldown of Hex by 15 sec.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106979?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Enfeeblement",
+                "id": 106979
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378079?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Enfeeblement",
+                  "id": 378079
+                },
+                "description": "Your Hex target is slowed by 70% during Hex and for 6 sec after it ends.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 6,
+      "display_col": 7,
+      "raw_position_x": 5400,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81087,
+      "locked_by": [
+        81086
+      ],
+      "unlocks": [
+        81088
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107004?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Winds of Al'Akir",
+              "id": 107004
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382215?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Winds of Al'Akir",
+                "id": 382215
+              },
+              "description": "Increases the movement speed bonus of Ghost Wolf by 5%.\r\n\r\nWhen you have 3 or more totems active, your movement speed is increased by 8%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107004?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Winds of Al'Akir",
+              "id": 107004
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382215?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Winds of Al'Akir",
+                "id": 382215
+              },
+              "description": "Increases the movement speed bonus of Ghost Wolf by 10%.\r\n\r\nWhen you have 3 or more totems active, your movement speed is increased by 15%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81066,
+      "locked_by": [
+        81101,
+        81084,
+        81092
+      ],
+      "unlocks": [
+        81102,
+        81065
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106975?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Spiritwalker's Grace",
+              "id": 106975
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/79206?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Spiritwalker's Grace",
+                "id": 79206
+              },
+              "description": "Calls upon the guidance of the spirits for 15 sec, permitting movement while casting Shaman spells. Castable while casting.",
+              "cast_time": "Instant",
+              "power_cost": "7,050 Mana",
+              "cooldown": "2 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 2,
+      "raw_position_x": 2400,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81097,
+      "locked_by": [
+        81081,
+        81084
+      ],
+      "unlocks": [
+        81096,
+        81080,
+        81102
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106990?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Thunderstorm",
+              "id": 106990
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/51490?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Thunderstorm",
+                "id": 51490
+              },
+              "description": "Calls down a bolt of lightning, dealing 575 Nature damage to all enemies within 10 yards, reducing their movement speed by 40% for 5 sec, and knocking them away from the Shaman. Usable while stunned.",
+              "cast_time": "Instant",
+              "cooldown": "30 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81094,
+      "locked_by": [
+        81079,
+        81081
+      ],
+      "unlocks": [
+        81093,
+        81080,
+        81104
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106985?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Focus",
+              "id": 106985
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382201?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Focus",
+                "id": 382201
+              },
+              "description": "Increases the radius of your totem effects by 8%.\r\n\r\nIncreases the duration of your Earthbind and Earthgrab Totems by 5 sec.\r\n\r\nIncreases the duration of your Healing Stream, Tremor, Poison Cleansing, and Wind Rush Totems by 1.5 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106985?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Focus",
+              "id": 106985
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382201?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Focus",
+                "id": 382201
+              },
+              "description": "Increases the radius of your totem effects by 15%.\r\n\r\nIncreases the duration of your Earthbind and Earthgrab Totems by 10 sec.\r\n\r\nIncreases the duration of your Healing Stream, Tremor, Poison Cleansing, and Wind Rush Totems by 3.0 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 6,
+      "raw_position_x": 4800,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81088,
+      "locked_by": [
+        81087,
+        81078
+      ],
+      "unlocks": [
+        81089,
+        81104
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/107003?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Spirit Walk",
+                "id": 107003
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/58875?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Spirit Walk",
+                  "id": 58875
+                },
+                "description": "Removes all movement impairing effects and increases your movement speed by 60% for 8 sec.",
+                "cast_time": "Instant",
+                "cooldown": "1 min cooldown"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/107002?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Gust of Wind",
+                "id": 107002
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/192063?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Gust of Wind",
+                  "id": 192063
+                },
+                "description": "A gust of wind hurls you forward.",
+                "cast_time": "Instant",
+                "cooldown": "30 sec cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 7,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81065,
+      "locked_by": [
+        81066
+      ],
+      "unlocks": [
+        81103,
+        81099
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106977?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Graceful Spirit",
+                "id": 106977
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/192088?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Graceful Spirit",
+                  "id": 192088
+                },
+                "description": "Reduces the cooldown of Spiritwalker's Grace by 30 sec and increases your movement speed by 20% while it is active.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106976?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Spiritwalker's Aegis",
+                "id": 106976
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378077?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Spiritwalker's Aegis",
+                  "id": 378077
+                },
+                "description": "When you cast Spiritwalker's Grace, you become immune to Silence and Interrupt effects for 5 sec.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 8,
+      "display_col": 2,
+      "raw_position_x": 2400,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81102,
+      "locked_by": [
+        81084,
+        81097,
+        81066
+      ],
+      "unlocks": [
+        81103
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106997?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Ancestral Guidance",
+              "id": 106997
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/108281?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Ancestral Guidance",
+                "id": 108281
+              },
+              "description": "For the next 10 sec, 25% of your healing done and 25% of your damage done is converted to healing on up to 3 nearby injured party or raid members, up to 40,780 healing to each target per second.",
+              "cast_time": "Instant",
+              "cooldown": "2 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81080,
+      "locked_by": [
+        81097,
+        81094,
+        81081
+      ],
+      "unlocks": [
+        81093,
+        81095
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106982?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Projection",
+              "id": 106982
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/108287?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Projection",
+                "id": 108287
+              },
+              "description": "Relocates your active totems to the specified location.",
+              "cast_time": "Instant",
+              "range": "40 yd range",
+              "cooldown": "10 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81104,
+      "locked_by": [
+        81094,
+        81088,
+        81078
+      ],
+      "unlocks": [
+        81091,
+        81093
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106994?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Surge",
+              "id": 106994
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381867?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Surge",
+                "id": 381867
+              },
+              "description": "Reduces the cooldown of your totems by 3 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106994?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Surge",
+              "id": 106994
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381867?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Surge",
+                "id": 381867
+              },
+              "description": "Reduces the cooldown of your totems by 6 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 7,
+      "raw_position_x": 5400,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81089,
+      "locked_by": [
+        81088
+      ],
+      "unlocks": [
+        81091
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107001?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Go with the Flow",
+              "id": 107001
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381678?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Go with the Flow",
+                "id": 381678
+              },
+              "description": "Reduces the cooldown of Spirit Walk by 10 sec.\r\n\r\nReduces the cooldown of Gust of Wind by 5 sec.\r\n",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107001?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Go with the Flow",
+              "id": 107001
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381678?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Go with the Flow",
+                "id": 381678
+              },
+              "description": "Reduces the cooldown of Spirit Walk by 20 sec.\r\n\r\nReduces the cooldown of Gust of Wind by 10 sec.\r\n",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 9,
+      "raw_position_x": 6600,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81103,
+      "locked_by": [
+        81065,
+        81102
+      ],
+      "unlocks": [
+        81099
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106995?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Mana Spring",
+              "id": 106995
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381930?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Mana Spring",
+                "id": 381930
+              },
+              "description": "Your Lava Burst casts restore 350 mana to you and 4 allies nearest to you within 40 yards.\r\n\r\nAllies can only benefit from one Shaman's Mana Spring effect at a time, prioritizing healers.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 3,
+      "raw_position_x": 3000,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81096,
+      "locked_by": [
+        81097
+      ],
+      "unlocks": [
+        81095
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106989?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Thundershock",
+                "id": 106989
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378779?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Thundershock",
+                  "id": 378779
+                },
+                "description": "Thunderstorm knocks enemies up instead of away and its cooldown is reduced by 5 sec.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106988?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Lightning Lasso",
+                "id": 106988
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/305483?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Lightning Lasso",
+                  "id": 305483
+                },
+                "description": "Grips the target in lightning, stunning and dealing 38,577 Nature damage over 5 sec while the target is lassoed. Can move while channeling.",
+                "cast_time": "Instant",
+                "range": "20 yd range",
+                "cooldown": "45 sec cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 9,
+      "display_col": 4,
+      "raw_position_x": 3600,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81093,
+      "locked_by": [
+        81080,
+        81094,
+        81104
+      ],
+      "unlocks": [
+        81095
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106984?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Poison Cleansing Totem",
+              "id": 106984
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/383013?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Poison Cleansing Totem",
+                "id": 383013
+              },
+              "description": "Summons a totem at your feet that removes all Poison effects from a nearby party or raid member within 30 yards every 1.5 sec for 6 sec.",
+              "cast_time": "Instant",
+              "power_cost": "1,250 Mana",
+              "range": "40 yd range",
+              "cooldown": "45 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 6,
+      "raw_position_x": 4800,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81091,
+      "locked_by": [
+        81089,
+        81104
+      ],
+      "unlocks": [
+        81090
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/107000?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Totemic Recall",
+              "id": 107000
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/108285?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Totemic Recall",
+                "id": 108285
+              },
+              "description": "Resets the cooldown of your most recently used totem with a base cooldown shorter than 3 minutes.",
+              "cast_time": "Instant",
+              "cooldown": "3 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81099,
+      "locked_by": [
+        81103,
+        81065
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106992?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Nature's Swiftness",
+              "id": 106992
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378081?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Nature's Swiftness",
+                "id": 378081
+              },
+              "description": "Your next healing or damaging Nature spell is instant cast and costs no mana.",
+              "cast_time": "Instant",
+              "cooldown": "1 min cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 10,
+      "display_col": 2,
+      "raw_position_x": 2400,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 81095,
+      "locked_by": [
+        81093,
+        81096,
+        81080
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106987?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Stoneskin Totem",
+                "id": 106987
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/383017?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Stoneskin Totem",
+                  "id": 383017
+                },
+                "description": "Summons a totem at your feet for 15 sec that grants 10% physical damage reduction to you and the 4 allies nearest to the totem within 30 yards.",
+                "cast_time": "Instant",
+                "power_cost": "750 Mana",
+                "cooldown": "30 sec cooldown"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106986?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Tranquil Air Totem",
+                "id": 106986
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/383019?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Tranquil Air Totem",
+                  "id": 383019
+                },
+                "description": "Summons a totem at your feet for 20 sec that prevents cast pushback and reduces the duration of all incoming interrupt effects by 50% for you and the 4 allies nearest to the totem within 30 yards.",
+                "cast_time": "Instant",
+                "power_cost": "750 Mana",
+                "cooldown": "1 min cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 10,
+      "display_col": 5,
+      "raw_position_x": 4200,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 81090,
+      "locked_by": [
+        81091
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106999?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Call of the Elements",
+                "id": 106999
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/383011?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Call of the Elements",
+                  "id": 383011
+                },
+                "description": "Reduces the cooldown of Totemic Recall by 60 sec.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106998?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Creation Core",
+                "id": 106998
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/383012?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Creation Core",
+                  "id": 383012
+                },
+                "description": "Totemic Recall affects an additional totem.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 10,
+      "display_col": 8,
+      "raw_position_x": 6000,
+      "raw_position_y": 6600
+    }
+  ],
+  "spec_talent_nodes": [
+    {
+      "id": 80984,
+      "unlocks": [
+        80981,
+        80983,
+        80985
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106811?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Earth Shock",
+              "id": 106811
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/8042?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Earth Shock",
+                "id": 8042
+              },
+              "description": "Instantly shocks the target with concussive force, causing 15,513 Nature damage.",
+              "cast_time": "Instant",
+              "power_cost": "60 Maelstrom",
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 1,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 1200
+    },
+    {
+      "id": 80985,
+      "locked_by": [
+        80984
+      ],
+      "unlocks": [
+        80986
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106814?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Earthquake",
+              "id": 106814
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/61882?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Earthquake",
+                "id": 61882
+              },
+              "description": "Causes the earth within 8 yards of the target location to tremble and break, dealing 7,536 Physical damage over 6 sec and has a 5% chance to knock the enemy down. Multiple uses of Earthquake may overlap.",
+              "cast_time": "Instant",
+              "power_cost": "60 Maelstrom",
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 2,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 80983,
+      "locked_by": [
+        80984
+      ],
+      "unlocks": [
+        80982
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106810?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Fury",
+              "id": 106810
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/60188?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Fury",
+                "id": 60188
+              },
+              "description": "Your damaging critical strikes deal 250% damage instead of the usual 200%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 2,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 80981,
+      "locked_by": [
+        80984
+      ],
+      "unlocks": [
+        80980
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106837?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Fire Elemental",
+                "id": 106837
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/198067?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Fire Elemental",
+                  "id": 198067
+                },
+                "description": "Calls forth a Greater Fire Elemental to rain destruction on your enemies for 30 sec. \r\n\r\nWhile the Fire Elemental is active, Flame Shock deals damage \r\n33% faster, and newly applied Flame Shocks last 100% longer.",
+                "cast_time": "Instant",
+                "power_cost": "2,500 Mana"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106836?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Storm Elemental",
+                "id": 106836
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/192249?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Storm Elemental",
+                  "id": 192249
+                },
+                "description": "Calls forth a Greater Storm Elemental to hurl gusts of wind that damage the Shaman's enemies for 30 sec.\r\n\r\nWhile the Storm Elemental is active, each time you cast Lightning Bolt or Chain Lightning, the cast time of Lightning Bolt and Chain Lightning is reduced by 3%, stacking up to 10 times.",
+                "cast_time": "Instant",
+                "power_cost": "2,500 Mana",
+                "range": "40 yd range"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 2,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 1800
+    },
+    {
+      "id": 80986,
+      "locked_by": [
+        80985
+      ],
+      "unlocks": [
+        80987
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106813?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Tumultuous Fissures",
+                "id": 106813
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381743?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Tumultuous Fissures",
+                  "id": 381743
+                },
+                "description": "Increases the chance for Earthquake to knock enemies down by 3.0%.\r\n",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106812?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Inundate",
+                "id": 106812
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378776?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Inundate",
+                  "id": 378776
+                },
+                "description": "Your successful Purge, Cleanse Spirit, Healing Stream Totem, Hex, and Wind Shear casts generate 8 Maelstrom during combat.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 3,
+      "display_col": 16,
+      "raw_position_x": 10800,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 80982,
+      "locked_by": [
+        80983
+      ],
+      "unlocks": [
+        80998
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106809?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Primordial Fury",
+                "id": 106809
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378193?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Primordial Fury",
+                  "id": 378193
+                },
+                "description": "Your healing critical strikes heal for 250% healing instead of the usual 200%.\r\n",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106808?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Focused Insight",
+                "id": 106808
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381666?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Focused Insight",
+                  "id": 381666
+                },
+                "description": "Casting Flame Shock reduces the mana cost of your next heal by 20% and increases its healing effectiveness by 30%.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 3,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 80980,
+      "locked_by": [
+        80981
+      ],
+      "unlocks": [
+        80979
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106835?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Refreshing Waters",
+                "id": 106835
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378211?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Refreshing Waters",
+                  "id": 378211
+                },
+                "description": "Your Healing Surge is 25% more effective on yourself.\r\n",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106834?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Primordial Bond",
+                "id": 106834
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381764?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Primordial Bond",
+                  "id": 381764
+                },
+                "description": "While you have an elemental active, your damage taken is reduced by 5%.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 3,
+      "display_col": 20,
+      "raw_position_x": 13200,
+      "raw_position_y": 2400
+    },
+    {
+      "id": 80987,
+      "locked_by": [
+        80986
+      ],
+      "unlocks": [
+        80997,
+        80988
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106818?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Call of Thunder",
+              "id": 106818
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378241?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Call of Thunder",
+                "id": 378241
+              },
+              "description": "Increases the damage of your Lightning Bolt, Chain Lightning, and Storm Elemental by 15%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 16,
+      "raw_position_x": 10800,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 80998,
+      "locked_by": [
+        80982
+      ],
+      "unlocks": [
+        81016,
+        80997,
+        80999
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106816?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Flow of Power",
+              "id": 106816
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/385923?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Flow of Power",
+                "id": 385923
+              },
+              "description": "Increases the Maelstrom generated by Lightning Bolt and Lava Burst by 2, and their Elemental Overloads by 1.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 80979,
+      "locked_by": [
+        80980
+      ],
+      "unlocks": [
+        80999,
+        81011
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106833?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Lava Surge",
+              "id": 106833
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/77756?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Lava Surge",
+                "id": 77756
+              },
+              "description": "Your Flame Shock damage over time has a 10% chance to reset the remaining cooldown on Lava Burst and cause your next Lava Burst to be instant.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 4,
+      "display_col": 20,
+      "raw_position_x": 13200,
+      "raw_position_y": 3000
+    },
+    {
+      "id": 80988,
+      "locked_by": [
+        80987
+      ],
+      "unlocks": [
+        80989
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106819?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Unrelenting Calamity",
+              "id": 106819
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382685?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Unrelenting Calamity",
+                "id": 382685
+              },
+              "description": "Reduces the cast time of Lightning Bolt and Chain Lightning by 0.25 sec.\r\n\r\nIncreases the duration of Earthquake by 1 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 15,
+      "raw_position_x": 10200,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 80997,
+      "locked_by": [
+        80987,
+        80998
+      ],
+      "unlocks": [
+        80996
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106817?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Icefury",
+              "id": 106817
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/210714?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Icefury",
+                "id": 210714
+              },
+              "description": "Hurls frigid ice at the target, dealing 9,156 Frost damage and causing your next 4 Frost Shocks to deal 225% increased damage and generate 14 Maelstrom.\r\n\r\nGenerates 25 Maelstrom.",
+              "cast_time": "2 sec cast",
+              "power_cost": "1,500 Mana",
+              "range": "40 yd range",
+              "cooldown": "30 sec cooldown"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81016,
+      "locked_by": [
+        80998
+      ],
+      "unlocks": [
+        81000,
+        81015
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106815?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Swelling Maelstrom",
+              "id": 106815
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381707?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Swelling Maelstrom",
+                "id": 381707
+              },
+              "description": "Increases your maximum Maelstrom by 50.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 80999,
+      "locked_by": [
+        80979,
+        80998
+      ],
+      "unlocks": [
+        81000
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106832?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Echo of the Elements",
+              "id": 106832
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/333919?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Echo of the Elements",
+                "id": 333919
+              },
+              "description": "Lava Burst has an additional charge.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 81011,
+      "locked_by": [
+        80979
+      ],
+      "unlocks": [
+        81010
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106855?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Call of Fire",
+              "id": 106855
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378255?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Call of Fire",
+                "id": 378255
+              },
+              "description": "Increases the damage of your Flame Shock, Lava Burst, Lava Beam, and Fire Elemental by 10%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 5,
+      "display_col": 21,
+      "raw_position_x": 13800,
+      "raw_position_y": 3600
+    },
+    {
+      "id": 80989,
+      "locked_by": [
+        80988
+      ],
+      "unlocks": [
+        80995,
+        80990
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106820?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Stormkeeper",
+              "id": 106820
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/191634?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Stormkeeper",
+                "id": 191634
+              },
+              "description": "Charge yourself with lightning, causing your next 2 Lightning Bolts to deal 150% more damage, and also causes your next 2 Lightning Bolts or Chain Lightnings to be instant cast and trigger an Elemental Overload on every target.",
+              "cast_time": "1.5 sec cast"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 15,
+      "raw_position_x": 10200,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 80996,
+      "locked_by": [
+        80997
+      ],
+      "unlocks": [
+        80995,
+        81015
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106823?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Flux Melting",
+                "id": 106823
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/381776?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Flux Melting",
+                  "id": 381776
+                },
+                "description": "Casting Frost Shock increases the damage of your next Lava Burst by 20%.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106822?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Electrified Shocks",
+                "id": 106822
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/382086?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Electrified Shocks",
+                  "id": 382086
+                },
+                "description": "Icefury causes your Frost Shocks to damage up to 3 additional enemies and targets hit take 15% increased Nature damage from your spells for 9 sec.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 6,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81000,
+      "locked_by": [
+        80999,
+        81016
+      ],
+      "unlocks": [
+        81015,
+        81004
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106831?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Aftershock",
+                "id": 106831
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/273221?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Aftershock",
+                  "id": 273221
+                },
+                "description": "Earth Shock, Elemental Blast, and Earthquake have a 25% chance to refund all Maelstrom spent.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106830?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Surge of Power",
+                "id": 106830
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/262303?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Surge of Power",
+                  "id": 262303
+                },
+                "description": "Earth Shock, Elemental Blast, and Earthquake enhance your next spell cast within 15 sec:\r\n\r\nFlame Shock: The next cast also applies Flame Shock to 1 additional target within 8 yards of the target.\r\n\r\nLightning Bolt: Your next cast will cause 2 additional Elemental Overloads.\r\n\r\nChain Lightning: Your next cast will chain to 1 additional target.\r\n\r\nLava Burst: Reduces the cooldown of your Fire and Storm Elemental by 6.0 sec.\r\n\r\nFrost Shock: Freezes the target in place for 6 sec.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 6,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 81010,
+      "locked_by": [
+        81011
+      ],
+      "unlocks": [
+        81004,
+        81009
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106854?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Flames of the Cauldron",
+              "id": 106854
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378266?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Flames of the Cauldron",
+                "id": 378266
+              },
+              "description": "Reduces the cooldown of Flame Shock by 1.5 sec and Flame Shock deals damage 15% faster.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 6,
+      "display_col": 21,
+      "raw_position_x": 13800,
+      "raw_position_y": 4200
+    },
+    {
+      "id": 80990,
+      "locked_by": [
+        80989
+      ],
+      "unlocks": [
+        80994,
+        80991
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106843?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Flash of Lightning",
+              "id": 106843
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381936?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Flash of Lightning",
+                "id": 381936
+              },
+              "description": "Casting Lightning Bolt or Chain Lightning reduces the cooldown of your Nature spells by 1.0 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 14,
+      "raw_position_x": 9600,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 80995,
+      "locked_by": [
+        80996,
+        80989
+      ],
+      "unlocks": [
+        81014,
+        80993,
+        80994
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106821?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Eye of the Storm",
+              "id": 106821
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381708?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Eye of the Storm",
+                "id": 381708
+              },
+              "description": "Reduces the Maelstrom cost of Earth Shock and Earthquake by 5.\r\n\r\nReduces the Maelstrom cost of Elemental Blast by 7.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106821?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Eye of the Storm",
+              "id": 106821
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381708?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Eye of the Storm",
+                "id": 381708
+              },
+              "description": "Reduces the Maelstrom cost of Earth Shock and Earthquake by 10.\r\n\r\nReduces the Maelstrom cost of Elemental Blast by 15.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 16,
+      "raw_position_x": 10800,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81015,
+      "locked_by": [
+        81000,
+        81016,
+        80996
+      ],
+      "unlocks": [
+        81013,
+        81003,
+        81014
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106824?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Power of the Maelstrom",
+              "id": 106824
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/191861?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Power of the Maelstrom",
+                "id": 191861
+              },
+              "description": "Casting Lava Burst has a 13% chance to cause your next 2 Lightning Bolt or Chain Lightning casts to trigger Elemental Overload an additional time.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106824?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Power of the Maelstrom",
+              "id": 106824
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/191861?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Power of the Maelstrom",
+                "id": 191861
+              },
+              "description": "Casting Lava Burst has a 25% chance to cause your next 2 Lightning Bolt or Chain Lightning casts to trigger Elemental Overload an additional time.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81004,
+      "locked_by": [
+        81000,
+        81010
+      ],
+      "unlocks": [
+        81003,
+        81008,
+        81007
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106829?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Master of the Elements",
+              "id": 106829
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/16166?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Master of the Elements",
+                "id": 16166
+              },
+              "description": "Casting Lava Burst increases the damage or healing of your next Nature, Physical, or Frost spell by 10%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106829?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Master of the Elements",
+              "id": 106829
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/16166?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Master of the Elements",
+                "id": 16166
+              },
+              "description": "Casting Lava Burst increases the damage or healing of your next Nature, Physical, or Frost spell by 20%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 20,
+      "raw_position_x": 13200,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 81009,
+      "locked_by": [
+        81010
+      ],
+      "unlocks": [
+        81005,
+        81008
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106853?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Improved Flametongue Weapon",
+              "id": 106853
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382027?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Improved Flametongue Weapon",
+                "id": 382027
+              },
+              "description": "Imbuing your weapon with Flametongue increases your Fire spell damage by 5% for 1 hour.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 7,
+      "display_col": 22,
+      "raw_position_x": 14400,
+      "raw_position_y": 4800
+    },
+    {
+      "id": 80994,
+      "locked_by": [
+        80995,
+        80990
+      ],
+      "unlocks": [
+        80991,
+        80993
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106842?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Blast",
+              "id": 106842
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/117014?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Blast",
+                "id": 117014
+              },
+              "description": "Harnesses the raw power of the elements, dealing 9,587 Elemental damage and increasing your Critical Strike or Haste by 3% or Mastery by 6% for 10 sec.",
+              "cast_time": "2 sec cast",
+              "power_cost": null,
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 15,
+      "raw_position_x": 10200,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81014,
+      "locked_by": [
+        81015,
+        80995
+      ],
+      "unlocks": [
+        80977,
+        80993,
+        81013
+      ],
+      "node_type": {
+        "id": 0,
+        "type": "ACTIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106840?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Primordial Wave",
+              "id": 106840
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/375982?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Primordial Wave",
+                "id": 375982
+              },
+              "description": "Blast your target with a Primordial Wave, dealing 3,570 Shadow damage and apply Flame Shock to an enemy, or heal an ally for 3,567.\r\n\r\nYour next Healing Wave will also hit all targets affected by your Riptide for 150% of normal damage.",
+              "cast_time": "Instant",
+              "power_cost": "1,500 Mana",
+              "range": "40 yd range"
+            }
+          }
+        }
+      ],
+      "display_row": 8,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81003,
+      "locked_by": [
+        81015,
+        81004
+      ],
+      "unlocks": [
+        81013,
+        81007,
+        81002
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106828?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Deeply Rooted Elements",
+                "id": 106828
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378270?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Deeply Rooted Elements",
+                  "id": 378270
+                },
+                "description": "Casting Stormstrike has a 7% chance to activate Ascendance for 6.0 sec.\r\n\r\n Ascendance\r\n\r\nTransform into an Air Ascendant for 15 sec, immediately dealing 973 Nature damage to any enemy within 8 yds, reducing the cooldown and cost of Stormstrike by 60%, and transforming your auto attack and Stormstrike into Wind attacks which bypass armor and have a 30 yd range.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106827?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Ascendance",
+                "id": 106827
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/114050?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Ascendance",
+                  "id": 114050
+                },
+                "description": "Transform into a Flame Ascendant for 15 sec, replacing Chain Lightning with Lava Beam, removing the cooldown on Lava Burst, and increasing the damage of Lava Burst by an amount equal to your critical strike chance.\r\n\r\nWhen you transform into the Flame Ascendant, instantly cast a Lava Burst at all enemies affected by your Flame Shock, and refresh your Flame Shock durations to 18 sec.",
+                "cast_time": "Instant",
+                "cooldown": "3 min cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 8,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 81008,
+      "locked_by": [
+        81004,
+        81009
+      ],
+      "unlocks": [
+        81005,
+        81007
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106852?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Primal Elementalist",
+                "id": 106852
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/117013?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Primal Elementalist",
+                  "id": 117013
+                },
+                "description": "Your Earth, Fire, and Storm Elementals are drawn from primal elementals 80% more powerful than regular elementals, with additional abilities, and you gain direct control over them.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106851?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Liquid Magma Totem",
+                "id": 106851
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/192222?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Liquid Magma Totem",
+                  "id": 192222
+                },
+                "description": "Summons a totem at the target location that erupts dealing 5,407 Fire damage and applying Flame Shock to 3 enemies within 8 yards. Continues hurling liquid magma at a random nearby target every 0.9 sec for 6 sec, dealing 3,192 Fire damage to all enemies within 8 yards.\r\n",
+                "cast_time": "Instant",
+                "power_cost": "1,750 Mana",
+                "range": "40 yd range",
+                "cooldown": "1 min cooldown"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 8,
+      "display_col": 21,
+      "raw_position_x": 13800,
+      "raw_position_y": 5400
+    },
+    {
+      "id": 80991,
+      "locked_by": [
+        80994,
+        80990
+      ],
+      "unlocks": [
+        80992
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106844?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Echoes of Great Sundering",
+              "id": 106844
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/384087?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Echoes of Great Sundering",
+                "id": 384087
+              },
+              "description": "After casting Earth Shock, your next Earthquake deals 60% additional damage.\r\n\r\nAfter casting Elemental Blast, your next Earthquake deals 70% additional damage.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106844?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Echoes of Great Sundering",
+              "id": 106844
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/384087?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Echoes of Great Sundering",
+                "id": 384087
+              },
+              "description": "After casting Earth Shock, your next Earthquake deals 120% additional damage.\r\n\r\nAfter casting Elemental Blast, your next Earthquake deals 140% additional damage.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 14,
+      "raw_position_x": 9600,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 80993,
+      "locked_by": [
+        81014,
+        80995,
+        80994
+      ],
+      "unlocks": [
+        80992
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106841?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Equilibrium",
+              "id": 106841
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378271?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Equilibrium",
+                "id": 378271
+              },
+              "description": "Dealing direct Fire, Frost, and Nature damage within 10 sec will increase all damage dealt by 8% for 10 sec. This can only occur once every 30 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106841?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Elemental Equilibrium",
+              "id": 106841
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/378271?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Elemental Equilibrium",
+                "id": 378271
+              },
+              "description": "Dealing direct Fire, Frost, and Nature damage within 10 sec will increase all damage dealt by 15% for 10 sec. This can only occur once every 30 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 16,
+      "raw_position_x": 10800,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 80977,
+      "locked_by": [
+        81014
+      ],
+      "unlocks": [
+        80978
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106858?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Rolling Magma",
+              "id": 106858
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/386443?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Rolling Magma",
+                "id": 386443
+              },
+              "description": "Lava Burst and Lava Burst Overload damage reduces the cooldown of Primordial Wave by 0.5 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106858?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Rolling Magma",
+              "id": 106858
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/386443?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Rolling Magma",
+                "id": 386443
+              },
+              "description": "Lava Burst and Lava Burst Overload damage reduces the cooldown of Primordial Wave by 1.0 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81013,
+      "locked_by": [
+        81015,
+        81014,
+        81003
+      ],
+      "unlocks": [
+        81012
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106839?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Echo Chamber",
+              "id": 106839
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382032?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Echo Chamber",
+                "id": 382032
+              },
+              "description": "Increases the damage dealt by your Elemental Overloads by 8%.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106839?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Echo Chamber",
+              "id": 106839
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/382032?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Echo Chamber",
+                "id": 382032
+              },
+              "description": "Increases the damage dealt by your Elemental Overloads by 15%.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81002,
+      "locked_by": [
+        81003
+      ],
+      "unlocks": [
+        81001
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106826?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Oath of the Far Seer",
+              "id": 106826
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381785?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Oath of the Far Seer",
+                "id": 381785
+              },
+              "description": "Reduces the cooldown of Ascendance by 30 sec, and you gain 8% additional Haste while Ascendance is active.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106826?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Oath of the Far Seer",
+              "id": 106826
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381785?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Oath of the Far Seer",
+                "id": 381785
+              },
+              "description": "Reduces the cooldown of Ascendance by 60 sec, and you gain 15% additional Haste while Ascendance is active.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81007,
+      "locked_by": [
+        81003,
+        81004,
+        81008
+      ],
+      "unlocks": [
+        81006
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106850?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Magma Chamber",
+              "id": 106850
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381932?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Magma Chamber",
+                "id": 381932
+              },
+              "description": "Flame Shock damage increases the damage of your next Earth Shock, Elemental Blast, or Earthquake by 1.5%, stacking up to 20 times.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106850?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Magma Chamber",
+              "id": 106850
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381932?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Magma Chamber",
+                "id": 381932
+              },
+              "description": "Flame Shock damage increases the damage of your next Earth Shock, Elemental Blast, or Earthquake by 3.0%, stacking up to 20 times.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 20,
+      "raw_position_x": 13200,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 81005,
+      "locked_by": [
+        81009,
+        81008
+      ],
+      "unlocks": [
+        81006
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106847?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Searing Flames",
+              "id": 106847
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381782?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Searing Flames",
+                "id": 381782
+              },
+              "description": "Flame Shock damage has a 100% chance to generate 1 Maelstrom.",
+              "cast_time": "Passive"
+            }
+          }
+        },
+        {
+          "rank": 2,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106847?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Searing Flames",
+              "id": 106847
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381782?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Searing Flames",
+                "id": 381782
+              },
+              "description": "Flame Shock damage has a 100% chance to generate 2 Maelstrom.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 9,
+      "display_col": 22,
+      "raw_position_x": 14400,
+      "raw_position_y": 6000
+    },
+    {
+      "id": 80992,
+      "locked_by": [
+        80993,
+        80991
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106846?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Lightning Rod",
+                "id": 106846
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/210689?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Lightning Rod",
+                  "id": 210689
+                },
+                "description": "Earth Shock, Elemental Blast, and Earthquake make your target a Lightning Rod for 8 sec. Lightning Rods take 20% of all damage you deal with Lightning Bolt and Chain Lightning.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106845?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Stormkeeper",
+                "id": 106845
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/191634?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Stormkeeper",
+                  "id": 191634
+                },
+                "description": "Charge yourself with lightning, causing your next 2 Lightning Bolts to deal 150% more damage, and also causes your next 2 Lightning Bolts or Chain Lightnings to be instant cast and trigger an Elemental Overload on every target.",
+                "cast_time": "1.5 sec cast"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 10,
+      "display_col": 15,
+      "raw_position_x": 10200,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 80978,
+      "locked_by": [
+        80977
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106857?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Primordial Surge",
+                "id": 106857
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/386474?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Primordial Surge",
+                  "id": 386474
+                },
+                "description": "Casting Primordial Wave triggers Lava Surge immediately and every 3 sec for 12 sec. Lava Surges triggered by Primordial Wave increase the damage of your next Lava Burst by 15%.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106856?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Splintered Elements",
+                "id": 106856
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/382042?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Splintered Elements",
+                  "id": 382042
+                },
+                "description": "Each additional Lightning Bolt generated by Primordial Wave increases your Haste by 10% for 12 sec.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 10,
+      "display_col": 17,
+      "raw_position_x": 11400,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 81012,
+      "locked_by": [
+        81013
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106838?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Mountains Will Fall",
+              "id": 106838
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381726?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Mountains Will Fall",
+                "id": 381726
+              },
+              "description": "Earth Shock, Elemental Blast, and Earthquake can trigger your Mastery: Elemental Overload at 50% effectiveness.\r\n\r\nOverloaded Earthquakes do not knock enemies down.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 10,
+      "display_col": 18,
+      "raw_position_x": 12000,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 81001,
+      "locked_by": [
+        81002
+      ],
+      "node_type": {
+        "id": 1,
+        "type": "PASSIVE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "tooltip": {
+            "talent": {
+              "key": {
+                "href": "https://us.api.blizzard.com/data/wow/talent/106825?namespace=static-10.1.7_51059-us"
+              },
+              "name": "Further Beyond",
+              "id": 106825
+            },
+            "spell_tooltip": {
+              "spell": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/spell/381787?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Further Beyond",
+                "id": 381787
+              },
+              "description": "Casting Earth Shock or Earthquake while Ascendance is active extends the duration of Ascendance by 2.5 sec.\r\n\r\nCasting Elemental Blast while Ascendance is active extends the duration of Ascendance by 3.5 sec.",
+              "cast_time": "Passive"
+            }
+          }
+        }
+      ],
+      "display_row": 10,
+      "display_col": 19,
+      "raw_position_x": 12600,
+      "raw_position_y": 6600
+    },
+    {
+      "id": 81006,
+      "locked_by": [
+        81007,
+        81005
+      ],
+      "node_type": {
+        "id": 2,
+        "type": "CHOICE"
+      },
+      "ranks": [
+        {
+          "rank": 1,
+          "choice_of_tooltips": [
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106849?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Windspeaker's Lava Resurgence",
+                "id": 106849
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378268?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Windspeaker's Lava Resurgence",
+                  "id": 378268
+                },
+                "description": "When you cast Earth Shock, Elemental Blast, or Earthquake, gain Lava Surge and increase the damage of your next Lava Burst by 10%.",
+                "cast_time": "Passive"
+              }
+            },
+            {
+              "talent": {
+                "key": {
+                  "href": "https://us.api.blizzard.com/data/wow/talent/106848?namespace=static-10.1.7_51059-us"
+                },
+                "name": "Skybreaker's Fiery Demise",
+                "id": 106848
+              },
+              "spell_tooltip": {
+                "spell": {
+                  "key": {
+                    "href": "https://us.api.blizzard.com/data/wow/spell/378310?namespace=static-10.1.7_51059-us"
+                  },
+                  "name": "Skybreaker's Fiery Demise",
+                  "id": 378310
+                },
+                "description": "Flame Shock damage over time critical strikes reduce the cooldown of your Fire and Storm Elemental by 1.0 sec, and Flame Shock has a 50% increased critical strike chance.",
+                "cast_time": "Passive"
+              }
+            }
+          ]
+        }
+      ],
+      "display_row": 10,
+      "display_col": 21,
+      "raw_position_x": 13800,
+      "raw_position_y": 6600
+    }
+  ]
+}
