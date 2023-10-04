@@ -1,0 +1,26 @@
+{
+  "type": "object",
+  "required": ["pvp_talents"],
+  "properties": {
+    "pvp_talents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "id", "key"],
+        "properties": {
+          "name": {"type": "string"},
+          "id": {"type": "integer"},
+          "key": {
+            "type": "object",
+            "required": ["href"],
+            "properties": {
+              "href": {"type": "string"}
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
