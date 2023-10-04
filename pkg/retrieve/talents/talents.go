@@ -35,18 +35,35 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 	}
 	close(requests)
 
+	trees := make([]wow.TalentTree, numTrees)
 	for i := 0; i < numTrees; i++ {
 		result := <-results
 		if result.Error != nil {
-			return nil, result.Error
+			return nil, fmt.Errorf("failed to retrieve talent tree: %v", result.Error)
 		}
 
 		tree, err := parseTalentTreeJson(result.Body)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("failed to parse talent tree json: %v", err)
 		}
+
+		trees[i] = tree
 		log.Printf("Retrieved talent tree: %v", tree)
 	}
 
-	return nil, fmt.Errorf("not implemented")
+	pvpTalents, err := GetPvpTalents(scanner)
+	if err != nil {
+		return nil, fmt.Errorf("failed to retrieve pvp talents: %v", err)
+	}
+
+	for _, pvpTalent := range pvpTalents {
+		for _, tree := range trees {
+			if tree.SpecId == pvpTalent.SpecId {
+				tree.PvpTalents = append(tree.PvpTalents, pvpTalent.Talent)
+				break
+			}
+		}
+	}
+
+	return trees, nil
 }

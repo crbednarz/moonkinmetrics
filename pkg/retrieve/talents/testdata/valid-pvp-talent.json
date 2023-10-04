@@ -1,0 +1,30 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/pvp-talent/40?namespace=static-10.1.7_51059-us"
+    }
+  },
+  "id": 40,
+  "spell": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/spell/288855?namespace=static-10.1.7_51059-us"
+    },
+    "name": "Life and Death",
+    "id": 288855
+  },
+  "playable_specialization": {
+    "key": {
+      "href": "https://us.api.blizzard.com/data/wow/playable-specialization/252?namespace=static-10.1.7_51059-us"
+    },
+    "name": "Unholy",
+    "id": 252
+  },
+  "description": "When targets afflicted by your Virulent Plague are healed, you are also healed for 5% of the amount. \r\n\r\nIn addition, your Virulent Plague now erupts for 400% of normal eruption damage when dispelled.",
+  "unlock_player_level": 0,
+  "compatible_slots": [
+    1,
+    2,
+    3,
+    4
+  ]
+}
