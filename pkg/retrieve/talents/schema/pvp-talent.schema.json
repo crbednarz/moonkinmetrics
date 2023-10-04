@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {"type": "integer"},
+    "spell": {
+      "type": "object",
+      "required": ["id", "name", "key"],
+      "properties": {
+        "id": {"type": "integer"},
+        "name": {"type": "string"},
+        "key": {"$ref": "#/$defs/key"}
+      }
+    },
+    "playable_specialization": {
+      "type": "object",
+      "required": ["id", "name", "key"],
+      "properties": {
+        "id": {"type": "integer"},
+        "name": {"type": "string"},
+        "key": {"$ref": "#/$defs/key"}
+      }
+    },
+    "description": {"type": "string"}
+  },
+  "$defs": {
+    "key": {
+      "type": "object",
+      "required": ["href"],
+      "properties": {
+        "href": {"type": "string"}
+      }
+    }
+  }
+}

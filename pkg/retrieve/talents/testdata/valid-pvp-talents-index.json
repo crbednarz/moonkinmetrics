@@ -1,0 +1,3061 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/pvp-talent/?namespace=static-10.1.7_51059-us"
+    }
+  },
+  "pvp_talents": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/40?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Life and Death",
+      "id": 40
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/41?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dark Simulacrum",
+      "id": 41
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/201?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thorns",
+      "id": 201
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/204?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rot and Wither",
+      "id": 204
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/205?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Walking Dead",
+      "id": 205
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/49?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Shapeshifter",
+      "id": 49
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/51?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Den Mother",
+      "id": 51
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/52?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Demoralizing Roar",
+      "id": 52
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1927?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Absolute Faith",
+      "id": 1927
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/12?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Oblivion",
+      "id": 12
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/15?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Gateway Mastery",
+      "id": 15
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/16?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rot and Decay",
+      "id": 16
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/18?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nether Ward",
+      "id": 18
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/19?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Essence Drain",
+      "id": 19
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/24?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Disarm",
+      "id": 24
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/25?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death Sentence",
+      "id": 25
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/28?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master and Commander",
+      "id": 28
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/29?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shadow of the Colossus",
+      "id": 29
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/31?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Storm of Destruction",
+      "id": 31
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/32?namespace=static-10.1.7_51059-us"
+      },
+      "name": "War Banner",
+      "id": 32
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/33?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sharpen Blade",
+      "id": 33
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/34?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Duel",
+      "id": 34
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/206?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Strangulate",
+      "id": 206
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/608?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Last Dance",
+      "id": 608
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/609?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death Chain",
+      "id": 609
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/611?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ferocious Wound",
+      "id": 611
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/727?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Static Field Totem",
+      "id": 727
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/730?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Traveling Storms",
+      "id": 730
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/805?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Cleansed by Flame",
+      "id": 805
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/806?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Reverse Magic",
+      "id": 806
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/809?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chaotic Imprint",
+      "id": 809
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/811?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rain from Above",
+      "id": 811
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/812?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Detainment",
+      "id": 812
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/813?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Glimpse",
+      "id": 813
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/814?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Cleansed by Flame",
+      "id": 814
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/815?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Everlasting Hunt",
+      "id": 815
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/816?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Jagged Spikes",
+      "id": 816
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/819?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Illidan's Grasp",
+      "id": 819
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/820?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Savage Momentum",
+      "id": 820
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/822?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dying Stars",
+      "id": 822
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/824?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dire Beast: Hawk",
+      "id": 824
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/825?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dire Beast: Basilisk",
+      "id": 825
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/842?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Alpha Challenge",
+      "id": 842
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/841?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Murderous Intent",
+      "id": 841
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/843?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Admonishment",
+      "id": 843
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/194?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Charging Bash",
+      "id": 194
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/195?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Entangling Claws",
+      "id": 195
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/196?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Overrun",
+      "id": 196
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/197?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Emerald Slumber",
+      "id": 197
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/844?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Inquisition",
+      "id": 844
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1928?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Zen Focus Tea",
+      "id": 1928
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/612?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Fresh Wound",
+      "id": 612
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/620?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wicked Claws",
+      "id": 620
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/651?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Survival Tactics",
+      "id": 651
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/653?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chimaeral Sting",
+      "id": 653
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/658?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Trueshot Mastery",
+      "id": 658
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/659?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ranger's Finesse",
+      "id": 659
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/660?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sniper Shot",
+      "id": 660
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/661?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hunting Pack",
+      "id": 661
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/662?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Mending Bandage",
+      "id": 662
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/664?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sticky Tar Bomb",
+      "id": 664
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/665?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tracker's Net",
+      "id": 665
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/666?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Microbrew",
+      "id": 666
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/667?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hot Trub",
+      "id": 667
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/668?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Guided Meditation",
+      "id": 668
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/669?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Avert Harm",
+      "id": 669
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/670?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nimble Brew",
+      "id": 670
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/672?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Double Barrel",
+      "id": 672
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/673?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Mighty Ox Kick",
+      "id": 673
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/675?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tigereye Brew",
+      "id": 675
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/679?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Counteract Magic",
+      "id": 679
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/680?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dome of Mist",
+      "id": 680
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/682?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Refreshing Breeze",
+      "id": 682
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/683?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Healing Sphere",
+      "id": 683
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/691?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Reactive Resin",
+      "id": 691
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/692?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Entangling Bark",
+      "id": 692
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/855?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thoughtsteal",
+      "id": 855
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/856?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Silhouette",
+      "id": 856
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/203?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Freedom of the Herd",
+      "id": 203
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/707?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Skyfury Totem",
+      "id": 707
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/708?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Counterstrike Totem",
+      "id": 708
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/714?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Electrocute",
+      "id": 714
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/715?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grounding Totem",
+      "id": 715
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/721?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ride the Lightning",
+      "id": 721
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/722?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shamanism",
+      "id": 722
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/752?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Blessing of Sanctuary",
+      "id": 752
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/753?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ultimate Retribution",
+      "id": 753
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/754?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Lawbringer",
+      "id": 754
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/756?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Aura of Reckoning",
+      "id": 756
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/765?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Eerie Fermentation",
+      "id": 765
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/845?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Oppressor",
+      "id": 845
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/853?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Boarding Party",
+      "id": 853
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1213?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Summoner",
+      "id": 1213
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1215?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Early Spring",
+      "id": 1215
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/70?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Eminence",
+      "id": 70
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3053?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Strength of the Wild",
+      "id": 3053
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/77?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ride the Wind",
+      "id": 77
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/81?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Luminescence",
+      "id": 81
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/82?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Avenging Light",
+      "id": 82
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/85?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ultimate Sacrifice",
+      "id": 85
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/86?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Darkest before the Dawn",
+      "id": 86
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/87?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spreading the Word",
+      "id": 87
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/88?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Blessed Hands",
+      "id": 88
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/90?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hallowed Ground",
+      "id": 90
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/91?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Steed of Glory",
+      "id": 91
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/92?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sacred Duty",
+      "id": 92
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/93?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Judgments of the Pure",
+      "id": 93
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/94?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Guardian of the Forgotten Queen",
+      "id": 94
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/97?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Guarded by the Light",
+      "id": 97
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/100?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Purification",
+      "id": 100
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/101?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Holy Ward",
+      "id": 101
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5400?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Fel Obelisk",
+      "id": 5400
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/106?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Driven to Madness",
+      "id": 106
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/108?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sanctified Ground",
+      "id": 108
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/109?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Trinity",
+      "id": 109
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/111?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Strength of Soul",
+      "id": 111
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/112?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Greater Heal",
+      "id": 112
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/113?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Mind Trauma",
+      "id": 113
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/114?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ultimate Radiance",
+      "id": 114
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/123?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Archangel",
+      "id": 123
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/124?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spirit of the Redeemer",
+      "id": 124
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/126?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dark Archangel",
+      "id": 126
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/127?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ray of Hope",
+      "id": 127
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/129?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Maneuverability",
+      "id": 129
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/135?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Take Your Cut",
+      "id": 135
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/136?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Veil of Midnight",
+      "id": 136
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/138?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Control is King",
+      "id": 138
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/139?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Drink Up Me Hearties",
+      "id": 139
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/141?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Creeping Venom",
+      "id": 141
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/145?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dismantle",
+      "id": 145
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/146?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thief's Bargain",
+      "id": 146
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/147?namespace=static-10.1.7_51059-us"
+      },
+      "name": "System Shock",
+      "id": 147
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/149?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Necrotic Wounds",
+      "id": 149
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/152?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Reanimation",
+      "id": 152
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/153?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shadowy Duel",
+      "id": 153
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/157?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Fel Fissure",
+      "id": 157
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/162?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Call Fel Lord",
+      "id": 162
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/164?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bane of Havoc",
+      "id": 164
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/165?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Call Observer",
+      "id": 165
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/166?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Barbarian",
+      "id": 166
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/168?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bodyguard",
+      "id": 168
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/170?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Battle Trance",
+      "id": 170
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/171?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Morale Killer",
+      "id": 171
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/172?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bloodrage",
+      "id": 172
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/173?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shield Bash",
+      "id": 173
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/59?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Disentanglement",
+      "id": 59
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/852?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Reverse Harm",
+      "id": 852
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/66?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Icy Feet",
+      "id": 66
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/175?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thunderstruck",
+      "id": 175
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/177?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Enduring Rage",
+      "id": 177
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/178?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Warpath",
+      "id": 178
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/179?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death Wish",
+      "id": 179
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/182?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Crescent Burn",
+      "id": 182
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5408?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thick as Thieves",
+      "id": 5408
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/184?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Moon and Stars",
+      "id": 184
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/185?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Moonkin Aura",
+      "id": 185
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/835?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Focused Growth",
+      "id": 835
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/836?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Faerie Swarm",
+      "id": 836
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/601?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Malorne's Swiftness",
+      "id": 601
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/602?namespace=static-10.1.7_51059-us"
+      },
+      "name": "King of the Jungle",
+      "id": 602
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/632?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Concentrated Coolness",
+      "id": 632
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/634?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ice Form",
+      "id": 634
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/635?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master of Escape",
+      "id": 635
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5409?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thick as Thieves",
+      "id": 5409
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/637?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Improved Mass Invisibility",
+      "id": 637
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/640?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divine Vision",
+      "id": 640
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/642?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Cleanse the Weak",
+      "id": 642
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/644?namespace=static-10.1.7_51059-us"
+      },
+      "name": "World in Flames",
+      "id": 644
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/647?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Flamecannon",
+      "id": 647
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/648?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Greater Pyroblast",
+      "id": 648
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/686?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Diamond Ice",
+      "id": 686
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5411?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Distracting Mirage",
+      "id": 5411
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/693?namespace=static-10.1.7_51059-us"
+      },
+      "name": "The Beast Within",
+      "id": 693
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/697?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thorns",
+      "id": 697
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/700?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Deep Roots",
+      "id": 700
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/701?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Deathchill",
+      "id": 701
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/702?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Delirium",
+      "id": 702
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/763?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Psyfiend",
+      "id": 763
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/830?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hemotoxin",
+      "id": 830
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/831?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dragon Charge",
+      "id": 831
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/834?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Deep Roots",
+      "id": 834
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/833?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rebound",
+      "id": 833
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/838?namespace=static-10.1.7_51059-us"
+      },
+      "name": "High Winds",
+      "id": 838
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/846?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dagger in the Dark",
+      "id": 846
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/860?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Warrior of Light",
+      "id": 860
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/861?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shield of Virtue",
+      "id": 861
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1206?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Cover of Darkness",
+      "id": 1206
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1208?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thick as Thieves",
+      "id": 1208
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1209?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Smoke Bomb",
+      "id": 1209
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1214?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Interlope",
+      "id": 1214
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1218?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unending Hatred",
+      "id": 1218
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1220?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tormentor",
+      "id": 1220
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1237?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Malorne's Swiftness",
+      "id": 1237
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1948?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sigil Mastery",
+      "id": 1948
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/1958?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Niuzao's Essence",
+      "id": 1958
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5444?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Kindred Beasts",
+      "id": 5444
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3421?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Turn the Tables",
+      "id": 3421
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3050?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Disabling Reach",
+      "id": 3050
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5417?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rodeo",
+      "id": 5417
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3052?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grapple Weapon",
+      "id": 3052
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3058?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Star Burst",
+      "id": 3058
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5418?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tranquilizing Darts",
+      "id": 5418
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5419?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tranquilizing Darts",
+      "id": 5419
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3423?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Demonic Trample",
+      "id": 3423
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5420?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Tranquilizing Darts",
+      "id": 5420
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5397?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Arcanosphere",
+      "id": 5397
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5447?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Void Volley",
+      "id": 5447
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3462?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death from Above",
+      "id": 3462
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3474?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Luminescence",
+      "id": 3474
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5603?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Zen Spheres",
+      "id": 5603
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3479?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death from Above",
+      "id": 3479
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3480?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Smoke Bomb",
+      "id": 3480
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3483?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Smoke Bomb",
+      "id": 3483
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3487?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Skyfury Totem",
+      "id": 3487
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3488?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Skyfury Totem",
+      "id": 3488
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3489?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Counterstrike Totem",
+      "id": 3489
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3490?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Counterstrike Totem",
+      "id": 3490
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3491?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unleash Shield",
+      "id": 3491
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3492?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unleash Shield",
+      "id": 3492
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5618?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Denounce",
+      "id": 5618
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5621?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Improved Mass Invisibility",
+      "id": 5621
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3506?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Gateway Mastery",
+      "id": 3506
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3508?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nether Ward",
+      "id": 3508
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5622?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Improved Mass Invisibility",
+      "id": 5622
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3429?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Reverse Magic",
+      "id": 3429
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3430?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Detainment",
+      "id": 3430
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3437?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Necrotic Aura",
+      "id": 3437
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3439?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shroud of Winter",
+      "id": 3439
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3441?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Decomposing Aura",
+      "id": 3441
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5382?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Gateway Mastery",
+      "id": 5382
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3447?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Maneuverability",
+      "id": 3447
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3448?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Maneuverability",
+      "id": 3448
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5387?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Keeper of the Grove",
+      "id": 5387
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5388?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Living Tide",
+      "id": 5388
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3511?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dark Simulacrum",
+      "id": 3511
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3512?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dark Simulacrum",
+      "id": 3512
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3755?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rain Dance",
+      "id": 3755
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5407?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Owlkin Adept",
+      "id": 5407
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3517?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Temporal Shield",
+      "id": 3517
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5410?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grove Protection",
+      "id": 5410
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3522?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death Sentence",
+      "id": 3522
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/180?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Celestial Guardian",
+      "id": 180
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3528?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master and Commander",
+      "id": 3528
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3529?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Kleptomania",
+      "id": 3529
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3533?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Disarm",
+      "id": 3533
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3534?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Disarm",
+      "id": 3534
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5429?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Strangulate",
+      "id": 5429
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5430?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Strangulate",
+      "id": 5430
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5435?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bitter Chill",
+      "id": 5435
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5436?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Doomburst",
+      "id": 5436
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5448?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Perpetual Paralysis",
+      "id": 5448
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5395?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Peaceweaver",
+      "id": 5395
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3599?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Survival Tactics",
+      "id": 3599
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3604?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chimaeral Sting",
+      "id": 3604
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3607?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Survival Tactics",
+      "id": 3607
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3609?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chimaeral Sting",
+      "id": 3609
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3618?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hallowed Ground",
+      "id": 3618
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3619?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Death from Above",
+      "id": 3619
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3620?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grounding Totem",
+      "id": 3620
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3622?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grounding Totem",
+      "id": 3622
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3624?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nether Ward",
+      "id": 3624
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3734?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Alpha Tiger",
+      "id": 3734
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3737?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wind Waker",
+      "id": 3737
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3727?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unending Hatred",
+      "id": 3727
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3731?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thorns",
+      "id": 3731
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3732?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grapple Weapon",
+      "id": 3732
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3735?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Slaughterhouse",
+      "id": 3735
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3728?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Protector of the Grove",
+      "id": 3728
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3729?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hunting Pack",
+      "id": 3729
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3730?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hunting Pack",
+      "id": 3730
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3746?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Necromancer's Bargain",
+      "id": 3746
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3751?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Leader of the Pack",
+      "id": 3751
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3743?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dead of Winter",
+      "id": 3743
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3744?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Pressure Points",
+      "id": 3744
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3745?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Turbo Fists",
+      "id": 3745
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/3750?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Freedom of the Herd",
+      "id": 3750
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5414?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Seasoned Winds",
+      "id": 5414
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5415?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Seasoned Winds",
+      "id": 5415
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5416?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Inner Light and Shadow",
+      "id": 5416
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5437?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unleash Shield",
+      "id": 5437
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5438?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Static Field Totem",
+      "id": 5438
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5440?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Consecutive Concussion",
+      "id": 5440
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5412?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Enduring Brawler",
+      "id": 5412
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5431?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Warbringer",
+      "id": 5431
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5432?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Warbringer",
+      "id": 5432
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5365?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thoughtsteal",
+      "id": 5365
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5366?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divine Ascension",
+      "id": 5366
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5381?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thoughtsteal",
+      "id": 5381
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5372?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Demolition",
+      "id": 5372
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5373?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Demolition",
+      "id": 5373
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5374?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Demolition",
+      "id": 5374
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5376?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Warbringer",
+      "id": 5376
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5389?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ring of Fire",
+      "id": 5389
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5390?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ice Wall",
+      "id": 5390
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5422?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Judgments of the Pure",
+      "id": 5422
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5392?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shadow Rift",
+      "id": 5392
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5393?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shadow Rift",
+      "id": 5393
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5394?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Shadow Rift",
+      "id": 5394
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5398?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dematerialize",
+      "id": 5398
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5421?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Judgments of the Pure",
+      "id": 5421
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5401?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bonds of Fel",
+      "id": 5401
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5402?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Thunderous Focus Tea",
+      "id": 5402
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5441?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wild Kingdom",
+      "id": 5441
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5442?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wild Kingdom",
+      "id": 5442
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5443?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wild Kingdom",
+      "id": 5443
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5386?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rapid Contagion",
+      "id": 5386
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5405?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dismantle",
+      "id": 5405
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5406?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dismantle",
+      "id": 5406
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5433?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Blood Moon",
+      "id": 5433
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5434?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Blood Moon",
+      "id": 5434
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5439?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chaotic Imprint",
+      "id": 5439
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5379?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rampant Afflictions",
+      "id": 5379
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5383?namespace=static-10.1.7_51059-us"
+      },
+      "name": "High Winds",
+      "id": 5383
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5384?namespace=static-10.1.7_51059-us"
+      },
+      "name": "High Winds",
+      "id": 5384
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5465?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Swoop Up",
+      "id": 5465
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5466?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Swoop Up",
+      "id": 5466
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5454?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dream Projection",
+      "id": 5454
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5459?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Obsidian Mettle",
+      "id": 5459
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5460?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Obsidian Mettle",
+      "id": 5460
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5461?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Scouring Flame",
+      "id": 5461
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5462?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Scouring Flame",
+      "id": 5462
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5463?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Time Stop",
+      "id": 5463
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5464?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Time Stop",
+      "id": 5464
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5456?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chrono Loop",
+      "id": 5456
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5455?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chrono Loop",
+      "id": 5455
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5467?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nullifying Shroud",
+      "id": 5467
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5468?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nullifying Shroud",
+      "id": 5468
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5469?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unburdened Flight",
+      "id": 5469
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5470?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unburdened Flight",
+      "id": 5470
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5471?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Crippling Force",
+      "id": 5471
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5527?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Traveling Storms",
+      "id": 5527
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5528?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Traveling Storms",
+      "id": 5528
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5529?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Control is King",
+      "id": 5529
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5530?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Control is King",
+      "id": 5530
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5488?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ice Wall",
+      "id": 5488
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5489?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ice Wall",
+      "id": 5489
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5490?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ring of Fire",
+      "id": 5490
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5491?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ring of Fire",
+      "id": 5491
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5495?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Glass Cannon",
+      "id": 5495
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5496?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Frost Bomb",
+      "id": 5496
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5497?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Snowdrift",
+      "id": 5497
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5554?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Aura of Reckoning",
+      "id": 5554
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5510?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rot and Wither",
+      "id": 5510
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5511?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rot and Wither",
+      "id": 5511
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5512?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Necrotic Aura",
+      "id": 5512
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5513?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Necrotic Aura",
+      "id": 5513
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5514?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Malorne's Swiftness",
+      "id": 5514
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5515?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Malorne's Swiftness",
+      "id": 5515
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5516?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Veil of Midnight",
+      "id": 5516
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5517?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Veil of Midnight",
+      "id": 5517
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5598?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dream Catcher",
+      "id": 5598
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5599?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dream Catcher",
+      "id": 5599
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5520?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Cover of Darkness",
+      "id": 5520
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5521?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rain from Above",
+      "id": 5521
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5522?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Glimpse",
+      "id": 5522
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5523?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Sigil Mastery",
+      "id": 5523
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5604?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Shapeshifter",
+      "id": 5604
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5619?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Time Stop",
+      "id": 5619
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5610?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Stormspirit Strikes",
+      "id": 5610
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5479?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Purification",
+      "id": 5479
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5480?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Absolute Faith",
+      "id": 5480
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5481?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Absolute Faith",
+      "id": 5481
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5485?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Catharsis",
+      "id": 5485
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5486?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Catharsis",
+      "id": 5486
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5487?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Catharsis",
+      "id": 5487
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5531?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Interlope",
+      "id": 5531
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5532?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Interlope",
+      "id": 5532
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5533?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Diamond Ice",
+      "id": 5533
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5534?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Diamond Ice",
+      "id": 5534
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5535?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Hallowed Ground",
+      "id": 5535
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5538?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Grapple Weapon",
+      "id": 5538
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5539?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Mighty Ox Kick",
+      "id": 5539
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5540?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Mighty Ox Kick",
+      "id": 5540
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5541?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dematerialize",
+      "id": 5541
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5543?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Call Observer",
+      "id": 5543
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5544?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Call Observer",
+      "id": 5544
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5545?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bonds of Fel",
+      "id": 5545
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5546?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bonds of Fel",
+      "id": 5546
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5547?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rebound",
+      "id": 5547
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5548?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Rebound",
+      "id": 5548
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5549?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dagger in the Dark",
+      "id": 5549
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5550?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dagger in the Dark",
+      "id": 5550
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5551?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Alpha Tiger",
+      "id": 5551
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5552?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Alpha Tiger",
+      "id": 5552
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5565?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Fae Accord",
+      "id": 5565
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5612?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Born in Flame",
+      "id": 5612
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5613?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dream Catcher",
+      "id": 5613
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5614?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divine Plea",
+      "id": 5614
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5557?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divide and Conquer",
+      "id": 5557
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5558?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Nullifying Shroud",
+      "id": 5558
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5559?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dream Projection",
+      "id": 5559
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5560?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Unburdened Flight",
+      "id": 5560
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5561?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Scouring Flame",
+      "id": 5561
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5562?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Swoop Up",
+      "id": 5562
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5563?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Obsidian Mettle",
+      "id": 5563
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5564?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Chrono Loop",
+      "id": 5564
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5581?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Shepherd",
+      "id": 5581
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5588?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Shepherd",
+      "id": 5588
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5589?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Master Shepherd",
+      "id": 5589
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5606?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Soul Rip",
+      "id": 5606
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5607?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Soul Rip",
+      "id": 5607
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5608?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Soul Rip",
+      "id": 5608
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5572?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spreading the Word",
+      "id": 5572
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5573?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Blessing of Spellwarding",
+      "id": 5573
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5574?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Burrow",
+      "id": 5574
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5575?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Burrow",
+      "id": 5575
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5576?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Burrow",
+      "id": 5576
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5577?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Impish Instincts",
+      "id": 5577
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5579?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Impish Instincts",
+      "id": 5579
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5580?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Impish Instincts",
+      "id": 5580
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5582?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Searing Glare",
+      "id": 5582
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5583?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Searing Glare",
+      "id": 5583
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5584?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Searing Glare",
+      "id": 5584
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5593?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Wild Attunement",
+      "id": 5593
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5595?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divide and Conquer",
+      "id": 5595
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5620?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Seraphic Crescendo",
+      "id": 5620
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5566?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Seasoned Winds",
+      "id": 5566
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5567?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Static Field Totem",
+      "id": 5567
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5585?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bloodforged Armor",
+      "id": 5585
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5586?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bloodforged Armor",
+      "id": 5586
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5587?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Bloodforged Armor",
+      "id": 5587
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5590?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spellwarden",
+      "id": 5590
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5591?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spellwarden",
+      "id": 5591
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5592?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Spellwarden",
+      "id": 5592
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5596?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Stormweaver",
+      "id": 5596
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5568?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Phase Shift",
+      "id": 5568
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5569?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Phase Shift",
+      "id": 5569
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5570?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Phase Shift",
+      "id": 5570
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5571?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Volcanic Surge",
+      "id": 5571
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5600?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ethereal Blink",
+      "id": 5600
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5601?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ethereal Blink",
+      "id": 5601
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5602?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Ethereal Blink",
+      "id": 5602
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5615?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dreamwalker's Embrace",
+      "id": 5615
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5616?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dreamwalker's Embrace",
+      "id": 5616
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5617?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Dreamwalker's Embrace",
+      "id": 5617
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-talent/5556?namespace=static-10.1.7_51059-us"
+      },
+      "name": "Divide and Conquer",
+      "id": 5556
+    }
+  ]
+}
