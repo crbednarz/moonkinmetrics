@@ -2,14 +2,9 @@ package talents
 
 import (
 	_ "embed"
-	"io"
-	"net/http"
-	"strings"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/scan"
-	"github.com/crbednarz/moonkinmetrics/pkg/storage"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents/testutil"
 )
 
 var (
@@ -23,40 +18,11 @@ var (
 	missingDataIndex string
 )
 
-type mockHttpClient struct {
-	IndexBody string
-}
-
-func (m *mockHttpClient) Do(req *http.Request) (*http.Response, error) {
-	response := &http.Response{
-		StatusCode: 200,
-		Body:       io.NopCloser(strings.NewReader(m.IndexBody)),
-	}
-
-	return response, nil
-}
-
-func newMockScanner(indexBody string) (*scan.Scanner, error) {
-	client := bnet.NewClient(
-		&mockHttpClient{
-			IndexBody: indexBody,
-		},
-		"mock_client_id",
-		"mock_client_secret",
-	)
-	cache, err := storage.NewSqlite(":memory:")
-	if err != nil {
-		return nil, err
-	}
-
-	return scan.NewScanner(
-		cache,
-		client,
-	), nil
-}
-
 func TestGetTalentTreeIndex(t *testing.T) {
-	scanner, err := newMockScanner(validIndex)
+	scanner, err := testutil.NewSingleResourceMockScanner(
+		"/data/wow/talent-tree/index",
+		validIndex,
+	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
@@ -76,7 +42,10 @@ func TestGetTalentTreeIndex(t *testing.T) {
 }
 
 func TestTalentTreeIndexMissingDataFails(t *testing.T) {
-	scanner, err := newMockScanner(missingDataIndex)
+	scanner, err := testutil.NewSingleResourceMockScanner(
+		"/data/wow/talent-tree/index",
+		missingDataIndex,
+	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
@@ -88,7 +57,10 @@ func TestTalentTreeIndexMissingDataFails(t *testing.T) {
 }
 
 func TestTalentTreeIndexBadLinkFails(t *testing.T) {
-	scanner, err := newMockScanner(badLinkIndex)
+	scanner, err := testutil.NewSingleResourceMockScanner(
+		"/data/wow/talent-tree/index",
+		badLinkIndex,
+	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
