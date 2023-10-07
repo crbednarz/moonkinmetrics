@@ -2,7 +2,6 @@ package talents
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
@@ -48,7 +47,6 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 		}
 
 		trees[i] = tree
-		log.Printf("Retrieved talent tree: %v", tree)
 	}
 
 	pvpTalents, err := GetPvpTalents(scanner)
