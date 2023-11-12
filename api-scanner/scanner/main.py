@@ -217,10 +217,6 @@ def _remap_old_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     for node in chain(loadout.class_nodes, loadout.spec_nodes):
         if node.talent_id not in talent_ids:
             talent_name = node.talent_name
-            if talent_name == 'Demonic Knowledge':
-                talent_name = 'Shadowflame Acolyte'
-            elif talent_name == "Shadow's Bite":
-                talent_name = 'Fel Covenant'
             ids = talent_names.get(talent_name)
             if ids:
                 node.node_id = ids[0]

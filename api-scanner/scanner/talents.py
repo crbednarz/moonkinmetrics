@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from itertools import chain
 from typing import AsyncGenerator, Generator, Optional
 
+from . import hack
 from .bnet import Client
 from .constants import (CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID,
                         SPEC_ID_BY_CLASS_SPEC)
@@ -34,6 +35,12 @@ class Talent:
 
 
 @dataclass
+class _GameNodeRepairInfo:
+    node_info: dict
+    raw_talents: list[dict]
+
+
+@dataclass
 class TalentNode:
     id: int
     x: int
@@ -47,13 +54,52 @@ class TalentNode:
     node_type: str
 
     @staticmethod
+    def from_broken_node(node_repair: _GameNodeRepairInfo):
+        node_info = node_repair.node_info
+        raw_talents = node_repair.raw_talents
+
+        talents = []
+        for raw_talent in raw_talents:
+            raw_spell = raw_talent['spell']
+
+            ranks = []
+            for rank_description in raw_talent['rank_descriptions']:
+                ranks.append(Rank(
+                    rank_description['description'],
+                    None, None, None, None
+                ))
+
+            talents.append(Talent(
+                id=raw_talent['id'],
+                name=raw_spell['name'],
+                spell=Spell(
+                    id=raw_spell['id'],
+                    name=raw_spell['name'],
+                    ranks=ranks,
+                ),
+            ))
+
+        return TalentNode(
+            id=node_info['id'],
+            x=node_info['pos_x'],
+            y=node_info['pos_y'],
+            row=0,
+            col=0,
+            unlocks=[],
+            locked_by=node_info['locked_by'],
+            node_type='MISSING',
+            talents=talents,
+            max_rank=len(raw_talents[0]['rank_descriptions']),
+        )
+
+    @staticmethod
     def from_raw_node(raw_node: dict):
-        try:
-            base_rank = raw_node['ranks'][0]
-        except KeyError:
-            # Augmentation seems to have an invisible node with no ranks.
-            # For now we'll just ignore it.
+        fixed_node = hack.fix_raw_node(raw_node)
+        if fixed_node is None:
             return None
+
+        raw_node = fixed_node
+        base_rank = raw_node['ranks'][0]
 
         if 'choice_of_tooltips' in base_rank:
             max_rank = 1
@@ -169,10 +215,16 @@ async def get_talent_trees(client: Client) -> AsyncGenerator[TalentTree, None]:
     for tree_link in trees_index.spec_trees:
         class_id = tree_link.class_id
         class_name = _lookup_class_name_from_id(trees_index, class_id)
+
         if (class_name, tree_link.spec_name) not in specs_remaining:
             continue
+
         specs_remaining.remove((class_name, tree_link.spec_name))
-        yield await _get_tree_for_spec(client, class_name, tree_link)
+
+        if hack.is_spec_api_incorrect(class_name, tree_link.spec_name):
+            yield await _get_tree_for_broken_spec(client, class_name, tree_link)
+        else:
+            yield await _get_tree_for_spec(client, class_name, tree_link)
 
     for class_name, spec_name in specs_remaining:
         tree_link = trees_index.get_class_link(class_name)
@@ -218,9 +270,13 @@ async def _get_tree_for_spec(client: Client, class_name: str,
 
     spec_nodes = []
     for response_node in response['spec_talent_nodes']:
-        node = TalentNode.from_raw_node(response_node)
-        if node:
-            spec_nodes.append(node)
+        try:
+            node = TalentNode.from_raw_node(response_node)
+            if node:
+                spec_nodes.append(node)
+        except Exception as e:
+            print(f"Failed to parse talent for {tree_link.spec_name} {class_name}")
+            raise e
 
     return TalentTree(
         class_name,
@@ -305,9 +361,13 @@ async def _get_tree_for_missing_spec(
             continue
 
         node.locked_by = game_nodes[node.id]['locked_by']
+        del game_nodes[node.id]
 
         url = tooltip['talent']['key']['href']
         urls_with_context.append((url, node))
+
+    for node_id in game_nodes.keys():
+        print(f"Warning: Missing node {node_id} for {spec_name} {class_name}")
 
     async for response, _, node in client.get_urls(urls_with_context):
         if 'playable_specialization' in response:
@@ -323,6 +383,53 @@ async def _get_tree_for_missing_spec(
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
         await _get_pvp_talents(client, class_name, spec_name)
+    )
+
+
+async def _get_tree_for_broken_spec(client: Client, class_name: str,
+                                    tree_link: _SpecTalentTreeLink) -> TalentTree:
+    spec_name = tree_link.spec_name
+    print(f"Warning: Using fallback for {class_name} - {spec_name}")
+
+    class_nodes = []
+    spec_nodes = []
+
+    resources_with_context = []
+    game_nodes = []
+    for i, node_info in enumerate(INGAME_SPEC_NODES[class_name][spec_name]):
+        game_nodes.append({
+            'node_info': node_info,
+            'talent_nodes': [],
+        })
+        for talent_id in node_info['talent_ids']:
+            resource = f"/data/wow/talent/{talent_id}"
+            resources_with_context.append((resource, i))
+
+    async for response, _, id in client.get_static_resources(resources_with_context):
+        node_info = game_nodes[id]
+        node_info['talent_nodes'].append(response)
+
+    for game_node in game_nodes:
+        node_info = game_node['node_info']
+
+        repair = _GameNodeRepairInfo(
+            node_info=node_info,
+            raw_talents=game_node['talent_nodes'],
+        )
+        node = TalentNode.from_broken_node(repair)
+        if 'playable_specialization' in repair.raw_talents[0]:
+            spec_nodes.append(node)
+        else:
+            class_nodes.append(node)
+
+    return TalentTree(
+        class_name,
+        tree_link.class_id,
+        tree_link.spec_name,
+        tree_link.spec_id,
+        _filter_nodes(class_nodes),
+        _filter_nodes(spec_nodes),
+        await _get_pvp_talents(client, class_name, tree_link.spec_name)
     )
 
 

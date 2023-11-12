@@ -94,13 +94,26 @@ local function NodeIDsCommand(msg, editbox)
     end
     local output = ""
     for _, node in ipairs(nodes) do
-        nodeText = "{'id': " .. node.ID .. ", 'locked_by': ["
+        nodeText = "{\n"
+        nodeText = nodeText .. "  'id': " .. node.ID .. ",\n"
+        nodeText = nodeText .. "  'locked_by': ["
         for _, edge in ipairs(node.visibleEdges) do
             if edge.type == 2 or edge.type == 3 then
                 nodeText = nodeText .. edge.targetNode .. ", "
             end
         end
-        nodeText = nodeText .. "]},\n"
+        nodeText = nodeText .. "],\n"
+        nodeText = nodeText .. "  'flags': " .. node.flags .. ",\n"
+        nodeText = nodeText .. "  'pos_x': " .. node.posX .. ",\n"
+        nodeText = nodeText .. "  'pos_y': " .. node.posY .. ",\n"
+        nodeText = nodeText .. "  'talent_ids': ["
+        for _, entryID in ipairs(node.entryIDs) do
+            entryInfo = C_Traits.GetEntryInfo(configID, entryID)
+            nodeText = nodeText .. entryInfo.definitionID .. ", "
+        end
+        nodeText = nodeText .. "],\n"
+
+        nodeText = nodeText .. "},\n"
         output = output .. nodeText
     end
 
