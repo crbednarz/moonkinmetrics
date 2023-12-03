@@ -46,11 +46,14 @@ def fix_raw_node(raw_node: dict) -> Optional[dict]:
 
 
 def is_spec_api_incorrect(class_name: str, spec_name: str) -> bool:
-    """Returns True if spec is expecte to be incorrect in the API.
+    """Returns True if spec is expected to be incorrect in the API.
     This is not the same as a spec being missing."""
 
-    if class_name == "Warlock" and spec_name == "Demonology":
-        # Unfortunately Demonology seems to have incorrect data in the API,
-        # so we'll rely on the node list scanned from the game instead.
+    if class_name == "Warlock" and (spec_name == "Demonology" or
+                                    spec_name == "Destruction"):
+        # Unfortunately Demonology and Destruction seems to have incorrect
+        # data in the API, so we'll rely on the node list scanned from the
+        # game instead.
         return True
+
     return False
