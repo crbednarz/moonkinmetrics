@@ -1,7 +1,6 @@
 package wow
 
 type Rank struct {
-	Id          int
 	Name        string
 	Description string
 	CastTime    string

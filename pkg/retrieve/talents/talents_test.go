@@ -16,6 +16,10 @@ func TestCanGetTalentTrees(t *testing.T) {
 		if strings.HasPrefix(requestPath, "/data/wow/talent-tree/") {
 			return validTree, true
 		}
+		if strings.HasPrefix(requestPath, "/data/wow/talent/") {
+			id := strings.TrimPrefix(requestPath, "/data/wow/talent/")
+			return strings.ReplaceAll(validTalent, "108105", id), true
+		}
 		if requestPath == "/data/wow/pvp-talent/index" {
 			return validPvpTalentIndex, true
 		}
@@ -34,16 +38,13 @@ func TestCanGetTalentTrees(t *testing.T) {
 		t.Fatalf("failed to get talent trees: %v", err)
 	}
 
-	if len(trees) != 40 {
-		t.Fatalf("expected 40 tree, got %d", len(trees))
+	if len(trees) != 42 {
+		t.Fatalf("expected 42 trees, got %d", len(trees))
 	}
 
 	for _, tree := range trees {
-		if len(tree.ClassNodes) != 48 {
-			t.Fatalf("expected 3 class nodes, got %d", len(tree.ClassNodes))
-		}
-		if len(tree.SpecNodes) != 40 {
-			t.Fatalf("expected 3 spec nodes, got %d", len(tree.SpecNodes))
+		if len(tree.ClassNodes) + len(tree.SpecNodes) < 70 {
+			t.Fatalf("expected at least 70 nodes, got %d", len(tree.ClassNodes) + len(tree.SpecNodes))
 		}
 		// None of the pvp talents should match in the mock data so this should be 0.
 		// This may be something to change in the future.

@@ -1,0 +1,680 @@
+{
+  "class_name": "Monk",
+  "class_id": 781,
+  "spec_name": "Mistweaver",
+  "spec_id": 270,
+  "nodes": [
+    {
+      "id": 80558,
+      "locked_by": [],
+      "flags": 9,
+      "pos_x": 13200,
+      "pos_y": 6900,
+      "talent_ids": [106359, 106358]
+    },
+    {
+      "id": 80559,
+      "locked_by": [80579],
+      "flags": 8,
+      "pos_x": 13800,
+      "pos_y": 3300,
+      "talent_ids": [106360]
+    },
+    {
+      "id": 80560,
+      "locked_by": [80569],
+      "flags": 8,
+      "pos_x": 10199,
+      "pos_y": 5700,
+      "talent_ids": [106361]
+    },
+    {
+      "id": 80563,
+      "locked_by": [80598],
+      "flags": 9,
+      "pos_x": 11400,
+      "pos_y": 5100,
+      "talent_ids": [106365, 106364]
+    },
+    {
+      "id": 80564,
+      "locked_by": [80587],
+      "flags": 1,
+      "pos_x": 12600,
+      "pos_y": 4500,
+      "talent_ids": [106367, 106366]
+    },
+    {
+      "id": 80565,
+      "locked_by": [],
+      "flags": 9,
+      "pos_x": 10800,
+      "pos_y": 6900,
+      "talent_ids": [106369, 106368]
+    },
+    {
+      "id": 80566,
+      "locked_by": [80564, 80575, 80579],
+      "flags": 8,
+      "pos_x": 13200,
+      "pos_y": 3900,
+      "talent_ids": [106370]
+    },
+    {
+      "id": 80567,
+      "locked_by": [80578, 80583],
+      "flags": 8,
+      "pos_x": 10200,
+      "pos_y": 4500,
+      "talent_ids": [106371]
+    },
+    {
+      "id": 80568,
+      "locked_by": [80597, 80588],
+      "flags": 8,
+      "pos_x": 12000,
+      "pos_y": 1500,
+      "talent_ids": [106372]
+    },
+    {
+      "id": 80569,
+      "locked_by": [80577, 80565, 80565],
+      "flags": 8,
+      "pos_x": 10200,
+      "pos_y": 6300,
+      "talent_ids": [106373]
+    },
+    {
+      "id": 80570,
+      "locked_by": [80571, 80573],
+      "flags": 8,
+      "pos_x": 11999,
+      "pos_y": 6300,
+      "talent_ids": [106374]
+    },
+    {
+      "id": 80571,
+      "locked_by": [],
+      "flags": 8,
+      "pos_x": 12600,
+      "pos_y": 6900,
+      "talent_ids": [106375]
+    },
+    {
+      "id": 80572,
+      "locked_by": [80590],
+      "flags": 8,
+      "pos_x": 12600,
+      "pos_y": 3900,
+      "talent_ids": [106376]
+    },
+    {
+      "id": 80573,
+      "locked_by": [],
+      "flags": 1,
+      "pos_x": 11999,
+      "pos_y": 6900,
+      "talent_ids": [106378, 106377]
+    },
+    {
+      "id": 80574,
+      "locked_by": [80591, 80580, 80572],
+      "flags": 9,
+      "pos_x": 11999,
+      "pos_y": 3300,
+      "talent_ids": [106380, 106379]
+    },
+    {
+      "id": 80575,
+      "locked_by": [80586, 80593],
+      "flags": 9,
+      "pos_x": 13200,
+      "pos_y": 5100,
+      "talent_ids": [106382, 106381]
+    },
+    {
+      "id": 80576,
+      "locked_by": [80594, 80585, 80570],
+      "flags": 1,
+      "pos_x": 12004,
+      "pos_y": 5687,
+      "talent_ids": [106384, 106383]
+    },
+    {
+      "id": 80577,
+      "locked_by": [],
+      "flags": 8,
+      "pos_x": 9600,
+      "pos_y": 6900,
+      "talent_ids": [106385]
+    },
+    {
+      "id": 80578,
+      "locked_by": [80560, 80598],
+      "flags": 8,
+      "pos_x": 10800,
+      "pos_y": 5100,
+      "talent_ids": [106386]
+    },
+    {
+      "id": 80579,
+      "locked_by": [80586, 80575],
+      "flags": 8,
+      "pos_x": 13800,
+      "pos_y": 4500,
+      "talent_ids": [106387]
+    },
+    {
+      "id": 80580,
+      "locked_by": [80590],
+      "flags": 8,
+      "pos_x": 11999,
+      "pos_y": 3900,
+      "talent_ids": [106388]
+    },
+    {
+      "id": 80581,
+      "locked_by": [80563, 80578],
+      "flags": 8,
+      "pos_x": 11400,
+      "pos_y": 4500,
+      "talent_ids": [106389]
+    },
+    {
+      "id": 80582,
+      "locked_by": [80598, 80576],
+      "flags": 8,
+      "pos_x": 11999,
+      "pos_y": 5100,
+      "talent_ids": [106390]
+    },
+    {
+      "id": 80583,
+      "locked_by": [80560],
+      "flags": 1,
+      "pos_x": 10200,
+      "pos_y": 5100,
+      "talent_ids": [106391, 119302]
+    },
+    {
+      "id": 80584,
+      "locked_by": [80595, 80599],
+      "flags": 8,
+      "pos_x": 10800,
+      "pos_y": 2700,
+      "talent_ids": [106392]
+    },
+    {
+      "id": 80585,
+      "locked_by": [80573, 80565],
+      "flags": 8,
+      "pos_x": 11400,
+      "pos_y": 6300,
+      "talent_ids": [106393]
+    },
+    {
+      "id": 80586,
+      "locked_by": [80596, 80592],
+      "flags": 8,
+      "pos_x": 13800,
+      "pos_y": 5700,
+      "talent_ids": [106394]
+    },
+    {
+      "id": 80587,
+      "locked_by": [80593],
+      "flags": 8,
+      "pos_x": 12600,
+      "pos_y": 5100,
+      "talent_ids": [106395]
+    },
+    {
+      "id": 80588,
+      "locked_by": [80600, 80589],
+      "flags": 8,
+      "pos_x": 12600,
+      "pos_y": 2100,
+      "talent_ids": [106396]
+    },
+    {
+      "id": 80589,
+      "locked_by": [80559, 80566],
+      "flags": 8,
+      "pos_x": 13200,
+      "pos_y": 2700,
+      "talent_ids": [106397]
+    },
+    {
+      "id": 80590,
+      "locked_by": [80582, 80563, 80587],
+      "flags": 9,
+      "pos_x": 12019,
+      "pos_y": 4492,
+      "talent_ids": [106399, 106398]
+    },
+    {
+      "id": 80591,
+      "locked_by": [80590, 80581],
+      "flags": 0,
+      "pos_x": 11400,
+      "pos_y": 3900,
+      "talent_ids": [106400]
+    },
+    {
+      "id": 80592,
+      "locked_by": [80558],
+      "flags": 8,
+      "pos_x": 13200,
+      "pos_y": 6300,
+      "talent_ids": [106401]
+    },
+    {
+      "id": 80593,
+      "locked_by": [80592, 80594],
+      "flags": 9,
+      "pos_x": 13200,
+      "pos_y": 5700,
+      "talent_ids": [106403, 106402]
+    },
+    {
+      "id": 80594,
+      "locked_by": [80558],
+      "flags": 8,
+      "pos_x": 12600,
+      "pos_y": 6300,
+      "talent_ids": [106404]
+    },
+    {
+      "id": 80595,
+      "locked_by": [80567],
+      "flags": 8,
+      "pos_x": 10199,
+      "pos_y": 3300,
+      "talent_ids": [106405]
+    },
+    {
+      "id": 80596,
+      "locked_by": [80558, 92684],
+      "flags": 9,
+      "pos_x": 13800,
+      "pos_y": 6300,
+      "talent_ids": [106407, 106406]
+    },
+    {
+      "id": 80597,
+      "locked_by": [80600, 80584],
+      "flags": 8,
+      "pos_x": 11400,
+      "pos_y": 2100,
+      "talent_ids": [106408]
+    },
+    {
+      "id": 80598,
+      "locked_by": [80585],
+      "flags": 1,
+      "pos_x": 11400,
+      "pos_y": 5700,
+      "talent_ids": [106410, 106409]
+    },
+    {
+      "id": 80599,
+      "locked_by": [80578, 80567, 80581],
+      "flags": 9,
+      "pos_x": 10800,
+      "pos_y": 3900,
+      "talent_ids": [106411, 120696]
+    },
+    {
+      "id": 80600,
+      "locked_by": [80574],
+      "flags": 8,
+      "pos_x": 11999,
+      "pos_y": 2696,
+      "talent_ids": [106412]
+    },
+    {
+      "id": 80603,
+      "locked_by": [80709, 80708],
+      "flags": 0,
+      "pos_x": 2400,
+      "pos_y": 3900,
+      "talent_ids": [106415]
+    },
+    {
+      "id": 80604,
+      "locked_by": [80603],
+      "flags": 8,
+      "pos_x": 2398,
+      "pos_y": 2700,
+      "talent_ids": [106416]
+    },
+    {
+      "id": 80679,
+      "locked_by": [80688, 80680],
+      "flags": 8,
+      "pos_x": 6022,
+      "pos_y": 2078,
+      "talent_ids": [106497]
+    },
+    {
+      "id": 80680,
+      "locked_by": [80685, 80681],
+      "flags": 8,
+      "pos_x": 6003,
+      "pos_y": 3906,
+      "talent_ids": [106498]
+    },
+    {
+      "id": 80681,
+      "locked_by": [80684, 80682],
+      "flags": 1,
+      "pos_x": 5995,
+      "pos_y": 4496,
+      "talent_ids": [106500, 106499]
+    },
+    {
+      "id": 80682,
+      "locked_by": [80683],
+      "flags": 8,
+      "pos_x": 5997,
+      "pos_y": 5100,
+      "talent_ids": [106501]
+    },
+    {
+      "id": 80683,
+      "locked_by": [80717],
+      "flags": 0,
+      "pos_x": 6000,
+      "pos_y": 5700,
+      "talent_ids": [106502]
+    },
+    {
+      "id": 80684,
+      "locked_by": [80683, 80703],
+      "flags": 8,
+      "pos_x": 5400,
+      "pos_y": 5097,
+      "talent_ids": [106503]
+    },
+    {
+      "id": 80685,
+      "locked_by": [80684],
+      "flags": 9,
+      "pos_x": 5402,
+      "pos_y": 4495,
+      "talent_ids": [106505, 106504]
+    },
+    {
+      "id": 80686,
+      "locked_by": [80705, 80685],
+      "flags": 0,
+      "pos_x": 5402,
+      "pos_y": 3907,
+      "talent_ids": [106506]
+    },
+    {
+      "id": 80687,
+      "locked_by": [80680, 80686],
+      "flags": 8,
+      "pos_x": 5400,
+      "pos_y": 3300,
+      "talent_ids": [106507]
+    },
+    {
+      "id": 80688,
+      "locked_by": [80706, 80687],
+      "flags": 0,
+      "pos_x": 5404,
+      "pos_y": 2701,
+      "talent_ids": [106508]
+    },
+    {
+      "id": 80689,
+      "locked_by": [80693, 80679, 80688, 81634],
+      "flags": 8,
+      "pos_x": 5400,
+      "pos_y": 1505,
+      "talent_ids": [106509]
+    },
+    {
+      "id": 80690,
+      "locked_by": [80693],
+      "flags": 0,
+      "pos_x": 4203,
+      "pos_y": 1510,
+      "talent_ids": [106510]
+    },
+    {
+      "id": 80691,
+      "locked_by": [80712, 80693, 80711, 80692],
+      "flags": 0,
+      "pos_x": 3000,
+      "pos_y": 1502,
+      "talent_ids": [106511]
+    },
+    {
+      "id": 80692,
+      "locked_by": [80695],
+      "flags": 8,
+      "pos_x": 3599,
+      "pos_y": 2705,
+      "talent_ids": [106512]
+    },
+    {
+      "id": 80693,
+      "locked_by": [80692, 80694, 81634],
+      "flags": 0,
+      "pos_x": 4205,
+      "pos_y": 2111,
+      "talent_ids": [106513]
+    },
+    {
+      "id": 80694,
+      "locked_by": [80698, 80696, 80705],
+      "flags": 8,
+      "pos_x": 4205,
+      "pos_y": 3910,
+      "talent_ids": [106514]
+    },
+    {
+      "id": 80695,
+      "locked_by": [80709, 80694, 80696],
+      "flags": 8,
+      "pos_x": 3597,
+      "pos_y": 3293,
+      "talent_ids": [106515]
+    },
+    {
+      "id": 80696,
+      "locked_by": [80697, 80697],
+      "flags": 8,
+      "pos_x": 3600,
+      "pos_y": 4506,
+      "talent_ids": [106516]
+    },
+    {
+      "id": 80697,
+      "locked_by": [80715, 80715],
+      "flags": 9,
+      "pos_x": 3597,
+      "pos_y": 5102,
+      "talent_ids": [120773, 106517]
+    },
+    {
+      "id": 80698,
+      "locked_by": [80697, 80704, 80700, 80697],
+      "flags": 9,
+      "pos_x": 4201,
+      "pos_y": 4502,
+      "talent_ids": [106518, 120476]
+    },
+    {
+      "id": 80699,
+      "locked_by": [],
+      "flags": 0,
+      "pos_x": 4203,
+      "pos_y": 5699,
+      "talent_ids": [106519]
+    },
+    {
+      "id": 80700,
+      "locked_by": [80699],
+      "flags": 0,
+      "pos_x": 4200,
+      "pos_y": 5100,
+      "talent_ids": [106520]
+    },
+    {
+      "id": 80701,
+      "locked_by": [],
+      "flags": 0,
+      "pos_x": 4197,
+      "pos_y": 6900,
+      "talent_ids": [106521]
+    },
+    {
+      "id": 80702,
+      "locked_by": [80701],
+      "flags": 0,
+      "pos_x": 4203,
+      "pos_y": 6292,
+      "talent_ids": [106522]
+    },
+    {
+      "id": 80703,
+      "locked_by": [80717, 80702],
+      "flags": 8,
+      "pos_x": 4804,
+      "pos_y": 5697,
+      "talent_ids": [106523]
+    },
+    {
+      "id": 80704,
+      "locked_by": [80703],
+      "flags": 9,
+      "pos_x": 4803,
+      "pos_y": 5100,
+      "talent_ids": [120772, 106524]
+    },
+    {
+      "id": 80705,
+      "locked_by": [80684, 80704],
+      "flags": 8,
+      "pos_x": 4796,
+      "pos_y": 4506,
+      "talent_ids": [106525]
+    },
+    {
+      "id": 80706,
+      "locked_by": [80694, 80686, 80705],
+      "flags": 8,
+      "pos_x": 4805,
+      "pos_y": 3302,
+      "talent_ids": [106526]
+    },
+    {
+      "id": 80707,
+      "locked_by": [80714],
+      "flags": 0,
+      "pos_x": 2397,
+      "pos_y": 5697,
+      "talent_ids": [106527]
+    },
+    {
+      "id": 80708,
+      "locked_by": [80707],
+      "flags": 8,
+      "pos_x": 2398,
+      "pos_y": 5102,
+      "talent_ids": [106528]
+    },
+    {
+      "id": 80709,
+      "locked_by": [80697, 80708, 80697],
+      "flags": 1,
+      "pos_x": 3004,
+      "pos_y": 4508,
+      "talent_ids": [106530, 106529]
+    },
+    {
+      "id": 80710,
+      "locked_by": [80709],
+      "flags": 8,
+      "pos_x": 3000,
+      "pos_y": 3301,
+      "talent_ids": [106531]
+    },
+    {
+      "id": 80711,
+      "locked_by": [80695, 80710],
+      "flags": 0,
+      "pos_x": 3000,
+      "pos_y": 2700,
+      "talent_ids": [106532]
+    },
+    {
+      "id": 80712,
+      "locked_by": [80604, 80711],
+      "flags": 8,
+      "pos_x": 2396,
+      "pos_y": 2104,
+      "talent_ids": [106533]
+    },
+    {
+      "id": 80713,
+      "locked_by": [],
+      "flags": 0,
+      "pos_x": 3000,
+      "pos_y": 6900,
+      "talent_ids": [106534]
+    },
+    {
+      "id": 80714,
+      "locked_by": [80713],
+      "flags": 0,
+      "pos_x": 3005,
+      "pos_y": 6307,
+      "talent_ids": [106535]
+    },
+    {
+      "id": 80715,
+      "locked_by": [80702, 80714],
+      "flags": 8,
+      "pos_x": 3598,
+      "pos_y": 5697,
+      "talent_ids": [106536]
+    },
+    {
+      "id": 80716,
+      "locked_by": [],
+      "flags": 0,
+      "pos_x": 5397,
+      "pos_y": 6897,
+      "talent_ids": [106537]
+    },
+    {
+      "id": 80717,
+      "locked_by": [80716],
+      "flags": 0,
+      "pos_x": 5397,
+      "pos_y": 6292,
+      "talent_ids": [106538]
+    },
+    {
+      "id": 81634,
+      "locked_by": [80706],
+      "flags": 8,
+      "pos_x": 4800,
+      "pos_y": 2700,
+      "talent_ids": [107632]
+    },
+    {
+      "id": 92684,
+      "locked_by": [],
+      "flags": 8,
+      "pos_x": 14400,
+      "pos_y": 6900,
+      "talent_ids": [119828]
+    }
+  ]
+}

@@ -92,31 +92,44 @@ local function NodeIDsCommand(msg, editbox)
             nodes[#nodes+1] = treeNode
         end
     end
-    local output = ""
+
+    local jsonNodes = {}
     for _, node in ipairs(nodes) do
-        nodeText = "{\n"
-        nodeText = nodeText .. "  'id': " .. node.ID .. ",\n"
-        nodeText = nodeText .. "  'locked_by': ["
+        nodeText = '    {\n'
+        nodeText = nodeText .. '      "id": ' .. node.ID .. ',\n'
+        nodeText = nodeText .. '      "locked_by": ['
+        local lockedBy = {}
         for _, edge in ipairs(node.visibleEdges) do
             if edge.type == 2 or edge.type == 3 then
-                nodeText = nodeText .. edge.targetNode .. ", "
+                lockedBy[#lockedBy+1] = edge.targetNode
             end
         end
-        nodeText = nodeText .. "],\n"
-        nodeText = nodeText .. "  'flags': " .. node.flags .. ",\n"
-        nodeText = nodeText .. "  'pos_x': " .. node.posX .. ",\n"
-        nodeText = nodeText .. "  'pos_y': " .. node.posY .. ",\n"
-        nodeText = nodeText .. "  'talent_ids': ["
+        nodeText = nodeText .. table.concat(lockedBy, ', ') .. '],\n'
+        nodeText = nodeText .. '      "flags": ' .. node.flags .. ',\n'
+        nodeText = nodeText .. '      "pos_x": ' .. node.posX .. ',\n'
+        nodeText = nodeText .. '      "pos_y": ' .. node.posY .. ',\n'
+        nodeText = nodeText .. '      "talent_ids": ['
+        local talentIds = {}
         for _, entryID in ipairs(node.entryIDs) do
             entryInfo = C_Traits.GetEntryInfo(configID, entryID)
-            nodeText = nodeText .. entryInfo.definitionID .. ", "
+            talentIds[#talentIds+1] = entryInfo.definitionID
         end
-        nodeText = nodeText .. "],\n"
-
-        nodeText = nodeText .. "},\n"
-        output = output .. nodeText
+        nodeText = nodeText .. table.concat(talentIds, ', ') .. ']\n'
+        nodeText = nodeText .. '    }'
+        jsonNodes[#jsonNodes+1] = nodeText
     end
 
+    local className, _ = UnitClass('player')
+    local specId, specName, _, _, _, _ = GetSpecializationInfo(GetSpecialization())
+    local output = '{\n'
+    output = output .. '  "class_name": "' .. className .. '",\n'
+    output = output .. '  "class_id": ' .. configInfo.treeIDs[1] .. ',\n'
+    output = output .. '  "spec_name": "' .. specName .. '",\n'
+    output = output .. '  "spec_id": ' .. specId .. ',\n'
+    output = output .. '  "nodes": [\n'
+    output = output .. table.concat(jsonNodes, ',\n') .. '\n'
+    output = output .. '  ]\n'
+    output = output .. '}'
     OutputBox_Show(output)
 end
 
