@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "required": ["id", "rank_descriptions", "spell", "playable_class"],
+  "properties": {
+    "id": { "type": "integer" },
+    "rank_descriptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rank", "description"],
+        "properties": {
+          "rank": { "type": "integer" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "spell": {
+      "type": "object",
+      "required": ["key", "name", "id"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "id": { "type": "integer" }
+      }
+    },
+    "playable_class": {
+      "$ref": "#/$defs/playable"
+    },
+    "playable_specialization": {
+      "$ref": "#/$defs/playable"
+    }
+  },
+  "$defs": {
+    "key": {
+      "type": "object",
+      "required": ["href"],
+      "properties": {
+        "href": {"type": "string"}
+      }
+    },
+    "playable": {
+      "type": "object",
+      "required": ["key", "name", "id"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "id": { "type": "integer" }
+      }
+    }
+  }
+}
