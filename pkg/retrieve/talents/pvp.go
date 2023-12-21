@@ -36,18 +36,18 @@ type pvpTalentsIndexJson struct {
 }
 
 type pvpTalentJson struct {
-	Id int `json:"id"`
+	Id    int `json:"id"`
 	Spell struct {
-		Id int `json:"id"`
+		Id   int    `json:"id"`
 		Name string `json:"name"`
-		Key struct {
+		Key  struct {
 			Href string `json:"href"`
 		} `json:"key"`
 	} `json:"spell"`
 	PlayableSpecialization struct {
-		Id int `json:"id"`
+		Id   int    `json:"id"`
 		Name string `json:"name"`
-		Key struct {
+		Key  struct {
 			Href string `json:"href"`
 		} `json:"key"`
 	} `json:"playable_specialization"`
@@ -111,9 +111,9 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 		}
 
 		requests <- scan.RefreshRequest{
-			Lifespan: time.Hour * 24,
+			Lifespan:   time.Hour * 24,
 			ApiRequest: apiRequest,
-			Validator: validator,
+			Validator:  validator,
 		}
 	}
 	close(requests)
@@ -147,7 +147,7 @@ func parsePvpTalent(body []byte) (PvpTalent, error) {
 			Id:   talent.Spell.Id,
 			Name: talent.Spell.Name,
 			Spell: wow.Spell{
-				Id: talent.Spell.Id,
+				Id:   talent.Spell.Id,
 				Name: talent.Spell.Name,
 				Ranks: []wow.Rank{{
 					Description: talent.Description,

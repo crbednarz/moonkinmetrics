@@ -35,4 +35,3 @@ func TestGetPvpTalents(t *testing.T) {
 		t.Fatalf("expected 436 talents, got %d", len(talents))
 	}
 }
-
