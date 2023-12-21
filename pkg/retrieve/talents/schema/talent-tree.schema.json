@@ -136,12 +136,12 @@
         },
         "node_type": {
           "type": "object",
-          "required": ["id", "name"],
+          "required": ["id", "type"],
           "properties": {
             "id": {
               "type": "integer"
             },
-            "name": {
+            "type": {
               "type": "string"
             }
           }
