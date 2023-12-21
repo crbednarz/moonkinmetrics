@@ -114,7 +114,9 @@ func parseTalentNode(nodeJson talentNodeJson) (wow.TalentNode, error) {
 
 	maxRank := len(nodeJson.Ranks)
 	var tooltips [][]tooltipJson
-	if len(nodeJson.Ranks[0].ChoiceOfTooltips) > 0 {
+	if len(nodeJson.Ranks[0].ChoiceOfTooltips) == 1 {
+		return wow.TalentNode{}, errors.New("only one choice available for multi talent node")
+	} else if len(nodeJson.Ranks[0].ChoiceOfTooltips) == 2 {
 		tooltips = [][]tooltipJson{
 			{nodeJson.Ranks[0].ChoiceOfTooltips[0]},
 			{nodeJson.Ranks[0].ChoiceOfTooltips[1]},
