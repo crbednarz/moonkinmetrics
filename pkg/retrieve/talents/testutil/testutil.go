@@ -10,11 +10,10 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
 
-
 type MockClientCallback func(path string) (body string, found bool)
 
 type MockHttpClient struct {
-	callback  MockClientCallback
+	callback MockClientCallback
 }
 
 func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
