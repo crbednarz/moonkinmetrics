@@ -8,8 +8,6 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents/testutil"
 )
 
-
-
 func TestCanGetTalentTrees(t *testing.T) {
 	scanner, err := testutil.NewMockScanner(func(requestPath string) (string, bool) {
 		if requestPath == "/data/wow/talent-tree/index" {
