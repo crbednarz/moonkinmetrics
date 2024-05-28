@@ -8,9 +8,9 @@ def batched(iterable, n):
     "Batch data into tuples of length n. The last batch may be shorter."
     # batched('ABCDEFG', 3) --> ABC DEF G
     if n < 1:
-        raise ValueError('n must be at least one')
+        raise ValueError("n must be at least one")
     it = iter(iterable)
-    while (batch := tuple(islice(it, n))):
+    while batch := tuple(islice(it, n)):
         yield batch
 
 
@@ -35,20 +35,20 @@ def zip_longest(*args, fillvalue=None):
         yield tuple(values)
 
 
-def grouper(iterable, n, *, incomplete='fill', fillvalue=None):
+def grouper(iterable, n, *, incomplete="fill", fillvalue=None):
     "Collect data into non-overlapping fixed-length chunks or blocks"
     # grouper('ABCDEFG', 3, fillvalue='x') --> ABC DEF Gxx
     # grouper('ABCDEFG', 3, incomplete='strict') --> ABC DEF ValueError
     # grouper('ABCDEFG', 3, incomplete='ignore') --> ABC DEF
     args = [iter(iterable)] * n
-    if incomplete == 'fill':
+    if incomplete == "fill":
         return zip_longest(*args, fillvalue=fillvalue)
-    if incomplete == 'strict':
+    if incomplete == "strict":
         return zip(*args, strict=True)
-    if incomplete == 'ignore':
+    if incomplete == "ignore":
         return zip(*args)
     else:
-        raise ValueError('Expected fill, strict, or ignore')
+        raise ValueError("Expected fill, strict, or ignore")
 
 
 def repeat(object, times=None):

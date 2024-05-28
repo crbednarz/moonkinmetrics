@@ -20,8 +20,8 @@ from .serializer import encode_loadouts, talent_tree_to_dict
 from .talents import TalentTree, get_talent_trees
 
 
-TALENTS_DIRECTORY = 'talents'
-PVP_DIRECTORY = 'pvp'
+TALENTS_DIRECTORY = "talents"
+PVP_DIRECTORY = "pvp"
 
 
 def scan_pvp_ladder(
@@ -30,8 +30,8 @@ def scan_pvp_ladder(
     bracket: str,
     min_rating: int,
     max_entries: int,
-    shuffle_class: str = '',
-    shuffle_spec: str = '',
+    shuffle_class: str = "",
+    shuffle_spec: str = "",
 ) -> None:
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
@@ -41,39 +41,45 @@ def scan_pvp_ladder(
     realms = get_realms(client)
     _create_dir(output_path)
 
-    if bracket == 'shuffle':
+    if bracket == "shuffle":
         for tree in talent_trees:
-            if (shuffle_class and
-                    tree.class_name.lower() != shuffle_class.lower()):
+            if shuffle_class and tree.class_name.lower() != shuffle_class.lower():
                 continue
 
-            if (shuffle_spec and
-                    tree.spec_name.lower() != shuffle_spec.lower()):
+            if shuffle_spec and tree.spec_name.lower() != shuffle_spec.lower():
                 continue
 
-            print(("Collecting player talents for "
-                   f"Solo Shuffle {tree.class_name} - {tree.spec_name}..."))
-            loop.run_until_complete(_collect_shuffle_leaderboard(
+            print(
+                (
+                    "Collecting player talents for "
+                    f"Solo Shuffle {tree.class_name} - {tree.spec_name}..."
+                )
+            )
+            loop.run_until_complete(
+                _collect_shuffle_leaderboard(
+                    client,
+                    tree.class_name,
+                    tree.spec_name,
+                    output_path,
+                    tree,
+                    realms,
+                    min_rating,
+                    max_entries,
+                )
+            )
+    else:
+        print(f"Collecting player talents for {bracket}...")
+        loop.run_until_complete(
+            _collect_arena_leaderboard(
                 client,
-                tree.class_name,
-                tree.spec_name,
+                bracket,
                 output_path,
-                tree,
+                talent_trees,
                 realms,
                 min_rating,
                 max_entries,
-            ))
-    else:
-        print(f"Collecting player talents for {bracket}...")
-        loop.run_until_complete(_collect_arena_leaderboard(
-            client,
-            bracket,
-            output_path,
-            talent_trees,
-            realms,
-            min_rating,
-            max_entries,
-        ))
+            )
+        )
 
 
 def scan_talents(client: Client, output_path: str) -> None:
@@ -116,7 +122,7 @@ async def _collect_shuffle_leaderboard(
     rated_loadouts = []
     async for result in get_player_loadouts(client, scan_targets, spec_name):
         loadout, player, entry, status = result
-        print(f"Requested talents for {player.full_name}... ", end='')
+        print(f"Requested talents for {player.full_name}... ", end="")
         if status != LoadoutRequestStatus.SUCCESS or loadout is None:
             print("Failed")
             continue
@@ -136,10 +142,15 @@ async def _collect_shuffle_leaderboard(
     filename = _get_regional_filename(class_name, spec_name, client.region)
     path = os.path.join(output_path, filename)
     print(f"Writing to path: {path}")
-    with open(path, 'w') as file:
-        json.dump(_with_timestamp(
-            encode_loadouts(rated_loadouts, talent_tree, realms),
-        ), file, indent=2, ensure_ascii=False)
+    with open(path, "w") as file:
+        json.dump(
+            _with_timestamp(
+                encode_loadouts(rated_loadouts, talent_tree, realms),
+            ),
+            file,
+            indent=2,
+            ensure_ascii=False,
+        )
 
 
 async def _collect_arena_leaderboard(
@@ -168,7 +179,7 @@ async def _collect_arena_leaderboard(
     async for result in get_player_loadouts(client, scan_targets):
         loadout, player, entry, status = result
 
-        print(f"Requested talents for {player.full_name}... ", end='')
+        print(f"Requested talents for {player.full_name}... ", end="")
         if status != LoadoutRequestStatus.SUCCESS or loadout is None:
             print("Failed")
             continue
@@ -192,21 +203,25 @@ async def _collect_arena_leaderboard(
         path = os.path.join(output_path, filename)
         talent_tree = tree_map[(class_name, spec_name)]
         print(f"Writing to path: {path}")
-        with open(path, 'w') as file:
-            json.dump(_with_timestamp(
-                encode_loadouts(entries, talent_tree, realms),
-            ), file, indent=2, ensure_ascii=False)
+        with open(path, "w") as file:
+            json.dump(
+                _with_timestamp(
+                    encode_loadouts(entries, talent_tree, realms),
+                ),
+                file,
+                indent=2,
+                ensure_ascii=False,
+            )
 
 
 def _shuffle_bracket(class_name: str, spec_name: str) -> str:
-    class_slug = class_name.lower().replace(' ', '')
-    spec_slug = spec_name.lower().replace(' ', '')
-    return f'shuffle-{class_slug}-{spec_slug}'
+    class_slug = class_name.lower().replace(" ", "")
+    spec_slug = spec_name.lower().replace(" ", "")
+    return f"shuffle-{class_slug}-{spec_slug}"
 
 
 def _remap_old_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
-    """Remap any talents missing from tree to the new talents of the same name.
-    """
+    """Remap any talents missing from tree to the new talents of the same name."""
     talent_ids = set()
     talent_names = dict()
     for node in chain(talent_tree.class_nodes, talent_tree.spec_nodes):
@@ -232,7 +247,7 @@ def _validate_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
     for node in chain(loadout.class_nodes, loadout.spec_nodes):
         max_rank = max_ranks.get(node.talent_id)
         if max_rank is None:
-            print(f'Missing talent: N: {node.node_id} - T: {node.talent_id}')
+            print(f"Missing talent: N: {node.node_id} - T: {node.talent_id}")
             return False
         if node.rank > max_rank:
             return False
@@ -258,20 +273,18 @@ async def _fetch_talent_trees(client: Client) -> list[TalentTree]:
     return talent_trees
 
 
-def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str],
-                      path: str) -> None:
-    with open(path, 'w') as file:
+def _save_talent_tree(tree: TalentTree, spell_media: dict[int, str], path: str) -> None:
+    with open(path, "w") as file:
         json_output = talent_tree_to_dict(tree, spell_media)
         json.dump(_with_timestamp(json_output), file, indent=2)
 
 
 def _get_filename(class_name: str, spec_name: str) -> str:
-    return f"{class_name}-{spec_name}.json".lower().replace(' ', '-')
+    return f"{class_name}-{spec_name}.json".lower().replace(" ", "-")
 
 
-def _get_regional_filename(class_name: str, spec_name: str,
-                           region: str) -> str:
-    return f"{class_name}-{spec_name}.{region}.json".lower().replace(' ', '-')
+def _get_regional_filename(class_name: str, spec_name: str, region: str) -> str:
+    return f"{class_name}-{spec_name}.{region}.json".lower().replace(" ", "-")
 
 
 def _create_dir(path: str) -> None:
@@ -279,5 +292,5 @@ def _create_dir(path: str) -> None:
 
 
 def _with_timestamp(obj: dict) -> dict:
-    obj['timestamp'] = math.floor(datetime.now().timestamp() * 1000)
+    obj["timestamp"] = math.floor(datetime.now().timestamp() * 1000)
     return obj

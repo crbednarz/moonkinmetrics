@@ -7,8 +7,12 @@ from typing import AsyncGenerator, Generator, Optional
 
 from . import hack
 from .bnet import Client
-from .constants import (CLASS_SPECS, INGAME_SPEC_NODES, CLASS_SPEC_BY_SPEC_ID,
-                        SPEC_ID_BY_CLASS_SPEC)
+from .constants import (
+    CLASS_SPECS,
+    INGAME_SPEC_NODES,
+    CLASS_SPEC_BY_SPEC_ID,
+    SPEC_ID_BY_CLASS_SPEC,
+)
 
 
 @dataclass
@@ -60,36 +64,37 @@ class TalentNode:
 
         talents = []
         for raw_talent in raw_talents:
-            raw_spell = raw_talent['spell']
+            raw_spell = raw_talent["spell"]
 
             ranks = []
-            for rank_description in raw_talent['rank_descriptions']:
-                ranks.append(Rank(
-                    rank_description['description'],
-                    None, None, None, None
-                ))
+            for rank_description in raw_talent["rank_descriptions"]:
+                ranks.append(
+                    Rank(rank_description["description"], None, None, None, None)
+                )
 
-            talents.append(Talent(
-                id=raw_talent['id'],
-                name=raw_spell['name'],
-                spell=Spell(
-                    id=raw_spell['id'],
-                    name=raw_spell['name'],
-                    ranks=ranks,
-                ),
-            ))
+            talents.append(
+                Talent(
+                    id=raw_talent["id"],
+                    name=raw_spell["name"],
+                    spell=Spell(
+                        id=raw_spell["id"],
+                        name=raw_spell["name"],
+                        ranks=ranks,
+                    ),
+                )
+            )
 
         return TalentNode(
-            id=node_info['id'],
-            x=node_info['pos_x'],
-            y=node_info['pos_y'],
+            id=node_info["id"],
+            x=node_info["pos_x"],
+            y=node_info["pos_y"],
             row=0,
             col=0,
             unlocks=[],
-            locked_by=node_info['locked_by'],
-            node_type='MISSING',
+            locked_by=node_info["locked_by"],
+            node_type="MISSING",
             talents=talents,
-            max_rank=len(raw_talents[0]['rank_descriptions']),
+            max_rank=len(raw_talents[0]["rank_descriptions"]),
         )
 
     @staticmethod
@@ -99,56 +104,58 @@ class TalentNode:
             return None
 
         raw_node = fixed_node
-        base_rank = raw_node['ranks'][0]
+        base_rank = raw_node["ranks"][0]
 
-        if 'choice_of_tooltips' in base_rank:
+        if "choice_of_tooltips" in base_rank:
             max_rank = 1
             tooltips = [
-                [base_rank['choice_of_tooltips'][0]],
-                [base_rank['choice_of_tooltips'][1]],
+                [base_rank["choice_of_tooltips"][0]],
+                [base_rank["choice_of_tooltips"][1]],
             ]
         else:
-            max_rank = len(raw_node['ranks'])
-            tooltips = [
-                [rank['tooltip'] for rank in raw_node['ranks']]
-            ]
+            max_rank = len(raw_node["ranks"])
+            tooltips = [[rank["tooltip"] for rank in raw_node["ranks"]]]
 
         talents = []
         for tooltip_ranks in tooltips:
             base_tooltip = tooltip_ranks[0]
-            base_spell_tooltip = base_tooltip['spell_tooltip']
-            base_spell = base_spell_tooltip['spell']
+            base_spell_tooltip = base_tooltip["spell_tooltip"]
+            base_spell = base_spell_tooltip["spell"]
 
             ranks = []
             for tooltip in tooltip_ranks:
-                spell_tooltip = tooltip['spell_tooltip']
-                ranks.append(Rank(
-                    spell_tooltip['description'],
-                    spell_tooltip.get('cast_time'),
-                    spell_tooltip.get('power_cost'),
-                    spell_tooltip.get('range'),
-                    spell_tooltip.get('cooldown'),
-                ))
+                spell_tooltip = tooltip["spell_tooltip"]
+                ranks.append(
+                    Rank(
+                        spell_tooltip["description"],
+                        spell_tooltip.get("cast_time"),
+                        spell_tooltip.get("power_cost"),
+                        spell_tooltip.get("range"),
+                        spell_tooltip.get("cooldown"),
+                    )
+                )
 
             spell = Spell(
-                base_spell['id'],
-                base_spell['name'],
+                base_spell["id"],
+                base_spell["name"],
                 ranks,
             )
-            talents.append(Talent(
-                base_tooltip['talent']['id'],
-                base_tooltip['talent']['name'],
-                spell,
-            ))
+            talents.append(
+                Talent(
+                    base_tooltip["talent"]["id"],
+                    base_tooltip["talent"]["name"],
+                    spell,
+                )
+            )
         node = TalentNode(
-            id=raw_node['id'],
-            x=raw_node['raw_position_x'],
-            y=raw_node['raw_position_y'],
-            row=raw_node['display_row'],
-            col=raw_node['display_col'],
-            unlocks=raw_node.get('unlocks', []),
-            locked_by=raw_node.get('locked_by', []),
-            node_type=raw_node['node_type']['type'],
+            id=raw_node["id"],
+            x=raw_node["raw_position_x"],
+            y=raw_node["raw_position_y"],
+            row=raw_node["display_row"],
+            col=raw_node["display_col"],
+            unlocks=raw_node.get("unlocks", []),
+            locked_by=raw_node.get("locked_by", []),
+            node_type=raw_node["node_type"]["type"],
             talents=talents,
             max_rank=max_rank,
         )
@@ -189,7 +196,7 @@ class _TalentTreesIndex:
 
 class _ClassTalentTreeLink:
     def __init__(self, url: str, class_name: str):
-        result = re.search(r'/talent-tree/(\d+)', url)
+        result = re.search(r"/talent-tree/(\d+)", url)
         if result is None:
             raise RuntimeError(f"Unable to find id in {url}")
         self.id = int(result.group(1))
@@ -199,7 +206,7 @@ class _ClassTalentTreeLink:
 
 class _SpecTalentTreeLink:
     def __init__(self, url: str, spec_name: str):
-        result = re.search(r'/talent-tree/(\d+)/[^/]+/(\d+)', url)
+        result = re.search(r"/talent-tree/(\d+)/[^/]+/(\d+)", url)
         if result is None:
             raise RuntimeError(f"Unable to find id in {url}")
         self.class_id = int(result.group(1))
@@ -228,8 +235,9 @@ async def get_talent_trees(client: Client) -> AsyncGenerator[TalentTree, None]:
 
     for class_name, spec_name in specs_remaining:
         tree_link = trees_index.get_class_link(class_name)
-        yield await _get_tree_for_missing_spec(client, class_name, spec_name,
-                                               trees_index)
+        yield await _get_tree_for_missing_spec(
+            client, class_name, spec_name, trees_index
+        )
 
 
 def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: int) -> str:
@@ -242,34 +250,39 @@ def _lookup_class_name_from_id(trees_index: _TalentTreesIndex, id: int) -> str:
 def _get_talent_tree_index(client: Client) -> _TalentTreesIndex:
     tree_index = client.get_static_resource("/data/wow/talent-tree/index")
     class_links = []
-    for entry in tree_index['class_talent_trees']:
-        class_links.append(_ClassTalentTreeLink(
-            entry['key']['href'].split('?')[0],
-            entry['name'],
-        ))
+    for entry in tree_index["class_talent_trees"]:
+        class_links.append(
+            _ClassTalentTreeLink(
+                entry["key"]["href"].split("?")[0],
+                entry["name"],
+            )
+        )
 
     spec_links = []
-    for entry in tree_index['spec_talent_trees']:
-        spec_links.append(_SpecTalentTreeLink(
-            entry['key']['href'].split('?')[0],
-            entry['name'],
-        ))
+    for entry in tree_index["spec_talent_trees"]:
+        spec_links.append(
+            _SpecTalentTreeLink(
+                entry["key"]["href"].split("?")[0],
+                entry["name"],
+            )
+        )
 
     return _TalentTreesIndex(class_links, spec_links)
 
 
-async def _get_tree_for_spec(client: Client, class_name: str,
-                             tree_link: _SpecTalentTreeLink) -> TalentTree:
+async def _get_tree_for_spec(
+    client: Client, class_name: str, tree_link: _SpecTalentTreeLink
+) -> TalentTree:
     response = client.get_url(tree_link.url)
 
     class_nodes = []
-    for response_node in response['class_talent_nodes']:
+    for response_node in response["class_talent_nodes"]:
         node = TalentNode.from_raw_node(response_node)
         if node:
             class_nodes.append(node)
 
     spec_nodes = []
-    for response_node in response['spec_talent_nodes']:
+    for response_node in response["spec_talent_nodes"]:
         try:
             node = TalentNode.from_raw_node(response_node)
             if node:
@@ -285,60 +298,64 @@ async def _get_tree_for_spec(client: Client, class_name: str,
         tree_link.spec_id,
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
-        await _get_pvp_talents(client, class_name, tree_link.spec_name)
+        await _get_pvp_talents(client, class_name, tree_link.spec_name),
     )
 
 
-async def _get_pvp_talents(client: Client, class_name: str,
-                           spec_name: str) -> list[Talent]:
-    index = client.get_static_resource('/data/wow/pvp-talent/index')
+async def _get_pvp_talents(
+    client: Client, class_name: str, spec_name: str
+) -> list[Talent]:
+    index = client.get_static_resource("/data/wow/pvp-talent/index")
     talents = []
 
     urls_with_context = [
-        (entry['key']['href'], entry) for entry in index['pvp_talents']
+        (entry["key"]["href"], entry) for entry in index["pvp_talents"]
     ]
 
     async for response, status, entry in client.get_urls(urls_with_context):
         if status != 200:
-            raise RuntimeError(f"Unable to get pvp talent {entry['id']}: "
-                               f"{status}")
-        if response['playable_specialization']['name'] != spec_name:
+            raise RuntimeError(
+                f"Unable to get pvp talent {entry['id']}: {status} / {entry}"
+            )
+        if response["playable_specialization"]["name"] != spec_name:
             continue
 
-        spec_id = response['playable_specialization']['id']
+        spec_id = response["playable_specialization"]["id"]
         (found_class_name, _) = CLASS_SPEC_BY_SPEC_ID[spec_id]
 
         if found_class_name != class_name:
             continue
 
-        talents.append(Talent(
-            response['id'],
-            response['spell']['name'],
-            Spell(
-                response['spell']['id'],
-                response['spell']['name'],
-                [Rank(
-                    response['description'],
-                    cast_time=None,
-                    power_cost=None,
-                    range=None,
-                    cooldown=None,
-                )]
-            ),
-        ))
+        talents.append(
+            Talent(
+                response["id"],
+                response["spell"]["name"],
+                Spell(
+                    response["spell"]["id"],
+                    response["spell"]["name"],
+                    [
+                        Rank(
+                            response["description"],
+                            cast_time=None,
+                            power_cost=None,
+                            range=None,
+                            cooldown=None,
+                        )
+                    ],
+                ),
+            )
+        )
 
     return talents
 
 
 async def _get_tree_for_missing_spec(
-    client: Client,
-    class_name: str, spec_name: str,
-    tree_index: _TalentTreesIndex
+    client: Client, class_name: str, spec_name: str, tree_index: _TalentTreesIndex
 ) -> TalentTree:
     print(f"Warning: Using fallback for {class_name} - {spec_name}")
     game_nodes = {}
     for game_node in INGAME_SPEC_NODES[class_name][spec_name]:
-        game_nodes[game_node['id']] = game_node
+        game_nodes[game_node["id"]] = game_node
 
     tree_link = tree_index.get_class_link(class_name)
 
@@ -347,30 +364,30 @@ async def _get_tree_for_missing_spec(
 
     response = client.get_url(tree_link.url)
     urls_with_context = []
-    for response_node in response['talent_nodes']:
+    for response_node in response["talent_nodes"]:
         node = TalentNode.from_raw_node(response_node)
         if not node:
             continue
-        base_rank = response_node['ranks'][0]
-        if 'choice_of_tooltips' in base_rank:
-            tooltip = base_rank['choice_of_tooltips'][0]
+        base_rank = response_node["ranks"][0]
+        if "choice_of_tooltips" in base_rank:
+            tooltip = base_rank["choice_of_tooltips"][0]
         else:
-            tooltip = base_rank['tooltip']
+            tooltip = base_rank["tooltip"]
 
         if node.id not in game_nodes:
             continue
 
-        node.locked_by = game_nodes[node.id]['locked_by']
+        node.locked_by = game_nodes[node.id]["locked_by"]
         del game_nodes[node.id]
 
-        url = tooltip['talent']['key']['href']
+        url = tooltip["talent"]["key"]["href"]
         urls_with_context.append((url, node))
 
     for node_id in game_nodes.keys():
         print(f"Warning: Missing node {node_id} for {spec_name} {class_name}")
 
     async for response, _, node in client.get_urls(urls_with_context):
-        if 'playable_specialization' in response:
+        if "playable_specialization" in response:
             spec_nodes.append(node)
         else:
             class_nodes.append(node)
@@ -382,12 +399,13 @@ async def _get_tree_for_missing_spec(
         SPEC_ID_BY_CLASS_SPEC[(class_name, spec_name)],
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
-        await _get_pvp_talents(client, class_name, spec_name)
+        await _get_pvp_talents(client, class_name, spec_name),
     )
 
 
-async def _get_tree_for_broken_spec(client: Client, class_name: str,
-                                    tree_link: _SpecTalentTreeLink) -> TalentTree:
+async def _get_tree_for_broken_spec(
+    client: Client, class_name: str, tree_link: _SpecTalentTreeLink
+) -> TalentTree:
     spec_name = tree_link.spec_name
     print(f"Warning: Using fallback for {class_name} - {spec_name}")
 
@@ -397,27 +415,29 @@ async def _get_tree_for_broken_spec(client: Client, class_name: str,
     resources_with_context = []
     game_nodes = []
     for i, node_info in enumerate(INGAME_SPEC_NODES[class_name][spec_name]):
-        game_nodes.append({
-            'node_info': node_info,
-            'talent_nodes': [],
-        })
-        for talent_id in node_info['talent_ids']:
+        game_nodes.append(
+            {
+                "node_info": node_info,
+                "talent_nodes": [],
+            }
+        )
+        for talent_id in node_info["talent_ids"]:
             resource = f"/data/wow/talent/{talent_id}"
             resources_with_context.append((resource, i))
 
     async for response, _, id in client.get_static_resources(resources_with_context):
         node_info = game_nodes[id]
-        node_info['talent_nodes'].append(response)
+        node_info["talent_nodes"].append(response)
 
     for game_node in game_nodes:
-        node_info = game_node['node_info']
+        node_info = game_node["node_info"]
 
         repair = _GameNodeRepairInfo(
             node_info=node_info,
-            raw_talents=game_node['talent_nodes'],
+            raw_talents=game_node["talent_nodes"],
         )
         node = TalentNode.from_broken_node(repair)
-        if 'playable_specialization' in repair.raw_talents[0]:
+        if "playable_specialization" in repair.raw_talents[0]:
             spec_nodes.append(node)
         else:
             class_nodes.append(node)
@@ -429,7 +449,7 @@ async def _get_tree_for_broken_spec(client: Client, class_name: str,
         tree_link.spec_id,
         _filter_nodes(class_nodes),
         _filter_nodes(spec_nodes),
-        await _get_pvp_talents(client, class_name, tree_link.spec_name)
+        await _get_pvp_talents(client, class_name, tree_link.spec_name),
     )
 
 

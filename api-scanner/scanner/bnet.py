@@ -12,7 +12,7 @@ from typing import Any, AsyncGenerator, Optional, TypeVar
 from .util import batched
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 MAX_EXCEPTION_RETRIES = 5
 
 
@@ -28,13 +28,13 @@ class _ApiCache:
         if not os.path.exists(path):
             return None
 
-        with open(path, 'r', encoding='utf-8') as file:
+        with open(path, "r", encoding="utf-8") as file:
             return json.load(file)
 
     def put(self, url: str, obj: Any) -> None:
         filename = self._url_to_cache_name(url)
         path = os.path.join(self.path, filename)
-        with open(path, 'w', encoding='utf-8') as file:
+        with open(path, "w", encoding="utf-8") as file:
             return json.dump(obj, file)
 
     def _url_to_cache_name(self, url: str) -> str:
@@ -43,15 +43,19 @@ class _ApiCache:
 
 
 class Client:
-    def __init__(self, client_id: str, client_secret: str,
-                 cache_path: str = '.cache',
-                 region: str = 'us'):
+    def __init__(
+        self,
+        client_id: str,
+        client_secret: str,
+        cache_path: str = ".cache",
+        region: str = "us",
+    ):
         token = self._create_token(client_id, client_secret)
         self.headers = {
-            'accept': 'application/json',
-            "Authorization": f"Bearer {token}"
+            "accept": "application/json",
+            "Authorization": f"Bearer {token}",
         }
-        self._locale = 'en_US' if str == 'us' else 'en_GB'
+        self._locale = "en_US" if str == "us" else "en_GB"
         self._cache = _ApiCache(cache_path, region)
         self.region = region
 
@@ -63,7 +67,7 @@ class Client:
         )
         if response.status_code != 200:
             raise RuntimeError("Failed to authorize.")
-        return response.json()['access_token']
+        return response.json()["access_token"]
 
     def get_static_resources(
         self,
@@ -77,16 +81,22 @@ class Client:
         ]
         return self.get_urls(urls, "static", use_cache)
 
-    def get_static_resource(self, resource: str,
-                            params: Optional[dict[str, Any]] = None,
-                            use_cache: bool = True) -> dict:
+    def get_static_resource(
+        self,
+        resource: str,
+        params: Optional[dict[str, Any]] = None,
+        use_cache: bool = True,
+    ) -> dict:
         region = self.region
         url = f"https://{region}.api.blizzard.com{resource}"
         return self.get_url(url, params, "static", use_cache)
 
-    def get_dynamic_resource(self, resource: str,
-                             params: Optional[dict[str, Any]] = None,
-                             use_cache: bool = True) -> dict:
+    def get_dynamic_resource(
+        self,
+        resource: str,
+        params: Optional[dict[str, Any]] = None,
+        use_cache: bool = True,
+    ) -> dict:
         region = self.region
         url = f"https://{region}.api.blizzard.com{resource}"
         return self.get_url(url, params, "dynamic", use_cache)
@@ -103,17 +113,23 @@ class Client:
         ]
         return self.get_urls(urls, "profile", use_cache)
 
-    def get_profile_resource(self, resource: str,
-                             params: Optional[dict[str, Any]] = None,
-                             use_cache: bool = True) -> dict:
+    def get_profile_resource(
+        self,
+        resource: str,
+        params: Optional[dict[str, Any]] = None,
+        use_cache: bool = True,
+    ) -> dict:
         region = self.region
         url = f"https://{region}.api.blizzard.com{resource}"
         return self.get_url(url, params, "profile", use_cache)
 
-    def get_url(self, url: str,
-                params: Optional[dict[str, Any]] = None,
-                namespace: str = "static",
-                use_cache: bool = True) -> dict:
+    def get_url(
+        self,
+        url: str,
+        params: Optional[dict[str, Any]] = None,
+        namespace: str = "static",
+        use_cache: bool = True,
+    ) -> dict:
         namespace = f"{namespace}-{self.region}"
 
         if params is None:
@@ -128,21 +144,21 @@ class Client:
                 response = requests.get(
                     url,
                     headers=self.headers,
-                    params=params | {
-                        'namespace': namespace,
-                        'locale': self._locale,
-                    }
+                    params=params
+                    | {
+                        "namespace": namespace,
+                        "locale": self._locale,
+                    },
                 )
 
-                if (response.status_code == 429 or
-                   response.status_code == 500):
+                if response.status_code == 429 or response.status_code == 500:
                     time.sleep(2)
                     continue
                 break
 
             if response.status_code != 200:
                 text = response.text
-                raise RuntimeError(f"Failed to get \"{url}\": {text}")
+                raise RuntimeError(f'Failed to get "{url}": {text}')
 
             response_json = response.json()
 
@@ -180,7 +196,8 @@ class Client:
                 tasks = []
                 for url, context in urls:
                     task = asyncio.create_task(
-                        self._async_fetch(url, context, namespace, session))
+                        self._async_fetch(url, context, namespace, session)
+                    )
                     tasks.append(task)
 
                 for task in asyncio.as_completed(tasks):
@@ -211,13 +228,16 @@ class Client:
                     url,
                     headers=self.headers,
                     params={
-                        'namespace': namespace,
-                        'locale': self._locale,
+                        "namespace": namespace,
+                        "locale": self._locale,
                     },
                 ) as response:
                     json = None
-                    if (response.status == 429 or
-                       response.status == 500):
+                    if (
+                        response.status == 429
+                        or response.status == 500
+                        or response.status == 502
+                    ):
                         await asyncio.sleep(2)
                         continue
 
