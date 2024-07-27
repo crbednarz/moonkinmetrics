@@ -22,33 +22,8 @@ type IngameTree struct {
 	Nodes     []IngameNode `json:"nodes"`
 }
 
-//go:embed ingame/druid-restoration.json
-var druidRestorationJson []byte
-
-//go:embed ingame/warrior-arms.json
-var warriorArmsJson []byte
-
-//go:embed ingame/warrior-protection.json
-var warriorProtectionJson []byte
-
-//go:embed ingame/warlock-demonology.json
-var warlockDemonologyJson []byte
-
-//go:embed ingame/warlock-destruction.json
-var warlockDestructionJson []byte
-
-//go:embed ingame/monk-mistweaver.json
-var monkMistweaverJson []byte
-
 func GetIngameTrees() []IngameTree {
-	var treeJsons = [][]byte{
-		druidRestorationJson,
-		warriorArmsJson,
-		warriorProtectionJson,
-		warlockDemonologyJson,
-		warlockDestructionJson,
-		monkMistweaverJson,
-	}
+	var treeJsons = [][]byte{}
 
 	var trees = make([]IngameTree, len(treeJsons))
 	for i := range treeJsons {
