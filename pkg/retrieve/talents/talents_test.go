@@ -38,14 +38,25 @@ func TestCanGetTalentTrees(t *testing.T) {
 		t.Fatalf("failed to get talent trees: %v", err)
 	}
 
-	if len(trees) != 42 {
-		t.Fatalf("expected 42 trees, got %d", len(trees))
+	if len(trees) != 40 {
+		t.Fatalf("expected 40 trees, got %d", len(trees))
 	}
 
 	for _, tree := range trees {
-		if len(tree.ClassNodes) + len(tree.SpecNodes) < 70 {
-			t.Fatalf("expected at least 70 nodes, got %d", len(tree.ClassNodes) + len(tree.SpecNodes))
+		if len(tree.ClassNodes)+len(tree.SpecNodes) < 70 {
+			t.Fatalf("expected at least 70 nodes, got %d", len(tree.ClassNodes)+len(tree.SpecNodes))
 		}
+
+		if len(tree.HeroTrees) != 3 {
+			t.Fatalf("expected 3 hero trees, got %d", len(tree.HeroTrees))
+		}
+
+		for _, heroTree := range tree.HeroTrees {
+			if len(heroTree.Nodes) != 11 {
+				t.Errorf("expected 11 hero nodes, got %d", len(heroTree.Nodes))
+			}
+		}
+
 		// None of the pvp talents should match in the mock data so this should be 0.
 		// This may be something to change in the future.
 		if len(tree.PvpTalents) != 0 {

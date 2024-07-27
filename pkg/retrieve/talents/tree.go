@@ -21,6 +21,17 @@ type talentTreeJson struct {
 	} `json:"playable_specialization"`
 	ClassTalentNodes []talentNodeJson `json:"class_talent_nodes"`
 	SpecTalentNodes  []talentNodeJson `json:"spec_talent_nodes"`
+	HeroTalentTrees  []heroTreeJson   `json:"hero_talent_trees"`
+}
+
+type heroTreeJson struct {
+	Id    int    `json:"id"`
+	Name  string `json:"name"`
+	Media struct {
+		Id  int     `json:"id"`
+		Key keyJson `json:"key"`
+	} `json:"media"`
+	TalentNodes []talentNodeJson `json:"hero_talent_nodes"`
 }
 
 type talentNodeJson struct {
@@ -95,6 +106,15 @@ func parseTalentTreeJson(rawJson []byte) (wow.TalentTree, error) {
 		specNodes[i] = node
 	}
 
+	heroTrees := make([]wow.HeroTree, len(treeJson.HeroTalentTrees))
+	for i, treeJson := range treeJson.HeroTalentTrees {
+		tree, err := parseHeroTree(treeJson)
+		if err != nil && !errors.Is(err, errKnownBadNode) {
+			return wow.TalentTree{}, err
+		}
+		heroTrees[i] = tree
+	}
+
 	return wow.TalentTree{
 		ClassName:  treeJson.PlayableClass.Name,
 		ClassId:    treeJson.Id,
@@ -102,6 +122,23 @@ func parseTalentTreeJson(rawJson []byte) (wow.TalentTree, error) {
 		SpecId:     treeJson.PlayableSpecialization.Id,
 		ClassNodes: classNodes,
 		SpecNodes:  specNodes,
+		HeroTrees:  heroTrees,
+	}, nil
+}
+
+func parseHeroTree(heroTreeJson heroTreeJson) (wow.HeroTree, error) {
+	nodes := make([]wow.TalentNode, len(heroTreeJson.TalentNodes))
+	for i, nodeJson := range heroTreeJson.TalentNodes {
+		node, err := parseTalentNode(nodeJson)
+		if err != nil && !errors.Is(err, errKnownBadNode) {
+			return wow.HeroTree{}, err
+		}
+		nodes[i] = node
+	}
+	return wow.HeroTree{
+		Id:    heroTreeJson.Id,
+		Name:  heroTreeJson.Name,
+		Nodes: nodes,
 	}, nil
 }
 
