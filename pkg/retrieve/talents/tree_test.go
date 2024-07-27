@@ -49,12 +49,22 @@ func TestGetTalentTree(t *testing.T) {
 		t.Errorf("expected spec id to be 262 and class id to be 786, got %d and %d", tree.SpecId, tree.ClassId)
 	}
 
-	if len(tree.ClassNodes) != 48 {
+	if len(tree.ClassNodes) != 52 {
 		t.Errorf("expected 48 class nodes, got %d", len(tree.ClassNodes))
 	}
 
-	if len(tree.SpecNodes) != 40 {
+	if len(tree.SpecNodes) != 65 {
 		t.Errorf("expected 40 spec nodes, got %d", len(tree.SpecNodes))
+	}
+
+	if len(tree.HeroTrees) != 3 {
+		t.Fatalf("expected 3 hero trees, got %d", len(tree.HeroTrees))
+	}
+
+	for _, heroTree := range tree.HeroTrees {
+		if len(heroTree.Nodes) != 11 {
+			t.Errorf("expected 20 hero nodes, got %d", len(heroTree.Nodes))
+		}
 	}
 
 	if len(tree.PvpTalents) != 0 {

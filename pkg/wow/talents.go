@@ -34,6 +34,12 @@ type TalentNode struct {
 	NodeType string
 }
 
+type HeroTree struct {
+	Id    int
+	Name  string
+	Nodes []TalentNode
+}
+
 type TalentTree struct {
 	ClassName  string
 	ClassId    int
@@ -41,5 +47,6 @@ type TalentTree struct {
 	SpecId     int
 	ClassNodes []TalentNode
 	SpecNodes  []TalentNode
+	HeroTrees  []HeroTree
 	PvpTalents []Talent
 }
