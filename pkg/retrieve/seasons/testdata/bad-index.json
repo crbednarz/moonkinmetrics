@@ -1,0 +1,108 @@
+{
+  "_links": {
+    "self": {
+      "href": "https://us.api.blizzard.com/data/wow/pvp-season/?namespace=dynamic-us"
+    }
+  },
+  "seasons": [
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/22?namespace=dynamic-us"
+      },
+      "id": 22
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/23?namespace=dynamic-us"
+      },
+      "id": 23
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/24?namespace=dynamic-us"
+      },
+      "id": 24
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/25?namespace=dynamic-us"
+      },
+      "id": 25
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/26?namespace=dynamic-us"
+      },
+      "id": 26
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/27?namespace=dynamic-us"
+      },
+      "id": 27
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/28?namespace=dynamic-us"
+      },
+      "id": 28
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/29?namespace=dynamic-us"
+      },
+      "id": 29
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/30?namespace=dynamic-us"
+      },
+      "id": 30
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/31?namespace=dynamic-us"
+      },
+      "id": 31
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/32?namespace=dynamic-us"
+      },
+      "id": 32
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/33?namespace=dynamic-us"
+      },
+      "id": 33
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/34?namespace=dynamic-us"
+      },
+      "id": 34
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/35?namespace=dynamic-us"
+      },
+      "id": 35
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/36?namespace=dynamic-us"
+      },
+      "id": 36
+    },
+    {
+      "key": {
+        "href": "https://us.api.blizzard.com/data/wow/pvp-season/37?namespace=dynamic-us"
+      },
+      "id": 37
+    }
+  ],
+  "current_season": {
+    "id": 37
+  }
+}
