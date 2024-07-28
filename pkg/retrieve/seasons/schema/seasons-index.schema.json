@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "required": [
+    "seasons",
+    "current_season"
+  ],
+  "properties": {
+    "seasons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/season_link"
+      }
+    },
+    "current_season": {
+      "$ref": "#/$defs/season_link"
+    }
+  },
+  "$defs": {
+    "season_link": {
+      "type": "object",
+      "required": [
+        "key",
+        "id"
+      ],
+      "properties": {
+        "key": {
+          "type": "object",
+          "required": [
+            "href"
+          ],
+          "properties": {
+            "href": {
+              "type": "string"
+            }
+          }
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

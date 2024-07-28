@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 )
 

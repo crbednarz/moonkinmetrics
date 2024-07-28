@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 )
 
 var (

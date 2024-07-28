@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/hack"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 )
 
 //go:embed testdata/valid-talent.json
@@ -38,15 +38,15 @@ func TestParseIngameTalentTree(t *testing.T) {
 			if tree.ClassName != ingameTree.ClassName {
 				t.Errorf("expected class name %s, got %s", ingameTree.ClassName, tree.ClassName)
 			}
-			
+
 			if tree.SpecName != ingameTree.SpecName {
 				t.Errorf("expected spec name %s, got %s", ingameTree.SpecName, tree.SpecName)
 			}
-			
+
 			if tree.SpecId != ingameTree.SpecId {
 				t.Errorf("expected spec id %d, got %d", ingameTree.SpecId, tree.SpecId)
 			}
-			
+
 			if tree.ClassId != ingameTree.ClassId {
 				t.Errorf("expected class id %d, got %d", ingameTree.ClassId, tree.ClassId)
 			}
@@ -54,9 +54,9 @@ func TestParseIngameTalentTree(t *testing.T) {
 			if len(tree.PvpTalents) != 0 {
 				t.Errorf("expected pvp talents 0, got %d", len(tree.PvpTalents))
 			}
-			
-			if len(tree.ClassNodes) + len(tree.SpecNodes) != len(ingameTree.Nodes) {
-				t.Errorf("expected %d nodes, got %d", len(ingameTree.Nodes), len(tree.ClassNodes) + len(tree.SpecNodes))
+
+			if len(tree.ClassNodes)+len(tree.SpecNodes) != len(ingameTree.Nodes) {
+				t.Errorf("expected %d nodes, got %d", len(ingameTree.Nodes), len(tree.ClassNodes)+len(tree.SpecNodes))
 			}
 		})
 	}
