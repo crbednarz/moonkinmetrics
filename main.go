@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
@@ -36,5 +37,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	log.Printf("Talents retrieved: %v", trees)
+	log.Printf("Talents retrieved: %d total", len(trees))
+
+	leaderboard, err := seasons.GetCurrentLeaderboard(scanner, "3v3")
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("Leaderboard retrieved: %v", leaderboard)
 }
