@@ -1,0 +1,89 @@
+{
+  "type": "object",
+  "required": [
+    "entries"
+  ],
+  "properties": {
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "character",
+        "faction",
+        "rating"
+      ],
+      "properties": {
+        "character": {
+          "$ref": "#/$defs/character"
+        },
+        "faction": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "HORDE",
+                "ALLIANCE"
+              ]
+            }
+          }
+        },
+        "rating": {
+          "type": "integer"
+        }
+      }
+    },
+    "character": {
+      "type": "object",
+      "required": [
+        "name",
+        "realm"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "realm": {
+          "type": "object",
+          "required": [
+            "key",
+            "id",
+            "slug"
+          ],
+          "properties": {
+            "key": {
+              "$ref": "#/$defs/key"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "slug": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "key": {
+      "type": "object",
+      "required": [
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

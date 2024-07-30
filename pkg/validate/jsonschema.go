@@ -2,6 +2,7 @@ package validate
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/xeipuuv/gojsonschema"
 )
@@ -33,7 +34,12 @@ func (v *SchemaValidator) IsValid(json []byte) bool {
 	documentLoader := gojsonschema.NewStringLoader(string(json))
 	result, err := v.schema.Validate(documentLoader)
 	if err != nil {
+		log.Printf("Error validating schema: %v", err)
 		return false
 	}
+	if !result.Valid() {
+		log.Printf("Failed schema validation: %v", result.Errors())
+	}
+
 	return result.Valid()
 }

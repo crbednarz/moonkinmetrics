@@ -11,10 +11,8 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
 
-var (
-	//go:embed schema/seasons-index.schema.json
-	seasonsIndexSchema string
-)
+//go:embed schema/seasons-index.schema.json
+var seasonsIndexSchema string
 
 type SeasonsIndex struct {
 	Seasons       []SeasonLink
@@ -40,6 +38,15 @@ type seasonsIndexJson struct {
 
 type keyJson struct {
 	Href string `json:"href"`
+}
+
+func GetCurrentSeasonId(scanner *scan.Scanner) (int, error) {
+	index, err := GetSeasonsIndex(scanner)
+	if err != nil {
+		return -1, err
+	}
+
+	return index.CurrentSeason.Id, nil
 }
 
 func GetSeasonsIndex(scanner *scan.Scanner) (SeasonsIndex, error) {
