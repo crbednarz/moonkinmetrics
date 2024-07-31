@@ -127,7 +127,7 @@ export default function Talents({
       rank: i => i < 15 ? 1 : 0,
     },
     {
-      name: 'Strength of Arms',
+      name: 'Collateral Damage',
       rank: i => (i >= 15 && i < 85) ? 1 : 0,
     },
     {
@@ -150,12 +150,12 @@ export default function Talents({
       rank: i => i >= 20 ? 1 : 0,
     },
     {
-      name: 'Improved Slam',
+      name: 'Finishing Blows',
       rank: i => (i > 20 && i <= 25) ? 1 : 0,
     },
     {
-      name: 'Tide of Blood',
-      rank: i => i < 75 ? 1 : 0,
+      name: 'Strength of Arms',
+      rank: i => i >= 20 && i < 75 ? 1 : 0,
     },
     {
       name: 'Bloodborne',
@@ -163,7 +163,7 @@ export default function Talents({
     },
     {
       name: 'Dreadnaught',
-      rank: i => i > 35 ? 1 : 0,
+      rank: i => i >= 75 ? 1 : 0,
     },
   ]);
 
