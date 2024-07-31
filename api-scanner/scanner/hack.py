@@ -9,6 +9,13 @@ def fix_raw_node(raw_node: dict) -> Optional[dict]:
         # For now we'll just ignore it.
         return None
 
+    if (
+        "tooltip" not in raw_node["ranks"][0]
+        and "choice_of_tooltips" not in raw_node["ranks"][0]
+    ):
+        # 11.0 seems to have added empty nodes. For now they'll be ignored.
+        return None
+
     return raw_node
 
 
