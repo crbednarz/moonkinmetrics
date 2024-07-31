@@ -7,7 +7,7 @@ function minRankFilter(talentId: number, rank: number) {
 }
 
 function rankZeroFilter(talentId: number) {
-  return (loadout: RatedLoadout) => !(talentId in loadout.talents);
+  return (loadout: RatedLoadout) => (loadout.talents[talentId] ?? 0) == 0;
 }
 
 function hasPvpTalent(talentId: number) {
