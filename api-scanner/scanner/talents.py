@@ -275,14 +275,23 @@ async def _get_tree_for_spec(
 ) -> TalentTree:
     response = client.get_url(tree_link.url)
 
+    invalid_nodes = set()
+    for response_hero_tree in response["hero_talent_trees"]:
+        for response_node in response_hero_tree["hero_talent_nodes"]:
+            invalid_nodes.add(response_node["id"])
+
     class_nodes = []
     for response_node in response["class_talent_nodes"]:
+        if response_node["id"] in invalid_nodes:
+            continue
         node = TalentNode.from_raw_node(response_node)
         if node:
             class_nodes.append(node)
 
     spec_nodes = []
     for response_node in response["spec_talent_nodes"]:
+        if response_node["id"] in invalid_nodes:
+            continue
         try:
             node = TalentNode.from_raw_node(response_node)
             if node:
@@ -296,8 +305,8 @@ async def _get_tree_for_spec(
         tree_link.class_id,
         tree_link.spec_name,
         tree_link.spec_id,
-        _filter_nodes(class_nodes),
-        _filter_nodes(spec_nodes),
+        _filter_nodes(class_nodes, True),
+        _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, tree_link.spec_name),
     )
 
@@ -397,8 +406,8 @@ async def _get_tree_for_missing_spec(
         tree_link.id,
         spec_name,
         SPEC_ID_BY_CLASS_SPEC[(class_name, spec_name)],
-        _filter_nodes(class_nodes),
-        _filter_nodes(spec_nodes),
+        _filter_nodes(class_nodes, True),
+        _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, spec_name),
     )
 
@@ -447,24 +456,28 @@ async def _get_tree_for_broken_spec(
         tree_link.class_id,
         tree_link.spec_name,
         tree_link.spec_id,
-        _filter_nodes(class_nodes),
-        _filter_nodes(spec_nodes),
+        _filter_nodes(class_nodes, True),
+        _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, tree_link.spec_name),
     )
 
 
-def _filter_nodes(nodes: list[TalentNode]) -> list[TalentNode]:
-    ids = set([node.id for node in nodes])
+def _filter_nodes(nodes: list[TalentNode], class_nodes: bool) -> list[TalentNode]:
+    ids = {node.id: node for node in nodes}
+    is_valid = {}
 
     def filter_node(node: TalentNode) -> bool:
-        missing_parent = True
+        if node.id in is_valid:
+            return is_valid[node.id]
+
         for locked_by in node.locked_by:
             if locked_by in ids:
-                missing_parent = False
-                break
-        if missing_parent and len(node.locked_by) > 0:
-            return False
+                valid = filter_node(ids[locked_by])
+                is_valid[node.id] = valid
+                return valid
 
-        return True
+        valid = len(node.locked_by) == 0
+        is_valid[node.id] = valid
+        return valid
 
     return list(filter(filter_node, nodes))

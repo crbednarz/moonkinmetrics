@@ -82,22 +82,6 @@ function deserializeTalent(jsonTalent: any) {
 
 const wowDirectory = path.join(process.cwd(), 'wow');
 
-function validateNodes(nodes: TalentNode[]) {
-  const ids = new Set<number>();
-  for (let node of nodes) {
-    ids.add(node.id);
-  }
-
-  return nodes.filter(node => {
-    for (let lockedBy of node.lockedBy) {
-      if (ids.has(lockedBy)) {
-        return true;
-      }
-    }
-    return node.lockedBy.length === 0;
-  });
-}
-
 export function getTalentTree(className: string, specName: string) {
   const fileName = `${className.toLowerCase()}-${specName.toLowerCase()}.json`.replace(' ', '-');
   const filePath = path.join(wowDirectory, 'talents', fileName);
@@ -107,9 +91,7 @@ export function getTalentTree(className: string, specName: string) {
 
 
   let classNodes = jsonTree['class_nodes'].map(deserializeNode);
-  classNodes = validateNodes(classNodes);
   let specNodes = jsonTree['spec_nodes'].map(deserializeNode);
-  specNodes = validateNodes(specNodes);
 
 
   const iconSize = 56;

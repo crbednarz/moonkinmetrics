@@ -136,6 +136,8 @@ def _deserialize_json_loadout(
 
     spec_nodes = []
     for raw_node in json_loadout["selected_spec_talents"]:
+        if "name" not in raw_node["tooltip"]["talent"]:
+            continue
         spec_nodes.append(
             LoadoutNode(
                 raw_node["id"],

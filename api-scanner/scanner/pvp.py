@@ -21,9 +21,7 @@ class RatedLoadout:
 
 
 def get_pvp_leaderboard(client: Client, bracket: str) -> list[LeaderboardEntry]:
-    resource = (
-        "/data/wow/" f"pvp-season/{CURRENT_PVP_SEASON}/" f"pvp-leaderboard/{bracket}"
-    )
+    resource = f"/data/wow/pvp-season/{CURRENT_PVP_SEASON}/pvp-leaderboard/{bracket}"
     response = client.get_dynamic_resource(resource)
     leaderboard = []
 
