@@ -1,0 +1,212 @@
+{
+  "type": "object",
+  "required": [
+    "specializations",
+    "active_specialization",
+    "character"
+  ],
+  "properties": {
+    "specializations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/specialization"
+      }
+    },
+    "active_specialization": {
+      "$ref": "#/$defs/nameIdLink"
+    },
+    "character": {
+      "required": [
+        "key",
+        "name",
+        "id",
+        "realm"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "realm": {
+          "$ref": "#/$defs/realm"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "specialization": {
+      "required": [
+        "specialization",
+        "pvp_talent_slots",
+        "loadouts"
+      ],
+      "properties": {
+        "specialization": {
+          "$ref": "#/$defs/nameIdLink"
+        },
+        "pvp_talent_slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pvpTalentSlot"
+          }
+        },
+        "loadouts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/loadout"
+          }
+        }
+      }
+    },
+    "nameIdLink": {
+      "required": [
+        "key",
+        "name",
+        "id"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        }
+      }
+    },
+    "pvpTalentSlot": {
+      "type": "object",
+      "required": [
+        "selected",
+        "slot_number"
+      ],
+      "properties": {
+        "selected": {
+          "$ref": "#/$defs/tooltip"
+        },
+        "slot_number": {
+          "type": "integer"
+        }
+      }
+    },
+    "loadout": {
+      "type": "object",
+      "required": [
+        "is_active",
+        "talent_loadout_code",
+        "selected_class_talents",
+        "selected_spec_talents",
+        "selected_class_talent_tree",
+        "selected_spec_talent_tree"
+      ],
+      "properties": {
+        "is_active": {
+          "type": "boolean"
+        },
+        "talent_loadout_code": {
+          "type": "string"
+        },
+        "selected_class_talents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/talent"
+          }
+        },
+        "selected_spec_talents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/talent"
+          }
+        },
+        "selected_class_talent_tree": {
+          "$ref": "#/$defs/nameIdLink"
+        },
+        "selected_spec_talent_tree": {
+          "$ref": "#/$defs/nameIdLink"
+        }
+      }
+    },
+    "talent": {
+      "type": "object",
+      "required": [
+        "id",
+        "rank",
+        "tooltip"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "rank": {
+          "type": "integer"
+        },
+        "tooltip": {
+          "$ref": "#/$defs/tooltip"
+        }
+      }
+    },
+    "tooltip": {
+      "type": "object",
+      "required": [
+        "talent",
+        "spell_tooltip"
+      ],
+      "properties": {
+        "talent": {
+          "$ref": "#/$defs/nameIdLink"
+        },
+        "spell_tooltip": {
+          "type": "object",
+          "required": [
+            "spell"
+          ],
+          "properties": {
+            "spell": {
+              "$ref": "#/$defs/nameIdLink"
+            }
+          }
+        }
+      }
+    },
+    "realm": {
+      "required": [
+        "key",
+        "id",
+        "name",
+        "slug"
+      ],
+      "properties": {
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "slug": {
+          "type": "string"
+        }
+      }
+    },
+    "key": {
+      "type": "object",
+      "required": [
+        "href"
+      ],
+      "properties": {
+        "href": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

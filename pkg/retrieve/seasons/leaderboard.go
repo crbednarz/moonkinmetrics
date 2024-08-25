@@ -71,10 +71,12 @@ func parseLeaderboard(data []byte) (wow.Leaderboard, error) {
 	entries := make([]wow.LeaderboardEntry, len(leaderboardJson.Entries))
 	for i, entry := range leaderboardJson.Entries {
 		entries[i] = wow.LeaderboardEntry{
-			Name: entry.Character.Name,
-			Realm: wow.RealmLink{
-				Slug: entry.Character.Realm.Slug,
-				Url:  entry.Character.Realm.Key.Href,
+			Player: wow.PlayerLink{
+				Name: entry.Character.Name,
+				Realm: wow.RealmLink{
+					Slug: entry.Character.Realm.Slug,
+					Url:  entry.Character.Realm.Key.Href,
+				},
 			},
 			Faction: entry.Faction.Type,
 			Rating:  entry.Rating,

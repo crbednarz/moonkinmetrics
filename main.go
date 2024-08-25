@@ -7,10 +7,12 @@ import (
 	"os"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/players"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
+	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
 
 func main() {
@@ -44,4 +46,14 @@ func main() {
 		panic(err)
 	}
 	log.Printf("Leaderboard retrieved: %v", leaderboard)
+
+	playerLinks := make([]wow.PlayerLink, len(leaderboard.Entries))
+	for i, entry := range leaderboard.Entries {
+		playerLinks[i] = entry.Player
+	}
+	loadouts, err := players.GetPlayerLoadouts(scanner, playerLinks, players.LoadoutScanConfig{})
+	if err != nil {
+		panic(err)
+	}
+	log.Printf("Loadouts retrieved: %d total", len(loadouts))
 }
