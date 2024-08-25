@@ -34,7 +34,7 @@ func (v *SchemaValidator) IsValid(json []byte) bool {
 	documentLoader := gojsonschema.NewStringLoader(string(json))
 	result, err := v.schema.Validate(documentLoader)
 	if err != nil {
-		log.Printf("Error validating schema: %v", err)
+		log.Printf("Error running schema validation: %v", err)
 		return false
 	}
 	if !result.Valid() {

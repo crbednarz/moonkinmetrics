@@ -29,18 +29,26 @@ type Scanner struct {
 // RefreshRequest is a request to refresh a response.
 type RefreshRequest struct {
 	// Lifespan is the duration the response should be cached for.
-	Lifespan   time.Duration
-	ApiRequest bnet.Request
 	Validator  validate.Validator
+	ApiRequest bnet.Request
+	Lifespan   time.Duration
+}
+
+type indexedRequest struct {
+	Validator  validate.Validator
+	ApiRequest bnet.Request
+	Lifespan   time.Duration
+	Index      int64
 }
 
 // RefreshResult is the result of a refresh request.
 // If the request fails, the Error field will be set and the Body field will be nil.
 type RefreshResult struct {
-	Age        time.Duration
 	ApiRequest bnet.Request
-	Body       []byte
 	Error      error
+	Body       []byte
+	Age        time.Duration
+	Index      int64
 }
 
 // NewScanner creates a new scanner instance.
@@ -57,13 +65,13 @@ func NewScanner(storage storage.ResponseStorage, client *bnet.Client) *Scanner {
 // The result is returned, with failed results setting the Error field and a nil Body.
 // Validation only occurs on API responses, not cached responses.
 func (s *Scanner) RefreshSingle(request RefreshRequest) RefreshResult {
-	result := s.getCached(request)
+	requestWithIndex := request.indexedRequest(0)
+	result := s.getCached(requestWithIndex)
 
 	if result.Body != nil {
 		return result
 	}
-
-	return s.getFromApi(request)
+	return s.getFromApi(requestWithIndex)
 }
 
 // Refresh takes a channel of requests and attempts to retrieve them from storage.
@@ -72,18 +80,21 @@ func (s *Scanner) RefreshSingle(request RefreshRequest) RefreshResult {
 // Validation only occurs on API responses, not cached responses.
 // Note that the scanner will block should the results channel be full.
 func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- RefreshResult) {
-	apiRequests := make(chan RefreshRequest, cap(requests))
+	apiRequests := make(chan indexedRequest, cap(requests))
 	workerCount := min(max(1, cap(requests)), 100)
 	for i := 0; i < workerCount; i++ {
 		go s.apiWorker(apiRequests, results)
 	}
 
 	go func() {
+		var index int64 = 0
 		for request := range requests {
+			request := request.indexedRequest(index)
 			result := s.getCached(request)
 
 			if result.Body == nil {
 				apiRequests <- request
+				index++
 			} else {
 				results <- result
 			}
@@ -91,23 +102,23 @@ func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- Refresh
 	}()
 }
 
-func (s *Scanner) apiWorker(requests <-chan RefreshRequest, results chan<- RefreshResult) {
+func (s *Scanner) apiWorker(requests <-chan indexedRequest, results chan<- RefreshResult) {
 	for request := range requests {
 		results <- s.getFromApi(request)
 	}
 }
 
-func (s *Scanner) getFromApi(request RefreshRequest) RefreshResult {
+func (s *Scanner) getFromApi(request indexedRequest) RefreshResult {
 	result := RefreshResult{
 		ApiRequest: request.ApiRequest,
 		Age:        -1,
 		Body:       nil,
 		Error:      nil,
+		Index:      request.Index,
 	}
 
 	for i := 0; i < s.maxRetries; i++ {
 		apiResponse, err := s.client.Get(request.ApiRequest)
-
 		if err != nil {
 			result.Error = fmt.Errorf("failed to retrieve response for %s: %w", request.ApiRequest.Path, err)
 			continue
@@ -125,8 +136,9 @@ func (s *Scanner) getFromApi(request RefreshRequest) RefreshResult {
 		}
 
 		if request.Validator != nil && !request.Validator.IsValid(apiResponse.Body) {
+			// Validation errors tend to not resolve with retries
 			result.Error = fmt.Errorf("response for %s failed validation", request.ApiRequest)
-			continue
+			break
 		}
 		err = s.storage.Store(result.ApiRequest, apiResponse.Body, request.Lifespan)
 		if err != nil {
@@ -142,19 +154,19 @@ func (s *Scanner) getFromApi(request RefreshRequest) RefreshResult {
 	return result
 }
 
-func (s *Scanner) getCached(request RefreshRequest) RefreshResult {
+func (s *Scanner) getCached(request indexedRequest) RefreshResult {
 	result := RefreshResult{
 		ApiRequest: request.ApiRequest,
 		Age:        -1,
 		Body:       nil,
+		Index:      request.Index,
 	}
 	storedResponse, err := s.storage.Get(request.ApiRequest)
-
 	if err != nil {
 		if errors.Is(err, storage.ErrNotFound) {
 			return result
 		}
-		result.Error = fmt.Errorf("failed to retrieve response for %s: %w", request, err)
+		result.Error = fmt.Errorf("failed to retrieve response for %v: %w", request, err)
 		return result
 	}
 
@@ -162,4 +174,13 @@ func (s *Scanner) getCached(request RefreshRequest) RefreshResult {
 	result.Age = time.Since(storedResponse.Timestamp)
 
 	return result
+}
+
+func (r *RefreshRequest) indexedRequest(referenceIndex int64) indexedRequest {
+	return indexedRequest{
+		Validator:  r.Validator,
+		ApiRequest: r.ApiRequest,
+		Lifespan:   r.Lifespan,
+		Index:      referenceIndex,
+	}
 }
