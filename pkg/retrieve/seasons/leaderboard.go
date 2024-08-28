@@ -38,7 +38,7 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string) (wow.Leaderboa
 		return wow.Leaderboard{}, fmt.Errorf("failed to get current season id: %w", err)
 	}
 
-	validator, err := validate.NewSchemaValidator(leaderboardSchema)
+	validator, err := validate.NewLegacySchemaValidator(leaderboardSchema)
 	if err != nil {
 		return wow.Leaderboard{}, fmt.Errorf("failed to setup leaderboard validator: %w", err)
 	}

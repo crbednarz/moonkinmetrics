@@ -85,7 +85,7 @@ func attachPvpTalents(scanner *scan.Scanner, trees []wow.TalentTree) error {
 }
 
 func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]wow.TalentTree, error) {
-	validator, err := validate.NewSchemaValidator(talentTreeSchema)
+	validator, err := validate.NewLegacySchemaValidator(talentTreeSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup talent tree validator: %w", err)
 	}

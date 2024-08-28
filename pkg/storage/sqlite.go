@@ -16,11 +16,16 @@ import (
 var sqliteInitSql string
 
 type Sqlite struct {
-	db   *sql.DB
-	lock sync.RWMutex
+	db      *sql.DB
+	options SqliteOptions
+	lock    sync.RWMutex
 }
 
-func NewSqlite(path string) (*Sqlite, error) {
+type SqliteOptions struct {
+	NoExpire bool
+}
+
+func NewSqlite(path string, options SqliteOptions) (*Sqlite, error) {
 	db, err := sql.Open("sqlite3", path)
 	if err != nil {
 		return nil, err
@@ -30,7 +35,7 @@ func NewSqlite(path string) (*Sqlite, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Sqlite{db: db}, nil
+	return &Sqlite{db: db, options: options}, nil
 }
 
 func (s *Sqlite) Store(request bnet.Request, response []byte, lifespan time.Duration) error {
@@ -90,12 +95,18 @@ func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error
 func (s *Sqlite) Get(request bnet.Request) (StoredResponse, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
+
+	currentTime := time.Now().Unix()
+	if s.options.NoExpire {
+		currentTime = 0
+	}
+
 	row := s.db.QueryRow(
 		"SELECT data, timestamp FROM ApiResponses WHERE region = ? AND namespace = ? AND path = ? AND expires >= ?",
 		request.Region,
 		request.Namespace,
 		request.Path,
-		time.Now().Unix(),
+		currentTime,
 	)
 	var response StoredResponse
 	var timestamp int64
@@ -110,6 +121,9 @@ func (s *Sqlite) Get(request bnet.Request) (StoredResponse, error) {
 }
 
 func (s *Sqlite) Clean() error {
+	if s.options.NoExpire {
+		return nil
+	}
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	_, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?", time.Now().Unix())

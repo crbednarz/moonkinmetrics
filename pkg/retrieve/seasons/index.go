@@ -50,7 +50,7 @@ func GetCurrentSeasonId(scanner *scan.Scanner) (int, error) {
 }
 
 func GetSeasonsIndex(scanner *scan.Scanner) (SeasonsIndex, error) {
-	validator, err := validate.NewSchemaValidator(seasonsIndexSchema)
+	validator, err := validate.NewLegacySchemaValidator(seasonsIndexSchema)
 	if err != nil {
 		return SeasonsIndex{}, fmt.Errorf("failed to setup seasons index validator: %w", err)
 	}

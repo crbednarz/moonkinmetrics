@@ -25,7 +25,7 @@ func createMockResponses(count int) []Response {
 }
 
 func TestCanRetrieve(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func TestCanRetrieve(t *testing.T) {
 }
 
 func TestCanExpire(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -77,7 +77,7 @@ func TestCanExpire(t *testing.T) {
 }
 
 func TestCanRetrieveFromMany(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -106,7 +106,7 @@ func TestCanRetrieveFromMany(t *testing.T) {
 }
 
 func TestCanReplace(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -153,7 +153,7 @@ func TestCanReplace(t *testing.T) {
 }
 
 func TestCanInsertLinked(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -177,11 +177,10 @@ func TestCanInsertLinked(t *testing.T) {
 			t.Fatalf("expected %s, got %s", response, storedResponse.Body)
 		}
 	}
-
 }
 
 func TestMissing(t *testing.T) {
-	db, err := NewSqlite(":memory:")
+	db, err := NewSqlite(":memory:", SqliteOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}

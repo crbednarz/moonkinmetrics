@@ -108,7 +108,7 @@ func parseTalentJson(talent talentJson) wow.Talent {
 }
 
 func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]talentJson, error) {
-	validator, err := validate.NewSchemaValidator(talentSchema)
+	validator, err := validate.NewLegacySchemaValidator(talentSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create talent validator: %v", err)
 	}

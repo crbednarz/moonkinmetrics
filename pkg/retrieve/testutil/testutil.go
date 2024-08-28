@@ -39,7 +39,7 @@ func NewMockScanner(callback MockClientCallback) (*scan.Scanner, error) {
 		"mock_client_id",
 		"mock_client_secret",
 	)
-	cache, err := storage.NewSqlite(":memory:")
+	cache, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
 	if err != nil {
 		return nil, err
 	}
