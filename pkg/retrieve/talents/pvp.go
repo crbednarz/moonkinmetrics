@@ -64,7 +64,7 @@ func GetPvpTalents(scanner *scan.Scanner) ([]PvpTalent, error) {
 }
 
 func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
-	validator, err := validate.NewSchemaValidator(pvpTalentIndexSchema)
+	validator, err := validate.NewLegacySchemaValidator(pvpTalentIndexSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup pvp talent index validator: %w", err)
 	}
@@ -93,7 +93,7 @@ func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
 }
 
 func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) ([]PvpTalent, error) {
-	validator, err := validate.NewSchemaValidator(pvpTalentSchema)
+	validator, err := validate.NewLegacySchemaValidator(pvpTalentSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup pvp talent validator: %w", err)
 	}

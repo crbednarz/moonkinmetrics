@@ -5,7 +5,7 @@ import (
 )
 
 func TestSchemaExpectsValidJson(t *testing.T) {
-	v, err := NewSchemaValidator(`{"type": "object"}`)
+	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -15,7 +15,7 @@ func TestSchemaExpectsValidJson(t *testing.T) {
 }
 
 func TestSchemaCanValidateJson(t *testing.T) {
-	v, err := NewSchemaValidator(`{"type": "object"}`)
+	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -25,7 +25,7 @@ func TestSchemaCanValidateJson(t *testing.T) {
 }
 
 func TestSchemaFailsOnNil(t *testing.T) {
-	v, err := NewSchemaValidator(`{"type": "object"}`)
+	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
 	if err != nil {
 		t.Fatal(err)
 	}

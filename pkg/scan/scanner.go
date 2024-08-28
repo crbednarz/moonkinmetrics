@@ -1,11 +1,14 @@
 package scan
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/repair"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -26,16 +29,40 @@ type Scanner struct {
 	maxRetries int
 }
 
+type ScanResult[T any] struct {
+	Response   T
+	Error      error
+	ApiRequest bnet.Request
+	Index      int64
+}
+
+type ScanOptions[T any] struct {
+	Validator validate.Validator[T]
+	Repairs   []repair.Repairer[T]
+	Lifespan  time.Duration
+}
+
+type indexedRequest struct {
+	ApiRequest bnet.Request
+	Index      int64
+}
+
+type cacheResponse struct {
+	Body  []byte
+	Age   time.Duration
+	Index int64
+}
+
 // RefreshRequest is a request to refresh a response.
 type RefreshRequest struct {
 	// Lifespan is the duration the response should be cached for.
-	Validator  validate.Validator
+	Validator  validate.LegacyValidator
 	ApiRequest bnet.Request
 	Lifespan   time.Duration
 }
 
-type indexedRequest struct {
-	Validator  validate.Validator
+type legacyIndexedRequest struct {
+	Validator  validate.LegacyValidator
 	ApiRequest bnet.Request
 	Lifespan   time.Duration
 	Index      int64
@@ -60,18 +87,165 @@ func NewScanner(storage storage.ResponseStorage, client *bnet.Client) *Scanner {
 	}
 }
 
+func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- ScanResult[T], options *ScanOptions[T]) {
+	apiRequests := make(chan indexedRequest, cap(requests))
+	workerCount := min(max(1, cap(requests)), 100)
+	for i := 0; i < workerCount; i++ {
+		go apiScanWorker(scanner, apiRequests, results, options)
+	}
+
+	go func() {
+		var index int64 = 0
+		for apiRequest := range requests {
+			request := indexedRequest{
+				ApiRequest: apiRequest,
+				Index:      index,
+			}
+			result := ScanResult[T]{
+				ApiRequest: apiRequest,
+				Index:      index,
+			}
+			index++
+
+			result.Error = buildFromCache(scanner, request.ApiRequest, options, &result.Response)
+
+			if result.Error == nil {
+				results <- result
+			} else {
+				apiRequests <- request
+			}
+		}
+	}()
+}
+
+func apiScanWorker[T any](scanner *Scanner, requests <-chan indexedRequest, results chan<- ScanResult[T], options *ScanOptions[T]) {
+	for request := range requests {
+		result := ScanResult[T]{
+			ApiRequest: request.ApiRequest,
+			Index:      request.Index,
+		}
+		result.Error = buildFromApi(scanner, request.ApiRequest, options, &result.Response)
+		results <- result
+	}
+}
+
+func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T]) ScanResult[T] {
+	result := ScanResult[T]{
+		ApiRequest: request,
+		Index:      0,
+	}
+
+	err := buildFromCache(scanner, request, options, &result.Response)
+	if err == nil {
+		return result
+	}
+
+	result.Error = buildFromApi(scanner, request, options, &result.Response)
+	return result
+}
+
+func buildFromCache[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
+	cachedResponse, err := scanner.getCached(request)
+	if err != nil {
+		return err
+	}
+
+	err = buildFromJson(cachedResponse, options, output)
+	if err != nil {
+		// If parsing fails we should reset the result to an empty object
+		var emptyObject T
+		*output = emptyObject
+		log.Printf("Error building from cached response: %v", err)
+	}
+	return err
+}
+
+func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
+	var lastError error
+	for i := 0; i < scanner.maxRetries; i++ {
+		lastError = nil
+		apiResponse, err := scanner.client.Get(request)
+		if err != nil {
+			lastError = fmt.Errorf("failed to retrieve response for %s: %w", request.Path, err)
+			continue
+		}
+
+		if apiResponse.StatusCode == 404 {
+			// 404 errors typically don't resolve over multiple requests, so we can break here.
+			return ErrNotFound
+		}
+
+		if apiResponse.StatusCode >= 300 {
+			lastError = fmt.Errorf("failed to retrieve response for %s: %d", request.Path, apiResponse.StatusCode)
+			continue
+		}
+
+		err = buildFromJson(apiResponse.Body, options, output)
+		if err != nil {
+			return fmt.Errorf("response for %s failed validation", request.Path)
+		}
+
+		err = scanner.storage.Store(request, apiResponse.Body, options.Lifespan)
+		if err != nil {
+			// While we can technically continue here, a storage failure is important enough to fail the whole request.
+			return fmt.Errorf("failed to store response for %s: %w", request, err)
+		} else {
+			return nil
+		}
+	}
+	return lastError
+}
+
+func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error {
+	err := json.Unmarshal(body, output)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal response: %w", err)
+	}
+
+	if options.Validator == nil {
+		return nil
+	}
+
+	if options.Validator.IsValid(output) {
+		return nil
+	}
+
+	if options.Repairs != nil {
+		for _, repairer := range options.Repairs {
+			err = repairer.Repair(output)
+			if err != nil {
+				return fmt.Errorf("failed to repair response: %w", err)
+			}
+		}
+	}
+
+	if !options.Validator.IsValid(output) {
+		return ErrFailedValidation
+	}
+
+	return nil
+}
+
+func (s *Scanner) getCached(request bnet.Request) ([]byte, error) {
+	storedResponse, err := s.storage.Get(request)
+	if err != nil {
+		return nil, err
+	}
+	return storedResponse.Body, nil
+}
+
 // RefreshSingle takes a single request and attempts to retrieve it from storage.
 // If the request is missing from storage or expired, the API will be queried.
 // The result is returned, with failed results setting the Error field and a nil Body.
 // Validation only occurs on API responses, not cached responses.
 func (s *Scanner) RefreshSingle(request RefreshRequest) RefreshResult {
 	requestWithIndex := request.indexedRequest(0)
-	result := s.getCached(requestWithIndex)
+	result := s.legacyGetCached(requestWithIndex)
 
 	if result.Body != nil {
 		return result
 	}
-	return s.getFromApi(requestWithIndex)
+	return s.legacyGetFromApi(requestWithIndex)
 }
 
 // Refresh takes a channel of requests and attempts to retrieve them from storage.
@@ -80,7 +254,7 @@ func (s *Scanner) RefreshSingle(request RefreshRequest) RefreshResult {
 // Validation only occurs on API responses, not cached responses.
 // Note that the scanner will block should the results channel be full.
 func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- RefreshResult) {
-	apiRequests := make(chan indexedRequest, cap(requests))
+	apiRequests := make(chan legacyIndexedRequest, cap(requests))
 	workerCount := min(max(1, cap(requests)), 100)
 	for i := 0; i < workerCount; i++ {
 		go s.apiWorker(apiRequests, results)
@@ -90,7 +264,7 @@ func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- Refresh
 		var index int64 = 0
 		for request := range requests {
 			request := request.indexedRequest(index)
-			result := s.getCached(request)
+			result := s.legacyGetCached(request)
 
 			if result.Body == nil {
 				apiRequests <- request
@@ -102,13 +276,13 @@ func (s *Scanner) Refresh(requests <-chan RefreshRequest, results chan<- Refresh
 	}()
 }
 
-func (s *Scanner) apiWorker(requests <-chan indexedRequest, results chan<- RefreshResult) {
+func (s *Scanner) apiWorker(requests <-chan legacyIndexedRequest, results chan<- RefreshResult) {
 	for request := range requests {
-		results <- s.getFromApi(request)
+		results <- s.legacyGetFromApi(request)
 	}
 }
 
-func (s *Scanner) getFromApi(request indexedRequest) RefreshResult {
+func (s *Scanner) legacyGetFromApi(request legacyIndexedRequest) RefreshResult {
 	result := RefreshResult{
 		ApiRequest: request.ApiRequest,
 		Age:        -1,
@@ -154,7 +328,7 @@ func (s *Scanner) getFromApi(request indexedRequest) RefreshResult {
 	return result
 }
 
-func (s *Scanner) getCached(request indexedRequest) RefreshResult {
+func (s *Scanner) legacyGetCached(request legacyIndexedRequest) RefreshResult {
 	result := RefreshResult{
 		ApiRequest: request.ApiRequest,
 		Age:        -1,
@@ -176,8 +350,8 @@ func (s *Scanner) getCached(request indexedRequest) RefreshResult {
 	return result
 }
 
-func (r *RefreshRequest) indexedRequest(referenceIndex int64) indexedRequest {
-	return indexedRequest{
+func (r *RefreshRequest) indexedRequest(referenceIndex int64) legacyIndexedRequest {
+	return legacyIndexedRequest{
 		Validator:  r.Validator,
 		ApiRequest: r.ApiRequest,
 		Lifespan:   r.Lifespan,
