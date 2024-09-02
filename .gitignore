@@ -201,3 +201,5 @@ next-env.d.ts
 ui/wow
 /tmp/
 *.db
+
+.vscode/
