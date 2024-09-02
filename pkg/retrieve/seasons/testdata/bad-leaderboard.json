@@ -18,14 +18,7 @@
   "entries": [
     {
       "character": {
-        "id": 239333389,
-        "realm": {
-          "key": {
-            "href": "https://us.api.blizzard.com/data/wow/realm/11?namespace=dynamic-us"
-          },
-          "id": 11,
-          "slug": "tichondrius"
-        }
+        "id": 239333389
       },
       "faction": {
         "type": "HORDE"

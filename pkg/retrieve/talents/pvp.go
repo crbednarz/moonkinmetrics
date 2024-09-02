@@ -2,7 +2,6 @@ package talents
 
 import (
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -64,45 +63,46 @@ func GetPvpTalents(scanner *scan.Scanner) ([]PvpTalent, error) {
 }
 
 func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
-	validator, err := validate.NewLegacySchemaValidator(pvpTalentIndexSchema)
+	validator, err := validate.NewSchemaValidator[pvpTalentsIndexJson](pvpTalentIndexSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup pvp talent index validator: %w", err)
 	}
 
-	indexResponse := scanner.RefreshSingle(scan.RefreshRequest{
-		Lifespan: time.Hour * 24,
-		ApiRequest: bnet.Request{
+	indexResult := scan.ScanSingle(
+		scanner,
+		bnet.Request{
 			Namespace: bnet.NamespaceStatic,
 			Region:    bnet.RegionUS,
 			Path:      "/data/wow/pvp-talent/index",
 		},
-		Validator: validator,
-	})
+		&scan.ScanOptions[pvpTalentsIndexJson]{
+			Validator: validator,
+			Lifespan:  time.Hour * 24,
+		},
+	)
 
-	if indexResponse.Error != nil {
-		return nil, fmt.Errorf("failed to refresh pvp talent index: %w", indexResponse.Error)
+	if indexResult.Error != nil {
+		return nil, fmt.Errorf("failed to scan pvp talent index: %w", indexResult.Error)
 	}
 
-	var index pvpTalentsIndexJson
-	err = json.Unmarshal(indexResponse.Body, &index)
-	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal pvp talent index: %w", err)
-	}
-
-	return &index, nil
+	return &indexResult.Response, nil
 }
 
 func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) ([]PvpTalent, error) {
-	validator, err := validate.NewLegacySchemaValidator(pvpTalentSchema)
+	validator, err := validate.NewSchemaValidator[pvpTalentJson](pvpTalentSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup pvp talent validator: %w", err)
 	}
 
 	numTalents := len(index.PvpTalents)
-	requests := make(chan scan.RefreshRequest, numTalents)
-	results := make(chan scan.RefreshResult, numTalents)
+	requests := make(chan bnet.Request, numTalents)
+	results := make(chan scan.ScanResult[pvpTalentJson], numTalents)
+	options := scan.ScanOptions[pvpTalentJson]{
+		Validator: validator,
+		Lifespan:  time.Hour * 24,
+	}
 
-	scanner.Refresh(requests, results)
+	scan.Scan(scanner, requests, results, &options)
 
 	for _, talent := range index.PvpTalents {
 		apiRequest, err := bnet.RequestFromUrl(talent.Key.Href)
@@ -110,11 +110,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 			return nil, fmt.Errorf("failed to parse pvp talent url: %w", err)
 		}
 
-		requests <- scan.RefreshRequest{
-			Lifespan:   time.Hour * 24,
-			ApiRequest: apiRequest,
-			Validator:  validator,
-		}
+		requests <- apiRequest
 	}
 	close(requests)
 
@@ -124,23 +120,14 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 		if result.Error != nil {
 			return nil, fmt.Errorf("can't get pvp talents (%s): %w", result.ApiRequest.Path, result.Error)
 		}
-		talent, err := parsePvpTalent(result.Body)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse pvp talent: %w", err)
-		}
+		talent := parsePvpTalent(&result.Response)
 		talents[i] = talent
 	}
 
 	return talents, nil
 }
 
-func parsePvpTalent(body []byte) (PvpTalent, error) {
-	var talent pvpTalentJson
-	err := json.Unmarshal(body, &talent)
-	if err != nil {
-		return PvpTalent{}, fmt.Errorf("failed to unmarshal pvp talent: %w", err)
-	}
-
+func parsePvpTalent(talent *pvpTalentJson) PvpTalent {
 	return PvpTalent{
 		SpecId: talent.PlayableSpecialization.Id,
 		Talent: wow.Talent{
@@ -154,5 +141,5 @@ func parsePvpTalent(body []byte) (PvpTalent, error) {
 				}},
 			},
 		},
-	}, nil
+	}
 }

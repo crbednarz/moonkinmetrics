@@ -1,9 +1,15 @@
 {
   "type": "object",
-  "required": ["class_talent_nodes"],
+  "required": [
+    "class_talent_nodes"
+  ],
   "properties": {
-    "id": {"type": "integer"},
-    "name": {"type": "string"},
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
     "playable_class": {
       "$ref": "#/$defs/playble"
     },
@@ -26,17 +32,28 @@
   "$defs": {
     "key": {
       "type": "object",
-      "required": ["href"],
+      "required": [
+        "href"
+      ],
       "properties": {
-        "href": {"type": "string"}
+        "href": {
+          "type": "string"
+        }
       }
     },
     "playble": {
       "type": "object",
-      "required": ["id", "name"],
+      "required": [
+        "id",
+        "name"
+      ],
       "properties": {
-        "id": {"type": "integer"},
-        "name": {"type": "string"},
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
         "key": {
           "$ref": "#/$defs/key"
         }
@@ -44,29 +61,53 @@
     },
     "spell_tooltip": {
       "type": "object",
-      "required": ["spell", "description"],
+      "required": [
+        "spell",
+        "description"
+      ],
       "properties": {
         "spell": {
           "type": "object",
-          "required": ["key", "name", "id"],
+          "required": [
+            "key",
+            "name",
+            "id"
+          ],
           "properties": {
             "key": {
               "$ref": "#/$defs/key"
             },
-            "name": {"type": "string"},
-            "id": {"type": "integer"}
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            }
           }
         },
-        "description": {"type": "string"},
-        "cast_time": {"type": "string"},
-        "power_cost": {"type": "string"},
-        "range": {"type": "string"},
-        "cooldown": {"type": "string"}
+        "description": {
+          "type": "string"
+        },
+        "cast_time": {
+          "type": "string"
+        },
+        "power_cost": {
+          "type": "string"
+        },
+        "range": {
+          "type": "string"
+        },
+        "cooldown": {
+          "type": "string"
+        }
       }
     },
     "tooltip": {
       "type": "object",
-      "required": ["talent", "spell_tooltip"],
+      "required": [
+        "talent",
+        "spell_tooltip"
+      ],
       "properties": {
         "talent": {
           "type": "object",
@@ -74,8 +115,12 @@
             "key": {
               "$ref": "#/$defs/key"
             },
-            "name": {"type": "string"},
-            "id": {"type": "integer"}
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            }
           }
         },
         "spell_tooltip": {
@@ -86,7 +131,9 @@
     "rank": {
       "type": "object",
       "properties": {
-        "rank": {"type": "integer"},
+        "rank": {
+          "type": "integer"
+        },
         "tooltip": {
           "$ref": "#/$defs/tooltip"
         },
@@ -98,8 +145,18 @@
         }
       },
       "oneOf": [
-        {"required": ["rank", "tooltip"]},
-        {"required": ["rank", "choice_of_tooltips"]}
+        {
+          "required": [
+            "rank",
+            "tooltip"
+          ]
+        },
+        {
+          "required": [
+            "rank",
+            "choice_of_tooltips"
+          ]
+        }
       ]
     },
     "class_talent_node": {
@@ -123,20 +180,29 @@
           "type": "integer"
         },
         "unlocks": {
-          "type": "array",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "type": "integer"
           }
         },
         "locked_by": {
-          "type": "array",
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "type": "integer"
           }
         },
         "node_type": {
           "type": "object",
-          "required": ["id", "type"],
+          "required": [
+            "id",
+            "type"
+          ],
           "properties": {
             "id": {
               "type": "integer"
@@ -146,10 +212,18 @@
             }
           }
         },
-        "display_row": {"type": "integer"},
-        "display_col": {"type": "integer"},
-        "raw_position_x": {"type": "integer"},
-        "raw_position_y": {"type": "integer"}
+        "display_row": {
+          "type": "integer"
+        },
+        "display_col": {
+          "type": "integer"
+        },
+        "raw_position_x": {
+          "type": "integer"
+        },
+        "raw_position_y": {
+          "type": "integer"
+        }
       }
     }
   }

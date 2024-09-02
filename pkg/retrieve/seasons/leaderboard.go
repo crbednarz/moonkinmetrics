@@ -2,7 +2,6 @@ package seasons
 
 import (
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -27,7 +26,7 @@ type leaderboardJson struct {
 				Key  keyJson `json:"key"`
 				Id   int     `json:"id"`
 				Slug string  `json:"slug"`
-			}
+			} `json:"realm"`
 		} `json:"character"`
 	} `json:"entries"`
 }
@@ -38,38 +37,34 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string) (wow.Leaderboa
 		return wow.Leaderboard{}, fmt.Errorf("failed to get current season id: %w", err)
 	}
 
-	validator, err := validate.NewLegacySchemaValidator(leaderboardSchema)
+	validator, err := validate.NewSchemaValidator[leaderboardJson](leaderboardSchema)
 	if err != nil {
 		return wow.Leaderboard{}, fmt.Errorf("failed to setup leaderboard validator: %w", err)
 	}
 	path := fmt.Sprintf("/data/wow/pvp-season/%d/pvp-leaderboard/%s", seasonId, bracket)
-	result := scanner.RefreshSingle(scan.RefreshRequest{
-		Lifespan: time.Hour,
-		ApiRequest: bnet.Request{
+	result := scan.ScanSingle(
+		scanner,
+		bnet.Request{
 			Region:    bnet.RegionUS,
 			Namespace: bnet.NamespaceDynamic,
 			Path:      path,
 		},
-		Validator: validator,
-	})
+		&scan.ScanOptions[leaderboardJson]{
+			Validator: validator,
+			Lifespan:  time.Hour,
+		},
+	)
 
 	if result.Error != nil {
 		return wow.Leaderboard{}, result.Error
 	}
 
-	return parseLeaderboard(result.Body)
+	return parseLeaderboard(&result.Response), nil
 }
 
-func parseLeaderboard(data []byte) (wow.Leaderboard, error) {
-	leaderboardJson := leaderboardJson{}
-
-	err := json.Unmarshal(data, &leaderboardJson)
-	if err != nil {
-		return wow.Leaderboard{}, fmt.Errorf("failed to unmarshal leaderboard: %w", err)
-	}
-
-	entries := make([]wow.LeaderboardEntry, len(leaderboardJson.Entries))
-	for i, entry := range leaderboardJson.Entries {
+func parseLeaderboard(inputJson *leaderboardJson) wow.Leaderboard {
+	entries := make([]wow.LeaderboardEntry, len(inputJson.Entries))
+	for i, entry := range inputJson.Entries {
 		entries[i] = wow.LeaderboardEntry{
 			Player: wow.PlayerLink{
 				Name: entry.Character.Name,
@@ -85,5 +80,5 @@ func parseLeaderboard(data []byte) (wow.Leaderboard, error) {
 
 	return wow.Leaderboard{
 		Entries: entries,
-	}, nil
+	}
 }

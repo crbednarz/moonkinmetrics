@@ -2,7 +2,6 @@ package talents
 
 import (
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -108,15 +107,19 @@ func parseTalentJson(talent talentJson) wow.Talent {
 }
 
 func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]talentJson, error) {
-	validator, err := validate.NewLegacySchemaValidator(talentSchema)
+	validator, err := validate.NewSchemaValidator[talentJson](talentSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create talent validator: %v", err)
 	}
 
-	requests := make(chan scan.RefreshRequest, len(talentIds))
-	results := make(chan scan.RefreshResult, len(talentIds))
+	requests := make(chan bnet.Request, len(talentIds))
+	results := make(chan scan.ScanResult[talentJson], len(talentIds))
+	options := scan.ScanOptions[talentJson]{
+		Validator: validator,
+		Lifespan:  time.Hour,
+	}
 
-	scanner.Refresh(requests, results)
+	scan.Scan(scanner, requests, results, &options)
 	for _, talentId := range talentIds {
 		apiRequest := bnet.Request{
 			Region:    bnet.RegionUS,
@@ -124,11 +127,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 			Path:      fmt.Sprintf("/data/wow/talent/%d", talentId),
 		}
 
-		requests <- scan.RefreshRequest{
-			Lifespan:   time.Hour,
-			ApiRequest: apiRequest,
-			Validator:  validator,
-		}
+		requests <- apiRequest
 	}
 	close(requests)
 
@@ -140,12 +139,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 			return nil, fmt.Errorf("failed to retrieve talent (%v): %w", result.ApiRequest.Path, result.Error)
 		}
 
-		var talent talentJson
-		err := json.Unmarshal(result.Body, &talent)
-		if err != nil {
-			return nil, fmt.Errorf("failed to parse talent (%v): %w", result.ApiRequest.Path, err)
-		}
-		talents[talent.Id] = talent
+		talents[result.Response.Id] = result.Response
 	}
 
 	return talents, nil

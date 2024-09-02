@@ -10,10 +10,8 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 )
 
-var (
-	//go:embed testdata/valid-tree.json
-	validTree string
-)
+//go:embed testdata/valid-tree.json
+var validTree string
 
 func TestGetTalentTree(t *testing.T) {
 	path := "/data/wow/talent-tree/786/playable-specialization/262"
@@ -22,21 +20,23 @@ func TestGetTalentTree(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	response := scanner.RefreshSingle(scan.RefreshRequest{
-		Lifespan: time.Hour * 24,
-		ApiRequest: bnet.Request{
+	response := scan.ScanSingle(
+		scanner,
+		bnet.Request{
 			Namespace: bnet.NamespaceStatic,
 			Region:    bnet.RegionUS,
 			Path:      path,
 		},
-		Validator: nil,
-	})
+		&scan.ScanOptions[talentTreeJson]{
+			Lifespan: time.Hour * 24,
+		},
+	)
 
 	if response.Error != nil {
 		t.Fatalf("failed to get talent tree: %v", response.Error)
 	}
 
-	tree, err := parseTalentTreeJson(response.Body)
+	tree, err := parseTalentTreeJson(&response.Response)
 	if err != nil {
 		t.Fatalf("failed to parse talent tree json: %v", err)
 	}
