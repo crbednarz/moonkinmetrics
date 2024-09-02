@@ -2,6 +2,7 @@ package talents
 
 import (
 	_ "embed"
+	"fmt"
 	"strings"
 	"testing"
 
@@ -16,6 +17,11 @@ func TestCanGetTalentTrees(t *testing.T) {
 		if strings.HasPrefix(requestPath, "/data/wow/talent-tree/") {
 			return validTree, true
 		}
+		if strings.HasPrefix(requestPath, "/data/wow/media/spell/") {
+			id := strings.TrimPrefix(requestPath, "/data/wow/media/spell/")
+			return MockSpellMediaJson(id), true
+		}
+
 		if strings.HasPrefix(requestPath, "/data/wow/talent/") {
 			id := strings.TrimPrefix(requestPath, "/data/wow/talent/")
 			return strings.ReplaceAll(validTalent, "108105", id), true
@@ -28,7 +34,6 @@ func TestCanGetTalentTrees(t *testing.T) {
 		}
 		return "", false
 	})
-
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
@@ -62,5 +67,26 @@ func TestCanGetTalentTrees(t *testing.T) {
 		if len(tree.PvpTalents) != 0 {
 			t.Fatalf("expected 0 pvp talent nodes, got %d", len(tree.PvpTalents))
 		}
+
+		for _, node := range tree.ClassNodes {
+			for _, talent := range node.Talents {
+				if talent.Icon != fmt.Sprintf("%d", talent.Spell.Id) {
+					t.Errorf("expected %d, got %s", talent.Spell.Id, talent.Icon)
+				}
+			}
+		}
+		for _, node := range tree.SpecNodes {
+			for _, talent := range node.Talents {
+				if talent.Icon != fmt.Sprintf("%d", talent.Spell.Id) {
+					t.Errorf("expected %d, got %s", talent.Spell.Id, talent.Icon)
+				}
+			}
+		}
+		for _, talent := range tree.PvpTalents {
+			if talent.Icon != fmt.Sprintf("%d", talent.Spell.Id) {
+				t.Errorf("expected %d, got %s", talent.Spell.Id, talent.Icon)
+			}
+		}
+
 	}
 }

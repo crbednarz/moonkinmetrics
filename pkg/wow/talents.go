@@ -18,6 +18,7 @@ type Spell struct {
 type Talent struct {
 	Id    int
 	Name  string
+	Icon  string
 	Spell Spell
 }
 
