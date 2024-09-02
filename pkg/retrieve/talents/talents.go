@@ -63,7 +63,54 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 		return nil, err
 	}
 
+	err = attachMedia(scanner, trees)
+	if err != nil {
+		return nil, err
+	}
+
 	return trees, nil
+}
+
+func attachMedia(scanner *scan.Scanner, trees []wow.TalentTree) error {
+	mediaDict, err := GetSpellMedia(scanner, trees)
+	if err != nil {
+		return fmt.Errorf("failed to retrieve spell media: %v", err)
+	}
+
+	for treeIndex := range trees {
+		for nodeIndex := range trees[treeIndex].ClassNodes {
+			for talentIndex := range trees[treeIndex].ClassNodes[nodeIndex].Talents {
+				spellId := trees[treeIndex].ClassNodes[nodeIndex].Talents[talentIndex].Spell.Id
+				media, ok := mediaDict[spellId]
+				if ok {
+					trees[treeIndex].ClassNodes[nodeIndex].Talents[talentIndex].Icon = media
+				} else {
+					return fmt.Errorf("missing media for class spell id: %v", spellId)
+				}
+			}
+		}
+		for nodeIndex := range trees[treeIndex].SpecNodes {
+			for talentIndex := range trees[treeIndex].SpecNodes[nodeIndex].Talents {
+				spellId := trees[treeIndex].SpecNodes[nodeIndex].Talents[talentIndex].Spell.Id
+				media, ok := mediaDict[spellId]
+				if ok {
+					trees[treeIndex].SpecNodes[nodeIndex].Talents[talentIndex].Icon = media
+				} else {
+					return fmt.Errorf("missing media for spec spell id: %v", spellId)
+				}
+			}
+		}
+		for talentIndex := range trees[treeIndex].PvpTalents {
+			spellId := trees[treeIndex].PvpTalents[talentIndex].Spell.Id
+			media, ok := mediaDict[spellId]
+			if ok {
+				trees[treeIndex].PvpTalents[talentIndex].Icon = media
+			} else {
+				return fmt.Errorf("missing media for pvp spell id: %v", spellId)
+			}
+		}
+	}
+	return nil
 }
 
 func attachPvpTalents(scanner *scan.Scanner, trees []wow.TalentTree) error {
