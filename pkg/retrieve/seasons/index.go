@@ -2,7 +2,6 @@ package seasons
 
 import (
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"time"
 
@@ -50,35 +49,30 @@ func GetCurrentSeasonId(scanner *scan.Scanner) (int, error) {
 }
 
 func GetSeasonsIndex(scanner *scan.Scanner) (SeasonsIndex, error) {
-	validator, err := validate.NewLegacySchemaValidator(seasonsIndexSchema)
+	validator, err := validate.NewSchemaValidator[seasonsIndexJson](seasonsIndexSchema)
 	if err != nil {
 		return SeasonsIndex{}, fmt.Errorf("failed to setup seasons index validator: %w", err)
 	}
-	result := scanner.RefreshSingle(scan.RefreshRequest{
-		Lifespan: time.Hour,
-		ApiRequest: bnet.Request{
+	result := scan.ScanSingle(
+		scanner,
+		bnet.Request{
 			Region:    bnet.RegionUS,
 			Namespace: bnet.NamespaceDynamic,
 			Path:      "/data/wow/pvp-season/index",
 		},
-		Validator: validator,
-	})
-
+		&scan.ScanOptions[seasonsIndexJson]{
+			Validator: validator,
+			Lifespan:  time.Hour,
+		},
+	)
 	if result.Error != nil {
 		return SeasonsIndex{}, result.Error
 	}
 
-	return parseSeasonsIndex(result.Body)
+	return parseSeasonsIndex(&result.Response), nil
 }
 
-func parseSeasonsIndex(data []byte) (SeasonsIndex, error) {
-	indexJson := seasonsIndexJson{}
-
-	err := json.Unmarshal(data, &indexJson)
-	if err != nil {
-		return SeasonsIndex{}, fmt.Errorf("failed to unmarshal seasons index: %w", err)
-	}
-
+func parseSeasonsIndex(indexJson *seasonsIndexJson) SeasonsIndex {
 	seasons := make([]SeasonLink, 0, len(indexJson.Seasons))
 	for _, season := range indexJson.Seasons {
 		seasons = append(seasons, SeasonLink{
@@ -93,5 +87,5 @@ func parseSeasonsIndex(data []byte) (SeasonsIndex, error) {
 			Id:  indexJson.CurrentSeason.Id,
 			Url: indexJson.CurrentSeason.Key.Href,
 		},
-	}, nil
+	}
 }

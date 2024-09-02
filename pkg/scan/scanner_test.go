@@ -64,18 +64,6 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 	return scanner, nil
 }
 
-func newMockRefreshRequest(path string) RefreshRequest {
-	return RefreshRequest{
-		Lifespan: time.Hour,
-		ApiRequest: bnet.Request{
-			Region:    bnet.RegionUS,
-			Namespace: bnet.NamespaceProfile,
-			Path:      path,
-		},
-		Validator: nil,
-	}
-}
-
 func newMockRequest(path string) bnet.Request {
 	return bnet.Request{
 		Region:    bnet.RegionUS,
@@ -155,24 +143,6 @@ func TestSingleScanRepair(t *testing.T) {
 	}
 }
 
-func TestSingleRefresh(t *testing.T) {
-	scanner, err := newMockScanner(nil)
-	if err != nil {
-		t.Error(err)
-	}
-
-	request := newMockRefreshRequest("/data/wow/mock/path")
-	result := scanner.RefreshSingle(request)
-
-	if result.Error != nil {
-		t.Errorf("Expected no error, got %v", result.Error)
-	}
-
-	if string(result.Body) != `{"path":"/data/wow/mock/path"}` {
-		t.Errorf("Expected body to be %s, got %s", `{"path":"/data/wow/mock/path"}`, string(result.Body))
-	}
-}
-
 func TestMultiScan(t *testing.T) {
 	scanner, err := newMockScanner(nil)
 	if err != nil {
@@ -212,77 +182,6 @@ func TestMultiScan(t *testing.T) {
 
 	if len(remainingResults) != 0 {
 		t.Errorf("Expect all results to be processed, but %d remain", len(remainingResults))
-	}
-}
-
-func TestMultiRefresh(t *testing.T) {
-	scanner, err := newMockScanner(nil)
-	if err != nil {
-		t.Error(err)
-	}
-
-	requests := make(chan RefreshRequest, 10)
-	results := make(chan RefreshResult, 10)
-
-	scanner.Refresh(requests, results)
-
-	for i := 0; i < 10; i++ {
-		requests <- newMockRefreshRequest(fmt.Sprintf("/data/wow/mock/%d", i))
-	}
-	close(requests)
-
-	remainingResults := map[string]string{}
-	for i := 0; i < 10; i++ {
-		key := fmt.Sprintf("/data/wow/mock/%d", i)
-		value := fmt.Sprintf(`{"path":"%s"}`, key)
-		remainingResults[key] = value
-	}
-
-	for i := 0; i < 10; i++ {
-		result := <-results
-		if result.Error != nil {
-			t.Errorf("Expected no error, got %v", result.Error)
-		}
-
-		body := remainingResults[result.ApiRequest.Path]
-		if string(result.Body) != body {
-			t.Errorf("Expected body to be %s, got %s", body, string(result.Body))
-		}
-		delete(remainingResults, result.ApiRequest.Path)
-	}
-
-	if len(remainingResults) != 0 {
-		t.Errorf("Expect all results to be processed, but %d remain", len(remainingResults))
-	}
-}
-
-func TestCachedRefresh(t *testing.T) {
-	scanner, err := newMockScanner(&MockHttpClient{
-		FailAfterFirst: true,
-		ShouldFail:     false,
-	})
-	if err != nil {
-		t.Error(err)
-	}
-
-	requests := make(chan RefreshRequest)
-	results := make(chan RefreshResult)
-	scanner.Refresh(requests, results)
-	requests <- newMockRefreshRequest("/data/wow/mock/path")
-	close(requests)
-	result := <-results
-
-	requests = make(chan RefreshRequest)
-	scanner.Refresh(requests, results)
-	requests <- newMockRefreshRequest("/data/wow/mock/path")
-	close(requests)
-	result = <-results
-	if result.Error != nil {
-		t.Errorf("Expected no error, got %v", result.Error)
-	}
-
-	if string(result.Body) != `{"path":"/data/wow/mock/path"}` {
-		t.Errorf("Expected body to be %s, got %s", `{"path":"/data/wow/mock/path"}`, string(result.Body))
 	}
 }
 

@@ -2,7 +2,6 @@ package talents
 
 import (
 	_ "embed"
-	"encoding/json"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -52,35 +51,32 @@ type treeIndexJson struct {
 }
 
 func GetTalentTreeIndex(scanner *scan.Scanner) (*TalentTreeIndex, error) {
-	validator, err := validate.NewLegacySchemaValidator(talentTreeIndexSchema)
+	validator, err := validate.NewSchemaValidator[treeIndexJson](talentTreeIndexSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup talent index validator: %w", err)
 	}
-	result := scanner.RefreshSingle(scan.RefreshRequest{
-		Lifespan: time.Hour * 24,
-		ApiRequest: bnet.Request{
+
+	result := scan.ScanSingle(
+		scanner,
+		bnet.Request{
 			Region:    bnet.RegionUS,
 			Namespace: bnet.NamespaceStatic,
 			Path:      "/data/wow/talent-tree/index",
 		},
-		Validator: validator,
-	})
+		&scan.ScanOptions[treeIndexJson]{
+			Validator: validator,
+			Lifespan:  time.Hour * 24,
+		},
+	)
 
 	if result.Error != nil {
 		return nil, result.Error
 	}
 
-	return parseTalentTreeIndex(result.Body)
+	return parseTalentTreeIndex(&result.Response)
 }
 
-func parseTalentTreeIndex(data []byte) (*TalentTreeIndex, error) {
-	indexJson := treeIndexJson{}
-
-	err := json.Unmarshal(data, &indexJson)
-	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal talent tree index: %w", err)
-	}
-
+func parseTalentTreeIndex(indexJson *treeIndexJson) (*TalentTreeIndex, error) {
 	classLinks := make([]ClassTreeLink, len(indexJson.ClassTalentTrees))
 	for i, classTreeJson := range indexJson.ClassTalentTrees {
 		classLink, err := parseClassLink(classTreeJson)

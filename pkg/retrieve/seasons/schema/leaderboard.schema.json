@@ -65,7 +65,8 @@
               "$ref": "#/$defs/key"
             },
             "id": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "slug": {
               "type": "string"
@@ -81,7 +82,8 @@
       ],
       "properties": {
         "href": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         }
       }
     }

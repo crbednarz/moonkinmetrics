@@ -1,7 +1,6 @@
 package talents
 
 import (
-	"encoding/json"
 	"errors"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -81,13 +80,7 @@ type keyJson struct {
 	Href string `json:"href"`
 }
 
-func parseTalentTreeJson(rawJson []byte) (wow.TalentTree, error) {
-	var treeJson talentTreeJson
-	err := json.Unmarshal(rawJson, &treeJson)
-	if err != nil {
-		return wow.TalentTree{}, err
-	}
-
+func parseTalentTreeJson(treeJson *talentTreeJson) (wow.TalentTree, error) {
 	classNodes := make([]wow.TalentNode, len(treeJson.ClassTalentNodes))
 	for i, nodeJson := range treeJson.ClassTalentNodes {
 		node, err := parseTalentNode(nodeJson)
@@ -196,12 +189,22 @@ func parseTalentNode(nodeJson talentNodeJson) (wow.TalentNode, error) {
 		})
 	}
 
+	lockedBy := nodeJson.LockedBy
+	if lockedBy == nil {
+		lockedBy = []int{}
+	}
+
+	unlocks := nodeJson.Unlocks
+	if unlocks == nil {
+		unlocks = []int{}
+	}
+
 	return wow.TalentNode{
 		Talents:  talents,
 		Id:       nodeJson.Id,
 		NodeType: nodeJson.NodeType.Type,
-		Unlocks:  nodeJson.Unlocks,
-		LockedBy: nodeJson.LockedBy,
+		Unlocks:  unlocks,
+		LockedBy: lockedBy,
 		MaxRank:  maxRank,
 		Row:      nodeJson.DisplayRow,
 		Col:      nodeJson.DisplayCol,

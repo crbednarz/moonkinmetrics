@@ -85,27 +85,27 @@ func attachPvpTalents(scanner *scan.Scanner, trees []wow.TalentTree) error {
 }
 
 func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]wow.TalentTree, error) {
-	validator, err := validate.NewLegacySchemaValidator(talentTreeSchema)
+	validator, err := validate.NewSchemaValidator[talentTreeJson](talentTreeSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup talent tree validator: %w", err)
 	}
 
 	numTrees := len(specLinks)
-	requests := make(chan scan.RefreshRequest, numTrees)
-	results := make(chan scan.RefreshResult, numTrees)
+	requests := make(chan bnet.Request, numTrees)
+	results := make(chan scan.ScanResult[talentTreeJson], numTrees)
+	options := scan.ScanOptions[talentTreeJson]{
+		Validator: validator,
+		Lifespan:  time.Hour,
+	}
 
-	scanner.Refresh(requests, results)
+	scan.Scan(scanner, requests, results, &options)
 	for _, specLink := range specLinks {
 		apiRequest, err := bnet.RequestFromUrl(specLink.Url)
 		if err != nil {
 			return nil, err
 		}
 
-		requests <- scan.RefreshRequest{
-			Lifespan:   time.Hour,
-			ApiRequest: apiRequest,
-			Validator:  validator,
-		}
+		requests <- apiRequest
 	}
 	close(requests)
 
@@ -119,7 +119,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 			continue
 		}
 
-		tree, err := parseTalentTreeJson(result.Body)
+		tree, err := parseTalentTreeJson(&result.Response)
 		if err != nil {
 			path := result.ApiRequest.Path
 			log.Printf("failed to parse talent tree json (%s): %v", path, err)

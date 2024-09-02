@@ -31,12 +31,14 @@
           ],
           "properties": {
             "href": {
-              "type": "string"
+              "type": "string",
+              "minLength": 1
             }
           }
         },
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         }
       }
     }
