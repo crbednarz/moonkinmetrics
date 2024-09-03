@@ -50,8 +50,8 @@ type talentNodeJson struct {
 
 type rankJson struct {
 	Rank             int           `json:"rank"`
-	Tooltip          tooltipJson   `json:"tooltip"`
-	ChoiceOfTooltips []tooltipJson `json:"choice_of_tooltips"`
+	Tooltip          *tooltipJson  `json:"tooltip,omitempty"`
+	ChoiceOfTooltips []tooltipJson `json:"choice_of_tooltips,omitempty"`
 }
 
 type tooltipJson struct {
@@ -153,8 +153,9 @@ func parseTalentNode(nodeJson talentNodeJson) (wow.TalentNode, error) {
 		}
 	} else {
 		tooltips = make([][]tooltipJson, maxRank)
-		for i, rank := range nodeJson.Ranks {
-			tooltips[i] = []tooltipJson{rank.Tooltip}
+		for i := range nodeJson.Ranks {
+			rank := &nodeJson.Ranks[i]
+			tooltips[i] = []tooltipJson{*rank.Tooltip}
 		}
 	}
 

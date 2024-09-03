@@ -49,7 +49,7 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 
 	// If the Battle.net API is missing a spec, fallback to the ingame talent tree.
 	for _, ingameTree := range ingameTrees {
-		log.Printf("retrieving talent tree from ingame data: %v - %v", ingameTree.ClassName, ingameTree.SpecName)
+		log.Printf("Retrieving talent tree from ingame data: %v - %v", ingameTree.ClassName, ingameTree.SpecName)
 		tree, err := talentTreeFromIngame(scanner, ingameTree)
 		if err != nil {
 			return nil, err
@@ -57,7 +57,7 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 		trees = append(trees, tree)
 	}
 
-	log.Printf("retrieving pvp talents")
+	log.Printf("Retrieving pvp talents")
 	err = attachPvpTalents(scanner, trees)
 	if err != nil {
 		return nil, err
@@ -143,6 +143,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	options := scan.ScanOptions[talentTreeJson]{
 		Validator: validator,
 		Lifespan:  time.Hour,
+		Repairs:   getTreeRepairs(),
 	}
 
 	scan.Scan(scanner, requests, results, &options)
@@ -159,17 +160,17 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	trees := make([]wow.TalentTree, 0, numTrees)
 	for i := 0; i < numTrees; i++ {
 		result := <-results
-		log.Printf("retrieving talent tree: %v", result.ApiRequest.Path)
+		log.Printf("Retrieving talent tree: %v", result.ApiRequest.Path)
 		if result.Error != nil {
 			path := result.ApiRequest.Path
-			log.Printf("failed to retrieve talent tree (%s): %v", path, result.Error)
+			log.Printf("Failed to retrieve talent tree (%s): %v", path, result.Error)
 			continue
 		}
 
 		tree, err := parseTalentTreeJson(&result.Response)
 		if err != nil {
 			path := result.ApiRequest.Path
-			log.Printf("failed to parse talent tree json (%s): %v", path, err)
+			log.Printf("Failed to parse talent tree json (%s): %v", path, err)
 			continue
 		}
 

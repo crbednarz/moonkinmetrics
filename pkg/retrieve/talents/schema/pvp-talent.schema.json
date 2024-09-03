@@ -1,33 +1,64 @@
 {
   "type": "object",
   "properties": {
-    "id": {"type": "integer"},
+    "id": {
+      "type": "integer",
+      "minimum": 1
+    },
     "spell": {
       "type": "object",
-      "required": ["id", "name", "key"],
+      "required": [
+        "id",
+        "name",
+        "key"
+      ],
       "properties": {
-        "id": {"type": "integer"},
-        "name": {"type": "string"},
-        "key": {"$ref": "#/$defs/key"}
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "key": {
+          "$ref": "#/$defs/key"
+        }
       }
     },
     "playable_specialization": {
       "type": "object",
-      "required": ["id", "name", "key"],
+      "required": [
+        "id",
+        "name",
+        "key"
+      ],
       "properties": {
-        "id": {"type": "integer"},
-        "name": {"type": "string"},
-        "key": {"$ref": "#/$defs/key"}
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "key": {
+          "$ref": "#/$defs/key"
+        }
       }
     },
-    "description": {"type": "string"}
+    "description": {
+      "type": "string"
+    }
   },
   "$defs": {
     "key": {
       "type": "object",
-      "required": ["href"],
+      "required": [
+        "href"
+      ],
       "properties": {
-        "href": {"type": "string"}
+        "href": {
+          "type": "string"
+        }
       }
     }
   }

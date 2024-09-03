@@ -30,7 +30,8 @@
           "type": "string"
         },
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "realm": {
           "$ref": "#/$defs/realm"
@@ -77,7 +78,8 @@
           "type": "string"
         },
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         }
       }
     },
@@ -126,10 +128,34 @@
           }
         },
         "selected_class_talent_tree": {
-          "$ref": "#/$defs/nameIdLink"
+          "type": "object",
+          "required": [
+            "key",
+            "name"
+          ],
+          "properties": {
+            "key": {
+              "$ref": "#/$defs/key"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "selected_spec_talent_tree": {
-          "$ref": "#/$defs/nameIdLink"
+          "type": "object",
+          "required": [
+            "key",
+            "name"
+          ],
+          "properties": {
+            "key": {
+              "$ref": "#/$defs/key"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -142,7 +168,8 @@
       ],
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "rank": {
           "type": "integer"
@@ -190,7 +217,8 @@
           "type": "string"
         },
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "slug": {
           "type": "string"

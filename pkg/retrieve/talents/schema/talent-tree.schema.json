@@ -5,7 +5,8 @@
   ],
   "properties": {
     "id": {
-      "type": "integer"
+      "type": "integer",
+      "minimum": 1
     },
     "name": {
       "type": "string"
@@ -49,7 +50,8 @@
       ],
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
         },
         "name": {
           "type": "string"
@@ -81,7 +83,8 @@
               "type": "string"
             },
             "id": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             }
           }
         },
@@ -119,7 +122,8 @@
               "type": "string"
             },
             "id": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             }
           }
         },
@@ -144,7 +148,7 @@
           }
         }
       },
-      "oneOf": [
+      "anyOf": [
         {
           "required": [
             "rank",
@@ -167,17 +171,20 @@
         "display_row",
         "display_col",
         "raw_position_x",
-        "raw_position_y"
+        "raw_position_y",
+        "ranks"
       ],
-      "ranks": {
-        "type": "array",
-        "items": {
-          "$ref": "#/$defs/rank"
-        }
-      },
       "properties": {
         "id": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1
+        },
+        "ranks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/rank"
+          }
         },
         "unlocks": {
           "type": [

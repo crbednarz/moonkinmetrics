@@ -191,6 +191,8 @@ func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error
 
 	if options.Validator.IsValid(output) {
 		return nil
+	} else {
+		log.Printf("Failed initial validation")
 	}
 
 	if options.Repairs != nil {
@@ -200,11 +202,15 @@ func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error
 				return fmt.Errorf("failed to repair response: %w", err)
 			}
 		}
+	} else {
+		return ErrFailedValidation
 	}
 
 	if !options.Validator.IsValid(output) {
 		return ErrFailedValidation
 	}
+
+	log.Printf("Successfully repaired response")
 
 	return nil
 }
