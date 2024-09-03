@@ -14,14 +14,9 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
 
-var (
-	// ErrNotFound is for requests that 404'd from Blizzard's API.
-	// This happens periodically for valid requests.
-	ErrNotFound = errors.New("not found")
-
-	// ErrFailedValidation is for requests that failed validation.
-	ErrFailedValidation = errors.New("failed validation")
-)
+// ErrNotFound is for requests that 404'd from Blizzard's API.
+// This happens periodically for valid requests.
+var ErrNotFound = errors.New("not found")
 
 // Scanner is a utility for querying and caching responses from the Blizzard API.
 type Scanner struct {
@@ -165,7 +160,7 @@ func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOp
 
 		err = buildFromJson(apiResponse.Body, options, output)
 		if err != nil {
-			return fmt.Errorf("response for %s failed validation", request.Path)
+			return fmt.Errorf("response for %s failed validation: %w", request.Path, err)
 		}
 
 		err = scanner.storage.Store(request, apiResponse.Body, options.Lifespan)
@@ -189,28 +184,26 @@ func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error
 		return nil
 	}
 
-	if options.Validator.IsValid(output) {
+	err = options.Validator.IsValid(output)
+	if err == nil {
 		return nil
-	} else {
-		log.Printf("Failed initial validation")
 	}
 
 	if options.Repairs != nil {
 		for _, repairer := range options.Repairs {
 			err = repairer.Repair(output)
 			if err != nil {
-				return fmt.Errorf("failed to repair response: %w", err)
+				return fmt.Errorf("failure during respone repair: %w", err)
 			}
 		}
 	} else {
-		return ErrFailedValidation
+		return fmt.Errorf("failed to validate response: %w", err)
 	}
 
-	if !options.Validator.IsValid(output) {
-		return ErrFailedValidation
+	err = options.Validator.IsValid(output)
+	if err != nil {
+		return fmt.Errorf("failed to validate response: %w", err)
 	}
-
-	log.Printf("Successfully repaired response")
 
 	return nil
 }
