@@ -1,26 +1,52 @@
 {
   "type": "object",
-  "required": ["id", "rank_descriptions", "spell", "playable_class"],
+  "required": [
+    "id",
+    "rank_descriptions",
+    "spell",
+    "playable_class"
+  ],
   "properties": {
-    "id": { "type": "integer" },
+    "id": {
+      "type": "integer",
+      "minimum": 1
+    },
     "rank_descriptions": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["rank", "description"],
+        "required": [
+          "rank",
+          "description"
+        ],
         "properties": {
-          "rank": { "type": "integer" },
-          "description": { "type": "string" }
+          "rank": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string"
+          }
         }
       }
     },
     "spell": {
       "type": "object",
-      "required": ["key", "name", "id"],
+      "required": [
+        "key",
+        "name",
+        "id"
+      ],
       "properties": {
-        "key": { "$ref": "#/$defs/key" },
-        "name": { "type": "string" },
-        "id": { "type": "integer" }
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     },
     "playable_class": {
@@ -33,18 +59,33 @@
   "$defs": {
     "key": {
       "type": "object",
-      "required": ["href"],
+      "required": [
+        "href"
+      ],
       "properties": {
-        "href": {"type": "string"}
+        "href": {
+          "type": "string"
+        }
       }
     },
     "playable": {
       "type": "object",
-      "required": ["key", "name", "id"],
+      "required": [
+        "key",
+        "name",
+        "id"
+      ],
       "properties": {
-        "key": { "$ref": "#/$defs/key" },
-        "name": { "type": "string" },
-        "id": { "type": "integer" }
+        "key": {
+          "$ref": "#/$defs/key"
+        },
+        "name": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        }
       }
     }
   }

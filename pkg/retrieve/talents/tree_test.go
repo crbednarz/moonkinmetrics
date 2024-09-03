@@ -8,6 +8,7 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
+	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
 
 //go:embed testdata/valid-tree.json
@@ -20,6 +21,11 @@ func TestGetTalentTree(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
+	validator, err := validate.NewSchemaValidator[talentTreeJson](talentTreeSchema)
+	if err != nil {
+		t.Fatalf("failed to setup talent tree validator: %v", err)
+	}
+
 	response := scan.ScanSingle(
 		scanner,
 		bnet.Request{
@@ -28,7 +34,9 @@ func TestGetTalentTree(t *testing.T) {
 			Path:      path,
 		},
 		&scan.ScanOptions[talentTreeJson]{
-			Lifespan: time.Hour * 24,
+			Lifespan:  time.Hour * 24,
+			Repairs:   getTreeRepairs(),
+			Validator: validator,
 		},
 	)
 
@@ -49,12 +57,12 @@ func TestGetTalentTree(t *testing.T) {
 		t.Errorf("expected spec id to be 262 and class id to be 786, got %d and %d", tree.SpecId, tree.ClassId)
 	}
 
-	if len(tree.ClassNodes) != 52 {
-		t.Errorf("expected 48 class nodes, got %d", len(tree.ClassNodes))
+	if len(tree.ClassNodes) != 51 {
+		t.Errorf("expected 51 class nodes, got %d", len(tree.ClassNodes))
 	}
 
 	if len(tree.SpecNodes) != 65 {
-		t.Errorf("expected 40 spec nodes, got %d", len(tree.SpecNodes))
+		t.Errorf("expected 65 spec nodes, got %d", len(tree.SpecNodes))
 	}
 
 	if len(tree.HeroTrees) != 3 {
@@ -63,7 +71,7 @@ func TestGetTalentTree(t *testing.T) {
 
 	for _, heroTree := range tree.HeroTrees {
 		if len(heroTree.Nodes) != 11 {
-			t.Errorf("expected 20 hero nodes, got %d", len(heroTree.Nodes))
+			t.Errorf("expected 11 hero nodes, got %d", len(heroTree.Nodes))
 		}
 	}
 

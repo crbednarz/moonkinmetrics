@@ -67,7 +67,6 @@ type loadoutJson struct {
 	SelectedSpecTalets      []talentJson `json:"selected_spec_talents"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
-		Id   int     `json:"id"`
 		Key  keyJson `json:"key"`
 	} `json:"selected_class_talent_tree"`
 	SelectedSpecTalentTree struct {
