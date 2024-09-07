@@ -4,8 +4,8 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
 var (
@@ -17,7 +17,7 @@ var (
 )
 
 func newLeaderboardMockScanner(body string) (*scan.Scanner, error) {
-	return testutil.NewMockScanner(
+	return testutils.NewMockScanner(
 		func(requestPath string) (string, bool) {
 			if requestPath == "/data/wow/pvp-season/index" {
 				return validIndex, true

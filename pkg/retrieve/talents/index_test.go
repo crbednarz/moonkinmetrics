@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 )
 
 func TestGetTalentTreeIndex(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
 		validIndex,
 	)
@@ -42,7 +42,7 @@ func TestGetTalentTreeIndex(t *testing.T) {
 }
 
 func TestTalentTreeIndexMissingDataFails(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
 		missingDataIndex,
 	)
@@ -57,7 +57,7 @@ func TestTalentTreeIndexMissingDataFails(t *testing.T) {
 }
 
 func TestTalentTreeIndexBadLinkFails(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
 		badLinkIndex,
 	)

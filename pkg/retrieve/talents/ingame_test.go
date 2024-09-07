@@ -7,14 +7,14 @@ import (
 	"testing"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/hack"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
 //go:embed testdata/valid-talent.json
 var validTalent string
 
 func TestParseIngameTalentTree(t *testing.T) {
-	scanner, err := testutil.NewMockScanner(func(requestPath string) (string, bool) {
+	scanner, err := testutils.NewMockScanner(func(requestPath string) (string, bool) {
 		if strings.HasPrefix(requestPath, "/data/wow/talent/") {
 			id := strings.TrimPrefix(requestPath, "/data/wow/talent/")
 			return strings.ReplaceAll(validTalent, "108105", id), true

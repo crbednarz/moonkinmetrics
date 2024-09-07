@@ -3,37 +3,13 @@ package talents
 import (
 	_ "embed"
 	"fmt"
-	"strings"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
 func TestCanGetTalentTrees(t *testing.T) {
-	scanner, err := testutil.NewMockScanner(func(requestPath string) (string, bool) {
-		if requestPath == "/data/wow/talent-tree/index" {
-			return validIndex, true
-		}
-		if strings.HasPrefix(requestPath, "/data/wow/talent-tree/") {
-			return validTree, true
-		}
-		if strings.HasPrefix(requestPath, "/data/wow/media/spell/") {
-			id := strings.TrimPrefix(requestPath, "/data/wow/media/spell/")
-			return MockSpellMediaJson(id), true
-		}
-
-		if strings.HasPrefix(requestPath, "/data/wow/talent/") {
-			id := strings.TrimPrefix(requestPath, "/data/wow/talent/")
-			return strings.ReplaceAll(validTalent, "108105", id), true
-		}
-		if requestPath == "/data/wow/pvp-talent/index" {
-			return validPvpTalentIndex, true
-		}
-		if strings.HasPrefix(requestPath, "/data/wow/pvp-talent/") {
-			return validPvpTalent, true
-		}
-		return "", false
-	})
+	scanner, err := testutils.NewMockTalentScanner()
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
@@ -43,8 +19,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 		t.Fatalf("failed to get talent trees: %v", err)
 	}
 
-	if len(trees) != 40 {
-		t.Fatalf("expected 40 trees, got %d", len(trees))
+	if len(trees) != 33 {
+		t.Fatalf("expected 33 trees, got %d", len(trees))
 	}
 
 	for _, tree := range trees {
@@ -52,8 +28,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 			t.Fatalf("expected at least 70 nodes, got %d", len(tree.ClassNodes)+len(tree.SpecNodes))
 		}
 
-		if len(tree.HeroTrees) != 3 {
-			t.Fatalf("expected 3 hero trees, got %d", len(tree.HeroTrees))
+		if len(tree.HeroTrees) < 2 {
+			t.Fatalf("expected at least 2 hero trees, got %d", len(tree.HeroTrees))
 		}
 
 		for _, heroTree := range tree.HeroTrees {

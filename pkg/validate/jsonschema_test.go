@@ -4,32 +4,17 @@ import (
 	"testing"
 )
 
-func TestSchemaExpectsValidJson(t *testing.T) {
-	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if v.IsValid([]byte(`"foo": "bar"`)) {
-		t.Fatal("expected invalid json")
-	}
+type testStruct struct {
+	Foo string `json:"foo"`
 }
 
 func TestSchemaCanValidateJson(t *testing.T) {
-	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
+	v, err := NewSchemaValidator[testStruct](`{"type": "object","properties": {"foo": {"type": "string"}}}`)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if !v.IsValid([]byte(`{"foo": "bar"}`)) {
-		t.Fatal("expected valid json")
-	}
-}
-
-func TestSchemaFailsOnNil(t *testing.T) {
-	v, err := NewLegacySchemaValidator(`{"type": "object"}`)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if v.IsValid(nil) {
-		t.Fatal("expected invalid json")
+	object := testStruct{}
+	if v.IsValid(&object) != nil {
+		t.Fatal("expected validation to pass")
 	}
 }

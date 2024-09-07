@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
 var (
@@ -16,7 +16,7 @@ var (
 )
 
 func TestGetSeasonsIndex(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/pvp-season/index",
 		validIndex,
 	)
@@ -35,7 +35,7 @@ func TestGetSeasonsIndex(t *testing.T) {
 }
 
 func TestGetSeasonsIndexFailOnMissingData(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/pvp-season/index",
 		badIndex,
 	)

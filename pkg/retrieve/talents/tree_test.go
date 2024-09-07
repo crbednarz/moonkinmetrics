@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
 
@@ -16,7 +16,7 @@ var validTree string
 
 func TestGetTalentTree(t *testing.T) {
 	path := "/data/wow/talent-tree/786/playable-specialization/262"
-	scanner, err := testutil.NewSingleResourceMockScanner(path, validTree)
+	scanner, err := testutils.NewSingleResourceMockScanner(path, validTree)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
