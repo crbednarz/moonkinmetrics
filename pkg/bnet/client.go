@@ -100,7 +100,6 @@ func (c *Client) Authenticate() error {
 	}{}
 
 	err = json.Unmarshal(body, &authResponse)
-
 	if err != nil {
 		return fmt.Errorf("authentication cannot parse response: %w", err)
 	}

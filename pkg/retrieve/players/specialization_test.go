@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/testutil"
+	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
 
@@ -12,7 +12,7 @@ import (
 var validPlayer string
 
 func TestGetSingeLoadout(t *testing.T) {
-	scanner, err := testutil.NewSingleResourceMockScanner(
+	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/profile/wow/character/windrunner/chutney/specializations",
 		validPlayer,
 	)
