@@ -14,6 +14,7 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
+	"github.com/crbednarz/moonkinmetrics/pkg/serialize"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
@@ -38,7 +39,7 @@ func main() {
 	defer pprof.StopCPUProfile()
 	log.Printf("Starting up")
 
-	offline := true
+	offline := false
 
 	var httpClient bnet.HttpClient
 	if offline {
@@ -93,4 +94,36 @@ func main() {
 		panic(err)
 	}
 	log.Printf("Loadouts retrieved: %d total", len(loadouts))
+
+	for i := range trees {
+		tree := &trees[i]
+		err = writeTalents(tree)
+		if err != nil {
+			panic(err)
+		}
+	}
+	log.Printf("Exported talents to json")
+}
+
+func writeTalents(tree *wow.TalentTree) error {
+	serializedTalents, err := serialize.ExportTalentsToJson(tree)
+	if err != nil {
+		return err
+	}
+	err = os.MkdirAll("ui/wow/talents/", 0755)
+	if err != nil {
+		return err
+	}
+
+	fileName := fmt.Sprintf("%s-%s.json", tree.ClassName, tree.SpecName)
+	fileName = strings.ReplaceAll(fileName, " ", "-")
+	fileName = strings.ToLower(fileName)
+
+	os.WriteFile(
+		fmt.Sprintf("ui/wow/talents/%s", fileName),
+		serializedTalents,
+		0644,
+	)
+
+	return nil
 }
