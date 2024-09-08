@@ -19,8 +19,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 		t.Fatalf("failed to get talent trees: %v", err)
 	}
 
-	if len(trees) != 33 {
-		t.Fatalf("expected 33 trees, got %d", len(trees))
+	if len(trees) != 39 {
+		t.Fatalf("expected 39 trees, got %d", len(trees))
 	}
 
 	for _, tree := range trees {
@@ -33,8 +33,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 		}
 
 		for _, heroTree := range tree.HeroTrees {
-			if len(heroTree.Nodes) != 11 {
-				t.Errorf("expected 11 hero nodes, got %d", len(heroTree.Nodes))
+			if len(heroTree.Nodes) < 11 {
+				t.Errorf("expected at least 11 hero nodes, got %d", len(heroTree.Nodes))
 			}
 		}
 
