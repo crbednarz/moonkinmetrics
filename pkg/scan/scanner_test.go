@@ -50,7 +50,14 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 			ShouldFail:     false,
 		}
 	}
-	client := bnet.NewClient(httpClient, "mock_client_id", "mock_client_secret")
+	client := bnet.NewClient(
+		httpClient,
+		bnet.WithCredentials(
+			"mock_client_id",
+			"mock_client_secret",
+		),
+		bnet.WithLimiter(false),
+	)
 	cache, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
 	if err != nil {
 		return nil, err

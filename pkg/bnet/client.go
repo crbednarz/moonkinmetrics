@@ -27,12 +27,61 @@ type Client struct {
 	token        string
 }
 
-func NewClient(client HttpClient, clientId string, clientSecret string) *Client {
-	return &Client{
-		httpClient:   client,
-		limiter:      rate.NewLimiter(rate.Every(time.Second/100), 10),
+type clientOptions struct {
+	ClientId     string
+	ClientSecret string
+	UseLimiter   bool
+}
+
+type ClientOption interface {
+	apply(*clientOptions)
+}
+
+type limiterOption bool
+
+func (l limiterOption) apply(o *clientOptions) {
+	o.UseLimiter = bool(l)
+}
+
+func WithLimiter(l bool) ClientOption {
+	return limiterOption(l)
+}
+
+type bnetCredentialsOption struct {
+	clientId     string
+	clientSecret string
+}
+
+func (b bnetCredentialsOption) apply(o *clientOptions) {
+	o.ClientId = b.clientId
+	o.ClientSecret = b.clientSecret
+}
+
+func WithCredentials(clientId, clientSecret string) ClientOption {
+	return bnetCredentialsOption{
 		clientId:     clientId,
 		clientSecret: clientSecret,
+	}
+}
+
+func NewClient(client HttpClient, opts ...ClientOption) *Client {
+	options := clientOptions{
+		UseLimiter: true,
+	}
+	for _, opt := range opts {
+		opt.apply(&options)
+	}
+
+	limiter := rate.NewLimiter(rate.Every(time.Second/100), 10)
+	if !options.UseLimiter {
+		limiter = nil
+	}
+
+	return &Client{
+		httpClient:   client,
+		limiter:      limiter,
+		clientId:     options.ClientId,
+		clientSecret: options.ClientSecret,
 	}
 }
 
@@ -42,9 +91,11 @@ func (c *Client) Get(request Request) (*Response, error) {
 		return nil, err
 	}
 
-	ctx := context.Background()
-	if err := c.limiter.Wait(ctx); err != nil {
-		return nil, err
+	if c.limiter != nil {
+		ctx := context.Background()
+		if err := c.limiter.Wait(ctx); err != nil {
+			return nil, err
+		}
 	}
 
 	response, err := c.httpClient.Do(httpRequest)

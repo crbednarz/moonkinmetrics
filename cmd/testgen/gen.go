@@ -20,8 +20,11 @@ func main() {
 
 	client := bnet.NewClient(
 		httpClient,
-		os.Getenv("WOW_CLIENT_ID"),
-		os.Getenv("WOW_CLIENT_SECRET"),
+		bnet.WithCredentials(
+			os.Getenv("WOW_CLIENT_ID"),
+			os.Getenv("WOW_CLIENT_SECRET"),
+		),
+		bnet.WithLimiter(true),
 	)
 
 	err := client.Authenticate()
@@ -30,7 +33,7 @@ func main() {
 	}
 	log.Printf("Authentication complete")
 
-	storage, err := storage.NewSqlite("wow.db", storage.SqliteOptions{})
+	storage, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
 	if err != nil {
 		panic(err)
 	}

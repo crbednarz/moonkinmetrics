@@ -48,8 +48,11 @@ func main() {
 	}
 	client := bnet.NewClient(
 		httpClient,
-		os.Getenv("WOW_CLIENT_ID"),
-		os.Getenv("WOW_CLIENT_SECRET"),
+		bnet.WithCredentials(
+			os.Getenv("WOW_CLIENT_ID"),
+			os.Getenv("WOW_CLIENT_SECRET"),
+		),
+		bnet.WithLimiter(!offline),
 	)
 
 	if !offline {
