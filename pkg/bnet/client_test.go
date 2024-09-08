@@ -10,8 +10,7 @@ import (
 
 const mockBody = `{"mock":"body"}`
 
-type MockHttpClient struct {
-}
+type MockHttpClient struct{}
 
 func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 	if req.URL.String() == "https://oauth.battle.net/token" {
@@ -46,7 +45,10 @@ func TestClientCanGet(t *testing.T) {
 		Path:      "/data/wow/mock/path",
 	}
 
-	client := NewClient(&MockHttpClient{}, "mock_client_id", "mock_client_secret")
+	client := NewClient(
+		&MockHttpClient{},
+		WithCredentials("mock_client_id", "mock_client_secret"),
+	)
 	client.Authenticate()
 
 	response, err := client.Get(request)
