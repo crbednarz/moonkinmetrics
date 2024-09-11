@@ -16,16 +16,16 @@ import (
 var specializationsSchema string
 
 type LoadoutResponse struct {
-	Loadout wow.Loadout
 	Error   error
+	Loadout wow.Loadout
 }
 
 type specializationsJson struct {
 	Specializations      []specializationJson `json:"specializations"`
 	ActiveSpecialization struct {
 		Name string  `json:"name"`
-		Id   int     `json:"id"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"active_specialization"`
 	Character charaterJson `json:"character"`
 }
@@ -33,67 +33,67 @@ type specializationsJson struct {
 type specializationJson struct {
 	Specialization struct {
 		Name string  `json:"name"`
-		Id   int     `json:"id"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"specialization"`
 	PvpTalentSlots []pvpTalentSlotJson `json:"pvp_talent_slots"`
 	Loadouts       []loadoutJson       `json:"loadouts"`
 }
 
 type pvpTalentSlotJson struct {
-	SlotNumber int         `json:"slot_number"`
 	Selected   tooltipJson `json:"selected"`
+	SlotNumber int         `json:"slot_number"`
 }
 
 type tooltipJson struct {
 	Talent struct {
 		Name string  `json:"name"`
-		Id   int     `json:"id"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"talent"`
 	SpellTooltip struct {
 		Spell struct {
 			Name string  `json:"name"`
-			Id   int     `json:"id"`
 			Key  keyJson `json:"key"`
+			Id   int     `json:"id"`
 		} `json:"spell"`
 	} `json:"spell_tooltip"`
 }
 
 type loadoutJson struct {
-	IsActive                bool         `json:"is_active"`
-	TalentLoadoutCode       string       `json:"talent_loadout_code"`
 	SelectedClassTalents    []talentJson `json:"selected_class_talents"`
 	SelectedSpecTalets      []talentJson `json:"selected_spec_talents"`
+	TalentLoadoutCode       string       `json:"talent_loadout_code"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
 	} `json:"selected_class_talent_tree"`
 	SelectedSpecTalentTree struct {
 		Name string  `json:"name"`
-		Id   int     `json:"id"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"selected_spec_talent_tree"`
+	IsActive bool `json:"is_active"`
 }
 
 type talentJson struct {
+	Tooltip tooltipJson `json:"tooltip"`
 	Id      int         `json:"id"`
 	Rank    int         `json:"rank"`
-	Tooltip tooltipJson `json:"tooltip"`
 }
 
 type charaterJson struct {
-	Key   keyJson   `json:"key"`
-	Name  string    `json:"name"`
-	Id    int       `json:"id"`
-	Realm realmJson `json:"realm"`
+	Key   keyJson       `json:"key"`
+	Name  string        `json:"name"`
+	Realm realmLinkJson `json:"realm"`
+	Id    int           `json:"id"`
 }
 
-type realmJson struct {
+type realmLinkJson struct {
 	Key  keyJson `json:"key"`
 	Name string  `json:"name"`
-	Id   int     `json:"id"`
 	Slug string  `json:"slug"`
+	Id   int     `json:"id"`
 }
 
 type keyJson struct {
