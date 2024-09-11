@@ -19,15 +19,15 @@ type leaderboardJson struct {
 		Faction struct {
 			Type string `json:"type"`
 		} `json:"faction"`
-		Rating    int `json:"rating"`
 		Character struct {
 			Name  string `json:"name"`
 			Realm struct {
 				Key  keyJson `json:"key"`
-				Id   int     `json:"id"`
 				Slug string  `json:"slug"`
+				Id   int     `json:"id"`
 			} `json:"realm"`
 		} `json:"character"`
+		Rating int `json:"rating"`
 	} `json:"entries"`
 }
 
