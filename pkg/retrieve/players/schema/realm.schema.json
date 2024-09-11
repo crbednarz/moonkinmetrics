@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "slug"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    }
+  }
+}
