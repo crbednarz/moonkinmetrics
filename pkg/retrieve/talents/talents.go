@@ -120,7 +120,8 @@ func attachPvpTalents(scanner *scan.Scanner, trees []wow.TalentTree) error {
 	}
 
 	for _, pvpTalent := range pvpTalents {
-		for _, tree := range trees {
+		for treeIndex := range trees {
+			tree := &trees[treeIndex]
 			if tree.SpecId == pvpTalent.SpecId {
 				tree.PvpTalents = append(tree.PvpTalents, pvpTalent.Talent)
 				break

@@ -152,11 +152,12 @@ func parseTalentNode(nodeJson talentNodeJson) (wow.TalentNode, error) {
 			{nodeJson.Ranks[0].ChoiceOfTooltips[1]},
 		}
 	} else {
-		tooltips = make([][]tooltipJson, maxRank)
+		tooltipRanks := make([]tooltipJson, maxRank)
 		for i := range nodeJson.Ranks {
 			rank := &nodeJson.Ranks[i]
-			tooltips[i] = []tooltipJson{*rank.Tooltip}
+			tooltipRanks[i] = *rank.Tooltip
 		}
+		tooltips = [][]tooltipJson{tooltipRanks}
 	}
 
 	talents := make([]wow.Talent, 0, maxRank)
