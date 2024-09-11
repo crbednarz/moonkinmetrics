@@ -39,8 +39,8 @@ type keyJson struct {
 	Href string `json:"href"`
 }
 
-func GetCurrentSeasonId(scanner *scan.Scanner) (int, error) {
-	index, err := GetSeasonsIndex(scanner)
+func GetCurrentSeasonId(scanner *scan.Scanner, region bnet.Region) (int, error) {
+	index, err := GetSeasonsIndex(scanner, region)
 	if err != nil {
 		return -1, err
 	}
@@ -48,7 +48,7 @@ func GetCurrentSeasonId(scanner *scan.Scanner) (int, error) {
 	return index.CurrentSeason.Id, nil
 }
 
-func GetSeasonsIndex(scanner *scan.Scanner) (SeasonsIndex, error) {
+func GetSeasonsIndex(scanner *scan.Scanner, region bnet.Region) (SeasonsIndex, error) {
 	validator, err := validate.NewSchemaValidator[seasonsIndexJson](seasonsIndexSchema)
 	if err != nil {
 		return SeasonsIndex{}, fmt.Errorf("failed to setup seasons index validator: %w", err)
@@ -56,7 +56,7 @@ func GetSeasonsIndex(scanner *scan.Scanner) (SeasonsIndex, error) {
 	result := scan.ScanSingle(
 		scanner,
 		bnet.Request{
-			Region:    bnet.RegionUS,
+			Region:    region,
 			Namespace: bnet.NamespaceDynamic,
 			Path:      "/data/wow/pvp-season/index",
 		},

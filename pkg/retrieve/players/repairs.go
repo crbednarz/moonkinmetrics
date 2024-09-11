@@ -49,7 +49,7 @@ func removeBadFirstTalent(s *specializationsJson) error {
 	return nil
 }
 
-func getRepairs(config LoadoutScanOptions) []repair.Repairer[specializationsJson] {
+func getRepairs(config loadoutScanOptions) []repair.Repairer[specializationsJson] {
 	return []repair.Repairer[specializationsJson]{
 		&unusedSpecRemover{OverrideSpec: config.OverrideSpec},
 		repair.NewRepair(removeBadFirstTalent),

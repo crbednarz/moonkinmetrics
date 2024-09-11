@@ -20,8 +20,8 @@ var (
 )
 
 type PvpTalent struct {
-	SpecId int
 	Talent wow.Talent
+	SpecId int
 }
 
 type pvpTalentsIndexJson struct {
@@ -35,22 +35,22 @@ type pvpTalentsIndexJson struct {
 }
 
 type pvpTalentJson struct {
-	Id    int `json:"id"`
-	Spell struct {
-		Id   int    `json:"id"`
+	Description string `json:"description"`
+	Spell       struct {
 		Name string `json:"name"`
 		Key  struct {
 			Href string `json:"href"`
 		} `json:"key"`
+		Id int `json:"id"`
 	} `json:"spell"`
 	PlayableSpecialization struct {
-		Id   int    `json:"id"`
 		Name string `json:"name"`
 		Key  struct {
 			Href string `json:"href"`
 		} `json:"key"`
+		Id int `json:"id"`
 	} `json:"playable_specialization"`
-	Description string `json:"description"`
+	Id int `json:"id"`
 }
 
 func GetPvpTalents(scanner *scan.Scanner) ([]PvpTalent, error) {

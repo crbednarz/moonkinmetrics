@@ -100,11 +100,43 @@ type keyJson struct {
 	Href string `json:"href"`
 }
 
-type LoadoutScanOptions struct {
+type loadoutScanOptions struct {
 	OverrideSpec string
+	Region       bnet.Region
 }
 
-func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, config LoadoutScanOptions) ([]LoadoutResponse, error) {
+type LoadoutScanOption interface {
+	apply(*loadoutScanOptions)
+}
+
+type regionOption bnet.Region
+
+func (r regionOption) apply(options *loadoutScanOptions) {
+	options.Region = bnet.Region(r)
+}
+
+type overrideSpecOption string
+
+func (o overrideSpecOption) apply(options *loadoutScanOptions) {
+	options.OverrideSpec = string(o)
+}
+
+func WithRegion(region bnet.Region) LoadoutScanOption {
+	return regionOption(region)
+}
+
+func WithOverrideSpec(spec string) LoadoutScanOption {
+	return overrideSpecOption(spec)
+}
+
+func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...LoadoutScanOption) ([]LoadoutResponse, error) {
+	scanOptions := loadoutScanOptions{
+		OverrideSpec: "",
+		Region:       bnet.RegionUS,
+	}
+	for _, opt := range opts {
+		opt.apply(&scanOptions)
+	}
 	validator, err := validate.NewSchemaValidator[specializationsJson](specializationsSchema)
 	if err != nil {
 		return nil, fmt.Errorf("failed to setup specialization validator: %w", err)
@@ -115,13 +147,13 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, config L
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validator,
 		Lifespan:  time.Hour * 4,
-		Repairs:   getRepairs(config),
+		Repairs:   getRepairs(scanOptions),
 	}
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, player := range players {
 		requests <- bnet.Request{
-			Region:    bnet.RegionUS,
+			Region:    scanOptions.Region,
 			Namespace: bnet.NamespaceProfile,
 			Path:      player.SpecializationUrl(),
 		}
@@ -139,7 +171,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, config L
 			continue
 		}
 
-		loadout, err := activeLoadoutFromSpecializationsJson(&result.Response, &config)
+		loadout, err := activeLoadoutFromSpecializationsJson(&result.Response, &scanOptions)
 		loadouts[result.Index].Loadout = loadout
 		loadouts[result.Index].Error = err
 		if err != nil {
@@ -152,7 +184,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, config L
 	return loadouts, nil
 }
 
-func activeLoadoutFromSpecializationsJson(inputJson *specializationsJson, config *LoadoutScanOptions) (wow.Loadout, error) {
+func activeLoadoutFromSpecializationsJson(inputJson *specializationsJson, config *loadoutScanOptions) (wow.Loadout, error) {
 	activeSpec := inputJson.ActiveSpecialization.Name
 	if config.OverrideSpec != "" {
 		activeSpec = config.OverrideSpec

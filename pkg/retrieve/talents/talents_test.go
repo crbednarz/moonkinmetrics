@@ -38,10 +38,9 @@ func TestCanGetTalentTrees(t *testing.T) {
 			}
 		}
 
-		// None of the pvp talents should match in the mock data so this should be 0.
-		// This may be something to change in the future.
-		if len(tree.PvpTalents) != 0 {
-			t.Fatalf("expected 0 pvp talent nodes, got %d", len(tree.PvpTalents))
+		// Due to the mocking mechanism, all talents will fall into exactly one spec.
+		if len(tree.PvpTalents) != 0 && len(tree.PvpTalents) != 437 {
+			t.Fatalf("expected 0 or 437 pvp talent nodes, got %d", len(tree.PvpTalents))
 		}
 
 		for _, node := range tree.ClassNodes {

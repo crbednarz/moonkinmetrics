@@ -31,8 +31,8 @@ type leaderboardJson struct {
 	} `json:"entries"`
 }
 
-func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string) (wow.Leaderboard, error) {
-	seasonId, err := GetCurrentSeasonId(scanner)
+func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region bnet.Region) (wow.Leaderboard, error) {
+	seasonId, err := GetCurrentSeasonId(scanner, region)
 	if err != nil {
 		return wow.Leaderboard{}, fmt.Errorf("failed to get current season id: %w", err)
 	}
@@ -45,7 +45,7 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string) (wow.Leaderboa
 	result := scan.ScanSingle(
 		scanner,
 		bnet.Request{
-			Region:    bnet.RegionUS,
+			Region:    region,
 			Namespace: bnet.NamespaceDynamic,
 			Path:      path,
 		},
@@ -59,10 +59,14 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string) (wow.Leaderboa
 		return wow.Leaderboard{}, result.Error
 	}
 
-	return parseLeaderboard(&result.Response), nil
+	return wow.Leaderboard{
+		Entries: parseLeaderboardEntries(&result.Response),
+		Bracket: bracket,
+		Region:  region,
+	}, nil
 }
 
-func parseLeaderboard(inputJson *leaderboardJson) wow.Leaderboard {
+func parseLeaderboardEntries(inputJson *leaderboardJson) []wow.LeaderboardEntry {
 	entries := make([]wow.LeaderboardEntry, len(inputJson.Entries))
 	for i, entry := range inputJson.Entries {
 		entries[i] = wow.LeaderboardEntry{
@@ -78,7 +82,5 @@ func parseLeaderboard(inputJson *leaderboardJson) wow.Leaderboard {
 		}
 	}
 
-	return wow.Leaderboard{
-		Entries: entries,
-	}
+	return entries
 }
