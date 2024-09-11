@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
+	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
 
@@ -24,7 +25,7 @@ func TestGetSeasonsIndex(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	index, err := GetSeasonsIndex(scanner)
+	index, err := GetSeasonsIndex(scanner, bnet.RegionUS)
 	if err != nil {
 		t.Fatalf("failed to get pvp seasons index: %v", err)
 	}
@@ -43,7 +44,7 @@ func TestGetSeasonsIndexFailOnMissingData(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	_, err = GetSeasonsIndex(scanner)
+	_, err = GetSeasonsIndex(scanner, bnet.RegionUS)
 	if err == nil {
 		t.Fatalf("expected error, got nil")
 	}

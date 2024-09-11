@@ -79,7 +79,9 @@ func main() {
 	}
 	log.Printf("Talents retrieved: %d total", len(trees))
 
-	leaderboard, err := seasons.GetCurrentLeaderboard(scanner, "3v3")
+	region := bnet.RegionUS
+
+	leaderboard, err := seasons.GetCurrentLeaderboard(scanner, "3v3", region)
 	if err != nil {
 		panic(err)
 	}

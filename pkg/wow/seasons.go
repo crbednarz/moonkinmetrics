@@ -3,9 +3,13 @@ package wow
 import (
 	"fmt"
 	"strings"
+
+	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 )
 
 type Leaderboard struct {
+	Bracket string
+	Region  bnet.Region
 	Entries []LeaderboardEntry
 }
 

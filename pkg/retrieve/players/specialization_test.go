@@ -30,7 +30,6 @@ func TestGetSingeLoadout(t *testing.T) {
 	responses, err := GetPlayerLoadouts(
 		scanner,
 		[]wow.PlayerLink{playerLink},
-		LoadoutScanOptions{},
 	)
 	if err != nil {
 		t.Fatalf("failed to load player loadout: %v", err)

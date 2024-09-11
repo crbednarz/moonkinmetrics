@@ -10,44 +10,44 @@ type Rank struct {
 }
 
 type Spell struct {
-	Id    int
 	Name  string
 	Ranks []Rank
+	Id    int
 }
 
 type Talent struct {
-	Id    int
 	Name  string
 	Icon  string
 	Spell Spell
+	Id    int
 }
 
 type TalentNode struct {
+	NodeType string
+	Unlocks  []int
+	LockedBy []int
+	Talents  []Talent
 	Id       int
 	X        int
 	Y        int
 	Row      int
 	Col      int
-	Unlocks  []int
-	LockedBy []int
-	Talents  []Talent
 	MaxRank  int
-	NodeType string
 }
 
 type HeroTree struct {
-	Id    int
 	Name  string
 	Nodes []TalentNode
+	Id    int
 }
 
 type TalentTree struct {
 	ClassName  string
-	ClassId    int
 	SpecName   string
-	SpecId     int
 	ClassNodes []TalentNode
 	SpecNodes  []TalentNode
 	HeroTrees  []HeroTree
 	PvpTalents []Talent
+	ClassId    int
+	SpecId     int
 }
