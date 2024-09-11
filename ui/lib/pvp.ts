@@ -150,6 +150,7 @@ function decodeLoadoutsV1(encodedLeaderboard: any, tree: TalentTree, region: str
     index += 2;
 
     const realmIndex = dataBytes[index] | (dataBytes[index + 1] << 8);
+    index += 2;
     const isHorde = dataBytes[index++] === 1;
 
     return {
