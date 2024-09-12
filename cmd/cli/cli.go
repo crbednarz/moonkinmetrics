@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/players"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/serialize"
+	"github.com/crbednarz/moonkinmetrics/pkg/site"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
@@ -39,7 +39,7 @@ func main() {
 	defer pprof.StopCPUProfile()
 	log.Printf("Starting up")
 
-	offline := false
+	offline := true
 
 	var httpClient bnet.HttpClient
 	if offline {
@@ -87,15 +87,30 @@ func main() {
 	}
 	log.Printf("Leaderboard retrieved: %v", leaderboard)
 
-	playerLinks := make([]wow.PlayerLink, len(leaderboard.Entries))
-	for i, entry := range leaderboard.Entries {
-		playerLinks[i] = entry.Player
-	}
-	loadouts, err := players.GetPlayerLoadouts(scanner, playerLinks, players.LoadoutScanOptions{})
+	enrichedLeaderboards, err := site.EnrichLeaderboard(scanner, &leaderboard, trees)
 	if err != nil {
 		panic(err)
 	}
-	log.Printf("Loadouts retrieved: %d total", len(loadouts))
+
+	for i := range enrichedLeaderboards {
+		leaderboard := &enrichedLeaderboards[i]
+
+		data, err := serialize.ExportLeaderboardToJson(leaderboard)
+		if err != nil {
+			panic(err)
+		}
+
+		fileName := fmt.Sprintf("%s-%s.us.json", leaderboard.ClassName, leaderboard.SpecName)
+		fileName = strings.ReplaceAll(fileName, " ", "-")
+		fileName = strings.ToLower(fileName)
+
+		path := fmt.Sprintf("ui/wow/pvp/%s/%s", leaderboard.Bracket, fileName)
+		if strings.HasPrefix(leaderboard.Bracket, "shuffle") {
+			path = fmt.Sprintf("ui/wow/pvp/shuffle/%s", fileName)
+		}
+		os.WriteFile(path, data, 0644)
+		log.Printf("Exported %s", path)
+	}
 
 	for i := range trees {
 		tree := &trees[i]
