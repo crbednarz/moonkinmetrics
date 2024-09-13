@@ -39,7 +39,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 	for _, realmLink := range realmLinks {
 		request, err := bnet.RequestFromUrl(realmLink.Url)
 		if err != nil {
-			return nil, fmt.Errorf("failed to create request from realm link: %w", err)
+			return nil, fmt.Errorf("failed to create request from realm link [%v]: %w", realmLink.Url, err)
 		}
 
 		requests <- request
@@ -49,7 +49,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 	realms := make([]wow.Realm, 0, len(realmLinks))
 	for result := range results {
 		if result.Error != nil {
-			return nil, fmt.Errorf("failed to retrieve realm: %w", result.Error)
+			return nil, fmt.Errorf("failed to retrieve realm [%v]: %w", result.ApiRequest.Url(), result.Error)
 		}
 		realms = append(realms, wow.Realm{
 			Name: result.Response.Name,
