@@ -129,6 +129,7 @@ async def _collect_shuffle_leaderboard(
 
         print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
+        _filter_invalid_talents(loadout, talent_tree)
         _remap_old_talents(loadout, talent_tree)
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
@@ -181,12 +182,13 @@ async def _collect_arena_leaderboard(
 
         print(f"Requested talents for {player.full_name}... ", end="")
         if status != LoadoutRequestStatus.SUCCESS or loadout is None:
-            print("Failed")
+            print(f"Failed [{status}]")
             continue
 
         print(f"{loadout.class_name} - {loadout.spec_name} - {entry.rating}")
 
         talent_tree = tree_map[(loadout.class_name, loadout.spec_name)]
+        _filter_invalid_talents(loadout, talent_tree)
         _remap_old_talents(loadout, talent_tree)
         if not _validate_talents(loadout, talent_tree):
             print(f"{player.full_name} failed talent validation.")
@@ -218,6 +220,21 @@ def _shuffle_bracket(class_name: str, spec_name: str) -> str:
     class_slug = class_name.lower().replace(" ", "")
     spec_slug = spec_name.lower().replace(" ", "")
     return f"shuffle-{class_slug}-{spec_slug}"
+
+
+def _filter_invalid_talents(loadout: PlayerLoadout, talent_tree: TalentTree):
+    # noode.node_id in tree.invalid_nodes
+    loadout.class_nodes = [
+        node
+        for node in loadout.class_nodes
+        if node.node_id not in talent_tree.invalid_nodes
+    ]
+
+    loadout.spec_nodes = [
+        node
+        for node in loadout.spec_nodes
+        if node.node_id not in talent_tree.invalid_nodes
+    ]
 
 
 def _remap_old_talents(loadout: PlayerLoadout, talent_tree: TalentTree):

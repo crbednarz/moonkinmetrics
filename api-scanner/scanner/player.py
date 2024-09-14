@@ -73,7 +73,8 @@ class MissingPlayerError(Exception):
 class LoadoutRequestStatus(Enum):
     SUCCESS = 1
     MISSING_PLAYER = 2
-    ERROR = 3
+    NO_SPEC = 3
+    ERROR = 4
 
 
 T = TypeVar("T")
@@ -102,7 +103,7 @@ async def get_player_loadouts(
             continue
 
         if "active_specialization" not in response:
-            yield None, player, context, LoadoutRequestStatus.ERROR
+            yield None, player, context, LoadoutRequestStatus.NO_SPEC
             continue
 
         spec_id = response["active_specialization"]["id"]
@@ -113,7 +114,8 @@ async def get_player_loadouts(
         try:
             json_loadout = _get_active_loadout(player, spec_name, response)
             loadout = _deserialize_json_loadout(json_loadout, class_name, spec_name)
-        except (RuntimeError, KeyError):
+        except (RuntimeError, KeyError) as e:
+            print(f"Error fetching loadout for {player.full_name}: {e}")
             yield None, player, context, LoadoutRequestStatus.ERROR
             continue
 
@@ -125,6 +127,8 @@ def _deserialize_json_loadout(
 ) -> PlayerLoadout:
     class_nodes = []
     for raw_node in json_loadout["selected_class_talents"]:
+        if "tooltip" not in raw_node:
+            continue
         class_nodes.append(
             LoadoutNode(
                 raw_node["id"],
@@ -136,6 +140,8 @@ def _deserialize_json_loadout(
 
     spec_nodes = []
     for raw_node in json_loadout["selected_spec_talents"]:
+        if "tooltip" not in raw_node:
+            continue
         if "name" not in raw_node["tooltip"]["talent"]:
             continue
         spec_nodes.append(

@@ -168,6 +168,7 @@ class TalentTree:
     class_id: int
     spec_name: str
     spec_id: int
+    invalid_nodes: set[int]
     class_nodes: list[TalentNode]
     spec_nodes: list[TalentNode]
     pvp_talents: list[Talent]
@@ -305,6 +306,7 @@ async def _get_tree_for_spec(
         tree_link.class_id,
         tree_link.spec_name,
         tree_link.spec_id,
+        invalid_nodes,
         _filter_nodes(class_nodes, True),
         _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, tree_link.spec_name),
@@ -406,6 +408,7 @@ async def _get_tree_for_missing_spec(
         tree_link.id,
         spec_name,
         SPEC_ID_BY_CLASS_SPEC[(class_name, spec_name)],
+        set(),
         _filter_nodes(class_nodes, True),
         _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, spec_name),
@@ -456,6 +459,7 @@ async def _get_tree_for_broken_spec(
         tree_link.class_id,
         tree_link.spec_name,
         tree_link.spec_id,
+        set(),
         _filter_nodes(class_nodes, True),
         _filter_nodes(spec_nodes, False),
         await _get_pvp_talents(client, class_name, tree_link.spec_name),
