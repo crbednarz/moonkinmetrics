@@ -96,7 +96,7 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 	if err != nil {
 		return fmt.Errorf("failed to retrieve leaderboard: %w", err)
 	}
-	log.Printf("Leaderboard retrieved: %v", leaderboard)
+	log.Printf("Leaderboard retrieved: %v entries", len(leaderboard.Entries))
 
 	leaderboard = leaderboard.FilterByMinRating(options.MinRating)
 
