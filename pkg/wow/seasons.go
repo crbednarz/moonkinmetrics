@@ -16,7 +16,7 @@ type Leaderboard struct {
 type LeaderboardEntry struct {
 	Player  PlayerLink
 	Faction string
-	Rating  int
+	Rating  uint
 }
 
 type PlayerLink struct {
@@ -39,7 +39,7 @@ func (p PlayerLink) SpecializationUrl() string {
 	return fmt.Sprintf("/profile/wow/character/%s/%s/specializations", p.Realm.Slug, strings.ToLower(p.Name))
 }
 
-func (l Leaderboard) GetUniqueRealms() []RealmLink {
+func (l *Leaderboard) GetUniqueRealms() []RealmLink {
 	realmLinkMap := make(map[string]RealmLink)
 
 	for i := range l.Entries {
@@ -55,4 +55,20 @@ func (l Leaderboard) GetUniqueRealms() []RealmLink {
 	}
 
 	return realmLinks
+}
+
+func (l *Leaderboard) FilterByMinRating(minRating uint) Leaderboard {
+	entries := make([]LeaderboardEntry, 0, len(l.Entries))
+
+	for i := range l.Entries {
+		if l.Entries[i].Rating >= minRating {
+			entries = append(entries, l.Entries[i])
+		}
+	}
+
+	return Leaderboard{
+		Bracket: l.Bracket,
+		Region:  l.Region,
+		Entries: entries,
+	}
 }

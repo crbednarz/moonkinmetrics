@@ -1,7 +1,9 @@
 package site
 
 import (
+	"fmt"
 	"log"
+	"strings"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/players"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
@@ -19,7 +21,7 @@ type EnrichedLeaderboard struct {
 
 type EnrichedLeaderboardEntry struct {
 	Loadout *wow.Loadout
-	Rating  int
+	Rating  uint
 	Faction string
 	Player  wow.PlayerLink
 }
@@ -27,6 +29,25 @@ type EnrichedLeaderboardEntry struct {
 type entryGroup struct {
 	Tree    *wow.TalentTree
 	Entries []EnrichedLeaderboardEntry
+}
+
+var bracketSpecOverride map[string]string = createBracketSpecOverrideMap()
+
+func createBracketSpecOverrideMap() map[string]string {
+	specOverrideMap := map[string]string{
+		"2v2": "",
+		"3v3": "",
+		"rbg": "",
+	}
+
+	for class, specs := range wow.SpecByClass {
+		for _, spec := range specs {
+			slug := fmt.Sprintf("shuffle-%s-%s", class, spec)
+			slug = strings.ToLower(strings.ReplaceAll(slug, " ", "-"))
+			specOverrideMap[slug] = spec
+		}
+	}
+	return specOverrideMap
 }
 
 func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, trees []wow.TalentTree) ([]EnrichedLeaderboard, error) {
@@ -106,10 +127,12 @@ func getLoadouts(scanner *scan.Scanner, leaderboard *wow.Leaderboard) ([]players
 	for i, entry := range leaderboard.Entries {
 		playerLinks[i] = entry.Player
 	}
+
 	loadouts, err := players.GetPlayerLoadouts(
 		scanner,
 		playerLinks,
 		players.WithRegion(leaderboard.Region),
+		players.WithOverrideSpec(bracketSpecOverride[leaderboard.Bracket]),
 	)
 	if err != nil {
 		return nil, err

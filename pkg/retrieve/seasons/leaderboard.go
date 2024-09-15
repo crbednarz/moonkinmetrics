@@ -27,7 +27,7 @@ type leaderboardJson struct {
 				Id   int     `json:"id"`
 			} `json:"realm"`
 		} `json:"character"`
-		Rating int `json:"rating"`
+		Rating uint `json:"rating"`
 	} `json:"entries"`
 }
 
