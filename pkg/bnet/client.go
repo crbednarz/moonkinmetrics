@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -91,16 +92,33 @@ func (c *Client) Get(request Request) (*Response, error) {
 		return nil, err
 	}
 
-	if c.limiter != nil {
+	var response *http.Response
+
+	for {
 		ctx := context.Background()
-		if err := c.limiter.Wait(ctx); err != nil {
+		if c.limiter != nil {
+			err = c.limiter.Wait(ctx)
+			if err != nil {
+				return nil, err
+			}
+		}
+
+		response, err = c.httpClient.Do(httpRequest)
+
+		if response.StatusCode == 429 {
+			log.Printf("Rate limited, waiting")
+			err = c.limiter.Wait(ctx)
+			if err != nil {
+				return nil, err
+			}
+			continue
+		}
+
+		if err != nil {
 			return nil, err
 		}
-	}
 
-	response, err := c.httpClient.Do(httpRequest)
-	if err != nil {
-		return nil, err
+		break
 	}
 
 	body, err := io.ReadAll(response.Body)
