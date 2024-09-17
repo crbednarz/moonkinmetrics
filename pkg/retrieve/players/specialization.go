@@ -163,11 +163,11 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	loadouts := make([]LoadoutResponse, len(players))
 	for i := 0; i < len(loadouts); i++ {
 		result := <-results
-		log.Printf("retrieved player loadout: %v", result.ApiRequest.Path)
+		log.Printf("Retrieved player loadout: %v", result.ApiRequest.Path)
 		if result.Error != nil {
 			path := result.ApiRequest.Path
 			loadouts[result.Index].Error = result.Error
-			log.Printf("failed to retrieve player loadout (%s): %v", path, result.Error)
+			log.Printf("Failed to retrieve player loadout (%s): %v", path, result.Error)
 			continue
 		}
 
@@ -176,7 +176,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 		loadouts[result.Index].Error = err
 		if err != nil {
 			path := result.ApiRequest.Path
-			log.Printf("failed to parse player loadout json (%s): %v", path, err)
+			log.Printf("Failed to parse player loadout json (%s): %v", path, err)
 			continue
 		}
 	}
@@ -196,7 +196,7 @@ func activeLoadoutFromSpecializationsJson(inputJson *specializationsJson, config
 		}
 
 		for _, loadoutJson := range specializationJson.Loadouts {
-			if !loadoutJson.IsActive {
+			if loadoutJson.IsActive {
 				loadout := parseLoadout(loadoutJson)
 				loadout.PvpTalents = parsePvpTalents(specializationJson.PvpTalentSlots)
 				return loadout, nil
