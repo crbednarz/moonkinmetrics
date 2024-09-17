@@ -104,6 +104,9 @@ func (c *Client) Get(request Request) (*Response, error) {
 		}
 
 		response, err = c.httpClient.Do(httpRequest)
+		if err != nil {
+			return nil, err
+		}
 
 		if response.StatusCode == 429 {
 			log.Printf("Rate limited, waiting")
@@ -112,10 +115,6 @@ func (c *Client) Get(request Request) (*Response, error) {
 				return nil, err
 			}
 			continue
-		}
-
-		if err != nil {
-			return nil, err
 		}
 
 		break

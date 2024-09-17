@@ -1,14 +1,12 @@
 package players
 
-import (
-	"github.com/crbednarz/moonkinmetrics/pkg/repair"
-)
+import "github.com/crbednarz/moonkinmetrics/pkg/scan"
 
-type unusedSpecRemover struct {
+type unusedRemover struct {
 	OverrideSpec string
 }
 
-func (r *unusedSpecRemover) Repair(s *specializationsJson) error {
+func (r *unusedRemover) Process(s *specializationsJson) error {
 	targetSpecName := r.OverrideSpec
 	if targetSpecName == "" {
 		targetSpecName = s.ActiveSpecialization.Name
@@ -24,7 +22,17 @@ func (r *unusedSpecRemover) Repair(s *specializationsJson) error {
 	}
 
 	if targetSpec != nil {
-		s.Specializations = []specializationJson{*targetSpec}
+		var targetLoadout *loadoutJson
+		for i := range targetSpec.Loadouts {
+			if targetSpec.Loadouts[i].IsActive {
+				targetLoadout = &targetSpec.Loadouts[i]
+				break
+			}
+		}
+		if targetLoadout != nil {
+			targetSpec.Loadouts = []loadoutJson{*targetLoadout}
+			s.Specializations = []specializationJson{*targetSpec}
+		}
 	}
 
 	return nil
@@ -49,9 +57,9 @@ func removeBadFirstTalent(s *specializationsJson) error {
 	return nil
 }
 
-func getRepairs(config loadoutScanOptions) []repair.Repairer[specializationsJson] {
-	return []repair.Repairer[specializationsJson]{
-		&unusedSpecRemover{OverrideSpec: config.OverrideSpec},
-		repair.NewRepair(removeBadFirstTalent),
+func getRepairs(config loadoutScanOptions) []scan.ResultProcessor[specializationsJson] {
+	return []scan.ResultProcessor[specializationsJson]{
+		&unusedRemover{OverrideSpec: config.OverrideSpec},
+		scan.NewResultProcessor(removeBadFirstTalent),
 	}
 }

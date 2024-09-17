@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/repair"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -130,8 +129,8 @@ func TestSingleScanRepair(t *testing.T) {
 	}
 	options := ScanOptions[MockResponseObject]{
 		Validator: validator,
-		Repairs: []repair.Repairer[MockResponseObject]{
-			repair.NewRepair(func(obj *MockResponseObject) error {
+		Repairs: []Repairer[MockResponseObject]{
+			NewRepair(func(obj *MockResponseObject) error {
 				obj.Path = "/data/wow/mock/path"
 				return nil
 			}),

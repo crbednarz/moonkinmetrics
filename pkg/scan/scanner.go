@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/repair"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -34,7 +33,8 @@ type ScanResult[T any] struct {
 
 type ScanOptions[T any] struct {
 	Validator validate.Validator[T]
-	Repairs   []repair.Repairer[T]
+	Filters   []ResultProcessor[T]
+	Repairs   []ResultProcessor[T]
 	Lifespan  time.Duration
 }
 
@@ -181,17 +181,17 @@ func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error
 	}
 
 	if options.Validator == nil {
-		return nil
+		return processResult(options, output)
 	}
 
 	err = options.Validator.IsValid(output)
 	if err == nil {
-		return nil
+		return processResult(options, output)
 	}
 
 	if options.Repairs != nil {
 		for _, repairer := range options.Repairs {
-			err = repairer.Repair(output)
+			err = repairer.Process(output)
 			if err != nil {
 				return fmt.Errorf("failure during respone repair: %w", err)
 			}
@@ -205,6 +205,20 @@ func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error
 		return fmt.Errorf("failed to validate response: %w", err)
 	}
 
+	return processResult(options, output)
+}
+
+func processResult[T any](options *ScanOptions[T], output *T) error {
+	if options.Filters == nil {
+		return nil
+	}
+
+	for _, filter := range options.Filters {
+		err := filter.Process(output)
+		if err != nil {
+			return fmt.Errorf("failed to filter response: %w", err)
+		}
+	}
 	return nil
 }
 
