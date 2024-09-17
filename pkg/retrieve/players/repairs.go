@@ -38,10 +38,7 @@ func (r *unusedRemover) Process(s *specializationsJson) error {
 	return nil
 }
 
-// removeBadFirstTalent removes the first class talent if the spell id is 0.
-// Occasionally, the first class talent returns with no details other than an id and rank.
-// It's easier to remove the talent than to try to repair it.
-func removeBadFirstTalent(s *specializationsJson) error {
+func removePartialTalents(s *specializationsJson) error {
 	for specIndex := range s.Specializations {
 		spec := &s.Specializations[specIndex]
 		for loadoutIndex := range spec.Loadouts {
@@ -49,9 +46,22 @@ func removeBadFirstTalent(s *specializationsJson) error {
 			if len(loadout.SelectedClassTalents) == 0 {
 				continue
 			}
-			if loadout.SelectedClassTalents[0].Tooltip.SpellTooltip.Spell.Id == 0 {
-				loadout.SelectedClassTalents = loadout.SelectedClassTalents[1:]
+
+			classTalents := make([]talentJson, 0, len(loadout.SelectedClassTalents))
+			for _, talent := range loadout.SelectedClassTalents {
+				if talent.Tooltip.SpellTooltip.Spell.Id != 0 {
+					classTalents = append(classTalents, talent)
+				}
 			}
+			loadout.SelectedClassTalents = classTalents
+
+			specTalents := make([]talentJson, 0, len(loadout.SelectedSpecTalents))
+			for _, talent := range loadout.SelectedSpecTalents {
+				if talent.Tooltip.SpellTooltip.Spell.Id != 0 {
+					specTalents = append(specTalents, talent)
+				}
+			}
+			loadout.SelectedSpecTalents = specTalents
 		}
 	}
 	return nil
@@ -60,6 +70,6 @@ func removeBadFirstTalent(s *specializationsJson) error {
 func getRepairs(config loadoutScanOptions) []scan.ResultProcessor[specializationsJson] {
 	return []scan.ResultProcessor[specializationsJson]{
 		&unusedRemover{OverrideSpec: config.OverrideSpec},
-		scan.NewResultProcessor(removeBadFirstTalent),
+		scan.NewResultProcessor(removePartialTalents),
 	}
 }

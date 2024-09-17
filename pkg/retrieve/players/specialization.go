@@ -62,7 +62,7 @@ type tooltipJson struct {
 
 type loadoutJson struct {
 	SelectedClassTalents    []talentJson `json:"selected_class_talents"`
-	SelectedSpecTalets      []talentJson `json:"selected_spec_talents"`
+	SelectedSpecTalents     []talentJson `json:"selected_spec_talents"`
 	TalentLoadoutCode       string       `json:"talent_loadout_code"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
@@ -219,8 +219,8 @@ func parseLoadout(inputJson loadoutJson) wow.Loadout {
 		classNodes[i] = parseNode(talent)
 	}
 
-	specNodes := make([]wow.LoadoutNode, len(inputJson.SelectedSpecTalets))
-	for i, talent := range inputJson.SelectedSpecTalets {
+	specNodes := make([]wow.LoadoutNode, len(inputJson.SelectedSpecTalents))
+	for i, talent := range inputJson.SelectedSpecTalents {
 		specNodes[i] = parseNode(talent)
 	}
 
