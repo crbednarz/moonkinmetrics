@@ -60,9 +60,13 @@ export function getEncodedLeaderboard(className: string, specName: string, brack
 
 function createTalentDecodeMap(nodes: TalentNode[]) {
   let talentIds = [];
+  let talentsSeen = new Set<number>();
   for (let node of nodes) {
     for (let talent of node.talents) {
-      talentIds.push(talent);
+      if (!talentsSeen.has(talent.id)) {
+        talentsSeen.add(talent.id);
+        talentIds.push(talent);
+      }
     }
   }
   return talentIds.sort((a, b) => a.id - b.id);
@@ -112,7 +116,7 @@ interface V1Leaderboard {
     version: number;
     realms: {
       name: string,
-      slug:string
+      slug: string
     }[];
   }
   entries: string[];

@@ -36,6 +36,7 @@ func TestGetTalentTree(t *testing.T) {
 		&scan.ScanOptions[talentTreeJson]{
 			Lifespan:  time.Hour * 24,
 			Repairs:   getTreeRepairs(),
+			Filters:   getTreeFilters(),
 			Validator: validator,
 		},
 	)
@@ -61,8 +62,8 @@ func TestGetTalentTree(t *testing.T) {
 		t.Errorf("expected 51 class nodes, got %d", len(tree.ClassNodes))
 	}
 
-	if len(tree.SpecNodes) != 65 {
-		t.Errorf("expected 65 spec nodes, got %d", len(tree.SpecNodes))
+	if len(tree.SpecNodes) != 43 {
+		t.Errorf("expected 43 spec nodes, got %d", len(tree.SpecNodes))
 	}
 
 	if len(tree.HeroTrees) != 3 {

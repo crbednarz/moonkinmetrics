@@ -145,6 +145,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 		Validator: validator,
 		Lifespan:  time.Hour,
 		Repairs:   getTreeRepairs(),
+		Filters:   getTreeFilters(),
 	}
 
 	scan.Scan(scanner, requests, results, &options)

@@ -131,7 +131,7 @@ func parsePvpTalent(talent *pvpTalentJson) PvpTalent {
 	return PvpTalent{
 		SpecId: talent.PlayableSpecialization.Id,
 		Talent: wow.Talent{
-			Id:   talent.Spell.Id,
+			Id:   talent.Id,
 			Name: talent.Spell.Name,
 			Spell: wow.Spell{
 				Id:   talent.Spell.Id,
