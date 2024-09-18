@@ -47,19 +47,31 @@ func ExportLeaderboardToJson(leaderboard *site.EnrichedLeaderboard) ([]byte, err
 	for _, entry := range leaderboard.Entries {
 		data := make([]byte, 0, 128)
 
-		data = append(data, byte(len(entry.Loadout.ClassNodes)+len(entry.Loadout.SpecNodes)))
+		talentCount := 0
+		data = append(data, byte(0))
 		for _, node := range entry.Loadout.ClassNodes {
-			data = append(data, byte(talentMap[node.TalentId]))
+			talentIndex, ok := talentMap[node.TalentId]
+			if !ok {
+				continue
+			}
+			talentCount++
+			data = append(data, byte(talentIndex))
 			if multiRankMap[node.TalentId] {
 				data = append(data, byte(node.Rank))
 			}
 		}
 		for _, node := range entry.Loadout.SpecNodes {
-			data = append(data, byte(talentMap[node.TalentId]))
+			talentIndex, ok := talentMap[node.TalentId]
+			if !ok {
+				continue
+			}
+			talentCount++
+			data = append(data, byte(talentIndex))
 			if multiRankMap[node.TalentId] {
 				data = append(data, byte(node.Rank))
 			}
 		}
+		data[0] = byte(talentCount)
 
 		data = append(data, byte(len(entry.Loadout.PvpTalents)))
 		for _, talent := range entry.Loadout.PvpTalents {
@@ -137,18 +149,18 @@ func createPvpTalentMap(tree *wow.TalentTree) map[int]int {
 }
 
 func createMultiRankMap(tree *wow.TalentTree) map[int]bool {
-	talentIds := make(map[int]bool, len(tree.ClassNodes)+len(tree.SpecNodes))
+	rankMap := make(map[int]bool, len(tree.ClassNodes)+len(tree.SpecNodes))
 	for _, node := range tree.ClassNodes {
 		for _, talent := range node.Talents {
-			talentIds[talent.Id] = node.MaxRank > 1
+			rankMap[talent.Id] = node.MaxRank > 1
 		}
 	}
 	for _, node := range tree.SpecNodes {
 		for _, talent := range node.Talents {
-			talentIds[talent.Id] = node.MaxRank > 1
+			rankMap[talent.Id] = node.MaxRank > 1
 		}
 	}
-	return talentIds
+	return rankMap
 }
 
 func createRealmMap(realms []realmJson) map[string]int {

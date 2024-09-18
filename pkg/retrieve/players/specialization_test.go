@@ -51,12 +51,12 @@ func TestGetSingeLoadout(t *testing.T) {
 		t.Fatalf("expected class name 'Druid', got %s", responses[0].Loadout.ClassName)
 	}
 
-	if len(responses[0].Loadout.ClassNodes) != 25 {
-		t.Errorf("expected 25 class nodes, got %d", len(responses[0].Loadout.ClassNodes))
+	if len(responses[0].Loadout.ClassNodes) != 20 {
+		t.Errorf("expected 20 class nodes, got %d", len(responses[0].Loadout.ClassNodes))
 	}
 
-	if len(responses[0].Loadout.SpecNodes) != 27 {
-		t.Errorf("expected 27 spec nodes, got %d", len(responses[0].Loadout.SpecNodes))
+	if len(responses[0].Loadout.SpecNodes) != 18 {
+		t.Errorf("expected 18 spec nodes, got %d", len(responses[0].Loadout.SpecNodes))
 	}
 
 	if len(responses[0].Loadout.PvpTalents) != 3 {

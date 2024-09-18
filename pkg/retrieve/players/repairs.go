@@ -43,9 +43,6 @@ func removePartialTalents(s *specializationsJson) error {
 		spec := &s.Specializations[specIndex]
 		for loadoutIndex := range spec.Loadouts {
 			loadout := &spec.Loadouts[loadoutIndex]
-			if len(loadout.SelectedClassTalents) == 0 {
-				continue
-			}
 
 			classTalents := make([]talentJson, 0, len(loadout.SelectedClassTalents))
 			for _, talent := range loadout.SelectedClassTalents {

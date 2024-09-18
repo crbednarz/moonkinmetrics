@@ -129,8 +129,8 @@ func TestSingleScanRepair(t *testing.T) {
 	}
 	options := ScanOptions[MockResponseObject]{
 		Validator: validator,
-		Repairs: []Repairer[MockResponseObject]{
-			NewRepair(func(obj *MockResponseObject) error {
+		Repairs: []ResultProcessor[MockResponseObject]{
+			NewResultProcessor(func(obj *MockResponseObject) error {
 				obj.Path = "/data/wow/mock/path"
 				return nil
 			}),
