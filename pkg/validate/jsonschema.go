@@ -6,11 +6,11 @@ import (
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type SchemaValidator[T any] struct {
+type JsonSchemaValidator[T any] struct {
 	schema *gojsonschema.Schema
 }
 
-func NewSchemaValidator[T any](jsonSchema string) (*SchemaValidator[T], error) {
+func NewSchemaValidator[T any](jsonSchema string) (Validator[T], error) {
 	if len(jsonSchema) == 0 {
 		return nil, fmt.Errorf("json schema cannot be empty")
 	}
@@ -20,12 +20,12 @@ func NewSchemaValidator[T any](jsonSchema string) (*SchemaValidator[T], error) {
 	if err != nil {
 		return nil, err
 	}
-	return &SchemaValidator[T]{
+	return &JsonSchemaValidator[T]{
 		schema: schema,
 	}, nil
 }
 
-func (v *SchemaValidator[T]) IsValid(object *T) error {
+func (v *JsonSchemaValidator[T]) IsValid(object *T) error {
 	documentLoader := gojsonschema.NewGoLoader(object)
 	result, err := v.schema.Validate(documentLoader)
 	if err != nil {

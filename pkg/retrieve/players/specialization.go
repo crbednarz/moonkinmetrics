@@ -12,16 +12,13 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
 
-//go:embed schema/specializations.schema.json
-var specializationsSchema string
-
 type LoadoutResponse struct {
 	Error   error
 	Loadout wow.Loadout
 }
 
 type specializationsJson struct {
-	Specializations      []specializationJson `json:"specializations"`
+	Specializations      []specializationJson `json:"specializations" validate:"nonnil,min=1"`
 	ActiveSpecialization struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
@@ -36,8 +33,8 @@ type specializationJson struct {
 		Key  keyJson `json:"key"`
 		Id   int     `json:"id"`
 	} `json:"specialization"`
-	PvpTalentSlots []pvpTalentSlotJson `json:"pvp_talent_slots"`
-	Loadouts       []loadoutJson       `json:"loadouts"`
+	PvpTalentSlots []pvpTalentSlotJson `json:"pvp_talent_slots" validate:"nonnil,min=1"`
+	Loadouts       []loadoutJson       `json:"loadouts" validate:"nonnil,min=1"`
 }
 
 type pvpTalentSlotJson struct {
@@ -61,9 +58,9 @@ type tooltipJson struct {
 }
 
 type loadoutJson struct {
-	SelectedClassTalents    []talentJson `json:"selected_class_talents"`
-	SelectedSpecTalents     []talentJson `json:"selected_spec_talents"`
-	TalentLoadoutCode       string       `json:"talent_loadout_code"`
+	SelectedClassTalents    []talentJson `json:"selected_class_talents" validate:"nonnil,min=1"`
+	SelectedSpecTalents     []talentJson `json:"selected_spec_talents" validate:"nonnil,min=1"`
+	TalentLoadoutCode       string       `json:"talent_loadout_code" validate:"nonnil,min=1"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
@@ -137,15 +134,11 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	for _, opt := range opts {
 		opt.apply(&scanOptions)
 	}
-	validator, err := validate.NewSchemaValidator[specializationsJson](specializationsSchema)
-	if err != nil {
-		return nil, fmt.Errorf("failed to setup specialization validator: %w", err)
-	}
 
 	requests := make(chan bnet.Request, len(players))
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
-		Validator: validator,
+		Validator: validate.NewTagValidator[specializationsJson](),
 		Lifespan:  time.Hour * 4,
 		Repairs:   getRepairs(scanOptions),
 	}

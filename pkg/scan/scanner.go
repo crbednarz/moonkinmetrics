@@ -1,6 +1,7 @@
 package scan
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -175,7 +176,10 @@ func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOp
 }
 
 func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error {
-	err := json.Unmarshal(body, output)
+	decoder := json.NewDecoder(bytes.NewReader(body))
+	decoder.UseNumber()
+
+	err := decoder.Decode(output)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal response: %w", err)
 	}
