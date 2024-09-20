@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fmt"
 	"log"
+	"reflect"
 	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
@@ -12,9 +13,6 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
-
-//go:embed schema/talent-tree.schema.json
-var talentTreeSchema string
 
 // GetTalentTreeIndex retrieves the full talent tree of each spec.
 // If the Battle.net API is missing a spec, fallback mechanisms will be
@@ -132,10 +130,40 @@ func attachPvpTalents(scanner *scan.Scanner, trees []wow.TalentTree) error {
 	return nil
 }
 
-func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]wow.TalentTree, error) {
-	validator, err := validate.NewSchemaValidator[talentTreeJson](talentTreeSchema)
+func getTreeValidator() (validate.Validator[talentTreeJson], error) {
+	validator := validate.NewTagValidator[talentTreeJson]()
+	err := validator.SetValidationFunc("ranks", func(v interface{}, param string) error {
+		valueType := reflect.ValueOf(v)
+		if valueType.Kind() != reflect.Slice {
+			return fmt.Errorf("expected array, got %v", valueType.Kind())
+		}
+
+		ranks, ok := v.([]rankJson)
+		if !ok {
+			return fmt.Errorf("expected rankJson, got %v", valueType.Kind())
+		}
+
+		for _, rank := range ranks {
+			hasChoiceOfTooltips := rank.ChoiceOfTooltips != nil && len(rank.ChoiceOfTooltips) > 0
+			hasTooltip := rank.Tooltip != nil
+
+			if hasChoiceOfTooltips == hasTooltip {
+				return fmt.Errorf("expected exactly one of ChoiceOfTooltips or Tooltip to be set")
+			}
+		}
+		return nil
+	})
 	if err != nil {
-		return nil, fmt.Errorf("failed to setup talent tree validator: %w", err)
+		return nil, err
+	}
+
+	return validator, nil
+}
+
+func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]wow.TalentTree, error) {
+	validator, err := getTreeValidator()
+	if err != nil {
+		return nil, err
 	}
 
 	numTrees := len(specLinks)

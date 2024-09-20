@@ -1,4 +1,4 @@
-.PHONY:
+.PHONY: testdata
 
 testdata:
 	rm -r pkg/testutils/testdata/data

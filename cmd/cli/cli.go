@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"runtime/pprof"
 	"strings"
 
 	"github.com/urfave/cli/v2"
@@ -167,13 +168,12 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 
 func main() {
 	var err error
-	/*
-		f, err := os.Create("./test")
-		if err != nil {
-			log.Fatal(err)
-		}
-		pprof.StartCPUProfile(f)
-		defer pprof.StopCPUProfile()*/
+	f, err := os.Create("./test-new-loader.pprof")
+	if err != nil {
+		log.Fatal(err)
+	}
+	pprof.StartCPUProfile(f)
+	defer pprof.StopCPUProfile()
 	app := &cli.App{
 		Name:        "moonkinmetrics",
 		Description: "Moonkin Metrics Scanning CLI",
