@@ -1,6 +1,0 @@
-## Interface: 100007
-## Title: Talent ID Finder
-## Author: github.com/crbednarz
-## Version: 1.0
-
-main.lua
