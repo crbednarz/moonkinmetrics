@@ -3,19 +3,19 @@
 This repository holds the source for [moonkinmetrics.com](https://moonkinmetrics.com), a website for exploring talent selection in World of Warcraft's rated PvP.
 
 There are two distinct pieces to the site:
-- `api-scanner` - A Python project which scrapes the Blizzard API for information about talents, pvp leaderboards, and spell icons.
-- `ui` - A Next.js front-end which can be rendered to static pages.
+- A Go service which scrapes the Blizzard API for information about talents, pvp leaderboards, and spell icons.
+- A Next.js front-end which can be rendered to static pages.
 
 ## Working with the site
 
 At a high-level, development setup consists of:
-1. Run `api-scanner/cli.py talents` to collect information about talent trees.
-2. Run `api-scanner/cli.py -r <region> ladder <bracket>` to collect leaderboard data.
+1. Run `go run cmd/cli/cli.go talents` to collect information about talent trees.
+2. Run `go run cmd/cli/cli.go ladder --region <region> --bracket <bracket>` to collect leaderboard data.
 3. Run the development server with `npm run dev` from the `ui/` directory.
 
 ### Prerequisite
 
-- Python 3.10 (venv recommended)
+- Go 1.21.1
 - Node
 - [Battle.net API key](https://develop.battle.net/)
 
@@ -23,56 +23,29 @@ At a high-level, development setup consists of:
 
 Let's look at the fastest way to get the site up and running for local development:
 
-Before starting, ensure that your environment is configured correctly.
-Both `WOW_CLIENT_ID` and `WOW_CLIENT_SECRET` should be set using your Battle.net API key [Battle.net developer portal](https://develop.battle.net/).
-
 ```sh
-export WOW_CLIENT_ID="<client id>"
-export WOW_CLIENT_SECRET="<client id>"
-```
-
-Start by cloning and entering the repository.
-
-```
+#!/bin/bash
 git clone https://github.com/crbednarz/moonkinmetrics
 cd moonkinmetrics
-```
 
-From here we'll want to setup Python so we can run the scanner. While you can do a direct `pip install`, we'll be using venv here to manage dependencies better.  
-```
-python3.10 -m venv venv
-. venv/bin/activate
-pip install -r ./api-scanner/requirements.txt
-```
+# Both `WOW_CLIENT_ID` and `WOW_CLIENT_SECRET` should be set using your Battle.net API key [Battle.net developer portal](https://develop.battle.net/).
+export WOW_CLIENT_ID="<client id>"
+export WOW_CLIENT_SECRET="<client id>"
 
-With the scanner setup out of the way, we can start scanning. However before grabbing the leaderboard, we need initial information about the talent trees themselves. This will include positions, icons, tooltips and so on.  
-```
-python api-scanner/cli.py talents
-```
+# Capture current talent trees
+go run cmd/cli/cli.go talents
 
-Now we simply grab a single bracket we're interested in. In this case, `3v3`, although `shuffle`, `2v2`, and `rgb` are all valid.
-```
-python api-scanner/cli.py -r us ladder 3v3
-python api-scanner/cli.py -r eu ladder 3v3
-```
+# Scan a brackets
+for region in us eu; do
+    go run cmd/cli/cli.go ladder --region "$region" --bracket 2v2
+    go run cmd/cli/cli.go ladder --region "$region" --bracket 3v3
+    go run cmd/cli/cli.go ladder --region "$region" --bracket rbg
+    go run cmd/cli/cli.go ladder --region "$region" --bracket shuffle
+done
 
-While we'll go into more detail below, there's a couple of important things to note here:  
-- Both `us` and `eu` region scans must be done for a bracket to work.
-- The `shuffle` bracket covers an enormous amount of data and is likely to take 1-2 hours to complete.
-- The Battle.net API has rate limiting features which make scanning all leaderboards in a row impractical. ([See "Throttling"](https://develop.battle.net/documentation/guides/getting-started))
-- Missing brackets will error when visited within the development server and cause the static build process to fail.
-
-With our data collected, we can move on to running the UI.
-
-Simply install dependencies.
-
-```
+# Run the UI
 cd ui
 npm install
-```
-
-Then run the server.
-```
 npm run dev
 ```
 
