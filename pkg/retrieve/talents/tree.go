@@ -41,7 +41,7 @@ type talentNodeJson struct {
 		Type string `json:"type"`
 		Id   int    `json:"id"`
 	} `json:"node_type"`
-	Ranks        []rankJson `json:"ranks" validate:"nonnil,min=1,ranks"`
+	Ranks        []rankJson `json:"ranks"`
 	DisplayRow   int        `json:"display_row"`
 	DisplayCol   int        `json:"display_col"`
 	RawPositionX int        `json:"raw_position_x"`
