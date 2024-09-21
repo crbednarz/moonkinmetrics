@@ -1,14 +1,13 @@
 package scan
 
 import (
-	"bytes"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"sync"
 	"time"
 
+	"github.com/bytedance/sonic"
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
@@ -176,10 +175,7 @@ func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOp
 }
 
 func buildFromJson[T any](body []byte, options *ScanOptions[T], output *T) error {
-	decoder := json.NewDecoder(bytes.NewReader(body))
-	decoder.UseNumber()
-
-	err := decoder.Decode(output)
+	err := sonic.Unmarshal(body, output)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal response: %w", err)
 	}

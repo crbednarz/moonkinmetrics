@@ -3,11 +3,47 @@ package validate
 import (
 	"fmt"
 
+	"github.com/bytedance/sonic"
+	"github.com/xeipuuv/gojsonreference"
 	"github.com/xeipuuv/gojsonschema"
 )
 
 type JsonSchemaValidator[T any] struct {
 	schema *gojsonschema.Schema
+}
+
+type jsonGoLoader struct {
+	source interface{}
+}
+
+func (l *jsonGoLoader) JsonSource() interface{} {
+	return l.source
+}
+
+func (l *jsonGoLoader) JsonReference() (gojsonreference.JsonReference, error) {
+	return gojsonreference.NewJsonReference("#")
+}
+
+func (l *jsonGoLoader) LoaderFactory() gojsonschema.JSONLoaderFactory {
+	return &gojsonschema.DefaultJSONLoaderFactory{}
+}
+
+func NewGoLoader(source interface{}) gojsonschema.JSONLoader {
+	return &jsonGoLoader{source: source}
+}
+
+func (l *jsonGoLoader) LoadJSON() (interface{}, error) {
+	jsonBytes, err := sonic.Marshal(l.JsonSource())
+	if err != nil {
+		return nil, err
+	}
+
+	var t interface{}
+	err = sonic.Unmarshal(jsonBytes, &t)
+	if err != nil {
+		return nil, err
+	}
+	return t, nil
 }
 
 func NewSchemaValidator[T any](jsonSchema string) (Validator[T], error) {
@@ -26,7 +62,7 @@ func NewSchemaValidator[T any](jsonSchema string) (Validator[T], error) {
 }
 
 func (v *JsonSchemaValidator[T]) IsValid(object *T) error {
-	documentLoader := gojsonschema.NewGoLoader(object)
+	documentLoader := NewGoLoader(object)
 	result, err := v.schema.Validate(documentLoader)
 	if err != nil {
 		return err
