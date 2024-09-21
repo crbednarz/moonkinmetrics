@@ -8,6 +8,7 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
+	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
 
 //go:embed testdata/valid-tree.json
@@ -20,7 +21,7 @@ func TestGetTalentTree(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	validator, err := getTreeValidator()
+	validator, err := validate.NewSchemaValidator[talentTreeJson](talentTreeSchema)
 	if err != nil {
 		t.Fatalf("failed to setup talent tree validator: %v", err)
 	}
