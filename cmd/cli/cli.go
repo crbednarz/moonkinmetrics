@@ -167,13 +167,6 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 }
 
 func main() {
-	var err error
-	f, err := os.Create("./test-new-loader.pprof")
-	if err != nil {
-		log.Fatal(err)
-	}
-	pprof.StartCPUProfile(f)
-	defer pprof.StopCPUProfile()
 	app := &cli.App{
 		Name:        "moonkinmetrics",
 		Description: "Moonkin Metrics Scanning CLI",
@@ -198,6 +191,31 @@ func main() {
 				Usage: "Output path",
 				Value: "ui/wow/",
 			},
+			&cli.PathFlag{
+				Name:  "perf",
+				Usage: "Enable performance profiling",
+				Value: "",
+			},
+		},
+		Before: func(c *cli.Context) error {
+			if c.String("perf") != "" {
+				f, err := os.Create(c.String("perf"))
+				if err != nil {
+					return err
+				}
+
+				err = pprof.StartCPUProfile(f)
+				if err != nil {
+					return err
+				}
+			}
+			return nil
+		},
+		After: func(c *cli.Context) error {
+			if c.String("perf") != "" {
+				pprof.StopCPUProfile()
+			}
+			return nil
 		},
 		Commands: []*cli.Command{
 			{
@@ -232,7 +250,7 @@ func main() {
 			},
 		},
 	}
-	err = app.Run(os.Args)
+	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
