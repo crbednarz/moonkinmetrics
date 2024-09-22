@@ -24,6 +24,7 @@ type bracketScanOptions struct {
 	Region    bnet.Region
 	Bracket   string
 	MinRating uint
+	Output    string
 }
 
 func runTalentScan(c *cli.Context) error {
@@ -39,7 +40,7 @@ func runTalentScan(c *cli.Context) error {
 
 	for i := range trees {
 		tree := &trees[i]
-		err = writeTalents(tree)
+		err = writeTalents(tree, c.Path("output"))
 		if err != nil {
 			return fmt.Errorf("unable to write talents to file: %w", err)
 		}
@@ -83,6 +84,7 @@ func runLadderScan(c *cli.Context) error {
 				Region:    region,
 				Bracket:   bracket,
 				MinRating: c.Uint("min-rating"),
+				Output:    c.Path("output"),
 			},
 		)
 		if err != nil {
@@ -118,10 +120,15 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 		fileName = strings.ReplaceAll(fileName, " ", "-")
 		fileName = strings.ToLower(fileName)
 
-		path := fmt.Sprintf("ui/wow/pvp/%s/%s", leaderboard.Bracket, fileName)
+		path := fmt.Sprintf("%s/pvp/%s", options.Output, leaderboard.Bracket)
 		if strings.HasPrefix(leaderboard.Bracket, "shuffle") {
-			path = fmt.Sprintf("ui/wow/pvp/shuffle/%s", fileName)
+			path = fmt.Sprintf("%s/pvp/shuffle", options.Output)
 		}
+		err = os.MkdirAll(path, 0755)
+		if err != nil {
+			return fmt.Errorf("unable to create pvp directory: %w", err)
+		}
+		path = fmt.Sprintf("%s/%s", path, fileName)
 		os.WriteFile(path, data, 0644)
 		log.Printf("Exported %s", path)
 	}
@@ -189,7 +196,7 @@ func main() {
 			&cli.PathFlag{
 				Name:  "output",
 				Usage: "Output path",
-				Value: "ui/wow/",
+				Value: "ui/wow",
 			},
 			&cli.PathFlag{
 				Name:  "perf",
@@ -198,8 +205,8 @@ func main() {
 			},
 		},
 		Before: func(c *cli.Context) error {
-			if c.String("perf") != "" {
-				f, err := os.Create(c.String("perf"))
+			if c.Path("perf") != "" {
+				f, err := os.Create(c.Path("perf"))
 				if err != nil {
 					return err
 				}
@@ -256,12 +263,12 @@ func main() {
 	}
 }
 
-func writeTalents(tree *wow.TalentTree) error {
+func writeTalents(tree *wow.TalentTree, basePath string) error {
 	serializedTalents, err := serialize.ExportTalentsToJson(tree)
 	if err != nil {
 		return fmt.Errorf("unable to serialize talents: %w", err)
 	}
-	err = os.MkdirAll("ui/wow/talents/", 0755)
+	err = os.MkdirAll(fmt.Sprintf("%s/talents/", basePath), 0755)
 	if err != nil {
 		return fmt.Errorf("unable to create talents directory: %w", err)
 	}
@@ -271,7 +278,7 @@ func writeTalents(tree *wow.TalentTree) error {
 	fileName = strings.ToLower(fileName)
 
 	err = os.WriteFile(
-		fmt.Sprintf("ui/wow/talents/%s", fileName),
+		fmt.Sprintf("%s/talents/%s", basePath, fileName),
 		serializedTalents,
 		0644,
 	)
