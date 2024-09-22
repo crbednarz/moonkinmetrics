@@ -33,7 +33,7 @@ jobs:
         run: go test -v ./...
       - name: Run scanner
         run: |
-          go run cmd/cli/cli.go --output ./wow ladder --region eu --brackets shuffle
+          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region eu --brackets shuffle
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
