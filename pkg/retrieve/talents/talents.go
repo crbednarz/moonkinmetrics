@@ -63,6 +63,7 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 		return nil, err
 	}
 
+	log.Printf("Retrieving spell media")
 	err = attachMedia(scanner, trees)
 	if err != nil {
 		return nil, err
