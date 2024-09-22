@@ -7,12 +7,8 @@ import (
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
-	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
-
-//go:embed schema/spell-media.schema.json
-var spellMediaSchema string
 
 type spellMediaJson struct {
 	Assets []assetJson `json:"assets"`
@@ -25,17 +21,12 @@ type assetJson struct {
 }
 
 func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]string, error) {
-	validator, err := validate.NewSchemaValidator[spellMediaJson](spellMediaSchema)
-	if err != nil {
-		return nil, fmt.Errorf("failed to setup spell media validator: %w", err)
-	}
-
 	talentCount := countTalents(trees)
 
 	requests := make(chan bnet.Request, talentCount)
 	results := make(chan scan.ScanResult[spellMediaJson], talentCount)
 	options := scan.ScanOptions[spellMediaJson]{
-		Validator: validator,
+		Validator: nil,
 		Lifespan:  time.Hour * 24,
 	}
 	mediaDict := make(map[int]string, talentCount)
