@@ -19,20 +19,16 @@ jobs:
     runs-on: [self-hosted, linux, x64]
     steps:
       - uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
         with:
-          python-version: '3.10'
-      - name: Install Python packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r api-scanner/requirements.txt
+          go-version: '>=1.21.1'
       - name: Run scanner
         run: |
-          python api-scanner/cli.py -r us -o ./wow talents
-          python api-scanner/cli.py -r us -o ./wow ladder 2v2
-          python api-scanner/cli.py -r us -o ./wow ladder 3v3
-          python api-scanner/cli.py -r us -o ./wow ladder rbg
+          go run cmd/cli/cli.go --output ./wow talents
+          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket 2v2
+          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket 3v3
+          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket rbg
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
