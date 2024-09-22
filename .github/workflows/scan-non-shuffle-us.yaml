@@ -34,9 +34,9 @@ jobs:
       - name: Run scanner
         run: |
           go run cmd/cli/cli.go --output ./wow talents
-          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket 2v2
-          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket 3v3
-          go run cmd/cli/cli.go --output ./wow ladder --region us --bracket rbg
+          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket 2v2
+          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket 3v3
+          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket rbg
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
