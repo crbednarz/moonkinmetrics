@@ -28,9 +28,13 @@ Let's look at the fastest way to get the site up and running for local developme
 git clone https://github.com/crbednarz/moonkinmetrics
 cd moonkinmetrics
 
-# Both `WOW_CLIENT_ID` and `WOW_CLIENT_SECRET` should be set using your Battle.net API key [Battle.net developer portal](https://develop.battle.net/).
-export WOW_CLIENT_ID="<client id>"
-export WOW_CLIENT_SECRET="<client id>"
+# Both `WOW_CLIENT_ID` and `WOW_CLIENT_SECRET` should be set using your Battle.net API key.
+# https://develop.battle.net/
+export WOW_CLIENT_ID="<client_id>"
+export WOW_CLIENT_SECRET="<client_secret>"
+
+# Install Go dependencies
+go mod download
 
 # Capture current talent trees
 go run cmd/cli/cli.go talents
