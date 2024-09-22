@@ -126,7 +126,7 @@ func (s *Sqlite) Clean() (CleanResult, error) {
 	}
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	result, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?", time.Now().Unix())
+	result, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?; VACUUM", time.Now().Unix())
 	if err != nil {
 		return CleanResult{}, err
 	}
