@@ -120,12 +120,20 @@ func (s *Sqlite) Get(request bnet.Request) (StoredResponse, error) {
 	return response, err
 }
 
-func (s *Sqlite) Clean() error {
+func (s *Sqlite) Clean() (CleanResult, error) {
 	if s.options.NoExpire {
-		return nil
+		return CleanResult{}, nil
 	}
 	s.lock.Lock()
 	defer s.lock.Unlock()
-	_, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?", time.Now().Unix())
-	return err
+	result, err := s.db.Exec("DELETE FROM ApiResponses WHERE expires < ?", time.Now().Unix())
+	if err != nil {
+		return CleanResult{}, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return CleanResult{}, err
+	}
+	return CleanResult{Deleted: rowsAffected}, nil
 }
