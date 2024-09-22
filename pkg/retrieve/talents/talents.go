@@ -110,6 +110,21 @@ func attachMedia(scanner *scan.Scanner, trees []wow.TalentTree) error {
 				return fmt.Errorf("missing media for pvp spell id: %v", spellId)
 			}
 		}
+
+		for heroTreeIndex := range trees[treeIndex].HeroTrees {
+			heroTree := &trees[treeIndex].HeroTrees[heroTreeIndex]
+			for nodeIndex := range heroTree.Nodes {
+				for talentIndex := range heroTree.Nodes[nodeIndex].Talents {
+					spellId := heroTree.Nodes[nodeIndex].Talents[talentIndex].Spell.Id
+					media, ok := mediaDict[spellId]
+					if ok {
+						heroTree.Nodes[nodeIndex].Talents[talentIndex].Icon = media
+					} else {
+						return fmt.Errorf("missing media for hero spell id: %v", spellId)
+					}
+				}
+			}
+		}
 	}
 	return nil
 }

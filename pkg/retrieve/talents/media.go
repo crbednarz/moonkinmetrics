@@ -63,6 +63,20 @@ func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]strin
 				Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
 			}
 		}
+
+		for heroTreeIndex := range tree.HeroTrees {
+			heroTree := &tree.HeroTrees[heroTreeIndex]
+			for nodeIndex := range heroTree.Nodes {
+				for talentIndex := range heroTree.Nodes[nodeIndex].Talents {
+					talent := &heroTree.Nodes[nodeIndex].Talents[talentIndex]
+					requests <- bnet.Request{
+						Region:    bnet.RegionUS,
+						Namespace: bnet.NamespaceStatic,
+						Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
+					}
+				}
+			}
+		}
 	}
 	close(requests)
 
