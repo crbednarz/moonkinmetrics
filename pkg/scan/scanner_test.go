@@ -210,6 +210,7 @@ func TestCachedScan(t *testing.T) {
 	result := <-results
 
 	requests = make(chan bnet.Request)
+	results = make(chan ScanResult[MockResponseObject])
 	Scan(scanner, requests, results, &options)
 	requests <- newMockRequest("/data/wow/mock/path")
 	close(requests)
