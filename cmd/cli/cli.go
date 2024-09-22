@@ -94,6 +94,21 @@ func runLadderScan(c *cli.Context) error {
 	return nil
 }
 
+func runClean(c *cli.Context) error {
+	storage, err := buildStorage(c)
+	if err != nil {
+		return fmt.Errorf("unable to build storage: %w", err)
+	}
+	log.Printf("Storage initialized")
+
+	result, err := storage.Clean()
+	if err != nil {
+		return fmt.Errorf("unable to clean storage: %w", err)
+	}
+	log.Printf("Storage cleaned: %d entries removed", result.Deleted)
+	return nil
+}
+
 func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketScanOptions) error {
 	leaderboard, err := seasons.GetCurrentLeaderboard(scanner, options.Bracket, options.Region)
 	if err != nil {
@@ -163,19 +178,24 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 		log.Printf("Authentication complete")
 	}
 
+	storage, err := buildStorage(c)
+	if err != nil {
+		return nil, fmt.Errorf("unable to build storage: %w", err)
+	}
+	log.Printf("Storage initialized")
+	return scan.NewScanner(storage, client), nil
+}
+
+func buildStorage(c *cli.Context) (storage.ResponseStorage, error) {
+	offline := c.Bool("offline")
 	err := os.MkdirAll(c.Path("cache-dir"), 0755)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create pvp directory: %w", err)
 	}
 	storagePath := fmt.Sprintf("%s/wow.db", c.Path("cache-dir"))
-	storage, err := storage.NewSqlite(storagePath, storage.SqliteOptions{
+	return storage.NewSqlite(storagePath, storage.SqliteOptions{
 		NoExpire: offline,
 	})
-	if err != nil {
-		return nil, err
-	}
-	log.Printf("Storage initialized")
-	return scan.NewScanner(storage, client), nil
 }
 
 func main() {
@@ -235,6 +255,11 @@ func main() {
 			return nil
 		},
 		Commands: []*cli.Command{
+			{
+				Name:   "clean",
+				Usage:  "Clean up expired cache entries",
+				Action: runClean,
+			},
 			{
 				Name:   "talents",
 				Usage:  "Export talents to JSON",
