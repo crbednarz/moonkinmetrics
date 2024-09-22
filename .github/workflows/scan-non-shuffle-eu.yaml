@@ -17,6 +17,8 @@ env:
 jobs:
   scan-bnet-api:
     runs-on: [self-hosted, linux, x64]
+    env:
+      CGO_ENABLED: 1
     steps:
       - uses: actions/checkout@v2
       - name: Setup Go
