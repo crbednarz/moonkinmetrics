@@ -19,9 +19,49 @@ func getTreeFilters() []scan.ResultProcessor[talentTreeJson] {
 		scan.NewResultProcessor(func(treeJson *talentTreeJson) error {
 			treeJson.ClassTalentNodes = removeHeroTalents(treeJson.ClassTalentNodes, treeJson)
 			treeJson.SpecTalentNodes = removeHeroTalents(treeJson.SpecTalentNodes, treeJson)
+
+			treeJson.ClassTalentNodes = removeOrphanedTalents(treeJson.ClassTalentNodes)
+			treeJson.SpecTalentNodes = removeOrphanedTalents(treeJson.SpecTalentNodes)
 			return nil
 		}),
 	}
+}
+
+func removeOrphanedTalents(talentNodes []talentNodeJson) []talentNodeJson {
+	nodeIds := make(map[int]*talentNodeJson, len(talentNodes))
+	isValid := make(map[int]bool)
+	for nodeIndex := range talentNodes {
+		node := &talentNodes[nodeIndex]
+		nodeIds[node.Id] = node
+	}
+
+	var filterNodes func(node *talentNodeJson) bool
+	filterNodes = func(node *talentNodeJson) bool {
+		if _, ok := isValid[node.Id]; ok {
+			return isValid[node.Id]
+		}
+
+		for _, lockedById := range node.LockedBy {
+			if parentNode, ok := nodeIds[lockedById]; ok {
+				valid := filterNodes(parentNode)
+				isValid[node.Id] = valid
+				return valid
+			}
+		}
+
+		valid := len(node.LockedBy) == 0
+		isValid[node.Id] = valid
+		return valid
+	}
+
+	filteredNodes := make([]talentNodeJson, 0, len(talentNodes))
+	for nodeIndex := range talentNodes {
+		node := &talentNodes[nodeIndex]
+		if filterNodes(node) {
+			filteredNodes = append(filteredNodes, *node)
+		}
+	}
+	return filteredNodes
 }
 
 func removeHeroTalents(talentNodes []talentNodeJson, tree *talentTreeJson) []talentNodeJson {
