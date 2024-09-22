@@ -163,7 +163,12 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 		log.Printf("Authentication complete")
 	}
 
-	storage, err := storage.NewSqlite("wow.db", storage.SqliteOptions{
+	err := os.MkdirAll(c.Path("cache-dir"), 0755)
+	if err != nil {
+		return nil, fmt.Errorf("unable to create pvp directory: %w", err)
+	}
+	storagePath := fmt.Sprintf("%s/wow.db", c.Path("cache-dir"))
+	storage, err := storage.NewSqlite(storagePath, storage.SqliteOptions{
 		NoExpire: offline,
 	})
 	if err != nil {
@@ -197,6 +202,11 @@ func main() {
 				Name:  "output",
 				Usage: "Output path",
 				Value: "ui/wow",
+			},
+			&cli.PathFlag{
+				Name:  "cache-dir",
+				Usage: "Cache directory",
+				Value: ".",
 			},
 			&cli.PathFlag{
 				Name:  "perf",
