@@ -1,9 +1,9 @@
-name: Scan for US solo shuffle data
+name: Scan for US blitz data
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 16 * * *'
 
 permissions:
   id-token: write
@@ -34,7 +34,7 @@ jobs:
       - name: Run scanner
         run: |
           go run cmd/cli/cli.go --cache-dir /tmp clean
-          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket shuffle
+          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket blitz 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
