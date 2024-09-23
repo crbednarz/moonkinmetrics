@@ -1,24 +1,47 @@
 {
   "class_name": "Druid",
   "spec_name": "Balance",
-  "class_id": 0,
-  "spec_id": 0,
   "class_nodes": [
     {
+      "unlocks": [],
+      "locked_by": [],
+      "node_type": "ACTIVE",
+      "talents": [
+        {
+          "name": "Talent",
+          "icon": "Icon",
+          "spell": {
+            "name": "Spell",
+            "ranks": [
+              {
+                "description": "Rank 1",
+                "cast_time": "",
+                "power_cost": "",
+                "range": "",
+                "cooldown": ""
+              }
+            ],
+            "id": 0
+          },
+          "id": 0
+        }
+      ],
+      "max_rank": 1,
       "id": 0,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -28,28 +51,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 1,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -59,28 +82,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 2,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -90,28 +113,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 3,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -121,28 +144,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 4,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -152,28 +175,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 5,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -183,28 +206,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 6,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -214,28 +237,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 7,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -245,28 +268,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 8,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -276,28 +299,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 9,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -307,28 +330,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 10,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -338,28 +361,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 11,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -369,28 +392,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 12,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -400,28 +423,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 13,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -431,28 +454,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 14,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -462,28 +485,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 15,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -493,28 +516,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 16,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -524,28 +547,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 17,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -555,28 +578,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 18,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -586,28 +609,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 19,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -617,28 +640,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 20,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -648,28 +671,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 21,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -679,28 +702,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 22,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -710,28 +733,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 23,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -741,28 +764,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 24,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -772,28 +795,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 25,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -803,28 +826,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 26,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -834,28 +857,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 27,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -865,28 +888,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 28,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -896,61 +919,61 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 29,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
-      "unlocks": [],
-      "locked_by": [],
-      "talents": [
-        {
-          "id": 0,
-          "name": "Talent",
-          "icon": "Icon",
-          "spell": {
-            "id": 0,
-            "name": "Spell",
-            "ranks": [
-              {
-                "description": "Rank 1",
-                "cast_time": "",
-                "power_cost": "",
-                "range": "",
-                "cooldown": ""
-              }
-            ]
-          }
-        }
-      ],
-      "max_rank": 1,
-      "node_type": "ACTIVE"
+      "col": 0
     }
   ],
   "spec_nodes": [
     {
+      "unlocks": [],
+      "locked_by": [],
+      "node_type": "ACTIVE",
+      "talents": [
+        {
+          "name": "Talent",
+          "icon": "Icon",
+          "spell": {
+            "name": "Spell",
+            "ranks": [
+              {
+                "description": "Rank 1",
+                "cast_time": "",
+                "power_cost": "",
+                "range": "",
+                "cooldown": ""
+              }
+            ],
+            "id": 0
+          },
+          "id": 0
+        }
+      ],
+      "max_rank": 1,
       "id": 0,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -960,28 +983,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 1,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -991,28 +1014,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 2,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1022,28 +1045,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 3,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1053,28 +1076,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 4,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1084,28 +1107,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 5,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1115,28 +1138,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 6,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1146,28 +1169,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 7,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1177,28 +1200,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 8,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1208,28 +1231,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 9,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1239,28 +1262,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 10,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1270,28 +1293,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 11,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1301,28 +1324,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 12,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1332,28 +1355,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 13,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1363,28 +1386,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 14,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1394,28 +1417,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 15,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1425,28 +1448,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 16,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1456,28 +1479,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 17,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1487,28 +1510,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 18,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1518,28 +1541,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 19,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1549,28 +1572,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 20,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1580,28 +1603,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 21,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1611,28 +1634,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 22,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1642,28 +1665,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 23,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1673,28 +1696,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 24,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1704,28 +1727,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 25,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1735,28 +1758,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 26,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1766,28 +1789,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 27,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1797,28 +1820,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 28,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1828,28 +1851,28 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 29,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
+      "col": 0
+    },
+    {
       "unlocks": [],
       "locked_by": [],
+      "node_type": "ACTIVE",
       "talents": [
         {
-          "id": 0,
           "name": "Talent",
           "icon": "Icon",
           "spell": {
-            "id": 0,
             "name": "Spell",
             "ranks": [
               {
@@ -1859,44 +1882,22 @@
                 "range": "",
                 "cooldown": ""
               }
-            ]
-          }
+            ],
+            "id": 0
+          },
+          "id": 0
         }
       ],
       "max_rank": 1,
-      "node_type": "ACTIVE"
-    },
-    {
       "id": 30,
       "x": 0,
       "y": 0,
       "row": 0,
-      "col": 0,
-      "unlocks": [],
-      "locked_by": [],
-      "talents": [
-        {
-          "id": 0,
-          "name": "Talent",
-          "icon": "Icon",
-          "spell": {
-            "id": 0,
-            "name": "Spell",
-            "ranks": [
-              {
-                "description": "Rank 1",
-                "cast_time": "",
-                "power_cost": "",
-                "range": "",
-                "cooldown": ""
-              }
-            ]
-          }
-        }
-      ],
-      "max_rank": 1,
-      "node_type": "ACTIVE"
+      "col": 0
     }
   ],
-  "pvp_talents": []
+  "pvp_talents": [],
+  "hero_trees": [],
+  "class_id": 0,
+  "spec_id": 0
 }
