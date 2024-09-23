@@ -64,13 +64,13 @@ func runLadderScan(c *cli.Context) error {
 
 	bracketArg := c.String("bracket")
 	brackets := []string{bracketArg}
-	if bracketArg == "shuffle" {
+	if bracketArg == "shuffle" || bracketArg == "blitz" {
 		brackets = make([]string, 0, len(wow.SpecByClass)*3)
 		for class, specs := range wow.SpecByClass {
 			classSlug := strings.ReplaceAll(class, " ", "")
 			for _, spec := range specs {
 				specSlug := strings.ReplaceAll(spec, " ", "")
-				slug := strings.ToLower(fmt.Sprintf("shuffle-%s-%s", classSlug, specSlug))
+				slug := strings.ToLower(fmt.Sprintf("%s-%s-%s", bracketArg, classSlug, specSlug))
 				brackets = append(brackets, slug)
 			}
 		}
@@ -138,6 +138,9 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 		path := fmt.Sprintf("%s/pvp/%s", options.Output, leaderboard.Bracket)
 		if strings.HasPrefix(leaderboard.Bracket, "shuffle") {
 			path = fmt.Sprintf("%s/pvp/shuffle", options.Output)
+		}
+		if strings.HasPrefix(leaderboard.Bracket, "blitz") {
+			path = fmt.Sprintf("%s/pvp/blitz", options.Output)
 		}
 		err = os.MkdirAll(path, 0755)
 		if err != nil {

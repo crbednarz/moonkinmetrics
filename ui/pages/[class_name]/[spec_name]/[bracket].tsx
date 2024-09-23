@@ -72,10 +72,11 @@ export default function Bracket({
   const classParam = router.query['class_name'];
   const specParam = router.query['spec_name'];
   const brackets = [
-    { value: 'Shuffle', label: 'Solo Shuffle' },
+    { value: 'Shuffle', label: 'Solo' },
     { value: '3v3', label: '3v3' },
     { value: '2v2', label: '2v2' },
     { value: 'RBG', label: 'RBG' },
+    { value: 'Blitz', label: 'Blitz' },
   ];
 
   return (
@@ -127,7 +128,7 @@ export default function Bracket({
             </Flex>
           </Flex>
           <div className={classes.nav}>
-              <SiteNavbar/>
+            <SiteNavbar />
           </div>
           <div className={classes.content}>
             <TalentTreeExplorer
@@ -143,8 +144,8 @@ export default function Bracket({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    let paths = ['RBG', '3v3', '2v2', 'Shuffle'].map(bracket => (
-      CLASS_SPECS.map(classSpec => ({
+  let paths = ['RBG', '3v3', '2v2', 'Shuffle', 'Blitz'].map(bracket => (
+    CLASS_SPECS.map(classSpec => ({
       params: {
         class_name: classSpec.className.replace(' ', '-'),
         spec_name: classSpec.specName.replace(' ', '-'),

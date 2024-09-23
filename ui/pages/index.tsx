@@ -1,8 +1,8 @@
 import { filterRatedLoadouts, LoadoutFilter } from "@/lib/loadout-filter";
 import { getTalentTree, TalentNode, TalentTree } from "@/lib/talents";
 import { Container, Stack, useMantineTheme, Text, Box, createStyles, rem, Flex, getStylesRef, Title, Divider, Button } from "@mantine/core";
-import { GetStaticProps} from "next";
-import { useState} from "react";
+import { GetStaticProps } from "next";
+import { useState } from "react";
 import { Faction, Leaderboard, RatedLoadout } from "@/lib/pvp";
 import Layout from "@/components/layout/layout";
 import FilteringNodeGroup from "@/components/tree/filtering-node-group";
@@ -177,7 +177,7 @@ export default function Talents({
     loadouts: demo2Loadouts,
     title: "Click talents to filter usage information",
     text: ("Left clicking on a talent will cycle through filters, limiting which players' loadouts are used based on talent selection.\n" +
-           "Right clicking will clear any filters."),
+      "Right clicking will clear any filters."),
   }];
 
   return (
@@ -188,11 +188,11 @@ export default function Talents({
       </Head>
       <Container p="xl" size={theme.breakpoints.lg}>
         <Stack justify="center" align="center" spacing="xl">
-          <Title size="3em" align="center" style={{fontFamily: "'Gabriela', serif"}}>Moonkin Metrics</Title>
+          <Title size="3em" align="center" style={{ fontFamily: "'Gabriela', serif" }}>Moonkin Metrics</Title>
           <Text size="lg" color="dimmed" className={classes.siteDescription}>
             Explore talent usage of the World of Warcraft PVP leaderboards.<br>
             </br>
-            Supports 2v2, 3v3, Solo Shuffle, and Rated Battlegrounds.
+            Supports 2v2, 3v3, Solo Shuffle, Blitz, and Rated Battlegrounds.
           </Text>
           <Link href="/talents" passHref legacyBehavior>
             <Button
@@ -213,7 +213,7 @@ export default function Talents({
               text={guide.text}
             />
           ))}
-          <Flex className={classes.card} style={{justifyContent: 'center'}}>
+          <Flex className={classes.card} style={{ justifyContent: 'center' }}>
             <Box className={classes.cardDescription}>
               <Title order={2} size="2em" fw={500} mt="md" align="center">
                 Explore and filter by rating
@@ -346,10 +346,10 @@ interface SampleTalentDescription {
 
 function createSampleData(tree: TalentTree, talents: SampleTalentDescription[]) {
   const loadouts = new Array(100).fill({}).map<RatedLoadout>((_, i) => ({
-      talents: {},
-      pvpTalents: [],
-      rating: 1800 + Math.round((99 - i)*(99 - i) / 15),
-      region: (i % 2) == 0 ? 'eu' : 'us',
+    talents: {},
+    pvpTalents: [],
+    rating: 1800 + Math.round((99 - i) * (99 - i) / 15),
+    region: (i % 2) == 0 ? 'eu' : 'us',
   }));
 
   const nodes = new Array<TalentNode>();
