@@ -37,6 +37,7 @@ type TalentNode struct {
 
 type HeroTree struct {
 	Name  string
+	Icon  string
 	Nodes []TalentNode
 	Id    int
 }

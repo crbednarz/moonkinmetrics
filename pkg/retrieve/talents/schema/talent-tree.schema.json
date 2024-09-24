@@ -1,7 +1,13 @@
 {
   "type": "object",
   "required": [
-    "class_talent_nodes"
+    "class_talent_nodes",
+    "spec_talent_nodes",
+    "id",
+    "name",
+    "playable_class",
+    "playable_specialization",
+    "hero_talent_trees"
   ],
   "properties": {
     "id": {
@@ -12,10 +18,10 @@
       "type": "string"
     },
     "playable_class": {
-      "$ref": "#/$defs/playble"
+      "$ref": "#/$defs/playable"
     },
     "playable_specialization": {
-      "$ref": "#/$defs/playble"
+      "$ref": "#/$defs/playable"
     },
     "class_talent_nodes": {
       "type": "array",
@@ -27,6 +33,12 @@
       "type": "array",
       "items": {
         "$ref": "#/$defs/class_talent_node"
+      }
+    },
+    "hero_talent_trees": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hero_tree"
       }
     }
   },
@@ -42,7 +54,53 @@
         }
       }
     },
-    "playble": {
+    "hero_tree": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "media",
+        "hero_talent_nodes",
+        "playable_class",
+        "playable_specializations"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string"
+        },
+        "media": {
+          "type": "object",
+          "required": [
+            "key"
+          ],
+          "properties": {
+            "key": {
+              "$ref": "#/$defs/key"
+            }
+          }
+        },
+        "hero_talent_nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/class_talent_node"
+          }
+        },
+        "playable_class": {
+          "$ref": "#/$defs/playable"
+        },
+        "playable_specializations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/playable"
+          }
+        }
+      }
+    },
+    "playable": {
       "type": "object",
       "required": [
         "id",

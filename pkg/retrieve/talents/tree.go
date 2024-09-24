@@ -9,7 +9,8 @@ import (
 var errKnownBadNode = errors.New("talent node is known to be bad")
 
 type talentTreeJson struct {
-	Id            int `json:"id"`
+	Id            int    `json:"id"`
+	Name          string `json:"name"`
 	PlayableClass struct {
 		Id   int    `json:"id"`
 		Name string `json:"name"`
@@ -24,13 +25,23 @@ type talentTreeJson struct {
 }
 
 type heroTreeJson struct {
-	Id    int    `json:"id"`
 	Name  string `json:"name"`
 	Media struct {
-		Id  int     `json:"id"`
 		Key keyJson `json:"key"`
+		Id  int     `json:"id"`
 	} `json:"media"`
-	TalentNodes []talentNodeJson `json:"hero_talent_nodes"`
+	TalentNodes   []talentNodeJson `json:"hero_talent_nodes"`
+	Id            int              `json:"id"`
+	PlayableClass struct {
+		Id   int     `json:"id"`
+		Name string  `json:"name"`
+		Key  keyJson `json:"key"`
+	} `json:"playable_class"`
+	PlayableSpecializations []struct {
+		Id   int     `json:"id"`
+		Name string  `json:"name"`
+		Key  keyJson `json:"key"`
+	} `json:"playable_specializations"`
 }
 
 type talentNodeJson struct {
@@ -131,6 +142,7 @@ func parseHeroTree(heroTreeJson heroTreeJson) (wow.HeroTree, error) {
 	return wow.HeroTree{
 		Id:    heroTreeJson.Id,
 		Name:  heroTreeJson.Name,
+		Icon:  heroTreeJson.Media.Key.Href,
 		Nodes: nodes,
 	}, nil
 }
