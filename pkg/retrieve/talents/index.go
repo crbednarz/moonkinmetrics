@@ -65,7 +65,7 @@ func GetTalentTreeIndex(scanner *scan.Scanner) (*TalentTreeIndex, error) {
 		},
 		&scan.ScanOptions[treeIndexJson]{
 			Validator: validator,
-			Lifespan:  time.Hour * 24,
+			Lifespan:  time.Hour * 18,
 		},
 	)
 

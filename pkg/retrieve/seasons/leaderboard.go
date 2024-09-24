@@ -51,7 +51,7 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region bnet.Re
 		},
 		&scan.ScanOptions[leaderboardJson]{
 			Validator: validator,
-			Lifespan:  time.Hour,
+			Lifespan:  time.Hour * 18,
 		},
 	)
 

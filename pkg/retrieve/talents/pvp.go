@@ -77,7 +77,7 @@ func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
 		},
 		&scan.ScanOptions[pvpTalentsIndexJson]{
 			Validator: validator,
-			Lifespan:  time.Hour * 24,
+			Lifespan:  time.Hour * 18,
 		},
 	)
 
@@ -99,7 +99,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	results := make(chan scan.ScanResult[pvpTalentJson], numTalents)
 	options := scan.ScanOptions[pvpTalentJson]{
 		Validator: validator,
-		Lifespan:  time.Hour * 24,
+		Lifespan:  time.Hour * 18,
 	}
 
 	scan.Scan(scanner, requests, results, &options)

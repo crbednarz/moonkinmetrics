@@ -139,7 +139,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validate.NewTagValidator[specializationsJson](),
-		Lifespan:  time.Hour * 4,
+		Lifespan:  time.Hour * 18,
 		Repairs:   getRepairs(scanOptions),
 	}
 
