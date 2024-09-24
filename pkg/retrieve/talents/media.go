@@ -27,7 +27,7 @@ func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]strin
 	results := make(chan scan.ScanResult[spellMediaJson], talentCount)
 	options := scan.ScanOptions[spellMediaJson]{
 		Validator: nil,
-		Lifespan:  time.Hour * 24,
+		Lifespan:  time.Hour * 18,
 	}
 	mediaDict := make(map[int]string, talentCount)
 	scan.Scan(scanner, requests, results, &options)

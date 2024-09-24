@@ -62,7 +62,7 @@ func GetSeasonsIndex(scanner *scan.Scanner, region bnet.Region) (SeasonsIndex, e
 		},
 		&scan.ScanOptions[seasonsIndexJson]{
 			Validator: validator,
-			Lifespan:  time.Hour,
+			Lifespan:  time.Hour * 18,
 		},
 	)
 	if result.Error != nil {

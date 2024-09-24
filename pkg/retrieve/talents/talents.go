@@ -159,7 +159,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	results := make(chan scan.ScanResult[talentTreeJson], numTrees)
 	options := scan.ScanOptions[talentTreeJson]{
 		Validator: validator,
-		Lifespan:  time.Hour,
+		Lifespan:  time.Hour * 18,
 		Repairs:   getTreeRepairs(),
 		Filters:   getTreeFilters(),
 	}

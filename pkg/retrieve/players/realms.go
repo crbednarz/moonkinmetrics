@@ -30,7 +30,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 	results := make(chan scan.ScanResult[realmJson], len(realmLinks))
 	options := scan.ScanOptions[realmJson]{
 		Validator: validator,
-		Lifespan:  time.Hour * 4,
+		Lifespan:  time.Hour * 18,
 		Repairs:   nil,
 	}
 

@@ -116,7 +116,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 	results := make(chan scan.ScanResult[talentJson], len(talentIds))
 	options := scan.ScanOptions[talentJson]{
 		Validator: validator,
-		Lifespan:  time.Hour,
+		Lifespan:  time.Hour * 18,
 	}
 
 	scan.Scan(scanner, requests, results, &options)
