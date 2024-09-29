@@ -9,19 +9,19 @@ import (
 var errKnownBadNode = errors.New("talent node is known to be bad")
 
 type talentTreeJson struct {
-	Id            int    `json:"id"`
 	Name          string `json:"name"`
 	PlayableClass struct {
-		Id   int    `json:"id"`
 		Name string `json:"name"`
+		Id   int    `json:"id"`
 	} `json:"playable_class"`
 	PlayableSpecialization struct {
-		Id   int    `json:"id"`
 		Name string `json:"name"`
+		Id   int    `json:"id"`
 	} `json:"playable_specialization"`
 	ClassTalentNodes []talentNodeJson `json:"class_talent_nodes"`
 	SpecTalentNodes  []talentNodeJson `json:"spec_talent_nodes"`
 	HeroTalentTrees  []heroTreeJson   `json:"hero_talent_trees"`
+	Id               int              `json:"id"`
 }
 
 type heroTreeJson struct {
@@ -31,21 +31,20 @@ type heroTreeJson struct {
 		Id  int     `json:"id"`
 	} `json:"media"`
 	TalentNodes   []talentNodeJson `json:"hero_talent_nodes"`
-	Id            int              `json:"id"`
 	PlayableClass struct {
-		Id   int     `json:"id"`
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"playable_class"`
 	PlayableSpecializations []struct {
-		Id   int     `json:"id"`
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
+		Id   int     `json:"id"`
 	} `json:"playable_specializations"`
+	Id int `json:"id"`
 }
 
 type talentNodeJson struct {
-	Id       int   `json:"id"`
 	Unlocks  []int `json:"unlocks"`
 	LockedBy []int `json:"locked_by"`
 	NodeType struct {
@@ -57,34 +56,35 @@ type talentNodeJson struct {
 	DisplayCol   int        `json:"display_col"`
 	RawPositionX int        `json:"raw_position_x"`
 	RawPositionY int        `json:"raw_position_y"`
+	Id           int        `json:"id"`
 }
 
 type rankJson struct {
-	Rank             int           `json:"rank"`
 	Tooltip          *tooltipJson  `json:"tooltip,omitempty"`
 	ChoiceOfTooltips []tooltipJson `json:"choice_of_tooltips,omitempty"`
+	Rank             int           `json:"rank"`
 }
 
 type tooltipJson struct {
-	Talent struct {
+	SpellTooltip spellTooltipJson `json:"spell_tooltip"`
+	Talent       struct {
 		Key  keyJson `json:"key"`
 		Name string  `json:"name"`
 		Id   int     `json:"id"`
 	} `json:"talent"`
-	SpellTooltip spellTooltipJson `json:"spell_tooltip"`
 }
 
 type spellTooltipJson struct {
-	Spell struct {
-		Key  keyJson `json:"key"`
-		Name string  `json:"name"`
-		Id   int     `json:"id"`
-	} `json:"spell"`
 	Description string `json:"description"`
 	CastTime    string `json:"cast_time"`
 	PowerCost   string `json:"power_cost"`
 	Range       string `json:"range"`
 	Cooldown    string `json:"cooldown"`
+	Spell       struct {
+		Key  keyJson `json:"key"`
+		Name string  `json:"name"`
+		Id   int     `json:"id"`
+	} `json:"spell"`
 }
 
 type keyJson struct {
