@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/site"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -18,8 +19,9 @@ type classSpec struct {
 }
 
 type leaderboardJson struct {
-	Entries  []string     `json:"entries"`
-	Encoding metadataJson `json:"encoding"`
+	Entries   []string     `json:"entries"`
+	Encoding  metadataJson `json:"encoding"`
+	Timestamp int64        `json:"timestamp"`
 }
 
 type metadataJson struct {
@@ -102,7 +104,8 @@ func ExportLeaderboardToJson(leaderboard *site.EnrichedLeaderboard) ([]byte, err
 			Version: EncodingVersion,
 			Realms:  realms,
 		},
-		Entries: entries,
+		Entries:   entries,
+		Timestamp: time.Now().UnixMilli(),
 	}
 
 	return json.MarshalIndent(output, "", "  ")
