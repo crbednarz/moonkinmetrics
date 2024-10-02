@@ -151,7 +151,6 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 		log.Printf("Exported %s", path)
 	}
 
-	log.Printf("Exported talents to json")
 	return nil
 }
 
