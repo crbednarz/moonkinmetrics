@@ -34,52 +34,77 @@ type realmJson struct {
 	Name string `json:"name"`
 }
 
+type talentSerializer struct {
+	talentMap    map[int]int
+	pvpTalentMap map[int]int
+	multiRankMap map[int]bool
+}
+
+func NewTalentSerializer(tree *wow.TalentTree) *talentSerializer {
+	talentMap := createTalentMap(tree)
+	pvpTalentMap := createPvpTalentMap(tree)
+	multiRankMap := createMultiRankMap(tree)
+	return &talentSerializer{talentMap, pvpTalentMap, multiRankMap}
+}
+
+func (s *talentSerializer) Serialize(loadout *wow.Loadout) []byte {
+	data := make([]byte, 0, 128)
+	talentCount := 0
+	data = append(data, byte(0))
+	for _, node := range loadout.ClassNodes {
+		talentIndex, ok := s.talentMap[node.TalentId]
+		if !ok {
+			continue
+		}
+		talentCount++
+		data = append(data, byte(talentIndex))
+		if s.multiRankMap[node.TalentId] {
+			data = append(data, byte(node.Rank))
+		}
+	}
+	for _, node := range loadout.SpecNodes {
+		talentIndex, ok := s.talentMap[node.TalentId]
+		if !ok {
+			continue
+		}
+		talentCount++
+		data = append(data, byte(talentIndex))
+		if s.multiRankMap[node.TalentId] {
+			data = append(data, byte(node.Rank))
+		}
+	}
+	for _, node := range loadout.HeroNodes {
+		talentIndex, ok := s.talentMap[node.TalentId]
+		if !ok {
+			continue
+		}
+		talentCount++
+		data = append(data, byte(talentIndex))
+	}
+
+	data[0] = byte(talentCount)
+
+	data = append(data, byte(len(loadout.PvpTalents)))
+	for _, talent := range loadout.PvpTalents {
+		data = append(data, byte(s.pvpTalentMap[talent.Id]))
+	}
+	return data
+}
+
 func ExportLeaderboardToJson(leaderboard *site.EnrichedLeaderboard) ([]byte, error) {
 	realms := make([]realmJson, 0, len(leaderboard.RealmMap))
 	for slug, realm := range leaderboard.RealmMap {
 		realms = append(realms, realmJson{slug, realm.Name})
 	}
 
-	talentMap := createTalentMap(leaderboard.Tree)
-	pvpTalentMap := createPvpTalentMap(leaderboard.Tree)
-	multiRankMap := createMultiRankMap(leaderboard.Tree)
 	realmMap := createRealmMap(realms)
+	talentSerializer := NewTalentSerializer(leaderboard.Tree)
 
 	entries := make([]string, 0, len(leaderboard.Entries))
 	for _, entry := range leaderboard.Entries {
 		data := make([]byte, 0, 128)
 
-		talentCount := 0
-		data = append(data, byte(0))
-		for _, node := range entry.Loadout.ClassNodes {
-			talentIndex, ok := talentMap[node.TalentId]
-			if !ok {
-				continue
-			}
-			talentCount++
-			data = append(data, byte(talentIndex))
-			if multiRankMap[node.TalentId] {
-				data = append(data, byte(node.Rank))
-			}
-		}
-		for _, node := range entry.Loadout.SpecNodes {
-			talentIndex, ok := talentMap[node.TalentId]
-			if !ok {
-				continue
-			}
-			talentCount++
-			data = append(data, byte(talentIndex))
-			if multiRankMap[node.TalentId] {
-				data = append(data, byte(node.Rank))
-			}
-		}
-		data[0] = byte(talentCount)
-
-		data = append(data, byte(len(entry.Loadout.PvpTalents)))
-		for _, talent := range entry.Loadout.PvpTalents {
-			data = append(data, byte(pvpTalentMap[talent.Id]))
-		}
-
+		data = append(data, talentSerializer.Serialize(entry.Loadout)...)
 		rating := entry.Rating
 		data = append(data, byte(rating&0xFF))
 		data = append(data, byte((rating>>8)&0xFF))
@@ -130,6 +155,18 @@ func createTalentMap(tree *wow.TalentTree) map[int]int {
 			}
 		}
 	}
+
+	for _, heroTree := range tree.HeroTrees {
+		for _, node := range heroTree.Nodes {
+			for _, talent := range node.Talents {
+				if _, ok := idsSeen[talent.Id]; !ok {
+					talentIds = append(talentIds, talent.Id)
+					idsSeen[talent.Id] = true
+				}
+			}
+		}
+	}
+
 	talentMap := make(map[int]int, len(talentIds))
 	slices.Sort(talentIds)
 	for i, id := range talentIds {

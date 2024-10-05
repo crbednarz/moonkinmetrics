@@ -5,6 +5,7 @@ type Loadout struct {
 	SpecName   string
 	ClassNodes []LoadoutNode
 	SpecNodes  []LoadoutNode
+	HeroNodes  []LoadoutNode
 	PvpTalents []LoadoutPvpTalent
 	Code       string
 }

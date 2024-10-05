@@ -60,11 +60,16 @@ type tooltipJson struct {
 type loadoutJson struct {
 	SelectedClassTalents    []talentJson `json:"selected_class_talents" validate:"nonnil,min=1"`
 	SelectedSpecTalents     []talentJson `json:"selected_spec_talents" validate:"nonnil,min=1"`
+	SelectedHeroTalents     []talentJson `json:"selected_hero_talents" validate:"nonnil,min=1"`
 	TalentLoadoutCode       string       `json:"talent_loadout_code" validate:"nonnil,min=1"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
 	} `json:"selected_class_talent_tree"`
+	SelectedHeroTalentTree struct {
+		Name string  `json:"name"`
+		Key  keyJson `json:"key"`
+	} `json:"selected_hero_talent_tree"`
 	SelectedSpecTalentTree struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
@@ -217,11 +222,17 @@ func parseLoadout(inputJson loadoutJson) wow.Loadout {
 		specNodes[i] = parseNode(talent)
 	}
 
+	heroNodes := make([]wow.LoadoutNode, len(inputJson.SelectedHeroTalents))
+	for i, talent := range inputJson.SelectedHeroTalents {
+		heroNodes[i] = parseNode(talent)
+	}
+
 	return wow.Loadout{
 		ClassName:  inputJson.SelectedClassTalentTree.Name,
 		SpecName:   inputJson.SelectedSpecTalentTree.Name,
 		ClassNodes: classNodes,
 		SpecNodes:  specNodes,
+		HeroNodes:  heroNodes,
 		PvpTalents: nil,
 		Code:       inputJson.TalentLoadoutCode,
 	}
