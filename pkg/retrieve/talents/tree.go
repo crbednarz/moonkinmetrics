@@ -110,13 +110,23 @@ func parseTalentTreeJson(treeJson *talentTreeJson) (wow.TalentTree, error) {
 		specNodes[i] = node
 	}
 
-	heroTrees := make([]wow.HeroTree, len(treeJson.HeroTalentTrees))
-	for i, treeJson := range treeJson.HeroTalentTrees {
-		tree, err := parseHeroTree(treeJson)
+	heroTrees := make([]wow.HeroTree, 0, len(treeJson.HeroTalentTrees))
+	for _, heroTreeJson := range treeJson.HeroTalentTrees {
+		isMatch := false
+		for _, spec := range heroTreeJson.PlayableSpecializations {
+			if spec.Id == treeJson.PlayableSpecialization.Id {
+				isMatch = true
+				break
+			}
+		}
+		if !isMatch {
+			continue
+		}
+		tree, err := parseHeroTree(heroTreeJson)
 		if err != nil && !errors.Is(err, errKnownBadNode) {
 			return wow.TalentTree{}, err
 		}
-		heroTrees[i] = tree
+		heroTrees = append(heroTrees, tree)
 	}
 
 	return wow.TalentTree{

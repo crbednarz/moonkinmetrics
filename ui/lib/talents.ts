@@ -36,6 +36,13 @@ export interface TalentNode {
   nodeType: string;
 }
 
+export interface HeroTree {
+  id: number;
+  name: string;
+  size: Dimensions;
+  nodes: TalentNode[];
+}
+
 export interface TalentTree {
   className: string;
   classId: number;
@@ -45,6 +52,7 @@ export interface TalentTree {
   specSize: Dimensions;
   classNodes: TalentNode[];
   specNodes: TalentNode[];
+  heroTrees: HeroTree[];
   pvpTalents: Talent[];
 }
 
@@ -89,16 +97,27 @@ export function getTalentTree(className: string, specName: string) {
   const fileContents = fs.readFileSync(filePath, 'utf8');
   const jsonTree = JSON.parse(fileContents);
 
-
   let classNodes = jsonTree['class_nodes'].map(deserializeNode);
   let specNodes = jsonTree['spec_nodes'].map(deserializeNode);
-
 
   const iconSize = 56;
   const iconPadding = 23;
   const paddedIconSize = iconSize + iconPadding * 2;
   const iconRows = 10;
   const iconCols = 9;
+
+  let heroTrees = jsonTree['hero_trees'].map((jsonHeroTree: any) => {
+    return {
+      id: jsonHeroTree['id'],
+      name: jsonHeroTree['name'],
+      nodes: jsonHeroTree['nodes'].map(deserializeNode),
+      size: {
+        width: paddedIconSize * 3,
+        height: paddedIconSize * 5,
+      },
+    };
+  });
+
 
   // Tree width has an additional 0.5 columns to accommodate choice talents expanding.
   const width = paddedIconSize * (iconCols + 0.5);
@@ -112,8 +131,9 @@ export function getTalentTree(className: string, specName: string) {
     classNodes,
     specNodes,
     pvpTalents: jsonTree['pvp_talents'].map(deserializeTalent),
-    classSize: {width, height},
-    specSize: {width, height},
+    heroTrees,
+    classSize: { width, height },
+    specSize: { width, height },
   }
 
   return tree;

@@ -124,7 +124,11 @@ interface V1Leaderboard {
 }
 
 function decodeLoadoutsV1(encodedLeaderboard: any, tree: TalentTree, region: string): RatedLoadout[] {
-  const talentMap = createTalentDecodeMap([...tree.classNodes, ...tree.specNodes]);
+  let allNodes = [...tree.classNodes, ...tree.specNodes];
+  for (let heroTree of tree.heroTrees) {
+    allNodes = [...allNodes, ...heroTree.nodes];
+  }
+  const talentMap = createTalentDecodeMap(allNodes);
   const pvpTalentMap = createPvpTalentDecodeMap(tree.pvpTalents);
   const v1Leaderboard = encodedLeaderboard as V1Leaderboard;
 
