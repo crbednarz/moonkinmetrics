@@ -1,10 +1,6 @@
-import { useState } from 'react';
 import { TalentNode } from '@/lib/talents';
 import { RatedLoadout } from '@/lib/pvp';
-import { LoadoutFilter, TalentFilterMode, nextTalentFilterMode, talentFilter } from '@/lib/loadout-filter';
-import FilteringTalentNode from './filtering-talent-node';
-import SubTreeConnectionSvg from './sub-tree-connection-svg'; 
-import { getNodeUsage } from '@/lib/usage';
+import { LoadoutFilter } from '@/lib/loadout-filter';
 import { createStyles } from '@mantine/core';
 import FilteringNodeGroup from './filtering-node-group';
 

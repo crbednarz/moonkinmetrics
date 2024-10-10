@@ -64,7 +64,7 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 	}
 
 	log.Printf("Retrieving spell media")
-	err = attachMedia(scanner, trees)
+	err = attachSpellMedia(scanner, trees)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 	return trees, nil
 }
 
-func attachMedia(scanner *scan.Scanner, trees []wow.TalentTree) error {
+func attachSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) error {
 	mediaDict, err := GetSpellMedia(scanner, trees)
 	if err != nil {
 		return fmt.Errorf("failed to retrieve spell media: %v", err)
