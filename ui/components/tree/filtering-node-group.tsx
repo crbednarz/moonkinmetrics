@@ -26,7 +26,7 @@ interface NodeFilter {
   filter: LoadoutFilter,
 }
 
-type NodeFilterMap = {[key: number]: NodeFilter}
+type NodeFilterMap = { [key: number]: NodeFilter }
 
 interface FilteringNodeGroupProps {
   nodes: TalentNode[];
@@ -51,7 +51,7 @@ export default function FilteringNodeGroupView({
   }
 
   function talentFilterDeselected(node: TalentNode) {
-    const nextNodeFilters = {...nodeFilters};
+    const nextNodeFilters = { ...nodeFilters };
     delete nextNodeFilters[node.id];
     onFiltersChange(Object.values<NodeFilter>(nextNodeFilters).map(f => f.filter));
     setNodeFilters(nextNodeFilters);
@@ -80,7 +80,7 @@ export default function FilteringNodeGroupView({
       x = x * width;
       y = y * height;
 
-      return {x, y}
+      return { x, y }
     });
   }, [nodes, bounds, width, height]);
 
@@ -135,7 +135,7 @@ export default function FilteringNodeGroupView({
 }
 
 function cycleFilter(nodeFilters: NodeFilterMap, node: TalentNode, talentId: number) {
-  let nextNodeFilters = {...nodeFilters};
+  let nextNodeFilters = { ...nodeFilters };
 
   const previousMode = nodeFilters[node.id]?.mode ?? TalentFilterMode.None;
   const nextMode = nextTalentFilterMode(previousMode, node.maxRank);

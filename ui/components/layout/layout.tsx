@@ -106,9 +106,9 @@ export default function Layout({
 
 
   const notice = (
-    <Alert title="NOTICE" color="primary.9" style={{textAlign: 'left'}} maw={400}>
-      Moonkin Metrics is currently in beta.
-      If you have any feedback, please reach out on{' '}
+    <Alert color="primary.9" style={{ textAlign: 'left' }} maw={400}>
+      Moonkin Metrics is proud to be open-source!<br />
+      If you have any feedback, please reach out on:<br />
       <Anchor color="blue" href="https://github.com/crbednarz/moonkinmetrics/discussions" target="_blank">GitHub</Anchor>{' '}or{' '}
       <Anchor color="blue" href="https://discord.gg/t7XmtxwNNF" target="_blank">Discord</Anchor>.
     </Alert>
@@ -127,7 +127,7 @@ export default function Layout({
                 alt="Moonkin Metrics"
                 fit="contain"
               />
-              <Title style={{fontFamily: "'Gabriela', serif"}}>
+              <Title style={{ fontFamily: "'Gabriela', serif" }}>
                 Moonkin
                 <Space h="xs" />
                 Metrics
@@ -136,38 +136,38 @@ export default function Layout({
           </Link>
           <Box>
 
-          {headerLinks.map(link => (
-            <Link
-              key={link.title}
-              href={link.href}
-              target={link.target}
-              passHref
-              legacyBehavior
-            >
-              <Button
+            {headerLinks.map(link => (
+              <Link
                 key={link.title}
-                color="primary"
-                variant="subtle"
-                size="xl"
-                component="a"
-                rightIcon={link.rightIcon}
-                sx={theme => ({
-                  height: 50,
-                  fontFamily: "'Gabriela', serif",
-                  [`@media (max-width: ${theme.breakpoints.xs})`]: {
-                    padding: '0 12px',
-                    margin: '4px 0',
-                    height: 34,
-                  },
-                })}
+                href={link.href}
+                target={link.target}
+                passHref
+                legacyBehavior
               >
-                {link.title}
-              </Button>
-            </Link>
-          ))}
+                <Button
+                  key={link.title}
+                  color="primary"
+                  variant="subtle"
+                  size="xl"
+                  component="a"
+                  rightIcon={link.rightIcon}
+                  sx={theme => ({
+                    height: 50,
+                    fontFamily: "'Gabriela', serif",
+                    [`@media (max-width: ${theme.breakpoints.xs})`]: {
+                      padding: '0 12px',
+                      margin: '4px 0',
+                      height: 34,
+                    },
+                  })}
+                >
+                  {link.title}
+                </Button>
+              </Link>
+            ))}
           </Box>
         </Flex>
-        <MediaQuery smallerThan="xs" styles={{display: 'none'}}>
+        <MediaQuery smallerThan="xs" styles={{ display: 'none' }}>
           {notice}
         </MediaQuery>
       </Flex>
@@ -188,7 +188,7 @@ export default function Layout({
       })}
       header={header}
       footer={
-        <MediaQuery largerThan="xs" styles={{display: 'none'}}>
+        <MediaQuery largerThan="xs" styles={{ display: 'none' }}>
           <Center>
             <Box m={10} display="inline-block">
               {notice}

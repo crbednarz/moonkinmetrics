@@ -8,6 +8,7 @@ import FilteringSubTree from './filtering-sub-tree';
 import FilteringPvpTalentList from '@/components/pvp-talents/filtering-pvp-talent-list';
 import InfoPanel from '../info-panel/info-panel';
 import FilteringStatsPanel from '@/components/info-panel/filtering-stats-panel';
+import HeroTreeView from './hero-tree-view';
 
 const useStyles = createStyles(theme => ({
   wrapper: {
@@ -28,6 +29,7 @@ const useStyles = createStyles(theme => ({
     },
   },
   trees: {
+    display: 'flex',
     maxWidth: '100%',
     gap: 10,
     [`@media (max-width: ${theme.breakpoints.xl})`]: {
@@ -82,6 +84,11 @@ const useStyles = createStyles(theme => ({
       fontSize: rem(28),
       fontWeight: 700,
     },
+  },
+  extraNodeGroups: {
+    display: 'flex',
+    gap: '10px',
+    justifyContent: 'center',
   }
 }));
 
@@ -94,9 +101,22 @@ export default function TalentTreeExplorer({
   tree,
   leaderboard,
 }: TalentTreeExplorerProps) {
-  let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
-  let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
-  let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
+
+  let resetFuncs: (() => void)[] = [];
+  const talentFilters: LoadoutFilter[] = [];
+
+  function registerTalentFilters() {
+    let [filters, setFilters] = useState<LoadoutFilter[]>([]);
+    talentFilters.push(...filters);
+    resetFuncs.push(() => { setFilters([]); });
+    return setFilters;
+  }
+  let setClassFilters = registerTalentFilters();
+  let setSpecFilters = registerTalentFilters();
+  let setPvpFilters = registerTalentFilters();
+  let setHeroFilters = [
+    ...tree.heroTrees.map(() => registerTalentFilters())
+  ];
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
   let [resetCount, setResetCount] = useState<number>(0);
   let [statsOpened, setStatsOpened] = useState(false);
@@ -115,11 +135,6 @@ export default function TalentTreeExplorer({
     Math.ceil(maxRating / 25) * 25,
   ]);
 
-  const talentFilters = [
-    ...classFilters,
-    ...specFilters,
-    ...pvpFilters,
-  ];
   let allTalentsLoadouts = leaderboard.entries;
   if (ratingFilter) {
     allTalentsLoadouts = filterRatedLoadouts(allTalentsLoadouts, [ratingFilter]);
@@ -128,9 +143,9 @@ export default function TalentTreeExplorer({
   const { classes } = useStyles();
 
   function reset() {
-    setClassFilters([]);
-    setSpecFilters([]);
-    setPvpFilters([]);
+    for (let resetFunc of resetFuncs) {
+      resetFunc();
+    }
     setRatingFilter(undefined);
     setRatingFilterRange([
       Math.floor(minRating / 25) * 25,
@@ -148,7 +163,7 @@ export default function TalentTreeExplorer({
     });
   }
 
-  const infoPanelContents = 
+  const infoPanelContents =
     leaderboard.entries.length > 0 ? (
       <FilteringStatsPanel
         leaderboard={leaderboard}
@@ -167,13 +182,13 @@ export default function TalentTreeExplorer({
         }}
         onReset={reset}
       />
-  ) : (
-    <Box className={classes.disabledStatsPanel}>
-      <Text component="span">
-        No players found above 1000 rating.
-      </Text>
-    </Box>
-  );
+    ) : (
+      <Box className={classes.disabledStatsPanel}>
+        <Text component="span">
+          No players found above 1000 rating.
+        </Text>
+      </Box>
+    );
 
   return (
     <div className={classes.wrapper}>
@@ -194,11 +209,11 @@ export default function TalentTreeExplorer({
             mx={5}
             size="md"
             p="8px 12px"
-            leftIcon={( 
+            leftIcon={(
               <IconChartHistogram size="2rem" />
             )}
           >
-            {statsOpened?"Hide Stats":"Show Stats"}
+            {statsOpened ? "Hide Stats" : "Show Stats"}
           </Button>
         </Menu.Target>
         <Menu.Dropdown className={classes.infoMenu}>
@@ -209,7 +224,7 @@ export default function TalentTreeExplorer({
         <FilteringSubTree
           key={`class-${resetCount}`}
           nodes={tree.classNodes}
-          onFiltersChange={filters => setClassFilters(filters) }
+          onFiltersChange={filters => setClassFilters(filters)}
           loadouts={loadouts}
           width={tree.classSize.width}
           height={tree.classSize.height}
@@ -218,21 +233,32 @@ export default function TalentTreeExplorer({
         <FilteringSubTree
           key={`spec-${resetCount}`}
           nodes={tree.specNodes}
-          onFiltersChange={filters => setSpecFilters(filters) }
+          onFiltersChange={filters => setSpecFilters(filters)}
           loadouts={loadouts}
           width={tree.specSize.width}
           height={tree.specSize.height}
           highlight={highlightedLoadout}
         />
       </Flex>
-      <div className={classes.pvpTalents}>
-        <FilteringPvpTalentList
-          key={`pvp-${resetCount}`}
-          talents={tree.pvpTalents}
-          onFiltersChange={filters => setPvpFilters(filters) }
+      <div className={classes.extraNodeGroups}>
+        <HeroTreeView
+          key={`hero-${resetCount}`}
+          leftTree={tree.heroTrees[0]}
+          rightTree={tree.heroTrees[1]}
+          onLeftFiltersChange={filters => setHeroFilters[0](filters)}
+          onRightFiltersChange={filters => setHeroFilters[1](filters)}
           loadouts={loadouts}
           highlight={highlightedLoadout}
         />
+        <div className={classes.pvpTalents}>
+          <FilteringPvpTalentList
+            key={`pvp-${resetCount}`}
+            talents={tree.pvpTalents}
+            onFiltersChange={filters => setPvpFilters(filters)}
+            loadouts={loadouts}
+            highlight={highlightedLoadout}
+          />
+        </div>
       </div>
     </div>
   );
