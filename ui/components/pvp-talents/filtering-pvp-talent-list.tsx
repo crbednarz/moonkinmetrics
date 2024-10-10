@@ -28,6 +28,10 @@ const useStyles = createStyles(theme => ({
     gap: '5px',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      maxWidth: '100%',
+      margin: '0 auto',
+    },
   },
   label: {
     fontSize: '1.4em',

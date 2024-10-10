@@ -89,6 +89,13 @@ const useStyles = createStyles(theme => ({
     display: 'flex',
     gap: '10px',
     justifyContent: 'center',
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      flexDirection: 'column',
+      alignContent: 'center',
+      '& > *': {
+        overflow: 'auto',
+      }
+    }
   }
 }));
 
@@ -101,22 +108,11 @@ export default function TalentTreeExplorer({
   tree,
   leaderboard,
 }: TalentTreeExplorerProps) {
-
-  let resetFuncs: (() => void)[] = [];
-  const talentFilters: LoadoutFilter[] = [];
-
-  function registerTalentFilters() {
-    let [filters, setFilters] = useState<LoadoutFilter[]>([]);
-    talentFilters.push(...filters);
-    resetFuncs.push(() => { setFilters([]); });
-    return setFilters;
-  }
-  let setClassFilters = registerTalentFilters();
-  let setSpecFilters = registerTalentFilters();
-  let setPvpFilters = registerTalentFilters();
-  let setHeroFilters = [
-    ...tree.heroTrees.map(() => registerTalentFilters())
-  ];
+  let [classFilters, setClassFilters] = useState<LoadoutFilter[]>([]);
+  let [specFilters, setSpecFilters] = useState<LoadoutFilter[]>([]);
+  let [leftHeroTreeFilters, setLeftHeroTreeFilters] = useState<LoadoutFilter[]>([]);
+  let [rightHeroTreeFilters, setRightHeroTreeFilters] = useState<LoadoutFilter[]>([]);
+  let [pvpFilters, setPvpFilters] = useState<LoadoutFilter[]>([]);
   let [ratingFilter, setRatingFilter] = useState<LoadoutFilter>();
   let [resetCount, setResetCount] = useState<number>(0);
   let [statsOpened, setStatsOpened] = useState(false);
@@ -135,6 +131,13 @@ export default function TalentTreeExplorer({
     Math.ceil(maxRating / 25) * 25,
   ]);
 
+  const talentFilters = [
+    ...classFilters,
+    ...specFilters,
+    ...pvpFilters,
+    ...leftHeroTreeFilters,
+    ...rightHeroTreeFilters,
+  ];
   let allTalentsLoadouts = leaderboard.entries;
   if (ratingFilter) {
     allTalentsLoadouts = filterRatedLoadouts(allTalentsLoadouts, [ratingFilter]);
@@ -143,9 +146,11 @@ export default function TalentTreeExplorer({
   const { classes } = useStyles();
 
   function reset() {
-    for (let resetFunc of resetFuncs) {
-      resetFunc();
-    }
+    setClassFilters([]);
+    setSpecFilters([]);
+    setPvpFilters([]);
+    setLeftHeroTreeFilters([]);
+    setRightHeroTreeFilters([]);
     setRatingFilter(undefined);
     setRatingFilterRange([
       Math.floor(minRating / 25) * 25,
@@ -245,8 +250,8 @@ export default function TalentTreeExplorer({
           key={`hero-${resetCount}`}
           leftTree={tree.heroTrees[0]}
           rightTree={tree.heroTrees[1]}
-          onLeftFiltersChange={filters => setHeroFilters[0](filters)}
-          onRightFiltersChange={filters => setHeroFilters[1](filters)}
+          onLeftFiltersChange={filters => setLeftHeroTreeFilters(filters)}
+          onRightFiltersChange={filters => setRightHeroTreeFilters(filters)}
           loadouts={loadouts}
           highlight={highlightedLoadout}
         />

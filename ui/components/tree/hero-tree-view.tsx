@@ -11,6 +11,9 @@ const useStyles = createStyles(theme => ({
   wrapper: {
     position: 'relative',
     textAlign: 'center',
+    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+      display: 'grid',
+    }
   },
   tree: {
     position: 'relative',
@@ -113,7 +116,6 @@ export default function HeroTreeView({
         <div
           className={classes.innerTree}
           style={{
-            minWidth: leftTree.size.width,
             height: rightTree.size.height
           }}
         >
