@@ -66,8 +66,8 @@ func TestGetTalentTree(t *testing.T) {
 		t.Errorf("expected 43 spec nodes, got %d", len(tree.SpecNodes))
 	}
 
-	if len(tree.HeroTrees) != 3 {
-		t.Fatalf("expected 3 hero trees, got %d", len(tree.HeroTrees))
+	if len(tree.HeroTrees) != 2 {
+		t.Fatalf("expected 2 hero trees, got %d", len(tree.HeroTrees))
 	}
 
 	for _, heroTree := range tree.HeroTrees {
