@@ -62,12 +62,10 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 		return nil, err
 	}
 
-	scanner := NewScanner(
+	return NewScanner(
 		cache,
 		client,
 	)
-
-	return scanner, nil
 }
 
 func newMockRequest(path string) bnet.Request {
