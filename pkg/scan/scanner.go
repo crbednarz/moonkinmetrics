@@ -1,6 +1,7 @@
 package scan
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"log"
@@ -11,6 +12,7 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
+	"go.opentelemetry.io/otel/metric"
 )
 
 // ErrNotFound is for requests that 404'd from Blizzard's API.
@@ -19,9 +21,10 @@ var ErrNotFound = errors.New("not found")
 
 // Scanner is a utility for querying and caching responses from the Blizzard API.
 type Scanner struct {
-	storage    storage.ResponseStorage
-	client     *bnet.Client
-	maxRetries int
+	storage     storage.ResponseStorage
+	client      *bnet.Client
+	scanMetrics scanMetrics
+	maxRetries  int
 }
 
 type ScanResult[T any] struct {
@@ -49,27 +52,84 @@ type cacheResponse struct {
 	Index int64
 }
 
-// NewScanner creates a new scanner instance.
-func NewScanner(storage storage.ResponseStorage, client *bnet.Client) *Scanner {
-	return &Scanner{
-		storage:    storage,
-		client:     client,
-		maxRetries: 10,
+type scannerOptions struct {
+	metricsOption
+	maxRetriesOption
+}
+
+type ScannerOption interface {
+	apply(*scannerOptions)
+}
+
+type maxRetriesOption struct {
+	maxRetries int
+}
+
+func (m maxRetriesOption) apply(o *scannerOptions) {
+	o.maxRetriesOption = m
+}
+
+func WithMaxRetries(retries int) ScannerOption {
+	return maxRetriesOption{
+		maxRetries: retries,
 	}
 }
 
+type metricsOption struct {
+	meter metric.Meter
+}
+
+func (m metricsOption) apply(o *scannerOptions) {
+	o.metricsOption = m
+}
+
+func WithMetrics(meter metric.Meter) ScannerOption {
+	return metricsOption{
+		meter: meter,
+	}
+}
+
+// NewScanner creates a new scanner instance.
+func NewScanner(storage storage.ResponseStorage, client *bnet.Client, opts ...ScannerOption) (*Scanner, error) {
+	options := scannerOptions{
+		maxRetriesOption: maxRetriesOption{10},
+	}
+	for _, opt := range opts {
+		opt.apply(&options)
+	}
+
+	scanMetrics := newEmptyScanMetrics()
+	if options.meter != nil {
+		metrics, err := newScanMetrics(options.meter)
+		if err != nil {
+			return nil, err
+		}
+		scanMetrics = metrics
+	}
+
+	return &Scanner{
+		storage:     storage,
+		client:      client,
+		maxRetries:  options.maxRetries,
+		scanMetrics: scanMetrics,
+	}, nil
+}
+
 func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- ScanResult[T], options *ScanOptions[T]) {
+	ctx := context.TODO()
 	apiRequests := make(chan indexedRequest, cap(requests))
 	workerCount := min(max(1, cap(requests)), 100)
 	var wg sync.WaitGroup
 	for i := 0; i < workerCount; i++ {
 		wg.Add(1)
-		go apiScanWorker(scanner, apiRequests, results, options, &wg)
+		go apiScanWorker(ctx, scanner, apiRequests, results, options, &wg)
 	}
 
 	go func() {
 		var index int64 = 0
 		for apiRequest := range requests {
+			scanner.scanMetrics.CountRequest(ctx)
+
 			request := indexedRequest{
 				ApiRequest: apiRequest,
 				Index:      index,
@@ -80,7 +140,7 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 			}
 			index++
 
-			result.Error = buildFromCache(scanner, request.ApiRequest, options, &result.Response)
+			result.Error = buildFromCache(ctx, scanner, request.ApiRequest, options, &result.Response)
 
 			if result.Error == nil {
 				results <- result
@@ -95,34 +155,37 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 	}()
 }
 
-func apiScanWorker[T any](scanner *Scanner, requests <-chan indexedRequest, results chan<- ScanResult[T], options *ScanOptions[T], wg *sync.WaitGroup) {
+func apiScanWorker[T any](ctx context.Context, scanner *Scanner, requests <-chan indexedRequest, results chan<- ScanResult[T], options *ScanOptions[T], wg *sync.WaitGroup) {
 	for request := range requests {
 		result := ScanResult[T]{
 			ApiRequest: request.ApiRequest,
 			Index:      request.Index,
 		}
-		result.Error = buildFromApi(scanner, request.ApiRequest, options, &result.Response)
+		result.Error = buildFromApi(ctx, scanner, request.ApiRequest, options, &result.Response)
 		results <- result
 	}
 	wg.Done()
 }
 
 func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T]) ScanResult[T] {
+	ctx := context.TODO()
+
 	result := ScanResult[T]{
 		ApiRequest: request,
 		Index:      0,
 	}
+	scanner.scanMetrics.CountRequest(ctx)
 
-	err := buildFromCache(scanner, request, options, &result.Response)
+	err := buildFromCache(ctx, scanner, request, options, &result.Response)
 	if err == nil {
 		return result
 	}
 
-	result.Error = buildFromApi(scanner, request, options, &result.Response)
+	result.Error = buildFromApi(ctx, scanner, request, options, &result.Response)
 	return result
 }
 
-func buildFromCache[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
+func buildFromCache[T any](ctx context.Context, scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
 	cachedResponse, err := scanner.getCached(request)
 	if err != nil {
 		return err
@@ -134,11 +197,14 @@ func buildFromCache[T any](scanner *Scanner, request bnet.Request, options *Scan
 		var emptyObject T
 		*output = emptyObject
 		log.Printf("Error building from cached response: %v", err)
+	} else {
+		scanner.scanMetrics.CountCacheHit(ctx)
+		scanner.scanMetrics.CountSuccess(ctx)
 	}
 	return err
 }
 
-func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
+func buildFromApi[T any](ctx context.Context, scanner *Scanner, request bnet.Request, options *ScanOptions[T], output *T) error {
 	var lastError error
 	for i := 0; i < scanner.maxRetries; i++ {
 		lastError = nil
@@ -147,14 +213,17 @@ func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOp
 			lastError = fmt.Errorf("failed to retrieve response for %s: %w", request.Path, err)
 			continue
 		}
+		scanner.scanMetrics.CountApiHit(ctx, apiResponse.Attempts)
 
 		if apiResponse.StatusCode == 404 {
 			// 404 errors typically don't resolve over multiple requests, so we can break here.
+			scanner.scanMetrics.CountApiError(ctx)
 			return ErrNotFound
 		}
 
 		if apiResponse.StatusCode >= 300 {
 			lastError = fmt.Errorf("failed to retrieve response for %s: %d", request.Path, apiResponse.StatusCode)
+			scanner.scanMetrics.CountApiError(ctx)
 			continue
 		}
 
@@ -168,6 +237,7 @@ func buildFromApi[T any](scanner *Scanner, request bnet.Request, options *ScanOp
 			// While we can technically continue here, a storage failure is important enough to fail the whole request.
 			return fmt.Errorf("failed to store response for %s: %w", request, err)
 		} else {
+			scanner.scanMetrics.CountSuccess(ctx)
 			return nil
 		}
 	}

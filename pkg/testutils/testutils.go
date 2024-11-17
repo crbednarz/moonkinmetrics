@@ -50,7 +50,7 @@ func NewMockScanner(callback MockClientCallback) (*scan.Scanner, error) {
 	return scan.NewScanner(
 		cache,
 		client,
-	), nil
+	)
 }
 
 func NewSingleResourceMockScanner(path string, body string) (*scan.Scanner, error) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/observe"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
@@ -18,6 +20,8 @@ import (
 	"github.com/crbednarz/moonkinmetrics/pkg/site"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/metric"
 )
 
 type bracketScanOptions struct {
@@ -185,7 +189,17 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 		return nil, fmt.Errorf("unable to build storage: %w", err)
 	}
 	log.Printf("Storage initialized")
-	return scan.NewScanner(storage, client), nil
+
+	var meter metric.Meter
+	if c.String("collector") != "" {
+		meter = otel.Meter("moonkinmetrics.com/scan")
+	}
+
+	return scan.NewScanner(
+		storage,
+		client,
+		scan.WithMetrics(meter),
+	)
 }
 
 func buildStorage(c *cli.Context) (storage.ResponseStorage, error) {
@@ -201,6 +215,18 @@ func buildStorage(c *cli.Context) (storage.ResponseStorage, error) {
 }
 
 func main() {
+	ctx := context.Background()
+	destructors := make([]func(context.Context) error, 0)
+	defer func() {
+		log.Printf("Running cleanup")
+		for _, d := range destructors {
+			err := d(ctx)
+			if err != nil {
+				log.Printf("Failed to cleanup: %v", err)
+			}
+		}
+	}()
+
 	app := &cli.App{
 		Name:        "moonkinmetrics",
 		Description: "Moonkin Metrics Scanning CLI",
@@ -235,6 +261,11 @@ func main() {
 				Usage: "Enable performance profiling",
 				Value: "",
 			},
+			&cli.StringFlag{
+				Name:  "collector",
+				Usage: "URL of the OpenTelemetry collector",
+				Value: "",
+			},
 		},
 		Before: func(c *cli.Context) error {
 			if c.Path("perf") != "" {
@@ -247,6 +278,14 @@ func main() {
 				if err != nil {
 					return err
 				}
+			}
+			if c.String("collector") != "" {
+				shutdown, err := observe.InitObservability(c.String("collector"), ctx)
+				if err != nil {
+					return fmt.Errorf("failed to initialize observability: %w", err)
+				}
+				log.Printf("Observability initialized for collector: %s", c.String("collector"))
+				destructors = append(destructors, shutdown)
 			}
 			return nil
 		},

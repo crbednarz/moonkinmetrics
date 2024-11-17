@@ -201,5 +201,6 @@ next-env.d.ts
 ui/wow
 /tmp/
 *.db
+*.db-journal
 
 .vscode/

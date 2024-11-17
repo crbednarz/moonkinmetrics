@@ -29,9 +29,8 @@ type Client struct {
 }
 
 type clientOptions struct {
-	ClientId     string
-	ClientSecret string
-	UseLimiter   bool
+	bnetCredentialsOption
+	limiterOption
 }
 
 type ClientOption interface {
@@ -41,7 +40,7 @@ type ClientOption interface {
 type limiterOption bool
 
 func (l limiterOption) apply(o *clientOptions) {
-	o.UseLimiter = bool(l)
+	o.limiterOption = limiterOption(l)
 }
 
 func WithLimiter(l bool) ClientOption {
@@ -54,8 +53,7 @@ type bnetCredentialsOption struct {
 }
 
 func (b bnetCredentialsOption) apply(o *clientOptions) {
-	o.ClientId = b.clientId
-	o.ClientSecret = b.clientSecret
+	o.bnetCredentialsOption = b
 }
 
 func WithCredentials(clientId, clientSecret string) ClientOption {
@@ -67,22 +65,22 @@ func WithCredentials(clientId, clientSecret string) ClientOption {
 
 func NewClient(client HttpClient, opts ...ClientOption) *Client {
 	options := clientOptions{
-		UseLimiter: true,
+		limiterOption: limiterOption(true),
 	}
 	for _, opt := range opts {
 		opt.apply(&options)
 	}
 
 	limiter := rate.NewLimiter(rate.Every(time.Second/100), 10)
-	if !options.UseLimiter {
+	if !options.limiterOption {
 		limiter = nil
 	}
 
 	return &Client{
 		httpClient:   client,
 		limiter:      limiter,
-		clientId:     options.ClientId,
-		clientSecret: options.ClientSecret,
+		clientId:     options.clientId,
+		clientSecret: options.clientSecret,
 	}
 }
 
@@ -93,9 +91,10 @@ func (c *Client) Get(request Request) (*Response, error) {
 	}
 
 	var response *http.Response
+	attempts := 0
 
 	for {
-		ctx := context.Background()
+		ctx := context.TODO()
 		if c.limiter != nil {
 			err = c.limiter.Wait(ctx)
 			if err != nil {
@@ -104,6 +103,7 @@ func (c *Client) Get(request Request) (*Response, error) {
 		}
 
 		response, err = c.httpClient.Do(httpRequest)
+		attempts++
 		if err != nil {
 			return nil, err
 		}
@@ -129,6 +129,7 @@ func (c *Client) Get(request Request) (*Response, error) {
 		Body:       body,
 		Request:    &request,
 		StatusCode: response.StatusCode,
+		Attempts:   attempts,
 	}, err
 }
 

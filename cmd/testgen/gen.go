@@ -38,7 +38,10 @@ func main() {
 		panic(err)
 	}
 	log.Printf("Storage initialized")
-	scanner := scan.NewScanner(storage, client)
+	scanner, err := scan.NewScanner(storage, client)
+	if err != nil {
+		panic(err)
+	}
 
 	err = downloadTalentResponses(client, scanner)
 	if err != nil {
