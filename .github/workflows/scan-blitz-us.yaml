@@ -16,7 +16,7 @@ env:
 
 jobs:
   scan-bnet-api:
-    runs-on: [gha-k8s-runner, linux, x64]
+    runs-on: [gha-k8s-runner]
     env:
       CGO_ENABLED: 1
     steps:
@@ -36,10 +36,12 @@ jobs:
           go run cmd/cli/cli.go --cache-dir clean
           go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow ladder --region us --bracket blitz 
       - name: Configure AWS credentials
+        if: github.ref == 'refs/heads/master'
         uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-region: 'us-east-1'
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
       - name: Upload WoW data
+        if: github.ref == 'refs/heads/master'
         run: |
           aws s3 sync ./wow/ ${{ env.AWS_WOW_DATA_OBJECT }}
