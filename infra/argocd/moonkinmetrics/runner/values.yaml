@@ -7,7 +7,7 @@ template:
   spec:
     containers:
       - name: runner
-        image: ghcr.io/actions/actions-runner:latest
+        image: ghcr.io/crbednarz/moonkinmetrics-runner:monitoring
         command: ["/home/runner/run.sh"]
         env:
           - name: NODE_IP
