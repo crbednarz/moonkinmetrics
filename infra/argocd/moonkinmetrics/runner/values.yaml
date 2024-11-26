@@ -17,5 +17,5 @@ template:
 
 
 controllerServiceAccount:
-  namespace: arc-system
+  namespace: arc-systems
   name: gha-runner-controller-gha-rs-controller
