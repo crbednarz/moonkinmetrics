@@ -3,7 +3,7 @@ kind: Kustomization
 helmCharts:
   - name: gha-runner-scale-set
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
-    namespace: arc-systems
+    namespace: moonkinmetrics
     releaseName: gha-runner
     version: 0.9.3
     valuesFile: values.yaml
