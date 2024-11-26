@@ -16,7 +16,7 @@ env:
 
 jobs:
   scan-bnet-api:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: [gha-k8s-runner, linux, x64]
     env:
       CGO_ENABLED: 1
     steps:
@@ -34,10 +34,10 @@ jobs:
       - name: Run scanner
         run: |
           go run cmd/cli/cli.go --cache-dir /tmp clean
-          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow talents
-          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket 2v2
-          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket 3v3
-          go run cmd/cli/cli.go --cache-dir /tmp --output ./wow ladder --region us --bracket rbg
+          go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow talents
+          go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow ladder --region us --bracket 2v2
+          go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow ladder --region us --bracket 3v3
+          go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow ladder --region us --bracket rbg
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
