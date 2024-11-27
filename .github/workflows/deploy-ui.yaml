@@ -6,6 +6,8 @@ on:
     branches:
       - master
   workflow_run:
+    branches:
+      - master
     workflows:
       - "Scan for US solo shuffle data"
       - "Scan for US non solo shuffle data"
