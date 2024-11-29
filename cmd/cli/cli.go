@@ -12,7 +12,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
-	"github.com/crbednarz/moonkinmetrics/pkg/observe"
+	"github.com/crbednarz/moonkinmetrics/pkg/monitor"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
@@ -27,8 +27,8 @@ import (
 type bracketScanOptions struct {
 	Region    bnet.Region
 	Bracket   string
-	MinRating uint
 	Output    string
+	MinRating uint
 }
 
 func runTalentScan(c *cli.Context) error {
@@ -280,7 +280,7 @@ func main() {
 				}
 			}
 			if c.String("collector") != "" {
-				shutdown, err := observe.InitObservability(c.String("collector"), ctx)
+				shutdown, err := monitor.InitObservability(c.String("collector"), ctx)
 				if err != nil {
 					return fmt.Errorf("failed to initialize observability: %w", err)
 				}
