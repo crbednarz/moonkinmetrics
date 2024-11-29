@@ -20,6 +20,7 @@ func InitObservability(target string, ctx context.Context) (ShutdownFunc, error)
 	serviceName := semconv.ServiceNameKey.String("moonkinmetrics")
 	res, err := resource.New(ctx,
 		resource.WithAttributes(serviceName),
+		resource.WithProcessCommandArgs(),
 	)
 	if err != nil {
 		return nil, err
