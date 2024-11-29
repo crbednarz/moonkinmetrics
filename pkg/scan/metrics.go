@@ -6,94 +6,108 @@ import (
 	"go.opentelemetry.io/otel/metric"
 )
 
-type scanMetrics interface {
-	CountRequest(ctx context.Context)
-	CountCacheHit(ctx context.Context)
-	CountApiHit(ctx context.Context, attempts int)
-	CountApiError(ctx context.Context)
-	CountSuccess(ctx context.Context)
+type metricsReporter interface {
+	ReportRequest(ctx context.Context)
+	ReportResult(ctx context.Context, resultDetails ScanResultDetails)
 }
 
-type otelScanMetrics struct {
-	requestCount  metric.Int64Counter
-	cacheHitCount metric.Int64Counter
-	apiHitCount   metric.Int64Counter
-	apiErrorCount metric.Int64Counter
-	successCount  metric.Int64Counter
+type otelMetricsReporter struct {
+	// Total requests issued
+	requests metric.Int64Counter
+	// Counter for processing of requests
+	requestsProcessed metric.Int64Counter
+	// Counter for successful processing of requests
+	successes metric.Int64Counter
+	// Counter for requests which could not be fulfilled
+	failures metric.Int64Counter
+	// Counter for requests which had valid responses cached
+	cached metric.Int64Counter
+	// Counter for total HTTP requests issued
+	apiHits metric.Int64Counter
+	// Counter for API HTTP errors encountered, regardless of success
+	apiErrors metric.Int64Counter
+	// Counter for responses that were successfully repaired
+	repairs metric.Int64Counter
 }
 
 type emptyScanMetrics struct{}
 
-func newEmptyScanMetrics() scanMetrics {
+func newEmptyMetricsReporter() metricsReporter {
 	return &emptyScanMetrics{}
 }
 
-func newScanMetrics(meter metric.Meter) (scanMetrics, error) {
-	requestCount, err := meter.Int64Counter("scan_requests")
+func newMetricsReporter(meter metric.Meter) (metricsReporter, error) {
+	requestCounter, err := meter.Int64Counter("scan_requests")
 	if err != nil {
 		return nil, err
 	}
 
-	cacheHitCount, err := meter.Int64Counter("scan_cache_hits")
+	requestsProcessedCounter, err := meter.Int64Counter("scan_requests_processed")
 	if err != nil {
 		return nil, err
 	}
 
-	apiHitCount, err := meter.Int64Counter("scan_api_hits")
+	successesCounter, err := meter.Int64Counter("scan_successes")
 	if err != nil {
 		return nil, err
 	}
 
-	apiErrorCount, err := meter.Int64Counter("scan_api_errors")
+	cachedCounter, err := meter.Int64Counter("scan_cached")
 	if err != nil {
 		return nil, err
 	}
 
-	apiSuccessCount, err := meter.Int64Counter("scan_successes")
+	apiHitsCounter, err := meter.Int64Counter("scan_api_hits")
 	if err != nil {
 		return nil, err
 	}
 
-	return &otelScanMetrics{
-		requestCount:  requestCount,
-		cacheHitCount: cacheHitCount,
-		apiHitCount:   apiHitCount,
-		apiErrorCount: apiErrorCount,
-		successCount:  apiSuccessCount,
+	apiErrorsCounter, err := meter.Int64Counter("scan_api_errors")
+	if err != nil {
+		return nil, err
+	}
+
+	repairsCounter, err := meter.Int64Counter("scan_repairs")
+	if err != nil {
+		return nil, err
+	}
+
+	return &otelMetricsReporter{
+		requests:          requestCounter,
+		requestsProcessed: requestsProcessedCounter,
+		successes:         successesCounter,
+		cached:            cachedCounter,
+		apiHits:           apiHitsCounter,
+		apiErrors:         apiErrorsCounter,
+		repairs:           repairsCounter,
 	}, nil
 }
 
-func (o *otelScanMetrics) CountRequest(ctx context.Context) {
-	o.requestCount.Add(ctx, 1)
+func (o *otelMetricsReporter) ReportRequest(ctx context.Context) {
+	o.requests.Add(ctx, 1)
 }
 
-func (o *otelScanMetrics) CountCacheHit(ctx context.Context) {
-	o.cacheHitCount.Add(ctx, 1)
+func (o *otelMetricsReporter) ReportResult(ctx context.Context, resultDetails ScanResultDetails) {
+	o.requestsProcessed.Add(ctx, 1)
+
+	if resultDetails.Success {
+		o.successes.Add(ctx, 1)
+	}
+
+	if resultDetails.Cached {
+		o.cached.Add(ctx, 1)
+	}
+
+	if resultDetails.Repaired {
+		o.repairs.Add(ctx, 1)
+	}
+
+	o.apiHits.Add(ctx, int64(resultDetails.ApiAttempts))
+	o.apiErrors.Add(ctx, int64(resultDetails.ApiErrors))
 }
 
-func (o *otelScanMetrics) CountApiHit(ctx context.Context, attempts int) {
-	o.apiHitCount.Add(ctx, int64(attempts))
+func (e *emptyScanMetrics) ReportRequest(ctx context.Context) {
 }
 
-func (o *otelScanMetrics) CountApiError(ctx context.Context) {
-	o.apiErrorCount.Add(ctx, 1)
-}
-
-func (o *otelScanMetrics) CountSuccess(ctx context.Context) {
-	o.successCount.Add(ctx, 1)
-}
-
-func (e *emptyScanMetrics) CountRequest(ctx context.Context) {
-}
-
-func (e *emptyScanMetrics) CountCacheHit(ctx context.Context) {
-}
-
-func (e *emptyScanMetrics) CountApiHit(ctx context.Context, attempts int) {
-}
-
-func (e *emptyScanMetrics) CountApiError(ctx context.Context) {
-}
-
-func (e *emptyScanMetrics) CountSuccess(ctx context.Context) {
+func (e *emptyScanMetrics) ReportResult(ctx context.Context, resultDetails ScanResultDetails) {
 }
