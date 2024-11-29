@@ -116,7 +116,6 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 				ApiRequest: apiRequest,
 				Index:      index,
 			}
-			index++
 
 			buildFromCache(ctx, scanner, apiRequest, options, &result)
 
@@ -124,12 +123,14 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 				scanner.metricsReporter.ReportResult(ctx, result.Details)
 				results <- result
 			} else {
+				result.Error = nil
 				request := indexedRequest{
 					ApiRequest: apiRequest,
 					Index:      index,
 				}
 				apiRequests <- request
 			}
+			index++
 		}
 		close(apiRequests)
 		wg.Wait()
@@ -153,6 +154,7 @@ func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOpti
 		return result
 	}
 
+	result.Error = nil
 	buildFromApi(ctx, scanner, request, options, &result)
 	scanner.metricsReporter.ReportResult(ctx, result.Details)
 	return result
