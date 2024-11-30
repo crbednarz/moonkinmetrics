@@ -7,3 +7,6 @@ helmCharts:
     releaseName: gha-runner
     version: 0.9.1
     valuesFile: values.yaml
+
+resources:
+  - pvc.yaml

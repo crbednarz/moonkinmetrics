@@ -9,12 +9,18 @@ template:
       - name: runner
         image: ghcr.io/crbednarz/moonkinmetrics-runner:monitoring
         command: ["/home/runner/run.sh"]
+        volumeMounts:
+          - name: local-cache
+            mountPath: /tmp
         env:
           - name: NODE_IP
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
-
+    volumes:
+      - name: local-cache
+        persistentVolumeClaim:
+          claimName: local-cache-pvc
 
 controllerServiceAccount:
   namespace: arc-systems
