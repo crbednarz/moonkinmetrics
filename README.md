@@ -63,6 +63,22 @@ npm run export
 
 Which will dump the rendered site to the `ui/out/` directory.
 
+### Observability
+
+To help monitor the scanner, metrics can be exported to an [OpenTelemetry collector](https://opentelemetry.io/docs/collector/) via the `--collector` flag. The simplest way to get started with the metrics is to use the provided docker-compose file:
+
+```sh
+cd infra/otel
+# Start the collector, Prometheus, and Grafana
+docker compose up -d
+
+cd ../..
+# Run any scan using localhost:4317 as the collector
+go run cmd/cli/cli.go --collector localhost:4317 ladder --region "$region" --bracket shuffle
+
+# Browse to http://localhost:3000 to see the Grafana dashboard
+```
+
 ## Contributing
 
 Contribution are now welcome. However, fair warning: Much of the project is missing sufficient documentation and testing, which could make it challenging to work on. This is something I'm actively working to improve, but in the meantime, feel free to reach out directly either as a GitHub discussion or on [discord](https://discord.gg/t7XmtxwNNF) if you have any questions.
