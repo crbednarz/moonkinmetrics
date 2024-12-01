@@ -8,12 +8,13 @@ import (
 )
 
 type metricsReporter interface {
-	ReportRequest(ctx context.Context)
-	ReportResult(ctx context.Context, resultDetails ScanResultDetails)
+	Report(ctx context.Context, resultDetails ScanResultDetails)
 }
 
 type otelMetricsReporter struct {
-	requests metric.Int64Counter
+	requests    metric.Int64Counter
+	apiErrors   metric.Int64Counter
+	apiAttempts metric.Int64Counter
 }
 
 type emptyScanMetrics struct{}
@@ -27,30 +28,39 @@ func newMetricsReporter(meter metric.Meter) (metricsReporter, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	apiErrorCounter, err := meter.Int64Counter("scan_api_errors")
+	if err != nil {
+		return nil, err
+	}
+
+	apiAttemptsCounter, err := meter.Int64Counter("scan_api_attempts")
+	if err != nil {
+		return nil, err
+	}
 	return &otelMetricsReporter{
-		requests: requestCounter,
+		requests:    requestCounter,
+		apiErrors:   apiErrorCounter,
+		apiAttempts: apiAttemptsCounter,
 	}, nil
 }
 
-func (o *otelMetricsReporter) ReportRequest(ctx context.Context) {
-	o.requests.Add(ctx, 1)
-}
-
-func (o *otelMetricsReporter) ReportResult(ctx context.Context, resultDetails ScanResultDetails) {
+func (o *otelMetricsReporter) Report(ctx context.Context, resultDetails ScanResultDetails) {
 	attributeSet := attribute.NewSet(
 		attribute.Bool("success", resultDetails.Success),
 		attribute.Bool("cached", resultDetails.Cached),
 		attribute.Bool("repaired", resultDetails.Repaired),
-		attribute.Int("api_attempts", resultDetails.ApiAttempts),
-		attribute.Int("api_errors", resultDetails.ApiErrors),
 	)
 	o.requests.Add(ctx, 1,
 		metric.WithAttributeSet(attributeSet),
 	)
+	o.apiErrors.Add(ctx, int64(resultDetails.ApiErrors),
+		metric.WithAttributeSet(attributeSet),
+	)
+	o.apiAttempts.Add(ctx, int64(resultDetails.ApiAttempts),
+		metric.WithAttributeSet(attributeSet),
+	)
 }
 
-func (e *emptyScanMetrics) ReportRequest(ctx context.Context) {
-}
-
-func (e *emptyScanMetrics) ReportResult(ctx context.Context, resultDetails ScanResultDetails) {
+func (e *emptyScanMetrics) Report(ctx context.Context, resultDetails ScanResultDetails) {
 }

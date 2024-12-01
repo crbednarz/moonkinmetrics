@@ -100,7 +100,7 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 					Index:      request.Index,
 				}
 				buildFromApi(ctx, scanner, request.ApiRequest, options, &result)
-				scanner.metricsReporter.ReportResult(ctx, result.Details)
+				scanner.metricsReporter.Report(ctx, result.Details)
 				results <- result
 			}
 			wg.Done()
@@ -110,8 +110,6 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 	go func() {
 		var index int64 = 0
 		for apiRequest := range requests {
-			scanner.metricsReporter.ReportRequest(ctx)
-
 			result := ScanResult[T]{
 				ApiRequest: apiRequest,
 				Index:      index,
@@ -120,7 +118,7 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 			buildFromCache(ctx, scanner, apiRequest, options, &result)
 
 			if result.Error == nil {
-				scanner.metricsReporter.ReportResult(ctx, result.Details)
+				scanner.metricsReporter.Report(ctx, result.Details)
 				results <- result
 			} else {
 				result.Error = nil
@@ -146,17 +144,16 @@ func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOpti
 		ApiRequest: request,
 		Index:      0,
 	}
-	scanner.metricsReporter.ReportRequest(ctx)
 
 	buildFromCache(ctx, scanner, request, options, &result)
 	if result.Error == nil {
-		scanner.metricsReporter.ReportResult(ctx, result.Details)
+		scanner.metricsReporter.Report(ctx, result.Details)
 		return result
 	}
 
 	result.Error = nil
 	buildFromApi(ctx, scanner, request, options, &result)
-	scanner.metricsReporter.ReportResult(ctx, result.Details)
+	scanner.metricsReporter.Report(ctx, result.Details)
 	return result
 }
 
