@@ -605,7 +605,7 @@ spec:
             "y": 8
           },
           "id": 4,
-          "interval": "1m",
+          "interval": "5m",
           "options": {
             "legend": {
               "calcs": [],
@@ -626,7 +626,7 @@ spec:
                 "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
               },
               "editorMode": "code",
-              "expr": "sum(increase(scan_requests_total{success=\"true\", cached=\"true\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"true\", cached=\"true\"}[$__interval]))",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -641,7 +641,7 @@ spec:
               },
               "editorMode": "code",
               "exemplar": false,
-              "expr": "sum(increase(scan_requests_total{success=\"true\", cached=\"false\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"true\", cached=\"false\"}[$__interval]))",
               "hide": false,
               "instant": false,
               "interval": "",
@@ -650,7 +650,7 @@ spec:
               "refId": "Non-Cached"
             }
           ],
-          "title": "Cache Rate of Succesful Requests [1m]",
+          "title": "Cache Rate of Succesful Requests [5m]",
           "type": "timeseries"
         },
         {
@@ -810,7 +810,7 @@ spec:
             "y": 8
           },
           "id": 5,
-          "interval": "1m",
+          "interval": "5m",
           "options": {
             "legend": {
               "calcs": [],
@@ -830,7 +830,7 @@ spec:
                 "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
               },
               "editorMode": "code",
-              "expr": "sum(increase(scan_requests_total{success=\"false\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"false\"}[$__interval]))",
               "hide": false,
               "instant": false,
               "legendFormat": "Failures",
@@ -843,14 +843,14 @@ spec:
                 "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
               },
               "editorMode": "code",
-              "expr": "sum(increase(scan_requests_total{success=\"true\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"true\"}[$__interval]))",
               "instant": false,
               "legendFormat": "Successes",
               "range": true,
               "refId": "Success"
             }
           ],
-          "title": "Request Failure Rate [1m]",
+          "title": "Request Failure Rate [5m]",
           "type": "timeseries"
         },
         {
@@ -980,7 +980,7 @@ spec:
             "y": 8
           },
           "id": 6,
-          "interval": "1m",
+          "interval": "5m",
           "options": {
             "legend": {
               "calcs": [],
@@ -1000,7 +1000,7 @@ spec:
                 "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
               },
               "editorMode": "code",
-              "expr": "sum(increase(scan_requests_total{success=\"true\", repaired=\"true\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"true\", repaired=\"true\"}[$__interval]))",
               "instant": false,
               "legendFormat": "Repaired",
               "range": true,
@@ -1012,7 +1012,7 @@ spec:
                 "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
               },
               "editorMode": "code",
-              "expr": "sum(increase(scan_requests_total{success=\"true\", repaired=\"false\"}[1m]))",
+              "expr": "sum(increase(scan_requests_total{success=\"true\", repaired=\"false\"}[$__interval]))",
               "hide": false,
               "instant": false,
               "legendFormat": "Non-Repaired",
@@ -1020,7 +1020,7 @@ spec:
               "refId": "Non-Repaired"
             }
           ],
-          "title": "Repair Rate of Successful Requests [1m]",
+          "title": "Repair Rate of Successful Requests [5m]",
           "type": "timeseries"
         }
       ],
