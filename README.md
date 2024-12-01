@@ -75,8 +75,7 @@ docker compose up -d
 cd ../..
 # Run any scan using localhost:4317 as the collector
 go run cmd/cli/cli.go --collector localhost:4317 ladder --region "$region" --bracket shuffle
-
-# Browse to http://localhost:3000 to see the Grafana dashboard
+# Browse to http://localhost:3000 to view metrics in Grafana.
 ```
 
 ## Contributing
