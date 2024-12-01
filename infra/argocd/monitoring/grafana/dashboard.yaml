@@ -1031,13 +1031,13 @@ spec:
         "list": []
       },
       "time": {
-        "from": "2024-11-30T04:48:48.369Z",
-        "to": "2024-11-30T07:53:46.458Z"
+        "from": "now-12h",
+        "to": "now"
       },
       "timepicker": {},
       "timezone": "browser",
       "title": "MoonkinMetrics - Scanner",
       "uid": "ae5jt15wb198gc",
-      "version": 10,
+      "version": 11,
       "weekStart": ""
     }
