@@ -11,12 +11,12 @@ on:
     workflows:
       - "Scan for US solo shuffle data"
       - "Scan for US non solo shuffle data"
+      - "Scan for US blitz data"
       - "Scan for EU solo shuffle data"
       - "Scan for EU non solo shuffle data"
+      - "Scan for EU blitz data"
     types:
       - completed
-    branches:
-      - master
 
 permissions:
   id-token: write
