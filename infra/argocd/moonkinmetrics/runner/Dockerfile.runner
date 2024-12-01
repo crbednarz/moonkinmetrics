@@ -2,6 +2,8 @@ FROM ghcr.io/actions/actions-runner:latest
 
 USER root
 RUN apt update -y && \
-  apt install -y build-essential
+  apt install -y \
+  build-essential \
+  awscli
 
 USER runner

@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - 'runner-v*'
 
 env:
   REGISTRY: ghcr.io

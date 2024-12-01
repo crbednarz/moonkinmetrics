@@ -7,7 +7,7 @@ template:
   spec:
     containers:
       - name: runner
-        image: ghcr.io/crbednarz/moonkinmetrics-runner:master
+        image: ghcr.io/crbednarz/moonkinmetrics-runner:runner-v1
         command: ["/home/runner/run.sh"]
         volumeMounts:
           - name: local-cache
