@@ -14,10 +14,6 @@ env:
   WOW_CLIENT_ID: ${{ secrets.WOW_CLIENT_ID }}
   WOW_CLIENT_SECRET: ${{ secrets.WOW_CLIENT_SECRET }}
 
-concurrency:
-  group: scan
-  cancel-in-progress: false
-
 jobs:
   scan-bnet-api:
     runs-on: [gha-k8s-runner]
