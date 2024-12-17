@@ -110,7 +110,7 @@ func (c *Client) Get(request Request) (*Response, error) {
 
 		if response.StatusCode == 429 {
 			log.Printf("Rate limited, waiting")
-			err = c.limiter.Wait(ctx)
+			err = c.limiter.WaitN(ctx, 5)
 			if err != nil {
 				return nil, err
 			}
