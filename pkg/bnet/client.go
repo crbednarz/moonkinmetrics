@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"time"
 
 	"golang.org/x/time/rate"
@@ -26,6 +27,7 @@ type Client struct {
 	clientId     string
 	clientSecret string
 	token        string
+	authLock     sync.RWMutex
 }
 
 type clientOptions struct {
@@ -85,24 +87,20 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 }
 
 func (c *Client) Get(request Request) (*Response, error) {
-	httpRequest, err := request.HttpRequest(c.token)
-	if err != nil {
-		return nil, err
-	}
-
 	var response *http.Response
+	var err error
 	attempts := 0
 
 	for {
 		ctx := context.TODO()
 		if c.limiter != nil {
-			err = c.limiter.Wait(ctx)
+			err := c.limiter.Wait(ctx)
 			if err != nil {
 				return nil, err
 			}
 		}
 
-		response, err = c.httpClient.Do(httpRequest)
+		response, err = c.doAuthenticatedRequest(request)
 		attempts++
 		if err != nil {
 			return nil, err
@@ -131,6 +129,46 @@ func (c *Client) Get(request Request) (*Response, error) {
 		StatusCode: response.StatusCode,
 		Attempts:   attempts,
 	}, err
+}
+
+func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error) {
+	needsReauthentication := false
+	var token string
+	for {
+		if needsReauthentication {
+			c.refreshAuthentication(token)
+			needsReauthentication = false
+		}
+
+		c.authLock.RLock()
+		defer c.authLock.RUnlock()
+		token = c.token
+		httpRequest, err := request.HttpRequest(token)
+		if err != nil {
+			return nil, err
+		}
+
+		response, err := c.httpClient.Do(httpRequest)
+		if response.StatusCode == 403 {
+			needsReauthentication = true
+			continue
+		}
+		return response, err
+	}
+}
+
+// Refreshes access token from Battle.net API if previousToken matches the current token.
+// This is used to prevent multiple requests from refreshing the token at the same time.
+func (c *Client) refreshAuthentication(previousToken string) error {
+	c.authLock.Lock()
+	defer c.authLock.Unlock()
+	if previousToken == c.token {
+		log.Printf("Refreshing authentication token")
+		return c.Authenticate()
+	} else {
+		log.Printf("Token already refreshed")
+	}
+	return nil
 }
 
 // Refreshes access token from Battle.net API using stored client credentials.
