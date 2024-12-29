@@ -140,9 +140,7 @@ func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error)
 			needsReauthentication = false
 		}
 
-		c.authLock.RLock()
-		defer c.authLock.RUnlock()
-		token = c.token
+		token = c.getToken()
 		httpRequest, err := request.HttpRequest(token)
 		if err != nil {
 			return nil, err
@@ -155,6 +153,12 @@ func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error)
 		}
 		return response, err
 	}
+}
+
+func (c *Client) getToken() string {
+	c.authLock.RLock()
+	defer c.authLock.RUnlock()
+	return c.token
 }
 
 // Refreshes access token from Battle.net API if previousToken matches the current token.
