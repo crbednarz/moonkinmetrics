@@ -147,6 +147,10 @@ func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error)
 		}
 
 		response, err := c.httpClient.Do(httpRequest)
+		if err != nil {
+			return response, err
+		}
+
 		if response.StatusCode == 403 {
 			needsReauthentication = true
 			continue
