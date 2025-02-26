@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -31,7 +31,7 @@ type leaderboardJson struct {
 	} `json:"entries"`
 }
 
-func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region bnet.Region) (wow.Leaderboard, error) {
+func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region api.Region) (wow.Leaderboard, error) {
 	seasonId, err := GetCurrentSeasonId(scanner, region)
 	if err != nil {
 		return wow.Leaderboard{}, fmt.Errorf("failed to get current season id: %w", err)
@@ -44,9 +44,9 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region bnet.Re
 	path := fmt.Sprintf("/data/wow/pvp-season/%d/pvp-leaderboard/%s", seasonId, bracket)
 	result := scan.ScanSingle(
 		scanner,
-		bnet.Request{
+		api.Request{
 			Region:    region,
-			Namespace: bnet.NamespaceDynamic,
+			Namespace: api.NamespaceDynamic,
 			Path:      path,
 		},
 		&scan.ScanOptions[leaderboardJson]{

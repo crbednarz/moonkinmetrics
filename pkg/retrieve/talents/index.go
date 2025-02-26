@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -58,9 +58,9 @@ func GetTalentTreeIndex(scanner *scan.Scanner) (*TalentTreeIndex, error) {
 
 	result := scan.ScanSingle(
 		scanner,
-		bnet.Request{
-			Region:    bnet.RegionUS,
-			Namespace: bnet.NamespaceStatic,
+		api.Request{
+			Region:    api.RegionUS,
+			Namespace: api.NamespaceStatic,
 			Path:      "/data/wow/talent-tree/index",
 		},
 		&scan.ScanOptions[treeIndexJson]{

@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"testing"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 )
@@ -34,7 +34,7 @@ func TestGetCurrentLeaderboard(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	leaderboard, err := GetCurrentLeaderboard(scanner, "3v3", bnet.RegionUS)
+	leaderboard, err := GetCurrentLeaderboard(scanner, "3v3", api.RegionUS)
 	if err != nil {
 		t.Fatalf("failed to get leaderboard: %v", err)
 	}
@@ -50,7 +50,7 @@ func TestGetCurrentLeaderboardFailsOnBadData(t *testing.T) {
 		t.Fatalf("failed to setup scanner: %v", err)
 	}
 
-	_, err = GetCurrentLeaderboard(scanner, "3v3", bnet.RegionUS)
+	_, err = GetCurrentLeaderboard(scanner, "3v3", api.RegionUS)
 	if err == nil {
 		t.Fatalf("expected error, got nil")
 	}

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 )
@@ -34,13 +34,13 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 }
 
 func NewMockScanner(callback MockClientCallback) (*scan.Scanner, error) {
-	client := bnet.NewClient(
+	client := api.NewClient(
 		&MockHttpClient{callback},
-		bnet.WithCredentials(
+		api.WithCredentials(
 			"mock_client_id",
 			"mock_client_secret",
 		),
-		bnet.WithLimiter(false),
+		api.WithLimiter(false),
 	)
 	cache, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
 	if err != nil {

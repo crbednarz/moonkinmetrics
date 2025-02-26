@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -26,7 +26,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 		return nil, fmt.Errorf("failed to setup realm validator: %w", err)
 	}
 
-	requests := make(chan bnet.Request, len(realmLinks))
+	requests := make(chan api.Request, len(realmLinks))
 	results := make(chan scan.ScanResult[realmJson], len(realmLinks))
 	options := scan.ScanOptions[realmJson]{
 		Validator: validator,
@@ -37,7 +37,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 	scan.Scan(scanner, requests, results, &options)
 
 	for _, realmLink := range realmLinks {
-		request, err := bnet.RequestFromUrl(realmLink.Url)
+		request, err := api.RequestFromUrl(realmLink.Url)
 		if err != nil {
 			return nil, fmt.Errorf("failed to create request from realm link [%v]: %w", realmLink.Url, err)
 		}

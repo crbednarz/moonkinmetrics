@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
@@ -23,7 +23,7 @@ type assetJson struct {
 func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]string, error) {
 	talentCount := countTalents(trees)
 
-	requests := make(chan bnet.Request, talentCount)
+	requests := make(chan api.Request, talentCount)
 	results := make(chan scan.ScanResult[spellMediaJson], talentCount)
 	options := scan.ScanOptions[spellMediaJson]{
 		Validator: nil,
@@ -37,9 +37,9 @@ func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]strin
 			node := &tree.ClassNodes[nodeIndex]
 			for talentIndex := range node.Talents {
 				talent := &node.Talents[talentIndex]
-				requests <- bnet.Request{
-					Region:    bnet.RegionUS,
-					Namespace: bnet.NamespaceStatic,
+				requests <- api.Request{
+					Region:    api.RegionUS,
+					Namespace: api.NamespaceStatic,
 					Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
 				}
 			}
@@ -48,18 +48,18 @@ func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]strin
 			node := &tree.SpecNodes[nodeIndex]
 			for talentIndex := range node.Talents {
 				talent := &node.Talents[talentIndex]
-				requests <- bnet.Request{
-					Region:    bnet.RegionUS,
-					Namespace: bnet.NamespaceStatic,
+				requests <- api.Request{
+					Region:    api.RegionUS,
+					Namespace: api.NamespaceStatic,
 					Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
 				}
 			}
 		}
 		for talentIndex := range tree.PvpTalents {
 			talent := &tree.PvpTalents[talentIndex]
-			requests <- bnet.Request{
-				Region:    bnet.RegionUS,
-				Namespace: bnet.NamespaceStatic,
+			requests <- api.Request{
+				Region:    api.RegionUS,
+				Namespace: api.NamespaceStatic,
 				Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
 			}
 		}
@@ -69,9 +69,9 @@ func GetSpellMedia(scanner *scan.Scanner, trees []wow.TalentTree) (map[int]strin
 			for nodeIndex := range heroTree.Nodes {
 				for talentIndex := range heroTree.Nodes[nodeIndex].Talents {
 					talent := &heroTree.Nodes[nodeIndex].Talents[talentIndex]
-					requests <- bnet.Request{
-						Region:    bnet.RegionUS,
-						Namespace: bnet.NamespaceStatic,
+					requests <- api.Request{
+						Region:    api.RegionUS,
+						Namespace: api.NamespaceStatic,
 						Path:      fmt.Sprintf("/data/wow/media/spell/%d", talent.Spell.Id),
 					}
 				}
