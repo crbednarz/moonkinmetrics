@@ -70,7 +70,7 @@ func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
 
 	indexResult := scan.ScanSingle(
 		scanner,
-		api.Request{
+		api.BnetRequest{
 			Namespace: api.NamespaceStatic,
 			Region:    api.RegionUS,
 			Path:      "/data/wow/pvp-talent/index",
@@ -95,7 +95,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	}
 
 	numTalents := len(index.PvpTalents)
-	requests := make(chan api.Request, numTalents)
+	requests := make(chan api.BnetRequest, numTalents)
 	results := make(chan scan.ScanResult[pvpTalentJson], numTalents)
 	options := scan.ScanOptions[pvpTalentJson]{
 		Validator: validator,

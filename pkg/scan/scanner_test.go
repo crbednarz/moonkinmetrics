@@ -68,8 +68,8 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 	)
 }
 
-func newMockRequest(path string) api.Request {
-	return api.Request{
+func newMockRequest(path string) api.BnetRequest {
+	return api.BnetRequest{
 		Region:    api.RegionUS,
 		Namespace: api.NamespaceProfile,
 		Path:      path,
@@ -153,7 +153,7 @@ func TestMultiScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan api.Request, 10)
+	requests := make(chan api.BnetRequest, 10)
 	results := make(chan ScanResult[MockResponseObject], 10)
 	options := newMockOptions[MockResponseObject]()
 
@@ -198,7 +198,7 @@ func TestCachedScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan api.Request)
+	requests := make(chan api.BnetRequest)
 	results := make(chan ScanResult[MockResponseObject])
 	options := newMockOptions[MockResponseObject]()
 
@@ -207,7 +207,7 @@ func TestCachedScan(t *testing.T) {
 	close(requests)
 	result := <-results
 
-	requests = make(chan api.Request)
+	requests = make(chan api.BnetRequest)
 	results = make(chan ScanResult[MockResponseObject])
 	Scan(scanner, requests, results, &options)
 	requests <- newMockRequest("/data/wow/mock/path")

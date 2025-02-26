@@ -140,7 +140,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 		opt.apply(&scanOptions)
 	}
 
-	requests := make(chan api.Request, len(players))
+	requests := make(chan api.BnetRequest, len(players))
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validate.NewTagValidator[specializationsJson](),
@@ -150,7 +150,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, player := range players {
-		requests <- api.Request{
+		requests <- api.BnetRequest{
 			Region:    scanOptions.Region,
 			Namespace: api.NamespaceProfile,
 			Path:      player.SpecializationUrl(),

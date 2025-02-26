@@ -75,7 +75,7 @@ func downloadTalentResponses(client *api.Client, scanner *scan.Scanner) error {
 	}
 
 	for _, path := range staticAssets {
-		err = downloadRequest(client, api.Request{
+		err = downloadRequest(client, api.BnetRequest{
 			Region:    api.RegionUS,
 			Namespace: api.NamespaceStatic,
 			Path:      path,
@@ -88,7 +88,7 @@ func downloadTalentResponses(client *api.Client, scanner *scan.Scanner) error {
 	return nil
 }
 
-func downloadRequest(client *api.Client, request api.Request) error {
+func downloadRequest(client *api.Client, request api.BnetRequest) error {
 	response, err := client.Get(request)
 	if err != nil {
 		return err

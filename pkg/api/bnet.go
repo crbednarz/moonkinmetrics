@@ -26,7 +26,7 @@ const (
 )
 
 // A WoW API request.
-type Request struct {
+type BnetRequest struct {
 	Path      string
 	Region    Region
 	Namespace Namespace
@@ -35,17 +35,17 @@ type Request struct {
 // Creates a WoW API request from the given URL.
 // The URL is expected to be in the format returned by the WoW API.
 // e.g. https://us.api.blizzard.com/data/wow/talents?namespace=static-10.1.7_51059-us
-func RequestFromUrl(rawUrl string) (Request, error) {
+func RequestFromUrl(rawUrl string) (BnetRequest, error) {
 	matches := urlRegex.FindStringSubmatch(rawUrl)
 	if len(matches) != 4 {
-		return Request{}, fmt.Errorf("invalid url: %s", rawUrl)
+		return BnetRequest{}, fmt.Errorf("invalid url: %s", rawUrl)
 	}
 
 	region := Region(matches[1])
 	path := matches[2]
 	namespace := Namespace(matches[3])
 
-	return Request{
+	return BnetRequest{
 		Path:      path,
 		Region:    region,
 		Namespace: namespace,
@@ -54,7 +54,7 @@ func RequestFromUrl(rawUrl string) (Request, error) {
 
 // Returns the url.URL representation of the WoW API request.
 // This does not include the authorization header, so is typically used for logging.
-func (r *Request) Url() *url.URL {
+func (r *BnetRequest) Url() *url.URL {
 	locale := "en_US"
 	if r.Region == RegionEU {
 		locale = "en_GB"
@@ -74,13 +74,13 @@ func (r *Request) Url() *url.URL {
 
 // Returns the string representation of the WoW API request.
 // This is equivalent to Url().String().
-func (r *Request) String() string {
+func (r *BnetRequest) String() string {
 	return r.Url().String()
 }
 
 // Creates an http.Request from the WoW API request with the given token.
 // This includes the authorization header, unlike Url() and String().
-func (r *Request) HttpRequest(token string) (*http.Request, error) {
+func (r *BnetRequest) HttpRequest(token string) (*http.Request, error) {
 	request, err := http.NewRequest("GET", r.String(), nil)
 	if err != nil {
 		return nil, err
