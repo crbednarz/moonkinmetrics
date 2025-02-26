@@ -182,7 +182,7 @@ func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.Bnet
 	var lastError error
 	for i := 0; i < scanner.maxRetries; i++ {
 		lastError = nil
-		apiResponse, err := scanner.client.Get(request)
+		apiResponse, err := scanner.client.Get(&request)
 		if err != nil {
 			lastError = fmt.Errorf("failed to retrieve response for %s: %w", request.Path, err)
 			continue

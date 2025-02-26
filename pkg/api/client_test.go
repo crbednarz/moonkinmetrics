@@ -97,7 +97,7 @@ func TestClientCanGet(t *testing.T) {
 	)
 	client.Authenticate()
 
-	response, err := client.Get(request)
+	response, err := client.Get(&request)
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
@@ -129,7 +129,7 @@ func TestClientReauthenticates(t *testing.T) {
 	client.Authenticate()
 
 	for i := 0; i < 4; i++ {
-		response, err := client.Get(request)
+		response, err := client.Get(&request)
 		if err != nil {
 			t.Errorf("Expected no error, got %v", err)
 		}

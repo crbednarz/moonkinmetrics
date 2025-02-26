@@ -89,7 +89,7 @@ func downloadTalentResponses(client *api.Client, scanner *scan.Scanner) error {
 }
 
 func downloadRequest(client *api.Client, request api.BnetRequest) error {
-	response, err := client.Get(request)
+	response, err := client.Get(&request)
 	if err != nil {
 		return err
 	}
