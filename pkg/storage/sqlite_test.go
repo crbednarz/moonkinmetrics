@@ -13,7 +13,7 @@ func createMockResponses(count int) []Response {
 	responses := make([]Response, count)
 	for i := 0; i < count; i++ {
 		responses[i] = Response{
-			Request: api.Request{
+			Request: api.BnetRequest{
 				Region:    api.RegionUS,
 				Namespace: api.NamespaceProfile,
 				Path:      fmt.Sprintf("/data/wow/character/tichondrius/char%d", i),
@@ -30,7 +30,7 @@ func TestCanRetrieve(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := api.Request{
+	request := api.BnetRequest{
 		Region:    api.RegionUS,
 		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
@@ -58,7 +58,7 @@ func TestCanExpire(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := api.Request{
+	request := api.BnetRequest{
 		Region:    api.RegionUS,
 		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
@@ -111,7 +111,7 @@ func TestCanReplace(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := api.Request{
+	request := api.BnetRequest{
 		Region:    api.RegionUS,
 		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
@@ -185,7 +185,7 @@ func TestMissing(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := api.Request{
+	request := api.BnetRequest{
 		Region:    api.RegionUS,
 		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",

@@ -86,7 +86,7 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 	}
 }
 
-func (c *Client) Get(request Request) (*Response, error) {
+func (c *Client) Get(request BnetRequest) (*Response, error) {
 	var response *http.Response
 	var err error
 	attempts := 0
@@ -131,7 +131,7 @@ func (c *Client) Get(request Request) (*Response, error) {
 	}, err
 }
 
-func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error) {
+func (c *Client) doAuthenticatedRequest(request BnetRequest) (*http.Response, error) {
 	needsReauthentication := false
 	var token string
 	for {

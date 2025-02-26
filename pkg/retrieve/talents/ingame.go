@@ -112,7 +112,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 		return nil, fmt.Errorf("failed to create talent validator: %v", err)
 	}
 
-	requests := make(chan api.Request, len(talentIds))
+	requests := make(chan api.BnetRequest, len(talentIds))
 	results := make(chan scan.ScanResult[talentJson], len(talentIds))
 	options := scan.ScanOptions[talentJson]{
 		Validator: validator,
@@ -121,7 +121,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, talentId := range talentIds {
-		apiRequest := api.Request{
+		apiRequest := api.BnetRequest{
 			Region:    api.RegionUS,
 			Namespace: api.NamespaceStatic,
 			Path:      fmt.Sprintf("/data/wow/talent/%d", talentId),

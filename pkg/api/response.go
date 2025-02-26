@@ -2,7 +2,7 @@ package api
 
 type Response struct {
 	Body       []byte
-	Request    *Request
+	Request    *BnetRequest
 	StatusCode int
 	Attempts   int
 }

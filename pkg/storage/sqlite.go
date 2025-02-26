@@ -38,7 +38,7 @@ func NewSqlite(path string, options SqliteOptions) (*Sqlite, error) {
 	return &Sqlite{db: db, options: options}, nil
 }
 
-func (s *Sqlite) Store(request api.Request, response []byte, lifespan time.Duration) error {
+func (s *Sqlite) Store(request api.BnetRequest, response []byte, lifespan time.Duration) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	now := time.Now()
@@ -92,7 +92,7 @@ func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error
 	return tx.Commit()
 }
 
-func (s *Sqlite) Get(request api.Request) (StoredResponse, error) {
+func (s *Sqlite) Get(request api.BnetRequest) (StoredResponse, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 

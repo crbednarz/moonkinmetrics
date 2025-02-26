@@ -85,7 +85,7 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 }
 
 func TestClientCanGet(t *testing.T) {
-	request := Request{
+	request := BnetRequest{
 		Region:    RegionUS,
 		Namespace: NamespaceProfile,
 		Path:      "/data/wow/mock/path",
@@ -112,7 +112,7 @@ func TestClientCanGet(t *testing.T) {
 }
 
 func TestClientReauthenticates(t *testing.T) {
-	request := Request{
+	request := BnetRequest{
 		Region:    RegionUS,
 		Namespace: NamespaceProfile,
 		Path:      "/data/wow/mock/path",

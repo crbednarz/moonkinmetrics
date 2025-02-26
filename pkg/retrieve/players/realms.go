@@ -26,7 +26,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 		return nil, fmt.Errorf("failed to setup realm validator: %w", err)
 	}
 
-	requests := make(chan api.Request, len(realmLinks))
+	requests := make(chan api.BnetRequest, len(realmLinks))
 	results := make(chan scan.ScanResult[realmJson], len(realmLinks))
 	options := scan.ScanOptions[realmJson]{
 		Validator: validator,
