@@ -31,7 +31,7 @@ type Client struct {
 }
 
 type clientOptions struct {
-	bnetCredentialsOption
+	credentialsOption
 	limiterOption
 }
 
@@ -49,17 +49,17 @@ func WithLimiter(l bool) ClientOption {
 	return limiterOption(l)
 }
 
-type bnetCredentialsOption struct {
+type credentialsOption struct {
 	clientId     string
 	clientSecret string
 }
 
-func (b bnetCredentialsOption) apply(o *clientOptions) {
-	o.bnetCredentialsOption = b
+func (b credentialsOption) apply(o *clientOptions) {
+	o.credentialsOption = b
 }
 
 func WithCredentials(clientId, clientSecret string) ClientOption {
-	return bnetCredentialsOption{
+	return credentialsOption{
 		clientId:     clientId,
 		clientSecret: clientSecret,
 	}
@@ -86,7 +86,7 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 	}
 }
 
-func (c *Client) Get(request BnetRequest) (*Response, error) {
+func (c *Client) Get(request Request) (*Response, error) {
 	var response *http.Response
 	var err error
 	attempts := 0
@@ -125,13 +125,12 @@ func (c *Client) Get(request BnetRequest) (*Response, error) {
 
 	return &Response{
 		Body:       body,
-		Request:    &request,
 		StatusCode: response.StatusCode,
 		Attempts:   attempts,
 	}, err
 }
 
-func (c *Client) doAuthenticatedRequest(request BnetRequest) (*http.Response, error) {
+func (c *Client) doAuthenticatedRequest(request Request) (*http.Response, error) {
 	needsReauthentication := false
 	var token string
 	for {
