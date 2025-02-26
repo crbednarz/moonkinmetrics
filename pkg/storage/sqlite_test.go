@@ -6,16 +6,16 @@ import (
 	"testing"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 )
 
 func createMockResponses(count int) []Response {
 	responses := make([]Response, count)
 	for i := 0; i < count; i++ {
 		responses[i] = Response{
-			Request: bnet.Request{
-				Region:    bnet.RegionUS,
-				Namespace: bnet.NamespaceProfile,
+			Request: api.Request{
+				Region:    api.RegionUS,
+				Namespace: api.NamespaceProfile,
 				Path:      fmt.Sprintf("/data/wow/character/tichondrius/char%d", i),
 			},
 			Body: []byte(fmt.Sprintf("{\"value\": %d}}", i)),
@@ -30,9 +30,9 @@ func TestCanRetrieve(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := bnet.Request{
-		Region:    bnet.RegionUS,
-		Namespace: bnet.NamespaceProfile,
+	request := api.Request{
+		Region:    api.RegionUS,
+		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
 	}
 	response := []byte("{\"hello\": \"world\"}}")
@@ -58,9 +58,9 @@ func TestCanExpire(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := bnet.Request{
-		Region:    bnet.RegionUS,
-		Namespace: bnet.NamespaceProfile,
+	request := api.Request{
+		Region:    api.RegionUS,
+		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
 	}
 	response := []byte("{\"hello\": \"world\"}}")
@@ -111,9 +111,9 @@ func TestCanReplace(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := bnet.Request{
-		Region:    bnet.RegionUS,
-		Namespace: bnet.NamespaceProfile,
+	request := api.Request{
+		Region:    api.RegionUS,
+		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
 	}
 	response := []byte("{\"value\": \"1\"}}")
@@ -185,9 +185,9 @@ func TestMissing(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	request := bnet.Request{
-		Region:    bnet.RegionUS,
-		Namespace: bnet.NamespaceProfile,
+	request := api.Request{
+		Region:    api.RegionUS,
+		Namespace: api.NamespaceProfile,
 		Path:      "/data/wow/character/tichondrius/charactername",
 	}
 

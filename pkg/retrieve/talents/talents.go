@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/hack"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
@@ -155,7 +155,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	}
 
 	numTrees := len(specLinks)
-	requests := make(chan bnet.Request, numTrees)
+	requests := make(chan api.Request, numTrees)
 	results := make(chan scan.ScanResult[talentTreeJson], numTrees)
 	options := scan.ScanOptions[talentTreeJson]{
 		Validator: validator,
@@ -166,7 +166,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, specLink := range specLinks {
-		apiRequest, err := bnet.RequestFromUrl(specLink.Url)
+		apiRequest, err := api.RequestFromUrl(specLink.Url)
 		if err != nil {
 			return nil, err
 		}

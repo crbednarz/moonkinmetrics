@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -70,9 +70,9 @@ func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
 
 	indexResult := scan.ScanSingle(
 		scanner,
-		bnet.Request{
-			Namespace: bnet.NamespaceStatic,
-			Region:    bnet.RegionUS,
+		api.Request{
+			Namespace: api.NamespaceStatic,
+			Region:    api.RegionUS,
 			Path:      "/data/wow/pvp-talent/index",
 		},
 		&scan.ScanOptions[pvpTalentsIndexJson]{
@@ -95,7 +95,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	}
 
 	numTalents := len(index.PvpTalents)
-	requests := make(chan bnet.Request, numTalents)
+	requests := make(chan api.Request, numTalents)
 	results := make(chan scan.ScanResult[pvpTalentJson], numTalents)
 	options := scan.ScanOptions[pvpTalentJson]{
 		Validator: validator,
@@ -105,7 +105,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	scan.Scan(scanner, requests, results, &options)
 
 	for _, talent := range index.PvpTalents {
-		apiRequest, err := bnet.RequestFromUrl(talent.Key.Href)
+		apiRequest, err := api.RequestFromUrl(talent.Key.Href)
 		if err != nil {
 			return nil, fmt.Errorf("failed to parse pvp talent url: %w", err)
 		}

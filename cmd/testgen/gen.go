@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
@@ -18,13 +18,13 @@ func main() {
 
 	httpClient := &http.Client{}
 
-	client := bnet.NewClient(
+	client := api.NewClient(
 		httpClient,
-		bnet.WithCredentials(
+		api.WithCredentials(
 			os.Getenv("WOW_CLIENT_ID"),
 			os.Getenv("WOW_CLIENT_SECRET"),
 		),
-		bnet.WithLimiter(true),
+		api.WithLimiter(true),
 	)
 
 	err := client.Authenticate()
@@ -50,14 +50,14 @@ func main() {
 	log.Printf("Test data generated")
 }
 
-func downloadTalentResponses(client *bnet.Client, scanner *scan.Scanner) error {
+func downloadTalentResponses(client *api.Client, scanner *scan.Scanner) error {
 	index, err := talents.GetTalentTreeIndex(scanner)
 	if err != nil {
 		return err
 	}
 
 	for _, specLink := range index.SpecLinks {
-		request, err := bnet.RequestFromUrl(specLink.Url)
+		request, err := api.RequestFromUrl(specLink.Url)
 		if err != nil {
 			return err
 		}
@@ -75,9 +75,9 @@ func downloadTalentResponses(client *bnet.Client, scanner *scan.Scanner) error {
 	}
 
 	for _, path := range staticAssets {
-		err = downloadRequest(client, bnet.Request{
-			Region:    bnet.RegionUS,
-			Namespace: bnet.NamespaceStatic,
+		err = downloadRequest(client, api.Request{
+			Region:    api.RegionUS,
+			Namespace: api.NamespaceStatic,
 			Path:      path,
 		})
 		if err != nil {
@@ -88,7 +88,7 @@ func downloadTalentResponses(client *bnet.Client, scanner *scan.Scanner) error {
 	return nil
 }
 
-func downloadRequest(client *bnet.Client, request bnet.Request) error {
+func downloadRequest(client *api.Client, request api.Request) error {
 	response, err := client.Get(request)
 	if err != nil {
 		return err

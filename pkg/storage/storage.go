@@ -4,7 +4,7 @@ import (
 	"errors"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 )
 
 var ErrNotFound = errors.New("storage: not found")
@@ -16,7 +16,7 @@ type StoredResponse struct {
 
 type Response struct {
 	Body    []byte
-	Request bnet.Request
+	Request api.Request
 }
 
 type CleanResult struct {
@@ -25,13 +25,13 @@ type CleanResult struct {
 
 type ResponseStorage interface {
 	// Stores response for later retrieval by request.
-	Store(request bnet.Request, response []byte, lifespan time.Duration) error
+	Store(request api.Request, response []byte, lifespan time.Duration) error
 
 	// Stores set of responses, ensuring that all responses are stored or none are.
 	StoreLinked(responses []Response, lifespan time.Duration) error
 
 	// Retrieves a non-expired response for the given request.
-	Get(request bnet.Request) (StoredResponse, error)
+	Get(request api.Request) (StoredResponse, error)
 
 	// Cleans up expired responses.
 	Clean() (CleanResult, error)

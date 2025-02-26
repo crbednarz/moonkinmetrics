@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -49,13 +49,13 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 			ShouldFail:     false,
 		}
 	}
-	client := bnet.NewClient(
+	client := api.NewClient(
 		httpClient,
-		bnet.WithCredentials(
+		api.WithCredentials(
 			"mock_client_id",
 			"mock_client_secret",
 		),
-		bnet.WithLimiter(false),
+		api.WithLimiter(false),
 	)
 	cache, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
 	if err != nil {
@@ -68,10 +68,10 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 	)
 }
 
-func newMockRequest(path string) bnet.Request {
-	return bnet.Request{
-		Region:    bnet.RegionUS,
-		Namespace: bnet.NamespaceProfile,
+func newMockRequest(path string) api.Request {
+	return api.Request{
+		Region:    api.RegionUS,
+		Namespace: api.NamespaceProfile,
 		Path:      path,
 	}
 }
@@ -153,7 +153,7 @@ func TestMultiScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan bnet.Request, 10)
+	requests := make(chan api.Request, 10)
 	results := make(chan ScanResult[MockResponseObject], 10)
 	options := newMockOptions[MockResponseObject]()
 
@@ -198,7 +198,7 @@ func TestCachedScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan bnet.Request)
+	requests := make(chan api.Request)
 	results := make(chan ScanResult[MockResponseObject])
 	options := newMockOptions[MockResponseObject]()
 
@@ -207,7 +207,7 @@ func TestCachedScan(t *testing.T) {
 	close(requests)
 	result := <-results
 
-	requests = make(chan bnet.Request)
+	requests = make(chan api.Request)
 	results = make(chan ScanResult[MockResponseObject])
 	Scan(scanner, requests, results, &options)
 	requests <- newMockRequest("/data/wow/mock/path")
