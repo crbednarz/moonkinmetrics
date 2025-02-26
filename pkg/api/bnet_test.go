@@ -6,7 +6,7 @@ import (
 )
 
 func TestRequestToString(t *testing.T) {
-	request := Request{
+	request := BnetRequest{
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
 		Namespace: NamespaceDynamic,
 		Region:    RegionUS,
@@ -24,7 +24,7 @@ func TestRequestToString(t *testing.T) {
 }
 
 func TestRequestToUrl(t *testing.T) {
-	request := Request{
+	request := BnetRequest{
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
 		Namespace: NamespaceDynamic,
 		Region:    RegionUS,
@@ -42,7 +42,7 @@ func TestRequestToUrl(t *testing.T) {
 }
 
 func TestRequestToHttpRequest(t *testing.T) {
-	request := Request{
+	request := BnetRequest{
 		Path:      "/data/wow/pvp-season/35/pvp-leaderboard/3v3",
 		Namespace: NamespaceDynamic,
 		Region:    RegionUS,
@@ -78,7 +78,7 @@ func TestRequestToHttpRequest(t *testing.T) {
 
 func TestRequestFromUrl(t *testing.T) {
 	rawUrl := "https://us.api.blizzard.com/data/wow/talent-tree/850?namespace=static-10.1.7_51059-us"
-	expected := Request{
+	expected := BnetRequest{
 		Path:      "/data/wow/talent-tree/850",
 		Namespace: NamespaceStatic,
 		Region:    RegionUS,

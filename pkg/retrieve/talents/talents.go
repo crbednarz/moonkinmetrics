@@ -155,7 +155,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	}
 
 	numTrees := len(specLinks)
-	requests := make(chan api.Request, numTrees)
+	requests := make(chan api.BnetRequest, numTrees)
 	results := make(chan scan.ScanResult[talentTreeJson], numTrees)
 	options := scan.ScanOptions[talentTreeJson]{
 		Validator: validator,

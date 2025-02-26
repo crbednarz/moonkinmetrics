@@ -58,7 +58,7 @@ func GetTalentTreeIndex(scanner *scan.Scanner) (*TalentTreeIndex, error) {
 
 	result := scan.ScanSingle(
 		scanner,
-		api.Request{
+		api.BnetRequest{
 			Region:    api.RegionUS,
 			Namespace: api.NamespaceStatic,
 			Path:      "/data/wow/talent-tree/index",
