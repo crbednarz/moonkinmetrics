@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 )
 
 type Leaderboard struct {
 	Bracket string
-	Region  bnet.Region
+	Region  api.Region
 	Entries []LeaderboardEntry
 }
 

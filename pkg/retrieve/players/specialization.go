@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
@@ -104,17 +104,17 @@ type keyJson struct {
 
 type loadoutScanOptions struct {
 	OverrideSpec string
-	Region       bnet.Region
+	Region       api.Region
 }
 
 type LoadoutScanOption interface {
 	apply(*loadoutScanOptions)
 }
 
-type regionOption bnet.Region
+type regionOption api.Region
 
 func (r regionOption) apply(options *loadoutScanOptions) {
-	options.Region = bnet.Region(r)
+	options.Region = api.Region(r)
 }
 
 type overrideSpecOption string
@@ -123,7 +123,7 @@ func (o overrideSpecOption) apply(options *loadoutScanOptions) {
 	options.OverrideSpec = string(o)
 }
 
-func WithRegion(region bnet.Region) LoadoutScanOption {
+func WithRegion(region api.Region) LoadoutScanOption {
 	return regionOption(region)
 }
 
@@ -134,13 +134,13 @@ func WithOverrideSpec(spec string) LoadoutScanOption {
 func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...LoadoutScanOption) ([]LoadoutResponse, error) {
 	scanOptions := loadoutScanOptions{
 		OverrideSpec: "",
-		Region:       bnet.RegionUS,
+		Region:       api.RegionUS,
 	}
 	for _, opt := range opts {
 		opt.apply(&scanOptions)
 	}
 
-	requests := make(chan bnet.Request, len(players))
+	requests := make(chan api.Request, len(players))
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validate.NewTagValidator[specializationsJson](),
@@ -150,9 +150,9 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, player := range players {
-		requests <- bnet.Request{
+		requests <- api.Request{
 			Region:    scanOptions.Region,
-			Namespace: bnet.NamespaceProfile,
+			Namespace: api.NamespaceProfile,
 			Path:      player.SpecializationUrl(),
 		}
 	}

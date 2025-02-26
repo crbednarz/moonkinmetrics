@@ -1,4 +1,4 @@
-package bnet
+package api
 
 import (
 	"fmt"
@@ -7,8 +7,10 @@ import (
 	"regexp"
 )
 
-type Namespace string
-type Region string
+type (
+	Namespace string
+	Region    string
+)
 
 const (
 	NamespaceStatic  Namespace = "static"
@@ -16,9 +18,7 @@ const (
 	NamespaceProfile Namespace = "profile"
 )
 
-var (
-	urlRegex = regexp.MustCompile(`^https?:\/\/(us|eu)\.api\.blizzard\.com(\/[^?]+)\?.*namespace=(static|dynamic|profile)-.+$`)
-)
+var urlRegex = regexp.MustCompile(`^https?:\/\/(us|eu)\.api\.blizzard\.com(\/[^?]+)\?.*namespace=(static|dynamic|profile)-.+$`)
 
 const (
 	RegionUS Region = "us"

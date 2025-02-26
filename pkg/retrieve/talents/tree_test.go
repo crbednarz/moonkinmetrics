@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/testutils"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
@@ -28,9 +28,9 @@ func TestGetTalentTree(t *testing.T) {
 
 	response := scan.ScanSingle(
 		scanner,
-		bnet.Request{
-			Namespace: bnet.NamespaceStatic,
-			Region:    bnet.RegionUS,
+		api.Request{
+			Namespace: api.NamespaceStatic,
+			Region:    api.RegionUS,
 			Path:      path,
 		},
 		&scan.ScanOptions[talentTreeJson]{

@@ -1,4 +1,4 @@
-package bnet
+package api
 
 type Response struct {
 	Body       []byte

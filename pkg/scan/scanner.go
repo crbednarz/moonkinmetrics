@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/bytedance/sonic"
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/storage"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -21,7 +21,7 @@ var ErrNotFound = errors.New("not found")
 // Scanner is a utility for querying and caching responses from the Blizzard API.
 type Scanner struct {
 	storage         storage.ResponseStorage
-	client          *bnet.Client
+	client          *api.Client
 	metricsReporter metricsReporter
 	maxRetries      int
 }
@@ -37,7 +37,7 @@ type ScanResultDetails struct {
 type ScanResult[T any] struct {
 	Response   T
 	Error      error
-	ApiRequest bnet.Request
+	ApiRequest api.Request
 	Index      int64
 	Details    ScanResultDetails
 }
@@ -50,7 +50,7 @@ type ScanOptions[T any] struct {
 }
 
 type indexedRequest struct {
-	ApiRequest bnet.Request
+	ApiRequest api.Request
 	Index      int64
 }
 
@@ -60,7 +60,7 @@ type cacheResponse struct {
 	Index int64
 }
 
-func NewScanner(storage storage.ResponseStorage, client *bnet.Client, opts ...ScannerOption) (*Scanner, error) {
+func NewScanner(storage storage.ResponseStorage, client *api.Client, opts ...ScannerOption) (*Scanner, error) {
 	options := scannerOptions{
 		maxRetriesOption: maxRetriesOption{10},
 	}
@@ -85,7 +85,7 @@ func NewScanner(storage storage.ResponseStorage, client *bnet.Client, opts ...Sc
 	}, nil
 }
 
-func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- ScanResult[T], options *ScanOptions[T]) {
+func Scan[T any](scanner *Scanner, requests <-chan api.Request, results chan<- ScanResult[T], options *ScanOptions[T]) {
 	ctx := context.TODO()
 	apiRequests := make(chan indexedRequest, cap(requests))
 	workerCount := min(max(1, cap(requests)), 100)
@@ -137,7 +137,7 @@ func Scan[T any](scanner *Scanner, requests <-chan bnet.Request, results chan<- 
 	}()
 }
 
-func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOptions[T]) ScanResult[T] {
+func ScanSingle[T any](scanner *Scanner, request api.Request, options *ScanOptions[T]) ScanResult[T] {
 	ctx := context.TODO()
 
 	result := ScanResult[T]{
@@ -157,7 +157,7 @@ func ScanSingle[T any](scanner *Scanner, request bnet.Request, options *ScanOpti
 	return result
 }
 
-func buildFromCache[T any](ctx context.Context, scanner *Scanner, request bnet.Request, options *ScanOptions[T], result *ScanResult[T]) {
+func buildFromCache[T any](ctx context.Context, scanner *Scanner, request api.Request, options *ScanOptions[T], result *ScanResult[T]) {
 	cachedResponse, err := scanner.storage.Get(request)
 	if err != nil {
 		result.Error = err
@@ -178,7 +178,7 @@ func buildFromCache[T any](ctx context.Context, scanner *Scanner, request bnet.R
 	}
 }
 
-func buildFromApi[T any](ctx context.Context, scanner *Scanner, request bnet.Request, options *ScanOptions[T], result *ScanResult[T]) {
+func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.Request, options *ScanOptions[T], result *ScanResult[T]) {
 	var lastError error
 	for i := 0; i < scanner.maxRetries; i++ {
 		lastError = nil

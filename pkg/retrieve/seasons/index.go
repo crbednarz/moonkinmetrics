@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 )
@@ -39,7 +39,7 @@ type keyJson struct {
 	Href string `json:"href"`
 }
 
-func GetCurrentSeasonId(scanner *scan.Scanner, region bnet.Region) (int, error) {
+func GetCurrentSeasonId(scanner *scan.Scanner, region api.Region) (int, error) {
 	index, err := GetSeasonsIndex(scanner, region)
 	if err != nil {
 		return -1, err
@@ -48,16 +48,16 @@ func GetCurrentSeasonId(scanner *scan.Scanner, region bnet.Region) (int, error) 
 	return index.CurrentSeason.Id, nil
 }
 
-func GetSeasonsIndex(scanner *scan.Scanner, region bnet.Region) (SeasonsIndex, error) {
+func GetSeasonsIndex(scanner *scan.Scanner, region api.Region) (SeasonsIndex, error) {
 	validator, err := validate.NewSchemaValidator[seasonsIndexJson](seasonsIndexSchema)
 	if err != nil {
 		return SeasonsIndex{}, fmt.Errorf("failed to setup seasons index validator: %w", err)
 	}
 	result := scan.ScanSingle(
 		scanner,
-		bnet.Request{
+		api.Request{
 			Region:    region,
-			Namespace: bnet.NamespaceDynamic,
+			Namespace: api.NamespaceDynamic,
 			Path:      "/data/wow/pvp-season/index",
 		},
 		&scan.ScanOptions[seasonsIndexJson]{

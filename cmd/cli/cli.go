@@ -11,7 +11,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/monitor"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
@@ -25,7 +25,7 @@ import (
 )
 
 type bracketScanOptions struct {
-	Region    bnet.Region
+	Region    api.Region
 	Bracket   string
 	Output    string
 	MinRating uint
@@ -54,7 +54,7 @@ func runTalentScan(c *cli.Context) error {
 }
 
 func runLadderScan(c *cli.Context) error {
-	region := bnet.Region(c.String("region"))
+	region := api.Region(c.String("region"))
 
 	scanner, err := buildScanner(c)
 	if err != nil {
@@ -161,19 +161,19 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 	offline := c.Bool("offline")
 
-	var httpClient bnet.HttpClient
+	var httpClient api.HttpClient
 	if offline {
-		httpClient = &bnet.OfflineHttpClient{}
+		httpClient = &api.OfflineHttpClient{}
 	} else {
 		httpClient = &http.Client{}
 	}
-	client := bnet.NewClient(
+	client := api.NewClient(
 		httpClient,
-		bnet.WithCredentials(
+		api.WithCredentials(
 			c.String("client-id"),
 			c.String("client-secret"),
 		),
-		bnet.WithLimiter(!offline),
+		api.WithLimiter(!offline),
 	)
 
 	if !offline {

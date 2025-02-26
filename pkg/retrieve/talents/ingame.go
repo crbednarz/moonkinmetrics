@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/crbednarz/moonkinmetrics/pkg/bnet"
+	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/hack"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
 	"github.com/crbednarz/moonkinmetrics/pkg/validate"
@@ -112,7 +112,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 		return nil, fmt.Errorf("failed to create talent validator: %v", err)
 	}
 
-	requests := make(chan bnet.Request, len(talentIds))
+	requests := make(chan api.Request, len(talentIds))
 	results := make(chan scan.ScanResult[talentJson], len(talentIds))
 	options := scan.ScanOptions[talentJson]{
 		Validator: validator,
@@ -121,9 +121,9 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, talentId := range talentIds {
-		apiRequest := bnet.Request{
-			Region:    bnet.RegionUS,
-			Namespace: bnet.NamespaceStatic,
+		apiRequest := api.Request{
+			Region:    api.RegionUS,
+			Namespace: api.NamespaceStatic,
 			Path:      fmt.Sprintf("/data/wow/talent/%d", talentId),
 		}
 
