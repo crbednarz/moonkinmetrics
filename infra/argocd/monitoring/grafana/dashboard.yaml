@@ -34,6 +34,238 @@ spec:
         {
           "datasource": {
             "type": "prometheus",
+            "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
+          },
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 25,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "normal"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "id": 8,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
+              },
+              "editorMode": "code",
+              "expr": "sum(scan_requests_total{cached=\"false\"})",
+              "instant": false,
+              "legendFormat": "Non-Cached Requests",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
+              },
+              "editorMode": "code",
+              "expr": "sum(scan_api_attempts_total) - sum(scan_requests_total{cached=\"false\"})",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "API Hits",
+              "range": true,
+              "refId": "B"
+            }
+          ],
+          "title": "Total API Hits",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "axisSoftMin": 1,
+                "barAlignment": 0,
+                "drawStyle": "line",
+                "fillOpacity": 25,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "always",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": [
+              {
+                "__systemRef": "hideSeriesFrom",
+                "matcher": {
+                  "id": "byNames",
+                  "options": {
+                    "mode": "exclude",
+                    "names": [
+                      "API Hits Per Request (5m)"
+                    ],
+                    "prefix": "All except:",
+                    "readOnly": true
+                  }
+                },
+                "properties": [
+                  {
+                    "id": "custom.hideFrom",
+                    "value": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": true
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 0
+          },
+          "id": 7,
+          "interval": "5m",
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": true
+            },
+            "tooltip": {
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "a518cca3-04cf-4fc5-9f33-dfa81c9f7797"
+              },
+              "editorMode": "code",
+              "expr": "sum(increase(scan_api_attempts_total[$__interval])) / sum(increase(scan_requests_total{cached=\"false\"}[$__interval]))",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "API Hits Per Request (5m)",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "API Hits Per Request (5m)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
             "uid": "prometheus"
           },
           "fieldConfig": {
@@ -110,7 +342,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 0
+            "y": 6
           },
           "id": 1,
           "options": {
@@ -309,7 +541,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 0
+            "y": 6
           },
           "id": 3,
           "options": {
@@ -478,7 +710,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 0
+            "y": 6
           },
           "id": 2,
           "options": {
@@ -602,7 +834,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 0,
-            "y": 8
+            "y": 14
           },
           "id": 4,
           "interval": "5m",
@@ -807,7 +1039,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 8,
-            "y": 8
+            "y": 14
           },
           "id": 5,
           "interval": "5m",
@@ -977,7 +1209,7 @@ spec:
             "h": 8,
             "w": 8,
             "x": 16,
-            "y": 8
+            "y": 14
           },
           "id": 6,
           "interval": "5m",
@@ -1038,6 +1270,6 @@ spec:
       "timezone": "browser",
       "title": "MoonkinMetrics - Scanner",
       "uid": "ae5jt15wb198gc",
-      "version": 11,
+      "version": 16,
       "weekStart": ""
     }
