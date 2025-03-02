@@ -168,12 +168,15 @@ spec:
                 },
                 "insertNulls": false,
                 "lineInterpolation": "linear",
+                "lineStyle": {
+                  "fill": "solid"
+                },
                 "lineWidth": 1,
                 "pointSize": 5,
                 "scaleDistribution": {
                   "type": "linear"
                 },
-                "showPoints": "always",
+                "showPoints": "auto",
                 "spanNulls": false,
                 "stacking": {
                   "group": "A",
@@ -1270,6 +1273,6 @@ spec:
       "timezone": "browser",
       "title": "MoonkinMetrics - Scanner",
       "uid": "ae5jt15wb198gc",
-      "version": 16,
+      "version": 18,
       "weekStart": ""
     }
