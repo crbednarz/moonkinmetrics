@@ -33,7 +33,7 @@ jobs:
         run: go test -v ./...
       - name: Run scanner
         run: |
-          go run cmd/cli/cli.go --cache-dir clean
+          go run cmd/cli/cli.go --cache-dir /tmp clean
           go run cmd/cli/cli.go --cache-dir /tmp --collector $NODE_IP:4317 --output ./wow ladder --region us --bracket blitz 
       - name: Configure AWS credentials
         if: github.ref == 'refs/heads/master'
