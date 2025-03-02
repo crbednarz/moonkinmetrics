@@ -1,7 +1,6 @@
 package api
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,8 +11,10 @@ import (
 	"sync"
 	"time"
 
-	"golang.org/x/time/rate"
+	"github.com/eapache/go-resiliency/retrier"
 )
+
+var ErrRateLimited = fmt.Errorf("rate limited")
 
 type HttpClient interface {
 	Do(req *http.Request) (*http.Response, error)
@@ -23,7 +24,7 @@ type HttpClient interface {
 // Note that Authenticate must be called before making any requests.
 type Client struct {
 	httpClient   HttpClient
-	limiter      *rate.Limiter
+	retrier      *retrier.Retrier
 	clientId     string
 	clientSecret string
 	token        string
@@ -73,14 +74,17 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 		opt.apply(&options)
 	}
 
-	limiter := rate.NewLimiter(rate.Every(time.Second/100), 10)
+	limiter := retrier.New(
+		retrier.LimitedExponentialBackoff(1, time.Millisecond, time.Second*10),
+		retrier.WhitelistClassifier{ErrRateLimited},
+	).WithInfiniteRetry()
 	if !options.limiterOption {
-		limiter = nil
+		limiter = retrier.New(retrier.ConstantBackoff(0, time.Second*0), nil).WithInfiniteRetry()
 	}
 
 	return &Client{
 		httpClient:   client,
-		limiter:      limiter,
+		retrier:      limiter,
 		clientId:     options.clientId,
 		clientSecret: options.clientSecret,
 	}
@@ -88,34 +92,25 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 
 func (c *Client) Get(request Request) (*Response, error) {
 	var response *http.Response
-	var err error
 	attempts := 0
 
-	for {
-		ctx := context.TODO()
-		if c.limiter != nil {
-			err := c.limiter.Wait(ctx)
-			if err != nil {
-				return nil, err
-			}
-		}
-
-		response, err = c.doAuthenticatedRequest(request)
+	err := c.retrier.Run(func() error {
+		var requestErr error
+		response, requestErr = c.doAuthenticatedRequest(request)
 		attempts++
-		if err != nil {
-			return nil, err
+		if requestErr != nil {
+			return requestErr
 		}
 
 		if response.StatusCode == 429 {
 			log.Printf("Rate limited, waiting")
-			err = c.limiter.WaitN(ctx, 5)
-			if err != nil {
-				return nil, err
-			}
-			continue
+			return ErrRateLimited
 		}
 
-		break
+		return nil
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	body, err := io.ReadAll(response.Body)
