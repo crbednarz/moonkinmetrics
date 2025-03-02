@@ -23,7 +23,7 @@ type HttpClient interface {
 // Note that Authenticate must be called before making any requests.
 type Client struct {
 	httpClient   HttpClient
-	limiter      *rate.Limiter
+	limiter      *Limiter
 	clientId     string
 	clientSecret string
 	token        string
@@ -73,7 +73,7 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 		opt.apply(&options)
 	}
 
-	limiter := rate.NewLimiter(rate.Every(time.Second/100), 10)
+	limiter := NewLimiter(rate.Every(time.Second/100), rate.Every(time.Second), 10)
 	if !options.limiterOption {
 		limiter = nil
 	}
@@ -108,14 +108,17 @@ func (c *Client) Get(request Request) (*Response, error) {
 
 		if response.StatusCode == 429 {
 			log.Printf("Rate limited, waiting")
-			err = c.limiter.WaitN(ctx, 5)
-			if err != nil {
-				return nil, err
+			if c.limiter != nil {
+				c.limiter.Backoff()
 			}
 			continue
 		}
 
 		break
+	}
+
+	if attempts <= 1 && c.limiter != nil {
+		c.limiter.EaseBackoff()
 	}
 
 	body, err := io.ReadAll(response.Body)
