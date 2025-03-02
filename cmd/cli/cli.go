@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"net/http"
@@ -9,9 +10,10 @@ import (
 	"runtime/pprof"
 	"strings"
 
-	"github.com/urfave/cli/v2"
+	ucli "github.com/urfave/cli/v2"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/api"
+	"github.com/crbednarz/moonkinmetrics/pkg/cli"
 	"github.com/crbednarz/moonkinmetrics/pkg/monitor"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/seasons"
 	"github.com/crbednarz/moonkinmetrics/pkg/retrieve/talents"
@@ -31,7 +33,7 @@ type bracketScanOptions struct {
 	MinRating uint
 }
 
-func runTalentScan(c *cli.Context) error {
+func runTalentScan(c *ucli.Context) error {
 	scanner, err := buildScanner(c)
 	if err != nil {
 		return fmt.Errorf("unable to build API scanner: %w", err)
@@ -53,7 +55,11 @@ func runTalentScan(c *cli.Context) error {
 	return nil
 }
 
-func runLadderScan(c *cli.Context) error {
+func runPveScan(c *ucli.Context) error {
+	return errors.New("runPveScan not implemented")
+}
+
+func runLadderScan(c *ucli.Context) error {
 	region := api.Region(c.String("region"))
 
 	scanner, err := buildScanner(c)
@@ -66,19 +72,7 @@ func runLadderScan(c *cli.Context) error {
 		return fmt.Errorf("unable to retrieve talent trees: %w", err)
 	}
 
-	bracketArg := c.String("bracket")
-	brackets := []string{bracketArg}
-	if bracketArg == "shuffle" || bracketArg == "blitz" {
-		brackets = make([]string, 0, len(wow.SpecByClass)*3)
-		for class, specs := range wow.SpecByClass {
-			classSlug := strings.ReplaceAll(class, " ", "")
-			for _, spec := range specs {
-				specSlug := strings.ReplaceAll(spec, " ", "")
-				slug := strings.ToLower(fmt.Sprintf("%s-%s-%s", bracketArg, classSlug, specSlug))
-				brackets = append(brackets, slug)
-			}
-		}
-	}
+	brackets := cli.ExpandBracketArg(c.String("bracket"))
 	for _, bracket := range brackets {
 		log.Printf("Scanning bracket: %s", bracket)
 		err = scanBracket(
@@ -98,7 +92,7 @@ func runLadderScan(c *cli.Context) error {
 	return nil
 }
 
-func runClean(c *cli.Context) error {
+func runClean(c *ucli.Context) error {
 	storage, err := buildStorage(c)
 	if err != nil {
 		return fmt.Errorf("unable to build storage: %w", err)
@@ -158,7 +152,7 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 	return nil
 }
 
-func buildScanner(c *cli.Context) (*scan.Scanner, error) {
+func buildScanner(c *ucli.Context) (*scan.Scanner, error) {
 	offline := c.Bool("offline")
 
 	var httpClient api.HttpClient
@@ -202,7 +196,7 @@ func buildScanner(c *cli.Context) (*scan.Scanner, error) {
 	)
 }
 
-func buildStorage(c *cli.Context) (storage.ResponseStorage, error) {
+func buildStorage(c *ucli.Context) (storage.ResponseStorage, error) {
 	offline := c.Bool("offline")
 	err := os.MkdirAll(c.Path("cache-dir"), 0755)
 	if err != nil {
@@ -227,47 +221,47 @@ func main() {
 		}
 	}()
 
-	app := &cli.App{
+	app := &ucli.App{
 		Name:        "moonkinmetrics",
 		Description: "Moonkin Metrics Scanning CLI",
-		Flags: []cli.Flag{
-			&cli.StringFlag{
+		Flags: []ucli.Flag{
+			&ucli.StringFlag{
 				Name:    "client-id",
 				Usage:   "Battle.net API client ID",
 				EnvVars: []string{"WOW_CLIENT_ID"},
 			},
-			&cli.StringFlag{
+			&ucli.StringFlag{
 				Name:    "client-secret",
 				Usage:   "Battle.net API client secret",
 				EnvVars: []string{"WOW_CLIENT_SECRET"},
 			},
-			&cli.BoolFlag{
+			&ucli.BoolFlag{
 				Name:  "offline",
 				Usage: "Run in offline mode",
 				Value: false,
 			},
-			&cli.PathFlag{
+			&ucli.PathFlag{
 				Name:  "output",
 				Usage: "Output path",
 				Value: "ui/wow",
 			},
-			&cli.PathFlag{
+			&ucli.PathFlag{
 				Name:  "cache-dir",
 				Usage: "Cache directory",
 				Value: ".",
 			},
-			&cli.PathFlag{
+			&ucli.PathFlag{
 				Name:  "perf",
 				Usage: "Enable performance profiling",
 				Value: "",
 			},
-			&cli.StringFlag{
+			&ucli.StringFlag{
 				Name:  "collector",
 				Usage: "URL of the OpenTelemetry collector",
 				Value: "",
 			},
 		},
-		Before: func(c *cli.Context) error {
+		Before: func(c *ucli.Context) error {
 			if c.Path("perf") != "" {
 				f, err := os.Create(c.Path("perf"))
 				if err != nil {
@@ -289,13 +283,13 @@ func main() {
 			}
 			return nil
 		},
-		After: func(c *cli.Context) error {
+		After: func(c *ucli.Context) error {
 			if c.String("perf") != "" {
 				pprof.StopCPUProfile()
 			}
 			return nil
 		},
-		Commands: []*cli.Command{
+		Commands: []*ucli.Command{
 			{
 				Name:   "clean",
 				Usage:  "Clean up expired cache entries",
@@ -307,24 +301,29 @@ func main() {
 				Action: runTalentScan,
 			},
 			{
+				Name:   "pve",
+				Usage:  "Export pve leaderboards to JSON",
+				Action: runPveScan,
+			},
+			{
 				Name:   "ladder",
 				Usage:  "Export ladder to JSON",
 				Action: runLadderScan,
-				Flags: []cli.Flag{
-					&cli.StringFlag{
+				Flags: []ucli.Flag{
+					&ucli.StringFlag{
 						Name:  "bracket",
 						Usage: "PvP bracket to scan",
 					},
-					&cli.StringFlag{
+					&ucli.StringFlag{
 						Name:  "region",
 						Usage: "Region to scan",
 					},
-					&cli.UintFlag{
+					&ucli.UintFlag{
 						Name:  "min-rating",
 						Usage: "Minimum rating to include",
 						Value: 1600,
 					},
-					&cli.UintFlag{
+					&ucli.UintFlag{
 						Name:  "max-entries",
 						Usage: "Maximum entries to include",
 						Value: 7500,
