@@ -28,7 +28,7 @@ func TestGetTalentTree(t *testing.T) {
 
 	response := scan.ScanSingle(
 		scanner,
-		api.BnetRequest{
+		&api.BnetRequest{
 			Namespace: api.NamespaceStatic,
 			Region:    api.RegionUS,
 			Path:      path,

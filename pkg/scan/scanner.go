@@ -37,7 +37,7 @@ type ScanResultDetails struct {
 type ScanResult[T any] struct {
 	Response   T
 	Error      error
-	ApiRequest api.BnetRequest
+	ApiRequest api.Request
 	Index      int64
 	Details    ScanResultDetails
 }
@@ -50,7 +50,7 @@ type ScanOptions[T any] struct {
 }
 
 type indexedRequest struct {
-	ApiRequest api.BnetRequest
+	ApiRequest api.Request
 	Index      int64
 }
 
@@ -85,7 +85,7 @@ func NewScanner(storage storage.ResponseStorage, client *api.Client, opts ...Sca
 	}, nil
 }
 
-func Scan[T any](scanner *Scanner, requests <-chan api.BnetRequest, results chan<- ScanResult[T], options *ScanOptions[T]) {
+func Scan[T any](scanner *Scanner, requests <-chan api.Request, results chan<- ScanResult[T], options *ScanOptions[T]) {
 	ctx := context.TODO()
 	apiRequests := make(chan indexedRequest, cap(requests))
 	workerCount := min(max(1, cap(requests)), 100)
@@ -137,7 +137,7 @@ func Scan[T any](scanner *Scanner, requests <-chan api.BnetRequest, results chan
 	}()
 }
 
-func ScanSingle[T any](scanner *Scanner, request api.BnetRequest, options *ScanOptions[T]) ScanResult[T] {
+func ScanSingle[T any](scanner *Scanner, request api.Request, options *ScanOptions[T]) ScanResult[T] {
 	ctx := context.TODO()
 
 	result := ScanResult[T]{
@@ -157,7 +157,7 @@ func ScanSingle[T any](scanner *Scanner, request api.BnetRequest, options *ScanO
 	return result
 }
 
-func buildFromCache[T any](ctx context.Context, scanner *Scanner, request api.BnetRequest, options *ScanOptions[T], result *ScanResult[T]) {
+func buildFromCache[T any](ctx context.Context, scanner *Scanner, request api.Request, options *ScanOptions[T], result *ScanResult[T]) {
 	cachedResponse, err := scanner.storage.Get(request)
 	if err != nil {
 		result.Error = err
@@ -178,13 +178,13 @@ func buildFromCache[T any](ctx context.Context, scanner *Scanner, request api.Bn
 	}
 }
 
-func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.BnetRequest, options *ScanOptions[T], result *ScanResult[T]) {
+func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.Request, options *ScanOptions[T], result *ScanResult[T]) {
 	var lastError error
 	for i := 0; i < scanner.maxRetries; i++ {
 		lastError = nil
-		apiResponse, err := scanner.client.Get(&request)
+		apiResponse, err := scanner.client.Get(request)
 		if err != nil {
-			lastError = fmt.Errorf("failed to retrieve response for %s: %w", request.Path, err)
+			lastError = fmt.Errorf("failed to retrieve response for %s: %w", request.Id(), err)
 			continue
 		}
 
@@ -198,14 +198,14 @@ func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.Bnet
 		}
 
 		if apiResponse.StatusCode >= 300 {
-			lastError = fmt.Errorf("failed to retrieve response for %s: %d", request.Path, apiResponse.StatusCode)
+			lastError = fmt.Errorf("failed to retrieve response for %s: %d", request.Id(), apiResponse.StatusCode)
 			result.Details.ApiErrors++
 			continue
 		}
 
 		repaired, err := buildFromJson(apiResponse.Body, options, &result.Response)
 		if err != nil {
-			result.Error = fmt.Errorf("response for %s failed validation: %w", request.Path, err)
+			result.Error = fmt.Errorf("response for %s failed validation: %w", request.Id(), err)
 			return
 		}
 

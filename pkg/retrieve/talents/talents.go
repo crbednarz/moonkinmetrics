@@ -155,7 +155,7 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 	}
 
 	numTrees := len(specLinks)
-	requests := make(chan api.BnetRequest, numTrees)
+	requests := make(chan api.Request, numTrees)
 	results := make(chan scan.ScanResult[talentTreeJson], numTrees)
 	options := scan.ScanOptions[talentTreeJson]{
 		Validator: validator,
@@ -171,23 +171,23 @@ func getTreesFromSpecTrees(scanner *scan.Scanner, specLinks []SpecTreeLink) ([]w
 			return nil, err
 		}
 
-		requests <- apiRequest
+		requests <- &apiRequest
 	}
 	close(requests)
 
 	trees := make([]wow.TalentTree, 0, numTrees)
 	for i := 0; i < numTrees; i++ {
 		result := <-results
-		log.Printf("Retrieving talent tree: %v", result.ApiRequest.Path)
+		log.Printf("Retrieving talent tree: %v", result.ApiRequest.Id())
 		if result.Error != nil {
-			path := result.ApiRequest.Path
-			log.Printf("Failed to retrieve talent tree (%s): %v", path, result.Error)
+			id := result.ApiRequest.Id()
+			log.Printf("Failed to retrieve talent tree (%s): %v", id, result.Error)
 			continue
 		}
 
 		tree, err := parseTalentTreeJson(&result.Response)
 		if err != nil {
-			path := result.ApiRequest.Path
+			path := result.ApiRequest.Id()
 			log.Printf("Failed to parse talent tree json (%s): %v", path, err)
 			continue
 		}

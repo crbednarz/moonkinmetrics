@@ -70,7 +70,7 @@ func getPvpTalentsIndex(scanner *scan.Scanner) (*pvpTalentsIndexJson, error) {
 
 	indexResult := scan.ScanSingle(
 		scanner,
-		api.BnetRequest{
+		&api.BnetRequest{
 			Namespace: api.NamespaceStatic,
 			Region:    api.RegionUS,
 			Path:      "/data/wow/pvp-talent/index",
@@ -95,7 +95,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	}
 
 	numTalents := len(index.PvpTalents)
-	requests := make(chan api.BnetRequest, numTalents)
+	requests := make(chan api.Request, numTalents)
 	results := make(chan scan.ScanResult[pvpTalentJson], numTalents)
 	options := scan.ScanOptions[pvpTalentJson]{
 		Validator: validator,
@@ -110,7 +110,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 			return nil, fmt.Errorf("failed to parse pvp talent url: %w", err)
 		}
 
-		requests <- apiRequest
+		requests <- &apiRequest
 	}
 	close(requests)
 
@@ -118,7 +118,7 @@ func getPvpTalentsFromIndex(scanner *scan.Scanner, index *pvpTalentsIndexJson) (
 	for i := 0; i < numTalents; i++ {
 		result := <-results
 		if result.Error != nil {
-			return nil, fmt.Errorf("can't get pvp talents (%s): %w", result.ApiRequest.Path, result.Error)
+			return nil, fmt.Errorf("can't get pvp talents (%s): %w", result.ApiRequest.Id(), result.Error)
 		}
 		talent := parsePvpTalent(&result.Response)
 		talents[i] = talent
