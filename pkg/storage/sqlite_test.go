@@ -37,12 +37,12 @@ func TestCanRetrieve(t *testing.T) {
 	}
 	response := []byte("{\"hello\": \"world\"}}")
 
-	err = db.Store(request, response, time.Hour)
+	err = db.Store(&request, response, time.Hour)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	storedResponse, err := db.Get(request)
+	storedResponse, err := db.Get(&request)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -65,12 +65,12 @@ func TestCanExpire(t *testing.T) {
 	}
 	response := []byte("{\"hello\": \"world\"}}")
 
-	err = db.Store(request, response, -1*time.Second)
+	err = db.Store(&request, response, -1*time.Second)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	_, err = db.Get(request)
+	_, err = db.Get(&request)
 	if !errors.Is(err, ErrNotFound) {
 		t.Fatalf("expected %s, got %s", ErrNotFound, err)
 	}
@@ -85,7 +85,7 @@ func TestCanRetrieveFromMany(t *testing.T) {
 	mockResponses := createMockResponses(100)
 
 	for i := 0; i < 100; i++ {
-		err = db.Store(mockResponses[i].Request, mockResponses[i].Body, time.Hour)
+		err = db.Store(&mockResponses[i].Request, mockResponses[i].Body, time.Hour)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -95,7 +95,7 @@ func TestCanRetrieveFromMany(t *testing.T) {
 		request := mockResponses[i].Request
 		response := mockResponses[i].Body
 
-		storedResponse, err := db.Get(request)
+		storedResponse, err := db.Get(&request)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -118,12 +118,12 @@ func TestCanReplace(t *testing.T) {
 	}
 	response := []byte("{\"value\": \"1\"}}")
 
-	err = db.Store(request, response, time.Hour)
+	err = db.Store(&request, response, time.Hour)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	storedResponse, err := db.Get(request)
+	storedResponse, err := db.Get(&request)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -133,12 +133,12 @@ func TestCanReplace(t *testing.T) {
 
 	response = []byte("{\"value\": \"2\"}}")
 
-	err = db.Store(request, response, time.Hour)
+	err = db.Store(&request, response, time.Hour)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	storedResponse, err = db.Get(request)
+	storedResponse, err = db.Get(&request)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -149,33 +149,6 @@ func TestCanReplace(t *testing.T) {
 
 	if storedResponse.Timestamp.Equal(originalTimestamp) {
 		t.Fatalf("expected timestamps to be different, got %s", storedResponse.Timestamp)
-	}
-}
-
-func TestCanInsertLinked(t *testing.T) {
-	db, err := NewSqlite(":memory:", SqliteOptions{})
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	mockResponses := createMockResponses(100)
-
-	err = db.StoreLinked(mockResponses, time.Hour)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	for i := 0; i < 100; i++ {
-		request := mockResponses[i].Request
-		response := mockResponses[i].Body
-
-		storedResponse, err := db.Get(request)
-		if err != nil {
-			t.Fatal(err)
-		}
-		if string(storedResponse.Body) != string(response) {
-			t.Fatalf("expected %s, got %s", response, storedResponse.Body)
-		}
 	}
 }
 
@@ -191,7 +164,7 @@ func TestMissing(t *testing.T) {
 		Path:      "/data/wow/character/tichondrius/charactername",
 	}
 
-	_, err = db.Get(request)
+	_, err = db.Get(&request)
 	if err == nil {
 		t.Fatal("expected error, got nil")
 	} else if !errors.Is(err, ErrNotFound) {

@@ -140,7 +140,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 		opt.apply(&scanOptions)
 	}
 
-	requests := make(chan api.BnetRequest, len(players))
+	requests := make(chan api.Request, len(players))
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validate.NewTagValidator[specializationsJson](),
@@ -150,7 +150,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 
 	scan.Scan(scanner, requests, results, &options)
 	for _, player := range players {
-		requests <- api.BnetRequest{
+		requests <- &api.BnetRequest{
 			Region:    scanOptions.Region,
 			Namespace: api.NamespaceProfile,
 			Path:      player.SpecializationUrl(),
@@ -161,11 +161,11 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	loadouts := make([]LoadoutResponse, len(players))
 	for i := 0; i < len(loadouts); i++ {
 		result := <-results
-		log.Printf("Retrieved player loadout: %v", result.ApiRequest.Path)
+		log.Printf("Retrieved player loadout: %v", result.ApiRequest.Id())
 		if result.Error != nil {
-			path := result.ApiRequest.Path
+			id := result.ApiRequest.Id()
 			loadouts[result.Index].Error = result.Error
-			log.Printf("Failed to retrieve player loadout (%s): %v", path, result.Error)
+			log.Printf("Failed to retrieve player loadout (%s): %v", id, result.Error)
 			continue
 		}
 
@@ -173,8 +173,8 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 		loadouts[result.Index].Loadout = loadout
 		loadouts[result.Index].Error = err
 		if err != nil {
-			path := result.ApiRequest.Path
-			log.Printf("Failed to parse player loadout json (%s): %v", path, err)
+			id := result.ApiRequest.Id()
+			log.Printf("Failed to parse player loadout json (%s): %v", id, err)
 			continue
 		}
 	}

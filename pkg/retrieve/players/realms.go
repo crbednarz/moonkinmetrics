@@ -26,7 +26,7 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 		return nil, fmt.Errorf("failed to setup realm validator: %w", err)
 	}
 
-	requests := make(chan api.BnetRequest, len(realmLinks))
+	requests := make(chan api.Request, len(realmLinks))
 	results := make(chan scan.ScanResult[realmJson], len(realmLinks))
 	options := scan.ScanOptions[realmJson]{
 		Validator: validator,
@@ -42,14 +42,14 @@ func GetRealms(scanner *scan.Scanner, realmLinks []wow.RealmLink) ([]wow.Realm, 
 			return nil, fmt.Errorf("failed to create request from realm link [%v]: %w", realmLink.Url, err)
 		}
 
-		requests <- request
+		requests <- &request
 	}
 	close(requests)
 
 	realms := make([]wow.Realm, 0, len(realmLinks))
 	for result := range results {
 		if result.Error != nil {
-			return nil, fmt.Errorf("failed to retrieve realm [%v]: %w", result.ApiRequest.Url(), result.Error)
+			return nil, fmt.Errorf("failed to retrieve realm [%v]: %w", result.ApiRequest.Id(), result.Error)
 		}
 		realms = append(realms, wow.Realm{
 			Name: result.Response.Name,

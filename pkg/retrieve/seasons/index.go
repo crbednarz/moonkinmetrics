@@ -55,7 +55,7 @@ func GetSeasonsIndex(scanner *scan.Scanner, region api.Region) (SeasonsIndex, er
 	}
 	result := scan.ScanSingle(
 		scanner,
-		api.BnetRequest{
+		&api.BnetRequest{
 			Region:    region,
 			Namespace: api.NamespaceDynamic,
 			Path:      "/data/wow/pvp-season/index",

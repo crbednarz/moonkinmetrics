@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	_ "embed"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -38,15 +37,13 @@ func NewSqlite(path string, options SqliteOptions) (*Sqlite, error) {
 	return &Sqlite{db: db, options: options}, nil
 }
 
-func (s *Sqlite) Store(request api.BnetRequest, response []byte, lifespan time.Duration) error {
+func (s *Sqlite) Store(request api.Request, response []byte, lifespan time.Duration) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	now := time.Now()
 	_, err := s.db.Exec(
-		"INSERT OR REPLACE INTO ApiResponses (region, namespace, path, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?)",
-		request.Region,
-		request.Namespace,
-		request.Path,
+		"INSERT OR REPLACE INTO ApiResponses (id, data, timestamp, expires) VALUES (?, ?, ?, ?)",
+		request.Id(),
 		response,
 		now.Unix(),
 		now.Add(lifespan).Unix(),
@@ -54,45 +51,7 @@ func (s *Sqlite) Store(request api.BnetRequest, response []byte, lifespan time.D
 	return err
 }
 
-func (s *Sqlite) StoreLinked(responses []Response, lifespan time.Duration) error {
-	s.lock.Lock()
-	defer s.lock.Unlock()
-	tx, err := s.db.Begin()
-	if err != nil {
-		return err
-	}
-	stmt, err := tx.Prepare(
-		"INSERT OR REPLACE INTO ApiResponses (region, namespace, path, data, timestamp, expires) VALUES (?, ?, ?, ?, ?, ?)",
-	)
-	if err != nil {
-		if txErr := tx.Rollback(); txErr != nil {
-			return fmt.Errorf("failed to prepare statement: %w, failed to rollback transaction: %v", err, txErr)
-		} else {
-			return fmt.Errorf("failed to prepare statement: %w", err)
-		}
-	}
-	now := time.Now()
-	for _, response := range responses {
-		_, err = stmt.Exec(
-			response.Request.Region,
-			response.Request.Namespace,
-			response.Request.Path,
-			response.Body,
-			time.Now().Unix(),
-			now.Add(lifespan).Unix(),
-		)
-		if err != nil {
-			if txErr := tx.Rollback(); txErr != nil {
-				return fmt.Errorf("failed to execute statement: %w, failed to rollback transaction: %v", err, txErr)
-			} else {
-				return fmt.Errorf("failed to execute statement: %w", err)
-			}
-		}
-	}
-	return tx.Commit()
-}
-
-func (s *Sqlite) Get(request api.BnetRequest) (StoredResponse, error) {
+func (s *Sqlite) Get(request api.Request) (StoredResponse, error) {
 	s.lock.RLock()
 	defer s.lock.RUnlock()
 
@@ -102,10 +61,8 @@ func (s *Sqlite) Get(request api.BnetRequest) (StoredResponse, error) {
 	}
 
 	row := s.db.QueryRow(
-		"SELECT data, timestamp FROM ApiResponses WHERE region = ? AND namespace = ? AND path = ? AND expires >= ?",
-		request.Region,
-		request.Namespace,
-		request.Path,
+		"SELECT data, timestamp FROM ApiResponses WHERE id = ? AND expires >= ?",
+		request.Id(),
 		currentTime,
 	)
 	var response StoredResponse

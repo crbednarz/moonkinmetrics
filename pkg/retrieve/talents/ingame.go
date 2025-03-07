@@ -112,7 +112,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 		return nil, fmt.Errorf("failed to create talent validator: %v", err)
 	}
 
-	requests := make(chan api.BnetRequest, len(talentIds))
+	requests := make(chan api.Request, len(talentIds))
 	results := make(chan scan.ScanResult[talentJson], len(talentIds))
 	options := scan.ScanOptions[talentJson]{
 		Validator: validator,
@@ -127,7 +127,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 			Path:      fmt.Sprintf("/data/wow/talent/%d", talentId),
 		}
 
-		requests <- apiRequest
+		requests <- &apiRequest
 	}
 	close(requests)
 
@@ -136,7 +136,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 	for i := 0; i < len(talentIds); i++ {
 		result := <-results
 		if result.Error != nil {
-			return nil, fmt.Errorf("failed to retrieve talent (%v): %w", result.ApiRequest.Path, result.Error)
+			return nil, fmt.Errorf("failed to retrieve talent (%v): %w", result.ApiRequest.Id(), result.Error)
 		}
 
 		talents[result.Response.Id] = result.Response
