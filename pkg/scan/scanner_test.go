@@ -93,7 +93,7 @@ func TestSingleScan(t *testing.T) {
 	request := newMockRequest("/data/wow/mock/path")
 	options := newMockOptions[MockResponseObject]()
 
-	result := ScanSingle(scanner, request, &options)
+	result := ScanSingle(scanner, &request, &options)
 
 	if result.Error != nil {
 		t.Errorf("Expected no error, got %v", result.Error)
@@ -136,7 +136,7 @@ func TestSingleScanRepair(t *testing.T) {
 		Lifespan: time.Hour,
 	}
 
-	result := ScanSingle(scanner, request, &options)
+	result := ScanSingle(scanner, &request, &options)
 
 	if result.Error != nil {
 		t.Errorf("Expected no error, got %v", result.Error)
@@ -153,23 +153,20 @@ func TestMultiScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan api.BnetRequest, 10)
+	requests := make(chan api.Request, 10)
 	results := make(chan ScanResult[MockResponseObject], 10)
 	options := newMockOptions[MockResponseObject]()
 
 	Scan(scanner, requests, results, &options)
 
-	for i := 0; i < 10; i++ {
-		requests <- newMockRequest(fmt.Sprintf("/data/wow/mock/%d", i))
-	}
-	close(requests)
-
 	remainingResults := map[string]string{}
 	for i := 0; i < 10; i++ {
-		key := fmt.Sprintf("/data/wow/mock/%d", i)
-		value := key
-		remainingResults[key] = value
+		value := fmt.Sprintf("/data/wow/mock/%d", i)
+		request := newMockRequest(value)
+		remainingResults[request.Id()] = value
+		requests <- &request
 	}
+	close(requests)
 
 	for i := 0; i < 10; i++ {
 		result := <-results
@@ -177,11 +174,11 @@ func TestMultiScan(t *testing.T) {
 			t.Errorf("Expected no error, got %v", result.Error)
 		}
 
-		body := remainingResults[result.ApiRequest.Path]
+		body := remainingResults[result.ApiRequest.Id()]
 		if string(result.Response.Path) != body {
 			t.Errorf("Expected body to be %s, got %s", body, string(result.Response.Path))
 		}
-		delete(remainingResults, result.ApiRequest.Path)
+		delete(remainingResults, result.ApiRequest.Id())
 	}
 
 	if len(remainingResults) != 0 {
@@ -198,19 +195,21 @@ func TestCachedScan(t *testing.T) {
 		t.Error(err)
 	}
 
-	requests := make(chan api.BnetRequest)
+	requests := make(chan api.Request)
 	results := make(chan ScanResult[MockResponseObject])
 	options := newMockOptions[MockResponseObject]()
 
 	Scan(scanner, requests, results, &options)
-	requests <- newMockRequest("/data/wow/mock/path")
+	request := newMockRequest("/data/wow/mock/path")
+	requests <- &request
 	close(requests)
 	result := <-results
 
-	requests = make(chan api.BnetRequest)
+	requests = make(chan api.Request)
 	results = make(chan ScanResult[MockResponseObject])
 	Scan(scanner, requests, results, &options)
-	requests <- newMockRequest("/data/wow/mock/path")
+	request = newMockRequest("/data/wow/mock/path")
+	requests <- &request
 	close(requests)
 	result = <-results
 	if result.Error != nil {

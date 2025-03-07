@@ -44,7 +44,7 @@ func GetCurrentLeaderboard(scanner *scan.Scanner, bracket string, region api.Reg
 	path := fmt.Sprintf("/data/wow/pvp-season/%d/pvp-leaderboard/%s", seasonId, bracket)
 	result := scan.ScanSingle(
 		scanner,
-		api.BnetRequest{
+		&api.BnetRequest{
 			Region:    region,
 			Namespace: api.NamespaceDynamic,
 			Path:      path,

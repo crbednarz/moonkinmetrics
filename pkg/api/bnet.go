@@ -72,6 +72,10 @@ func (r *BnetRequest) Url() *url.URL {
 	}
 }
 
+func (r *BnetRequest) Id() string {
+	return r.String()
+}
+
 // Returns the string representation of the WoW API request.
 // This is equivalent to Url().String().
 func (r *BnetRequest) String() string {
