@@ -16,7 +16,10 @@ import (
 
 // ErrNotFound is for requests that 404'd from Blizzard's API.
 // This happens periodically for valid requests.
-var ErrNotFound = errors.New("not found")
+var (
+	ErrNotFound = errors.New("not found")
+	ErrNoCache  = errors.New("cache disabled")
+)
 
 // Scanner is a utility for querying and caching responses from the Blizzard API.
 type Scanner struct {
@@ -27,9 +30,9 @@ type Scanner struct {
 }
 
 type ScanResultDetails struct {
-	Cached      bool
 	ApiAttempts int
 	ApiErrors   int
+	Cached      bool
 	Repaired    bool
 	Success     bool
 }
@@ -158,6 +161,10 @@ func ScanSingle[T any](scanner *Scanner, request api.Request, options *ScanOptio
 }
 
 func buildFromCache[T any](ctx context.Context, scanner *Scanner, request api.Request, options *ScanOptions[T], result *ScanResult[T]) {
+	if scanner.storage == nil {
+		result.Error = ErrNoCache
+		return
+	}
 	cachedResponse, err := scanner.storage.Get(request)
 	if err != nil {
 		result.Error = err
@@ -209,13 +216,15 @@ func buildFromApi[T any](ctx context.Context, scanner *Scanner, request api.Requ
 			return
 		}
 
-		err = scanner.storage.Store(request, apiResponse.Body, options.Lifespan)
-		if err != nil {
-			// While we can technically continue here, a storage failure is important enough to fail the whole request.
-			result.Error = fmt.Errorf("failed to store response for %s: %w", request, err)
-		} else {
-			result.Details.Repaired = repaired
-			result.Details.Success = true
+		if scanner.storage != nil && options.Lifespan > 0 {
+			err = scanner.storage.Store(request, apiResponse.Body, options.Lifespan)
+			if err != nil {
+				// While we can technically continue here, a storage failure is important enough to fail the whole request.
+				result.Error = fmt.Errorf("failed to store response for %s: %w", request, err)
+			} else {
+				result.Details.Repaired = repaired
+				result.Details.Success = true
+			}
 		}
 		return
 	}
