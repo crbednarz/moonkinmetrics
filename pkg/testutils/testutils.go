@@ -36,7 +36,8 @@ func (m *MockHttpClient) Do(req *http.Request) (*http.Response, error) {
 func NewMockScanner(callback MockClientCallback) (*scan.Scanner, error) {
 	client := api.NewClient(
 		&MockHttpClient{callback},
-		api.WithCredentials(
+		api.WithAuthentication(
+			"https://oauth.battle.net/token",
 			"mock_client_id",
 			"mock_client_secret",
 		),

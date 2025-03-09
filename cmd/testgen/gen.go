@@ -20,7 +20,8 @@ func main() {
 
 	client := api.NewClient(
 		httpClient,
-		api.WithCredentials(
+		api.WithAuthentication(
+			"https://oauth.battle.net/token",
 			os.Getenv("WOW_CLIENT_ID"),
 			os.Getenv("WOW_CLIENT_SECRET"),
 		),

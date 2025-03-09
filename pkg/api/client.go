@@ -24,6 +24,7 @@ type HttpClient interface {
 type Client struct {
 	httpClient   HttpClient
 	limiter      *Limiter
+	tokenUrl     string
 	clientId     string
 	clientSecret string
 	token        string
@@ -31,7 +32,7 @@ type Client struct {
 }
 
 type clientOptions struct {
-	credentialsOption
+	authenticationOption
 	limiterOption
 }
 
@@ -49,17 +50,19 @@ func WithLimiter(l bool) ClientOption {
 	return limiterOption(l)
 }
 
-type credentialsOption struct {
+type authenticationOption struct {
+	tokenUrl     string
 	clientId     string
 	clientSecret string
 }
 
-func (b credentialsOption) apply(o *clientOptions) {
-	o.credentialsOption = b
+func (a authenticationOption) apply(o *clientOptions) {
+	o.authenticationOption = a
 }
 
-func WithCredentials(clientId, clientSecret string) ClientOption {
-	return credentialsOption{
+func WithAuthentication(tokenUrl, clientId, clientSecret string) ClientOption {
+	return authenticationOption{
+		tokenUrl:     tokenUrl,
 		clientId:     clientId,
 		clientSecret: clientSecret,
 	}
@@ -81,6 +84,7 @@ func NewClient(client HttpClient, opts ...ClientOption) *Client {
 	return &Client{
 		httpClient:   client,
 		limiter:      limiter,
+		tokenUrl:     options.tokenUrl,
 		clientId:     options.clientId,
 		clientSecret: options.clientSecret,
 	}
@@ -189,7 +193,7 @@ func (c *Client) Authenticate() error {
 	values.Set("grant_type", "client_credentials")
 	authRequest, err := http.NewRequest(
 		"POST",
-		"https://oauth.battle.net/token",
+		c.tokenUrl,
 		strings.NewReader(values.Encode()),
 	)
 	if err != nil {

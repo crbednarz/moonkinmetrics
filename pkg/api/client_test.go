@@ -93,7 +93,7 @@ func TestClientCanGet(t *testing.T) {
 
 	client := NewClient(
 		NewMockHttpClient(),
-		WithCredentials("mock_client_id", "mock_client_secret"),
+		WithAuthentication("https://oauth.battle.net/token", "mock_client_id", "mock_client_secret"),
 	)
 	client.Authenticate()
 
@@ -124,7 +124,7 @@ func TestClientReauthenticates(t *testing.T) {
 
 	client := NewClient(
 		httpClient,
-		WithCredentials("mock_client_id", "mock_client_secret"),
+		WithAuthentication("https://oauth.battle.net/token", "mock_client_id", "mock_client_secret"),
 	)
 	client.Authenticate()
 
