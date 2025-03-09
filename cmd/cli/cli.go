@@ -33,8 +33,22 @@ type bracketScanOptions struct {
 	MinRating uint
 }
 
+type scannerConfiguration struct {
+	ClientIdName     string
+	ClientSecretName string
+	TokenUrl         string
+	MetricsName      string
+}
+
+var bnetScannerConfiguration = scannerConfiguration{
+	ClientIdName:     "bnet-client-id",
+	ClientSecretName: "bnet-client-secret",
+	TokenUrl:         "https://oauth.battle.net/token",
+	MetricsName:      "moonkinmetrics.com/scan/bnet",
+}
+
 func runTalentScan(c *ucli.Context) error {
-	scanner, err := buildScanner(c)
+	scanner, err := buildScanner(c, &bnetScannerConfiguration)
 	if err != nil {
 		return fmt.Errorf("unable to build API scanner: %w", err)
 	}
@@ -62,7 +76,7 @@ func runPveScan(c *ucli.Context) error {
 func runLadderScan(c *ucli.Context) error {
 	region := api.Region(c.String("region"))
 
-	scanner, err := buildScanner(c)
+	scanner, err := buildScanner(c, &bnetScannerConfiguration)
 	if err != nil {
 		return fmt.Errorf("unable to build API scanner: %w", err)
 	}
@@ -152,7 +166,7 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 	return nil
 }
 
-func buildScanner(c *ucli.Context) (*scan.Scanner, error) {
+func buildScanner(c *ucli.Context, config *scannerConfiguration) (*scan.Scanner, error) {
 	offline := c.Bool("offline")
 
 	var httpClient api.HttpClient
@@ -163,9 +177,10 @@ func buildScanner(c *ucli.Context) (*scan.Scanner, error) {
 	}
 	client := api.NewClient(
 		httpClient,
-		api.WithCredentials(
-			c.String("client-id"),
-			c.String("client-secret"),
+		api.WithAuthentication(
+			config.TokenUrl,
+			c.String(config.ClientIdName),
+			c.String(config.ClientSecretName),
 		),
 		api.WithLimiter(!offline),
 	)
@@ -186,7 +201,7 @@ func buildScanner(c *ucli.Context) (*scan.Scanner, error) {
 
 	var meter metric.Meter
 	if c.String("collector") != "" {
-		meter = otel.Meter("moonkinmetrics.com/scan")
+		meter = otel.Meter(config.MetricsName)
 	}
 
 	return scan.NewScanner(
@@ -226,12 +241,12 @@ func main() {
 		Description: "Moonkin Metrics Scanning CLI",
 		Flags: []ucli.Flag{
 			&ucli.StringFlag{
-				Name:    "client-id",
+				Name:    "bnet-client-id",
 				Usage:   "Battle.net API client ID",
 				EnvVars: []string{"WOW_CLIENT_ID"},
 			},
 			&ucli.StringFlag{
-				Name:    "client-secret",
+				Name:    "bnet-client-secret",
 				Usage:   "Battle.net API client secret",
 				EnvVars: []string{"WOW_CLIENT_SECRET"},
 			},
