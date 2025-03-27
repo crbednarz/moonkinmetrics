@@ -5,7 +5,7 @@ helmCharts:
     repo: oci://ghcr.io/actions/actions-runner-controller-charts
     namespace: moonkinmetrics
     releaseName: gha-runner
-    version: 0.8.3
+    version: 0.11.0
     valuesFile: values.yaml
 
 resources:
