@@ -34,7 +34,7 @@ jobs:
         working-directory: ./ui
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
@@ -42,7 +42,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: 'us-east-1'
           role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
