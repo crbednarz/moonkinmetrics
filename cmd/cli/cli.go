@@ -58,14 +58,23 @@ func runTalentScan(c *ucli.Context) error {
 		return fmt.Errorf("unable to retrieve talent trees: %w", err)
 	}
 
+	err = writeTalentTrees(trees, c.Path("output"))
+	if err != nil {
+		return err
+	}
+	log.Printf("Talents retrieved: %d total", len(trees))
+	return nil
+}
+
+func writeTalentTrees(trees []wow.TalentTree, outputDir string) error {
 	for i := range trees {
 		tree := &trees[i]
-		err = writeTalents(tree, c.Path("output"))
+		err := writeTalents(tree, outputDir)
 		if err != nil {
 			return fmt.Errorf("unable to write talents to file: %w", err)
 		}
 	}
-	log.Printf("Talents retrieved: %d total", len(trees))
+
 	return nil
 }
 
@@ -161,6 +170,11 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 		path = fmt.Sprintf("%s/%s", path, fileName)
 		os.WriteFile(path, data, 0644)
 		log.Printf("Exported %s", path)
+	}
+
+	err = writeTalentTrees(trees, options.Output)
+	if err != nil {
+		return err
 	}
 
 	return nil
