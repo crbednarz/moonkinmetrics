@@ -10,7 +10,7 @@ import (
 	"runtime/pprof"
 	"strings"
 
-	ucli "github.com/urfave/cli/v2"
+	ucli "github.com/urfave/cli/v3"
 
 	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/cli"
@@ -47,7 +47,7 @@ var bnetScannerConfiguration = scannerConfiguration{
 	MetricsName:      "moonkinmetrics.com/scan/bnet",
 }
 
-func runTalentScan(c *ucli.Context) error {
+func runTalentScan(ctx context.Context, c *ucli.Command) error {
 	scanner, err := buildScanner(c, &bnetScannerConfiguration)
 	if err != nil {
 		return fmt.Errorf("unable to build API scanner: %w", err)
@@ -58,7 +58,7 @@ func runTalentScan(c *ucli.Context) error {
 		return fmt.Errorf("unable to retrieve talent trees: %w", err)
 	}
 
-	err = writeTalentTrees(trees, c.Path("output"))
+	err = writeTalentTrees(trees, c.String("output"))
 	if err != nil {
 		return err
 	}
@@ -78,11 +78,11 @@ func writeTalentTrees(trees []wow.TalentTree, outputDir string) error {
 	return nil
 }
 
-func runPveScan(c *ucli.Context) error {
+func runPveScan(ctx context.Context, c *ucli.Command) error {
 	return errors.New("runPveScan not implemented")
 }
 
-func runLadderScan(c *ucli.Context) error {
+func runLadderScan(ctx context.Context, c *ucli.Command) error {
 	region := api.Region(c.String("region"))
 
 	scanner, err := buildScanner(c, &bnetScannerConfiguration)
@@ -105,7 +105,7 @@ func runLadderScan(c *ucli.Context) error {
 				Region:    region,
 				Bracket:   bracket,
 				MinRating: c.Uint("min-rating"),
-				Output:    c.Path("output"),
+				Output:    c.String("output"),
 			},
 		)
 		if err != nil {
@@ -115,7 +115,7 @@ func runLadderScan(c *ucli.Context) error {
 	return nil
 }
 
-func runClean(c *ucli.Context) error {
+func runClean(ctx context.Context, c *ucli.Command) error {
 	storage, err := buildStorage(c)
 	if err != nil {
 		return fmt.Errorf("unable to build storage: %w", err)
@@ -180,7 +180,7 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 	return nil
 }
 
-func buildScanner(c *ucli.Context, config *scannerConfiguration) (*scan.Scanner, error) {
+func buildScanner(c *ucli.Command, config *scannerConfiguration) (*scan.Scanner, error) {
 	offline := c.Bool("offline")
 
 	var httpClient api.HttpClient
@@ -225,13 +225,13 @@ func buildScanner(c *ucli.Context, config *scannerConfiguration) (*scan.Scanner,
 	)
 }
 
-func buildStorage(c *ucli.Context) (storage.ResponseStorage, error) {
+func buildStorage(c *ucli.Command) (storage.ResponseStorage, error) {
 	offline := c.Bool("offline")
-	err := os.MkdirAll(c.Path("cache-dir"), 0755)
+	err := os.MkdirAll(c.String("cache-dir"), 0755)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create pvp directory: %w", err)
 	}
-	storagePath := fmt.Sprintf("%s/wow.db", c.Path("cache-dir"))
+	storagePath := fmt.Sprintf("%s/wow.db", c.String("cache-dir"))
 	return storage.NewSqlite(storagePath, storage.SqliteOptions{
 		NoExpire: offline,
 	})
@@ -250,36 +250,36 @@ func main() {
 		}
 	}()
 
-	app := &ucli.App{
+	app := &ucli.Command{
 		Name:        "moonkinmetrics",
 		Description: "Moonkin Metrics Scanning CLI",
 		Flags: []ucli.Flag{
 			&ucli.StringFlag{
 				Name:    "bnet-client-id",
 				Usage:   "Battle.net API client ID",
-				EnvVars: []string{"WOW_CLIENT_ID"},
+				Sources: ucli.EnvVars("WOW_CLIENT_ID"),
 			},
 			&ucli.StringFlag{
 				Name:    "bnet-client-secret",
 				Usage:   "Battle.net API client secret",
-				EnvVars: []string{"WOW_CLIENT_SECRET"},
+				Sources: ucli.EnvVars("WOW_CLIENT_SECRET"),
 			},
 			&ucli.BoolFlag{
 				Name:  "offline",
 				Usage: "Run in offline mode",
 				Value: false,
 			},
-			&ucli.PathFlag{
+			&ucli.StringFlag{
 				Name:  "output",
 				Usage: "Output path",
 				Value: "ui/wow",
 			},
-			&ucli.PathFlag{
+			&ucli.StringFlag{
 				Name:  "cache-dir",
 				Usage: "Cache directory",
 				Value: ".",
 			},
-			&ucli.PathFlag{
+			&ucli.StringFlag{
 				Name:  "perf",
 				Usage: "Enable performance profiling",
 				Value: "",
@@ -290,29 +290,29 @@ func main() {
 				Value: "",
 			},
 		},
-		Before: func(c *ucli.Context) error {
-			if c.Path("perf") != "" {
-				f, err := os.Create(c.Path("perf"))
+		Before: func(ctx context.Context, c *ucli.Command) (context.Context, error) {
+			if c.String("perf") != "" {
+				f, err := os.Create(c.String("perf"))
 				if err != nil {
-					return err
+					return ctx, err
 				}
 
 				err = pprof.StartCPUProfile(f)
 				if err != nil {
-					return err
+					return ctx, err
 				}
 			}
 			if c.String("collector") != "" {
 				shutdown, err := monitor.InitObservability(c.String("collector"), ctx)
 				if err != nil {
-					return fmt.Errorf("failed to initialize observability: %w", err)
+					return ctx, fmt.Errorf("failed to initialize observability: %w", err)
 				}
 				log.Printf("Observability initialized for collector: %s", c.String("collector"))
 				destructors = append(destructors, shutdown)
 			}
-			return nil
+			return ctx, nil
 		},
-		After: func(c *ucli.Context) error {
+		After: func(ctx context.Context, c *ucli.Command) error {
 			if c.String("perf") != "" {
 				pprof.StopCPUProfile()
 			}
@@ -361,7 +361,7 @@ func main() {
 			},
 		},
 	}
-	err := app.Run(os.Args)
+	err := app.Run(context.Background(), os.Args)
 	if err != nil {
 		log.Fatal(err)
 	}
