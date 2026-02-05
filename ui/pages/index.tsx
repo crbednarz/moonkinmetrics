@@ -119,20 +119,28 @@ export default function Talents({
       rank: i => i < 90 ? 1 : 0,
     },
     {
-      name: 'Exhilarating Blows',
-      rank: i => i < 65 ? 1 : 0,
+      name: 'Sharpened Blades',
+      rank: i => {
+        if (i >= 65)
+          return 0;
+
+        if (i > 10 && i >= 20)
+          return 1;
+
+        return 2;
+      },
+    },
+    {
+      name: 'Cleave',
+      rank: i => i < 20 ? 1 : 0,
     },
     {
       name: 'Improved Sweeping Strikes',
       rank: i => i < 15 ? 1 : 0,
     },
     {
-      name: 'Collateral Damage',
+      name: 'Powerful Momentum',
       rank: i => (i >= 15 && i < 85) ? 1 : 0,
-    },
-    {
-      name: 'Cleave',
-      rank: i => i < 20 ? 1 : 0,
     },
   ]);
 
@@ -142,28 +150,40 @@ export default function Talents({
       rank: () => 1,
     },
     {
-      name: 'Skullsplitter',
-      rank: i => i < 85 ? 1 : 0,
+      name: 'Brute Force',
+      rank: i => i < 35 ? 1 : 0,
     },
     {
-      name: 'Rend',
+      name: 'Efficiency',
+      rank: i => (i >= 35 && i < 85) ? 1 : 0,
+    },
+    {
+      name: 'Overpowering Finish',
       rank: i => i >= 20 ? 1 : 0,
     },
     {
-      name: 'Finishing Blows',
-      rank: i => (i > 20 && i <= 25) ? 1 : 0,
-    },
-    {
       name: 'Strength of Arms',
-      rank: i => i >= 20 && i < 75 ? 1 : 0,
+      rank: i => {
+        if (i < 20 || i > 45)
+          return 0;
+
+        if (i < 30)
+          return 1;
+
+        return 2;
+      },
     },
     {
-      name: 'Bloodborne',
-      rank: i => i < 15 ? 1 : 2,
+      name: 'Martial Prowess',
+      rank: i => (i >= 10 && i < 65) ? 1 : 0,
     },
     {
       name: 'Dreadnaught',
-      rank: i => i >= 75 ? 1 : 0,
+      rank: i => i >= 20 && i < 75 ? 1 : 0,
+    },
+    {
+      name: 'Deep Wounds',
+      rank: i => (i > 25 && i <= 30) ? 1 : 0,
     },
   ]);
 
