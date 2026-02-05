@@ -4,6 +4,8 @@ USER root
 RUN apt update -y && \
   apt install -y \
   build-essential \
-  awscli
+  python3-pip
+
+RUN pip3 install --break-system-packages awscli
 
 USER runner
