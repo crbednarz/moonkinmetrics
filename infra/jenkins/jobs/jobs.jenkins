@@ -7,9 +7,11 @@ folder('moonkinmetrics') {
 multibranchPipelineJob('moonkinmetrics/redeploy') {
   displayName('Build & Redeploy Site')
 
-  logRotator {
-    numToKeep(10)
-    daysToKeep(30)
+  orphanedItemStrategy {
+    discardOldItems {
+      numToKeep(10)
+      daysToKeep(30)
+    }
   }
 
   factory {
@@ -29,18 +31,21 @@ multibranchPipelineJob('moonkinmetrics/redeploy') {
 scanJobs = [
   ['scan-solo-us', 'Scan Solo Suffle [US]']
 ]
-for (def (job, name) in jobs)
-pipelineJob("moonkinmetrics/$job") {
-  displayName(name)
+for (job in scanJobs) {
+  def (id, name) = job
+  pipelineJob("moonkinmetrics/$id") {
+    displayName(name)
 
-  logRotator {
-    numToKeep(10)
-    daysToKeep(30)
-  }
+    logRotator {
+      numToKeep(10)
+      daysToKeep(30)
+    }
 
-  definition {
-    cps {
-      script(readFileFromWorkspace("infra/jenkins/pipelines/${job}.jenkins"))
+    definition {
+      cps {
+        script(readFileFromWorkspace("infra/jenkins/pipelines/${id}.jenkins"))
+      }
     }
   }
 }
+
