@@ -42,8 +42,15 @@ for (job in scanJobs) {
     }
 
     definition {
-      cps {
-        script(readFileFromWorkspace("infra/jenkins/pipelines/${id}.jenkins"))
+      cpsScm {
+        scm {
+          git {
+            remote {
+              url('https://github.com/crbednarz/moonkinmetrics.git')
+            }
+          }
+        }
+        scriptPath("infra/jenkins/pipelines/${id}.jenkins")
       }
     }
   }
