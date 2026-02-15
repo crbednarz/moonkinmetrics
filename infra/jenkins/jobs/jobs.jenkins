@@ -1,0 +1,46 @@
+#!/usr/bin/env groovy
+
+folder('moonkinmetrics') {
+  displayName('Moonkin Metrics')
+}
+
+multibranchPipelineJob('moonkinmetrics/redeploy') {
+  displayName('Build & Redeploy Site')
+
+  logRotator {
+    numToKeep(10)
+    daysToKeep(30)
+  }
+
+  factory {
+    workflowBranchProjectFactory {
+      scriptPath("infra/jenkins/pipelines/redeploy.jenkins")
+    }
+  }
+
+  branchSources {
+    git {
+      id = 'moonkinmetrics'
+      remote('https://github.com/crbednarz/moonkinmetrics.git')
+    }
+  }
+}
+
+scanJobs = [
+  ['scan-solo-us', 'Scan Solo Suffle [US]']
+]
+for (def (job, name) in jobs)
+pipelineJob("moonkinmetrics/$job") {
+  displayName(name)
+
+  logRotator {
+    numToKeep(10)
+    daysToKeep(30)
+  }
+
+  definition {
+    cps {
+      script(readFileFromWorkspace("infra/jenkins/pipelines/${job}.jenkins"))
+    }
+  }
+}

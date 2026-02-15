@@ -1,0 +1,103 @@
+#!/usr/bin/env groovy
+
+def podDefinition = '''
+apiVersion: v1
+kind: Pod
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+    - name: golang
+      image: golang:1.24
+      command:
+        - sleep
+      args:
+        - 99d
+      env:
+        - name: GOCACHE
+          value: /tmp/.gocache
+      volumeMounts:
+        - name: local-cache
+          mountPath: /tmp
+        - name: ephemeral-cache
+          mountPath: /.cache
+      env:
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      command:
+        - sleep
+      args:
+        - 99d
+      env:
+        - name: AWS_DEFAULT_REGION
+          value: us-east-1
+  volumes:
+    - name: local-cache
+      persistentVolumeClaim:
+        claimName: mm-local-cache-pvc
+    - name: ephemeral-cache
+      emptyDir:
+'''
+
+pipeline {
+  agent {
+    kubernetes {
+      yaml podDefinition
+    }
+  }
+  stages {
+    stage("Build") {
+      steps {
+        git "https://github.com/crbednarz/moonkinmetrics"
+        container("golang") {
+          sh "go mod download"
+          sh "go install github.com/jstemmer/go-junit-report/v2@latest"
+          sh "go build -v ./..."
+          sh "go test -v 2>&1 ./... | go-junit-report -set-exit-code > report.xml"
+          junit "report.xml"
+        }
+      }
+    }
+    stage("Run") {
+      steps {
+        container("golang") {
+          withCredentials([
+            string(credentialsId: 'mm-bnet-api-id', variable: 'WOW_CLIENT_ID'),
+            string(credentialsId: 'mm-bnet-api-secret', variable: 'WOW_CLIENT_SECRET')
+          ]) {
+            lock('mm-bnet-api') {
+              sh "go run cmd/cli/cli.go --cache-dir /tmp clean"
+              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow ladder --region us --bracket shuffle"
+            }
+          }
+        }
+      }
+    }
+    stage("Upload") {
+      steps {
+        container("aws-cli") {
+          withCredentials([
+            usernamePassword(credentialsId: 'mm-s3-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY'),
+            string(credentialsId: 'mm-aws-data-object', variable: 'MM_S3_DATA_OBJECT')
+          ]) {
+            lock("mm-s3") {
+              sh 'aws s3 sync ./wow/ $MM_S3_DATA_OBJECT'
+            }
+          }
+        }
+      }
+    }
+    stage("Deploy") {
+      steps {
+        build(job: "redeploy", wait: false)
+      }
+      when {
+        branch "master"
+      }
+    }
+  }
+}

@@ -1,0 +1,114 @@
+#!/usr/bin/env groovy
+
+def podDefinition = '''
+apiVersion: v1
+kind: Pod
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+    - name: golang
+      image: golang:1.24
+      command:
+        - sleep
+      args:
+        - 99d
+      env:
+        - name: GOCACHE
+          value: /tmp/.gocache
+      volumeMounts:
+        - name: ephemeral-cache
+          mountPath: /.cache
+    - name: node
+      image: node:24
+      command:
+        - sleep
+      args:
+        - 99d
+    - name: aws-cli
+      image: amazon/aws-cli:latest
+      command:
+        - sleep
+      args:
+        - 99d
+      env:
+        - name: AWS_DEFAULT_REGION
+          value: us-east-1
+  volumes:
+    - name: ephemeral-cache
+      emptyDir:
+'''
+
+pipeline {
+  agent {
+    kubernetes {
+      yaml podDefinition
+    }
+  }
+  stages {
+    stage("Build Scanner") {
+      steps {
+        git "https://github.com/crbednarz/moonkinmetrics"
+        container("golang") {
+          sh "go mod download"
+          sh "go install github.com/jstemmer/go-junit-report/v2@latest"
+          sh "go build -v ./..."
+        }
+      }
+    }
+    stage("Test Scanner") {
+      steps {
+        container("golang") {
+          sh "go test -v 2>&1 ./... | go-junit-report -set-exit-code > report.xml"
+        }
+        junit "report.xml"
+      }
+    }
+    stage("Pull WoW Data") {
+      steps {
+        container("aws-cli") {
+          dir("ui") {
+            withCredentials([
+              usernamePassword(credentialsId: 'mm-s3-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY'),
+              string(credentialsId: 'mm-aws-data-object', variable: 'MM_S3_DATA_OBJECT')
+            ]) {
+              lock("mm-s3") {
+                sh 'aws s3 sync $MM_S3_DATA_OBJECT ./wow'
+              }
+            }
+          }
+        }
+      }
+    }
+    stage("Build Site") {
+      steps {
+        container("node") {
+          dir("ui") {
+            sh "npm install"
+            sh "npm run build"
+            sh "npm run export"
+          }
+        }
+      }
+    }
+    stage("Deploy Site") {
+      steps {
+        container("aws-cli") {
+          dir("ui") {
+            withCredentials([
+              usernamePassword(credentialsId: 'mm-s3-credentials', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY'),
+              string(credentialsId: 'mm-aws-site-object', variable: 'MM_S3_SITE_OBJECT')
+            ]) {
+              lock("mm-s3") {
+                sh 'aws s3 sync --delete ./out/ $MM_S3_SITE_OBJECT'
+              }
+            }
+          }
+        }
+      }
+      when {
+        branch "master"
+      }
+    }
+  }
+}
