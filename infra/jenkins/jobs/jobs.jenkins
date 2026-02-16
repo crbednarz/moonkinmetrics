@@ -53,6 +53,7 @@ for (job in scanJobs) {
       cpsScm {
         scm {
           git {
+            branch('master')
             remote {
               url('https://github.com/crbednarz/moonkinmetrics.git')
             }
