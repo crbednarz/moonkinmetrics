@@ -99,4 +99,13 @@ pipeline {
       }
     }
   }
+  post {
+    unsuccessful {
+      withAWS(credentials: "sns-credentials", region: "us-east-1") {
+        withCredentials([string(credentialsId: "sns-topic", variable: "SNS_TOPIC")]) {
+          snsPublish(topicArn: env.SNS_TOPIC, subject: "jenkins.dev.crepe.cloud: ${env.JOB_NAME} unsuccessful", message: "Build unsuccessful. Check ${env.BUILD_URL} for more details.")
+        }
+      }
+    }
+  }
 }
