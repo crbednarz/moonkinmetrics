@@ -71,7 +71,10 @@ pipeline {
           ]) {
             lock('mm-bnet-api') {
               sh "go run cmd/cli/cli.go --cache-dir /tmp clean"
-              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow ladder --region us --bracket shuffle"
+              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow talents"
+              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow ladder --region us --bracket 2v2"
+              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow ladder --region us --bracket 3v3"
+              sh "go run cmd/cli/cli.go --cache-dir /tmp --collector \$NODE_IP:4317 --output ./wow ladder --region us --bracket rbg"
             }
           }
         }

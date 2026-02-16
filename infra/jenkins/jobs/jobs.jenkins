@@ -29,16 +29,24 @@ multibranchPipelineJob('moonkinmetrics/redeploy') {
 }
 
 scanJobs = [
-  ['scan-solo-us', 'Scan Solo Suffle [US]']
+  ['scan-solo-us', 'Scan Solo Suffle [US]', '0 10 * * *'],
+  ['scan-solo-eu', 'Scan Solo Suffle [EU]', '0 14 * * *'],
+  ['scan-blitz-us', 'Scan Blitz [US]', '0 16 * * *'],
+  ['scan-blitz-eu', 'Scan Blitz [EU]', '0 18 * * *'],
+  ['scan-other-us', 'Scan 2v2, 3v3, RBG [US]', '0 8 * * *'],
+  ['scan-other-eu', 'Scan 2v2, 3v3, RBG [EU]', '0 12 * * *']
 ]
 for (job in scanJobs) {
-  def (id, name) = job
+  def (id, name, cronRate) = job
   pipelineJob("moonkinmetrics/$id") {
     displayName(name)
 
     logRotator {
       numToKeep(10)
       daysToKeep(30)
+    }
+    triggers {
+      cron(cronRate)
     }
 
     definition {
