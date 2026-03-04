@@ -28,7 +28,7 @@ const useStyles = createStyles(theme => ({
     gap: '5px',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
       maxWidth: '100%',
       margin: '0 auto',
     },

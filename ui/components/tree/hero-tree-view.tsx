@@ -11,7 +11,7 @@ const useStyles = createStyles(theme => ({
   wrapper: {
     position: 'relative',
     textAlign: 'center',
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
       display: 'grid',
     }
   },
