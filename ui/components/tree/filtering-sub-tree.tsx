@@ -20,6 +20,9 @@ const useStyles = createStyles(theme => ({
     display: 'inline-flex',
     alignItems: 'start',
     justifyContent: 'center',
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
+      height: 'unset !important'
+    }
   },
 }));
 

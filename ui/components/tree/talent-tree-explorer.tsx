@@ -89,7 +89,7 @@ const useStyles = createStyles(theme => ({
     display: 'flex',
     gap: '10px',
     justifyContent: 'center',
-    [`@media (max-width: ${theme.breakpoints.sm})`]: {
+    [`@media (max-width: ${theme.breakpoints.xl})`]: {
       flexDirection: 'column',
       alignContent: 'center',
       '& > *': {
