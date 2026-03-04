@@ -103,7 +103,7 @@ export function getTalentTree(className: string, specName: string) {
   const iconSize = 56;
   const iconPadding = 23;
   const paddedIconSize = iconSize + iconPadding * 2;
-  const iconRows = 10;
+  const iconRows = 11;
   const iconCols = 9;
 
   let heroTrees = jsonTree['hero_trees'].map((jsonHeroTree: any) => {

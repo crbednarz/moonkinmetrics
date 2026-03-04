@@ -18,7 +18,7 @@ const useStyles = createStyles(theme => ({
     position: 'relative',
     margin: 'auto 0',
     display: 'inline-flex',
-    alignItems: 'center',
+    alignItems: 'start',
     justifyContent: 'center',
   },
 }));

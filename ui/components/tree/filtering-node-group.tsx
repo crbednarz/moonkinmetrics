@@ -86,7 +86,7 @@ export default function FilteringNodeGroupView({
 
   return (
     <div style={{
-      padding: `${paddedIconSize * 0.5}px ${paddedIconSize * 0.75}px`,
+      padding: `${paddedIconSize * 0.75 + 5}px ${paddedIconSize * 0.75}px`,
     }}>
       <div style={{
         position: 'relative',
