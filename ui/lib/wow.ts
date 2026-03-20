@@ -5,7 +5,7 @@ class ClassSpec {
   ) { }
 }
 
-export const SPEC_BY_CLASS: {[key: string]: string[]} = {
+export const SPEC_BY_CLASS: { [key: string]: string[] } = {
   'Death Knight': [
     'Blood',
     'Frost',
@@ -14,6 +14,7 @@ export const SPEC_BY_CLASS: {[key: string]: string[]} = {
   'Demon Hunter': [
     'Havoc',
     'Vengeance',
+    'Devourer',
   ],
   'Druid': [
     'Balance',
@@ -110,6 +111,7 @@ export const CLASS_SPECS: ClassSpec[] = [
   new ClassSpec('Rogue', 'Outlaw'),
   new ClassSpec('Demon Hunter', 'Havoc'),
   new ClassSpec('Demon Hunter', 'Vengeance'),
+  new ClassSpec('Demon Hunter', 'Devourer'),
   new ClassSpec('Warlock', 'Destruction'),
   new ClassSpec('Warlock', 'Demonology'),
   new ClassSpec('Warlock', 'Affliction'),

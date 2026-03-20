@@ -76,6 +76,7 @@ var SpecByClass = map[string][]string{
 	"Demon Hunter": {
 		"Havoc",
 		"Vengeance",
+		"Devourer",
 	},
 	"Warlock": {
 		"Destruction",
