@@ -132,12 +132,12 @@ func WithOverrideSpec(spec string) LoadoutScanOption {
 }
 
 func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...LoadoutScanOption) ([]LoadoutResponse, error) {
-	scanOptions := loadoutScanOptions{
+	scanOptions := &loadoutScanOptions{
 		OverrideSpec: "",
 		Region:       api.RegionUS,
 	}
 	for _, opt := range opts {
-		opt.apply(&scanOptions)
+		opt.apply(scanOptions)
 	}
 
 	requests := make(chan api.Request, len(players))
@@ -145,7 +145,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	options := scan.ScanOptions[specializationsJson]{
 		Validator: validate.NewTagValidator[specializationsJson](),
 		Lifespan:  time.Hour * 18,
-		Repairs:   getRepairs(scanOptions),
+		Repairs:   getRepairs(*scanOptions),
 	}
 
 	scan.Scan(scanner, requests, results, &options)
@@ -169,7 +169,8 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 			continue
 		}
 
-		loadout, err := activeLoadoutFromSpecializationsJson(&result.Response, &scanOptions)
+		loadout, err := activeLoadoutFromSpecializationsJson(&result.Response, scanOptions)
+
 		loadouts[result.Index].Loadout = loadout
 		loadouts[result.Index].Error = err
 		if err != nil {

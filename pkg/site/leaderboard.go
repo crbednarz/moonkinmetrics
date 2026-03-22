@@ -43,7 +43,7 @@ func createBracketSpecOverrideMap() map[string]string {
 	for class, specs := range wow.SpecByClass {
 		for _, spec := range specs {
 			slug := fmt.Sprintf("shuffle-%s-%s", class, spec)
-			slug = strings.ToLower(strings.ReplaceAll(slug, " ", "-"))
+			slug = strings.ToLower(strings.ReplaceAll(slug, " ", ""))
 			specOverrideMap[slug] = spec
 		}
 	}
