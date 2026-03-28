@@ -39,12 +39,12 @@ export default function FilteringTalentTooltip({
               <tr
                 key={i}
                 style={{
-                  color: colorToStyle(getUsageColor((usage.total == 0)?0:(count / usage.total))),
+                  color: colorToStyle(getUsageColor((usage.total == 0) ? 0 : (count / usage.total))),
                   fontWeight: 700,
                 }}
               >
-                <td>{i+1}/{maxRank}</td>
-                <td>{Math.round(((usage.total == 0)?0:(count / usage.total)) * 100)}%</td>
+                <td>{i + 1}/{maxRank}</td>
+                <td>{Math.round(((usage.total == 0) ? 0 : (count / usage.total)) * 100)}%</td>
                 <td>{count} players</td>
               </tr>
             ))}
@@ -63,11 +63,11 @@ export default function FilteringTalentTooltip({
           </tbody>
         </Table>
         <Divider my="sm" />
-        <p>
+        <p style={{ whiteSpace: 'pre-wrap' }}>
           {getTalentDescription(talent, filterMode)}
         </p>
         <Divider my="sm" />
-        <Center style={{fontSize: 16}} mb={10}>
+        <Center style={{ fontSize: 16 }} mb={10}>
           Filter: {getTalentFilterDescription(filterMode, talent.ranks.length)}
         </Center>
         <Flex justify="space-between">
@@ -96,7 +96,7 @@ function getTalentFilterDescription(filterMode: TalentFilterMode, maxRank: numbe
       return "None";
     case TalentFilterMode.RankOneAndUp:
       if (maxRank == 1)
-    return "Talent selected";
+        return "Talent selected";
       return "At least rank 1";
     case TalentFilterMode.RankTwoAndUp:
       return "At least rank 2";
