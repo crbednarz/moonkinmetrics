@@ -57,12 +57,6 @@ type indexedRequest struct {
 	Index      int64
 }
 
-type cacheResponse struct {
-	Body  []byte
-	Age   time.Duration
-	Index int64
-}
-
 func NewScanner(storage storage.ResponseStorage, client *api.Client, opts ...ScannerOption) (*Scanner, error) {
 	options := scannerOptions{
 		maxRetriesOption: maxRetriesOption{10},
