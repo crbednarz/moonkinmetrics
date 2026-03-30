@@ -53,7 +53,7 @@ type treeIndexJson struct {
 func GetTalentTreeIndex(scanner *scan.Scanner) (*TalentTreeIndex, error) {
 	validator, err := validate.NewSchemaValidator[treeIndexJson](talentTreeIndexSchema)
 	if err != nil {
-		return nil, fmt.Errorf("failed to setup talent index validator: %w", err)
+		return nil, fmt.Errorf("failed to setup talent tree index validator: %w", err)
 	}
 
 	result := scan.ScanSingle(
