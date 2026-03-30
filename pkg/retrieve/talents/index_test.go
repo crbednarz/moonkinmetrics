@@ -8,20 +8,20 @@ import (
 )
 
 var (
-	//go:embed testdata/valid-index.json
-	validIndex string
+	//go:embed testdata/valid-tree-index.json
+	validTreeIndex string
 
-	//go:embed testdata/bad-link-index.json
-	badLinkIndex string
+	//go:embed testdata/bad-link-tree-index.json
+	badLinkTreeIndex string
 
-	//go:embed testdata/missing-data-index.json
-	missingDataIndex string
+	//go:embed testdata/missing-data-tree-index.json
+	missingDataTreeIndex string
 )
 
 func TestGetTalentTreeIndex(t *testing.T) {
 	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
-		validIndex,
+		validTreeIndex,
 	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
@@ -44,7 +44,7 @@ func TestGetTalentTreeIndex(t *testing.T) {
 func TestTalentTreeIndexMissingDataFails(t *testing.T) {
 	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
-		missingDataIndex,
+		missingDataTreeIndex,
 	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
@@ -59,7 +59,7 @@ func TestTalentTreeIndexMissingDataFails(t *testing.T) {
 func TestTalentTreeIndexBadLinkFails(t *testing.T) {
 	scanner, err := testutils.NewSingleResourceMockScanner(
 		"/data/wow/talent-tree/index",
-		badLinkIndex,
+		badLinkTreeIndex,
 	)
 	if err != nil {
 		t.Fatalf("failed to setup scanner: %v", err)
