@@ -19,8 +19,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 		t.Fatalf("failed to get talent trees: %v", err)
 	}
 
-	if len(trees) != 39 {
-		t.Fatalf("expected 39 trees, got %d", len(trees))
+	if len(trees) != 40 {
+		t.Fatalf("expected 40 trees, got %d", len(trees))
 	}
 
 	for _, tree := range trees {
@@ -39,8 +39,8 @@ func TestCanGetTalentTrees(t *testing.T) {
 		}
 
 		// Due to the mocking mechanism, all talents will fall into exactly one spec.
-		if len(tree.PvpTalents) != 0 && len(tree.PvpTalents) != 437 {
-			t.Fatalf("expected 0 or 437 pvp talent nodes, got %d", len(tree.PvpTalents))
+		if len(tree.PvpTalents) != 0 && len(tree.PvpTalents) != 408 {
+			t.Fatalf("expected 0 or 408 pvp talent nodes, got %d", len(tree.PvpTalents))
 		}
 
 		for _, node := range tree.ClassNodes {
