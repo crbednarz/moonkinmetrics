@@ -11,11 +11,8 @@ import (
 //go:embed testdata
 var testdata embed.FS
 
-//go:embed testdata/data/wow/pvp-talent/5599
+//go:embed testdata/data/wow/pvp-talent/100
 var pvpTalentJson string
-
-//go:embed testdata/data/wow/talent/108105
-var talentJson string
 
 func NewMockTalentScanner() (*scan.Scanner, error) {
 	return NewMockScanner(func(requestPath string) (string, bool) {
@@ -24,19 +21,12 @@ func NewMockTalentScanner() (*scan.Scanner, error) {
 			return string(data), true
 		}
 
-		if strings.HasPrefix(requestPath, "/data/wow/media/spell/") {
-			id := strings.TrimPrefix(requestPath, "/data/wow/media/spell/")
+		if id, found := strings.CutPrefix(requestPath, "/data/wow/media/spell/"); found {
 			return MockSpellMediaJson(id), true
 		}
 
-		if strings.HasPrefix(requestPath, "/data/wow/talent/") {
-			id := strings.TrimPrefix(requestPath, "/data/wow/talent/")
-			return strings.ReplaceAll(talentJson, "108105", id), true
-		}
-
-		if strings.HasPrefix(requestPath, "/data/wow/pvp-talent/") {
-			id := strings.TrimPrefix(requestPath, "/data/wow/pvp-talent/")
-			return strings.ReplaceAll(pvpTalentJson, "5599", id), true
+		if id, found := strings.CutPrefix(requestPath, "/data/wow/pvp-talent/"); found {
+			return strings.ReplaceAll(pvpTalentJson, "100", id), true
 		}
 
 		return "", false
