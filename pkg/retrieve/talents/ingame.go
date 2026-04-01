@@ -136,7 +136,7 @@ func getTalentsJsonFromIds(scanner *scan.Scanner, talentIds []int) (map[int]tale
 	for i := 0; i < len(talentIds); i++ {
 		result := <-results
 		if result.Error != nil {
-			return nil, fmt.Errorf("failed to retrieve talent (%v): %w", result.ApiRequest.Id(), result.Error)
+			continue
 		}
 
 		talents[result.Response.Id] = result.Response

@@ -69,6 +69,12 @@ func GetTalentTrees(scanner *scan.Scanner) ([]wow.TalentTree, error) {
 		return nil, err
 	}
 
+	log.Printf("Retrieving apex talents")
+	err = attachApexTalents(scanner, trees)
+	if err != nil {
+		return nil, err
+	}
+
 	return trees, nil
 }
 
