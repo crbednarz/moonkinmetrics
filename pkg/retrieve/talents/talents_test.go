@@ -43,6 +43,15 @@ func TestCanGetTalentTrees(t *testing.T) {
 			t.Fatalf("expected 0 or 408 pvp talent nodes, got %d", len(tree.PvpTalents))
 		}
 
+		if len(tree.ApexTalents) != 3 {
+			t.Fatalf("expected 3 apex talents per tree, got %d", len(tree.ApexTalents))
+		}
+
+		apexNode := findApexNodeFromTree(&tree)
+		if apexNode.MaxRank != 4 {
+			t.Fatalf("expected max apex talent rank to be 4, got %d", apexNode.MaxRank)
+		}
+
 		for _, node := range tree.ClassNodes {
 			for _, talent := range node.Talents {
 				if talent.Icon != fmt.Sprintf("%d", talent.Spell.Id) {

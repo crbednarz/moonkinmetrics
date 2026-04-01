@@ -50,10 +50,64 @@ func createBracketSpecOverrideMap() map[string]string {
 	return specOverrideMap
 }
 
+func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
+	var tree *wow.TalentTree
+	for i := range trees {
+		tree = &trees[i]
+
+		if tree.ClassName == loadout.ClassName && tree.SpecName == loadout.SpecName {
+			break
+		}
+	}
+
+	if tree == nil {
+		return fmt.Errorf("unable to find tree for %s - %s", loadout.ClassName, loadout.SpecName)
+	}
+
+	var apexNode *wow.LoadoutNode
+	rank := 0
+	for i := range loadout.SpecNodes {
+		node := &loadout.SpecNodes[i]
+
+		if node.Rank == 0 {
+			continue
+		}
+
+		switch node.TalentId {
+		case tree.ApexTalents[0].Id:
+			apexNode = node
+			rank = max(rank, node.Rank)
+		case tree.ApexTalents[1].Id:
+			rank = max(rank, node.Rank+1)
+		case tree.ApexTalents[2].Id:
+			rank = max(rank, node.Rank+3)
+		}
+	}
+
+	if apexNode == nil {
+		if rank != 0 {
+			return fmt.Errorf("missing base apex talent for %s", loadout.Code)
+		}
+		// Loadout doesn't include apex talent
+		return nil
+	}
+
+	apexNode.Rank = rank
+
+	return nil
+}
+
 func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, trees []wow.TalentTree) ([]EnrichedLeaderboard, error) {
 	loadouts, err := getLoadouts(scanner, leaderboard)
 	if err != nil {
 		return nil, err
+	}
+
+	for i := range loadouts {
+		err := mergeApexTalents(&loadouts[i].Loadout, trees)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	entries := make([]EnrichedLeaderboardEntry, 0, len(leaderboard.Entries))
@@ -62,6 +116,10 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 		loadout := loadouts[i]
 		if loadout.Error != nil {
 			continue
+		}
+		err := mergeApexTalents(&loadout.Loadout, trees)
+		if err != nil {
+			return nil, err
 		}
 		entries = append(entries, EnrichedLeaderboardEntry{
 			Player:  entry.Player,

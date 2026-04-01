@@ -70,3 +70,19 @@ func TestTalentTreeIndexBadLinkFails(t *testing.T) {
 		t.Fatalf("expected error, got nil")
 	}
 }
+
+func TestGetTalentsIndex(t *testing.T) {
+	scanner, err := testutils.NewMockTalentScanner()
+	if err != nil {
+		t.Fatalf("failed to setup scanner: %v", err)
+	}
+
+	index, err := GetTalentsIndex(scanner)
+	if err != nil {
+		t.Fatalf("failed to get talent tree index: %v", err)
+	}
+
+	if len(index.Talents) != 8525 {
+		t.Fatalf("expected 8525 talents, got %d", len(index.Talents))
+	}
+}

@@ -43,12 +43,13 @@ type HeroTree struct {
 }
 
 type TalentTree struct {
-	ClassName  string
-	SpecName   string
-	ClassNodes []TalentNode
-	SpecNodes  []TalentNode
-	HeroTrees  []HeroTree
-	PvpTalents []Talent
-	ClassId    int
-	SpecId     int
+	ClassName   string
+	SpecName    string
+	ClassNodes  []TalentNode
+	SpecNodes   []TalentNode
+	HeroTrees   []HeroTree
+	ApexTalents []Talent
+	PvpTalents  []Talent
+	ClassId     int
+	SpecId      int
 }

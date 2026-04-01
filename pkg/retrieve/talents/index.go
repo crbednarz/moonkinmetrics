@@ -143,3 +143,69 @@ func parseSpecLink(linkJson treeLinkJson) (SpecTreeLink, error) {
 		SpecName: linkJson.Name,
 	}, nil
 }
+
+//go:embed schema/talents-index.schema.json
+var talentsIndexSchema string
+
+type talentsIndexJson struct {
+	Talents []talentsIndexItemJson `json:"talents"`
+}
+
+type talentsIndexItemJson struct {
+	Name string  `json:"name"`
+	Key  keyJson `json:"key"`
+	Id   int     `json:"id"`
+}
+
+type TalentsIndex struct {
+	Talents []TalentsIndexItem
+}
+
+type TalentsIndexItem struct {
+	Name string
+	Id   int
+}
+
+// GetTalentsIndex retrieves all talents from talents index of the Battle.net API.
+// This can sometimes includes talents that don't correclty show up under
+// individual talent trees.
+func GetTalentsIndex(scanner *scan.Scanner) (*TalentsIndex, error) {
+	validator, err := validate.NewSchemaValidator[talentsIndexJson](talentsIndexSchema)
+	if err != nil {
+		return nil, fmt.Errorf("failed to setup talent index validator: %w", err)
+	}
+
+	result := scan.ScanSingle(
+		scanner,
+		&api.BnetRequest{
+			Region:    api.RegionUS,
+			Namespace: api.NamespaceStatic,
+			Path:      "/data/wow/talent/index",
+		},
+		&scan.ScanOptions[talentsIndexJson]{
+			Validator: validator,
+			Lifespan:  time.Hour * 18,
+		},
+	)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return parseTalentsIndex(&result.Response)
+}
+
+func parseTalentsIndex(indexJson *talentsIndexJson) (*TalentsIndex, error) {
+	talents := make([]TalentsIndexItem, len(indexJson.Talents))
+
+	for i, t := range indexJson.Talents {
+		talents[i] = TalentsIndexItem{
+			Name: t.Name,
+			Id:   t.Id,
+		}
+	}
+
+	return &TalentsIndex{
+		Talents: talents,
+	}, nil
+}
