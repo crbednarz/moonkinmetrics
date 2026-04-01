@@ -64,8 +64,9 @@ func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
 		return fmt.Errorf("unable to find tree for %s - %s", loadout.ClassName, loadout.SpecName)
 	}
 
-	var apexNode *wow.LoadoutNode
 	rank := 0
+	specNodes := make([]wow.LoadoutNode, 0, len(loadout.SpecNodes))
+	apexIndex := -1
 	for i := range loadout.SpecNodes {
 		node := &loadout.SpecNodes[i]
 
@@ -75,16 +76,19 @@ func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
 
 		switch node.TalentId {
 		case tree.ApexTalents[0].Id:
-			apexNode = node
+			apexIndex = len(specNodes)
 			rank = max(rank, node.Rank)
 		case tree.ApexTalents[1].Id:
 			rank = max(rank, node.Rank+1)
+			continue
 		case tree.ApexTalents[2].Id:
 			rank = max(rank, node.Rank+3)
+			continue
 		}
+		specNodes = append(specNodes, *node)
 	}
 
-	if apexNode == nil {
+	if apexIndex == -1 {
 		if rank != 0 {
 			return fmt.Errorf("missing base apex talent for %s", loadout.Code)
 		}
@@ -92,7 +96,8 @@ func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
 		return nil
 	}
 
-	apexNode.Rank = rank
+	specNodes[apexIndex].Rank = rank
+	loadout.SpecNodes = specNodes
 
 	return nil
 }
