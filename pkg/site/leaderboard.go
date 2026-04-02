@@ -31,23 +31,41 @@ type entryGroup struct {
 	Entries []EnrichedLeaderboardEntry
 }
 
-var bracketSpecOverride map[string]string = createBracketSpecOverrideMap()
+type bracketMetadata struct {
+	Class        string
+	Spec         string
+	OverrideSpec string
+}
 
-func createBracketSpecOverrideMap() map[string]string {
-	specOverrideMap := map[string]string{
-		"2v2": "",
-		"3v3": "",
-		"rbg": "",
+var bracketMetadataMap map[string]bracketMetadata = createBracketMetadata()
+
+func createBracketMetadata() map[string]bracketMetadata {
+	metadataMap := map[string]bracketMetadata{
+		"2v2": {},
+		"3v3": {},
+		"rbg": {},
 	}
 
 	for class, specs := range wow.SpecByClass {
 		for _, spec := range specs {
 			slug := fmt.Sprintf("shuffle-%s-%s", class, spec)
 			slug = strings.ToLower(strings.ReplaceAll(slug, " ", ""))
-			specOverrideMap[slug] = spec
+			metadataMap[slug] = bracketMetadata{
+				Class:        class,
+				Spec:         spec,
+				OverrideSpec: spec,
+			}
+
+			slug = fmt.Sprintf("blitz-%s-%s", class, spec)
+			slug = strings.ToLower(strings.ReplaceAll(slug, " ", ""))
+			metadataMap[slug] = bracketMetadata{
+				Class:        class,
+				Spec:         spec,
+				OverrideSpec: spec,
+			}
 		}
 	}
-	return specOverrideMap
+	return metadataMap
 }
 
 func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
@@ -136,13 +154,10 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 		return nil, err
 	}
 
-	entriesGroups := groupEntriesBySpec(entries, trees)
+	entriesGroups := groupEntriesBySpec(leaderboard.Bracket, entries, trees)
 
 	leaderboards := make([]EnrichedLeaderboard, 0, len(entriesGroups))
 	for _, group := range entriesGroups {
-		if len(group.Entries) == 0 {
-			continue
-		}
 		leaderboard := EnrichedLeaderboard{
 			RealmMap:  filteredRealmMap(realmMap, group.Entries),
 			Entries:   group.Entries,
@@ -163,10 +178,17 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 	return leaderboards, nil
 }
 
-func groupEntriesBySpec(entries []EnrichedLeaderboardEntry, trees []wow.TalentTree) []entryGroup {
+func groupEntriesBySpec(bracket string, entries []EnrichedLeaderboardEntry, trees []wow.TalentTree) []entryGroup {
 	groups := make([]entryGroup, 0, len(trees))
+	metadata := bracketMetadataMap[bracket]
 	for i := range trees {
 		tree := &trees[i]
+		if tree.ClassName != metadata.Class && metadata.Class != "" {
+			continue
+		}
+		if tree.SpecName != metadata.Spec && metadata.Spec != "" {
+			continue
+		}
 		group := entryGroup{
 			Tree: tree,
 		}
@@ -175,9 +197,7 @@ func groupEntriesBySpec(entries []EnrichedLeaderboardEntry, trees []wow.TalentTr
 				group.Entries = append(group.Entries, entry)
 			}
 		}
-		if len(group.Entries) != 0 {
-			groups = append(groups, group)
-		}
+		groups = append(groups, group)
 	}
 	return groups
 }
@@ -192,7 +212,7 @@ func getLoadouts(scanner *scan.Scanner, leaderboard *wow.Leaderboard) ([]players
 		scanner,
 		playerLinks,
 		players.WithRegion(leaderboard.Region),
-		players.WithOverrideSpec(bracketSpecOverride[leaderboard.Bracket]),
+		players.WithOverrideSpec(bracketMetadataMap[leaderboard.Bracket].OverrideSpec),
 	)
 	if err != nil {
 		return nil, err
