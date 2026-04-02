@@ -154,12 +154,12 @@ func scanBracket(scanner *scan.Scanner, trees []wow.TalentTree, options bracketS
 		if strings.HasPrefix(leaderboard.Bracket, "blitz") {
 			path = fmt.Sprintf("%s/pvp/blitz", options.Output)
 		}
-		err = os.MkdirAll(path, 0755)
+		err = os.MkdirAll(path, 0o755)
 		if err != nil {
 			return fmt.Errorf("unable to create pvp directory: %w", err)
 		}
 		path = fmt.Sprintf("%s/%s", path, fileName)
-		os.WriteFile(path, data, 0644)
+		os.WriteFile(path, data, 0o644)
 		log.Printf("Exported %s", path)
 	}
 
@@ -213,7 +213,7 @@ func buildScanner(c *ucli.Context, config *scannerConfiguration) (*scan.Scanner,
 
 func buildStorage(c *ucli.Context) (storage.ResponseStorage, error) {
 	offline := c.Bool("offline")
-	err := os.MkdirAll(c.Path("cache-dir"), 0755)
+	err := os.MkdirAll(c.Path("cache-dir"), 0o755)
 	if err != nil {
 		return nil, fmt.Errorf("unable to create pvp directory: %w", err)
 	}
@@ -336,7 +336,7 @@ func main() {
 					&ucli.UintFlag{
 						Name:  "min-rating",
 						Usage: "Minimum rating to include",
-						Value: 1600,
+						Value: 1400,
 					},
 					&ucli.UintFlag{
 						Name:  "max-entries",
@@ -358,7 +358,7 @@ func writeTalents(tree *wow.TalentTree, basePath string) error {
 	if err != nil {
 		return fmt.Errorf("unable to serialize talents: %w", err)
 	}
-	err = os.MkdirAll(fmt.Sprintf("%s/talents/", basePath), 0755)
+	err = os.MkdirAll(fmt.Sprintf("%s/talents/", basePath), 0o755)
 	if err != nil {
 		return fmt.Errorf("unable to create talents directory: %w", err)
 	}
@@ -370,7 +370,7 @@ func writeTalents(tree *wow.TalentTree, basePath string) error {
 	err = os.WriteFile(
 		fmt.Sprintf("%s/talents/%s", basePath, fileName),
 		serializedTalents,
-		0644,
+		0o644,
 	)
 	if err != nil {
 		return fmt.Errorf("unable to write talents to file: %w", err)
