@@ -70,23 +70,25 @@ func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
 	for i := range loadout.SpecNodes {
 		node := &loadout.SpecNodes[i]
 
-		if node.Rank == 0 {
-			continue
-		}
-
 		switch node.TalentId {
 		case tree.ApexTalents[0].Id:
 			apexIndex = len(specNodes)
 			rank = max(rank, node.Rank)
 		case tree.ApexTalents[1].Id:
-			rank = max(rank, node.Rank+1)
+			if node.Rank != 0 {
+				rank = max(rank, node.Rank+1)
+			}
 			continue
 		case tree.ApexTalents[2].Id:
-			rank = max(rank, node.Rank+3)
+			if node.Rank != 0 {
+				rank = max(rank, node.Rank+3)
+			}
 			continue
 		}
 		specNodes = append(specNodes, *node)
 	}
+
+	loadout.SpecNodes = specNodes
 
 	if apexIndex == -1 {
 		if rank != 0 {
@@ -97,7 +99,6 @@ func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
 	}
 
 	specNodes[apexIndex].Rank = rank
-	loadout.SpecNodes = specNodes
 
 	return nil
 }
@@ -121,10 +122,6 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 		loadout := loadouts[i]
 		if loadout.Error != nil {
 			continue
-		}
-		err := mergeApexTalents(&loadout.Loadout, trees)
-		if err != nil {
-			return nil, err
 		}
 		entries = append(entries, EnrichedLeaderboardEntry{
 			Player:  entry.Player,
