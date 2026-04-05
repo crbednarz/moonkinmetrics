@@ -24,7 +24,7 @@ type specializationsJson struct {
 		Key  keyJson `json:"key"`
 		Id   int     `json:"id"`
 	} `json:"active_specialization"`
-	Character charaterJson `json:"character"`
+	Character characterJson `json:"character"`
 }
 
 type specializationJson struct {
@@ -84,7 +84,7 @@ type talentJson struct {
 	Rank    int         `json:"rank"`
 }
 
-type charaterJson struct {
+type characterJson struct {
 	Key   keyJson       `json:"key"`
 	Name  string        `json:"name"`
 	Realm realmLinkJson `json:"realm"`
