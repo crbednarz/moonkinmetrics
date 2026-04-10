@@ -68,20 +68,7 @@ func createBracketMetadata() map[string]bracketMetadata {
 	return metadataMap
 }
 
-func mergeApexTalents(loadout *wow.Loadout, trees []wow.TalentTree) error {
-	var tree *wow.TalentTree
-	for i := range trees {
-		tree = &trees[i]
-
-		if tree.ClassName == loadout.ClassName && tree.SpecName == loadout.SpecName {
-			break
-		}
-	}
-
-	if tree == nil {
-		return fmt.Errorf("unable to find tree for %s - %s", loadout.ClassName, loadout.SpecName)
-	}
-
+func mergeApexTalents(loadout *wow.Loadout, tree *wow.TalentTree) error {
 	rank := 0
 	specNodes := make([]wow.LoadoutNode, 0, len(loadout.SpecNodes))
 	apexIndex := -1
@@ -127,13 +114,6 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 		return nil, err
 	}
 
-	for i := range loadouts {
-		err := mergeApexTalents(&loadouts[i].Loadout, trees)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	entries := make([]EnrichedLeaderboardEntry, 0, len(leaderboard.Entries))
 	for i := range leaderboard.Entries {
 		entry := &leaderboard.Entries[i]
@@ -158,6 +138,12 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 
 	leaderboards := make([]EnrichedLeaderboard, 0, len(entriesGroups))
 	for _, group := range entriesGroups {
+
+		err := applyTalentFixes(group.Entries, group.Tree)
+		if err != nil {
+			return nil, err
+		}
+
 		leaderboard := EnrichedLeaderboard{
 			RealmMap:  filteredRealmMap(realmMap, group.Entries),
 			Entries:   group.Entries,
@@ -176,6 +162,84 @@ func EnrichLeaderboard(scanner *scan.Scanner, leaderboard *wow.Leaderboard, tree
 	}
 
 	return leaderboards, nil
+}
+
+// applyTalentFixes attempts to correct known issues with talent reporting.
+// For example, apex talents are reported as 3 separate talents which need to
+// be merged into one.
+func applyTalentFixes(entries []EnrichedLeaderboardEntry, tree *wow.TalentTree) error {
+	for i := range entries {
+		err := mergeApexTalents(entries[i].Loadout, tree)
+		if err != nil {
+			return err
+		}
+	}
+
+	err := fixMissingHeroTreeTalents(entries, tree)
+	return err
+}
+
+func fixMissingHeroTreeTalents(entries []EnrichedLeaderboardEntry, tree *wow.TalentTree) error {
+	roots := make([]*wow.TalentNode, len(tree.HeroTrees))
+	nodeIdToTreeIndex := make(map[int]int)
+	for treeIndex := range tree.HeroTrees {
+		heroTree := &tree.HeroTrees[treeIndex]
+		var root *wow.TalentNode
+		for i := range heroTree.Nodes {
+			node := &heroTree.Nodes[i]
+			if len(node.LockedBy) == 0 {
+				root = node
+			}
+		}
+		if root == nil {
+			return fmt.Errorf("unable to find root node for %s - %s", tree.ClassName, tree.SpecName)
+		}
+
+		roots[treeIndex] = root
+
+		for _, node := range heroTree.Nodes {
+			if len(node.LockedBy) != 0 {
+				nodeIdToTreeIndex[node.Id] = treeIndex
+			}
+		}
+	}
+
+	for entryIndex := range entries {
+		entry := &entries[entryIndex]
+
+		heroTreeIndex := -1
+		hasRoot := false
+		for _, talent := range entry.Loadout.HeroNodes {
+			if !hasRoot {
+				for _, root := range roots {
+					if root.Id == talent.NodeId {
+						hasRoot = true
+						break
+					}
+				}
+				if hasRoot {
+					continue
+				}
+			}
+
+			treeIndex, ok := nodeIdToTreeIndex[talent.NodeId]
+			if ok {
+				heroTreeIndex = treeIndex
+				break
+			}
+		}
+
+		if !hasRoot && heroTreeIndex != -1 {
+			root := roots[heroTreeIndex]
+			entry.Loadout.HeroNodes = append(entry.Loadout.HeroNodes, wow.LoadoutNode{
+				TalentName: root.Talents[0].Name,
+				TalentId:   root.Talents[0].Id,
+				NodeId:     root.Id,
+				Rank:       1,
+			})
+		}
+	}
+	return nil
 }
 
 func groupEntriesBySpec(bracket string, entries []EnrichedLeaderboardEntry, trees []wow.TalentTree) []entryGroup {
