@@ -8,7 +8,6 @@ import (
 
 	"github.com/crbednarz/moonkinmetrics/pkg/api"
 	"github.com/crbednarz/moonkinmetrics/pkg/scan"
-	"github.com/crbednarz/moonkinmetrics/pkg/validate"
 	"github.com/crbednarz/moonkinmetrics/pkg/wow"
 )
 
@@ -18,7 +17,7 @@ type LoadoutResponse struct {
 }
 
 type specializationsJson struct {
-	Specializations      []specializationJson `json:"specializations" validate:"nonnil,min=1"`
+	Specializations      []specializationJson `json:"specializations"`
 	ActiveSpecialization struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
@@ -33,8 +32,8 @@ type specializationJson struct {
 		Key  keyJson `json:"key"`
 		Id   int     `json:"id"`
 	} `json:"specialization"`
-	PvpTalentSlots []pvpTalentSlotJson `json:"pvp_talent_slots" validate:"nonnil,min=1"`
-	Loadouts       []loadoutJson       `json:"loadouts" validate:"nonnil,min=1"`
+	PvpTalentSlots []pvpTalentSlotJson `json:"pvp_talent_slots"`
+	Loadouts       []loadoutJson       `json:"loadouts"`
 }
 
 type pvpTalentSlotJson struct {
@@ -58,10 +57,10 @@ type tooltipJson struct {
 }
 
 type loadoutJson struct {
-	SelectedClassTalents    []talentJson `json:"selected_class_talents" validate:"nonnil,min=1"`
-	SelectedSpecTalents     []talentJson `json:"selected_spec_talents" validate:"nonnil,min=1"`
-	SelectedHeroTalents     []talentJson `json:"selected_hero_talents" validate:"nonnil,min=1"`
-	TalentLoadoutCode       string       `json:"talent_loadout_code" validate:"nonnil,min=1"`
+	SelectedClassTalents    []talentJson `json:"selected_class_talents"`
+	SelectedSpecTalents     []talentJson `json:"selected_spec_talents"`
+	SelectedHeroTalents     []talentJson `json:"selected_hero_talents"`
+	TalentLoadoutCode       string       `json:"talent_loadout_code"`
 	SelectedClassTalentTree struct {
 		Name string  `json:"name"`
 		Key  keyJson `json:"key"`
@@ -143,7 +142,7 @@ func GetPlayerLoadouts(scanner *scan.Scanner, players []wow.PlayerLink, opts ...
 	requests := make(chan api.Request, len(players))
 	results := make(chan scan.ScanResult[specializationsJson], len(players))
 	options := scan.ScanOptions[specializationsJson]{
-		Validator: validate.NewTagValidator[specializationsJson](),
+		Validator: &specializationsValidator{},
 		Lifespan:  time.Hour * 18,
 		Repairs:   getRepairs(*scanOptions),
 	}
@@ -254,4 +253,61 @@ func parsePvpTalents(inputJson []pvpTalentSlotJson) []wow.LoadoutPvpTalent {
 		pvpTalents[i] = wow.LoadoutPvpTalent{Id: slot.Selected.Talent.Id}
 	}
 	return pvpTalents
+}
+
+type specializationsValidator struct{}
+
+func (s *specializationsValidator) IsValid(specs *specializationsJson) error {
+	return validateSpecializationsJson(specs)
+}
+
+func validateSpecializationsJson(specs *specializationsJson) error {
+	if len(specs.Specializations) == 0 {
+		return fmt.Errorf("specs.Specializations cannot be empty or nil")
+	}
+
+	for i := range specs.Specializations {
+		err := validateSpecializationJson(&specs.Specializations[i])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func validateSpecializationJson(spec *specializationJson) error {
+	if len(spec.PvpTalentSlots) == 0 {
+		return fmt.Errorf("spec.PvpTalentSlots cannot be empty or nil")
+	}
+
+	if len(spec.Loadouts) == 0 {
+		return fmt.Errorf("spec.Loadouts cannot be empty or nil")
+	}
+
+	for i := range spec.Loadouts {
+		err := validateLoadoutJson(&spec.Loadouts[i])
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func validateLoadoutJson(loadout *loadoutJson) error {
+	if len(loadout.SelectedClassTalents) == 0 {
+		return fmt.Errorf("loadout.SelectedClassTalents cannot be empty or nil")
+	}
+
+	if len(loadout.SelectedSpecTalents) == 0 {
+		return fmt.Errorf("loadout.SelectedSpecTalents cannot be empty or nil")
+	}
+
+	if len(loadout.SelectedHeroTalents) == 0 {
+		return fmt.Errorf("loadout.SelectedHeroTalents cannot be empty or nil")
+	}
+	if len(loadout.TalentLoadoutCode) == 0 {
+		return fmt.Errorf("loadout.TalentLoadoutCode cannot be empty or nil")
+	}
+	return nil
 }
