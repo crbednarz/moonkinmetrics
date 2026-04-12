@@ -96,7 +96,7 @@ func main() {
 
 	httpClient.SaveResult = true
 
-	storage, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
+	storage, err := storage.NewSqlitex("file::memory:?cache=shared", storage.SqlitexOptions{})
 	if err != nil {
 		panic(err)
 	}

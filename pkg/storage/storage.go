@@ -32,4 +32,6 @@ type ResponseStorage interface {
 
 	// Cleans up expired responses.
 	Clean() (CleanResult, error)
+
+	Close() error
 }

@@ -233,7 +233,7 @@ func buildStorage(c *ucli.Context) (storage.ResponseStorage, error) {
 		return nil, fmt.Errorf("unable to create pvp directory: %w", err)
 	}
 	storagePath := fmt.Sprintf("%s/wow.db", c.Path("cache-dir"))
-	return storage.NewSqlite(storagePath, storage.SqliteOptions{
+	return storage.NewSqlitex(storagePath, storage.SqlitexOptions{
 		NoExpire: offline,
 	})
 }

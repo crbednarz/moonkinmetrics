@@ -58,7 +58,7 @@ func newMockScanner(httpClient *MockHttpClient) (*Scanner, error) {
 		),
 		api.WithLimiter(false),
 	)
-	cache, err := storage.NewSqlite(":memory:", storage.SqliteOptions{})
+	cache, err := storage.NewSqlitex("file::memory:?cache=shared", storage.SqlitexOptions{})
 	if err != nil {
 		return nil, err
 	}
