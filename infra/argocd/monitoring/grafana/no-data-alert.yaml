@@ -64,7 +64,7 @@ spec:
             maxDataPoints: 43200
             refId: C
             type: threshold
-      noDataState: Alerting
+      noDataState: OK
       execErrState: Error
       for: 0s
       annotations: {}
